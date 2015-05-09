@@ -1,0 +1,13 @@
+{
+  "framework": "mocha",
+  "src_files": [
+    "snabbdom.js",
+    "test/*.js"
+  ],
+  "serve_files": [
+    "test/browserified.js"
+  ],
+  "before_tests": "browserify -d test/index.js -o test/browserified.js",
+  "on_exit": "rm test/browserified.js",
+  "launch_in_dev": [ "firefox", "chromium" ]
+}
