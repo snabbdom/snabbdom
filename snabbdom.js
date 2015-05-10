@@ -1,3 +1,4 @@
+// jshint newcap: false
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory); // AMD. Register as an anonymous module.
@@ -8,25 +9,33 @@
   }
 }(this, function () {
 
+'use strict';
+
 var isArr = Array.isArray;
+
 function isString(s) { return typeof s === 'string'; }
+function isPrimitive(s) { return typeof s === 'string' || typeof s === 'number'; }
 function isUndef(s) { return s === undefined; }
 
-function VNode(tag, props, children, text) {
-  return {tag: tag, props: props, children: children, text: text, elm: undefined};
+function VNode(tag, props, children, text, elm) {
+  var key = !isUndef(props) ? props.key : undefined;
+  return {tag: tag, props: props, children: children,
+          text: text, elm: elm, key: key};
 }
 
-var emptyNodeAt = VNode.bind(null, {style: {}, class: {}}, []);
+function emptyNodeAt(elm) {
+  return VNode(elm.tagName, {style: {}, class: {}}, [], undefined, elm);
+}
 var frag = document.createDocumentFragment();
 var emptyNode = VNode(undefined, {style: {}, class: {}}, [], undefined);
 
 function h(selector, b, c) {
   var props = {}, children, tag, i;
   if (arguments.length === 3) {
-    props = b; children = isString(c) ? [c] : c;
+    props = b; children = isPrimitive(c) ? [c] : c;
   } else if (arguments.length === 2) {
     if (isArr(b)) { children = b; }
-    else if (isString(b)) { children = [b]; }
+    else if (isPrimitive(b)) { children = [b]; }
     else { props = b; }
   }
   // Parse selector
@@ -40,17 +49,10 @@ function h(selector, b, c) {
 
   if (isArr(children)) {
     for (i = 0; i < children.length; ++i) {
-      if (isString(children[i])) children[i] = VNode(undefined, undefined, undefined, children[i]);
+      if (isPrimitive(children[i])) children[i] = VNode(undefined, undefined, undefined, children[i]);
     }
   }
-
   return VNode(tag, props, children, undefined, undefined);
-}
-
-function setStyles(elm, styles) {
-  for (var key in styles) {
-    elm.style[key] = styles[key];
-  }
 }
 
 function updateProps(elm, oldProps, props) {
@@ -71,7 +73,7 @@ function updateProps(elm, oldProps, props) {
           elm.classList[on ? 'add' : 'remove'](name);
         }
       }
-    } else {
+    } else if (key !== 'key') {
       elm[key] = val;
     }
   }
@@ -95,68 +97,119 @@ function createElm(vnode) {
   return elm;
 }
 
-function sameElm(vnode1, vnode2) {
-  var key1 = isUndef(vnode1.props) ? undefined : vnode1.props.key;
-  var key2 = isUndef(vnode2.props) ? undefined : vnode2.props.key;
-  return key1 === key2 && vnode1.tag === vnode2.tag;
+function sameVnode(vnode1, vnode2) {
+  return vnode1.key === vnode2.key && vnode1.tag === vnode2.tag;
+}
+
+function createKeyToOldIdx(children, beginIdx, endIdx) {
+  var i, map = {};
+  for (i = beginIdx; i <= endIdx; ++i) {
+    var ch = children[i];
+    if (!isUndef(ch.props) && !isUndef(ch.props.key)) {
+      map[ch.props.key] = i;
+    }
+  }
+  return map;
 }
 
 function updateChildren(parentElm, oldCh, newCh) {
-  if (isUndef(oldCh) && isUndef(newCh)) {
-    return; // Neither new nor old element has any children
+  var oldStartIdx = 0, oldEndIdx, oldStartVnode, oldEndVnode;
+  if (isUndef(oldCh)) {
+    oldEndIdx = -1;
+  } else {
+    oldEndIdx = oldCh.length - 1;
+    oldStartVnode = oldCh[0];
+    oldEndVnode = oldCh[oldEndIdx];
   }
-  var oldStartPtr = 0, oldEndPtr = oldCh.length - 1;
-  var newStartPtr = 0, newEndPtr = newCh.length - 1;
-  var oldStartElm = oldCh[0], oldEndElm = oldCh[oldEndPtr];
-  var newStartElm = newCh[0], newEndElm = newCh[newEndPtr];
-  var success = true;
 
-  var succes = true;
-  while (success && oldStartPtr <= oldEndPtr && newStartPtr <= newEndPtr) {
-    success = false;
-    if (sameElm(oldStartElm, newStartElm)) {
-      oldStartElm = oldCh[++oldStartPtr];
-      newStartElm = newCh[++newStartPtr];
-      success = true;
-    }
-    if (sameElm(oldEndElm, newEndElm)) {
-      oldEndElm = oldCh[--oldEndPtr];
-      newEndElm = newCh[--newEndPtr];
-      success = true;
-    }
-    if (!isUndef(oldStartElm) && !isUndef(newEndElm) &&
-        sameElm(oldStartElm, newEndElm)) { // Elm moved forward
-      var beforeElm = oldEndElm.elm.nextSibling;
-      parentElm.insertBefore(oldStartElm.elm, beforeElm);
-      oldStartElm = oldCh[++oldStartPtr];
-      newEndElm = newCh[--newEndPtr];
-      success = true;
+  var newStartIdx = 0, newEndIdx, newStartVnode, newEndVnode;
+  if (isUndef(newCh)) {
+    newEndIdx = -1;
+  } else {
+    newEndIdx = newCh.length - 1;
+    newStartVnode = newCh[0];
+    newEndVnode = newCh[newEndIdx];
+  }
+
+  var oldKeyToIdx;
+
+  while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
+    if (isUndef(oldStartVnode)) {
+      oldStartVnode = oldCh[++oldStartIdx]; // Vnode has been moved left
+    } else if (isUndef(oldEndVnode)) {
+      oldEndVnode = oldCh[--oldEndIdx];
+    } else if (sameVnode(oldStartVnode, newStartVnode)) {
+      while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx &&
+             !isUndef(oldStartVnode) && sameVnode(oldStartVnode, newStartVnode)) {
+        patchElm(oldStartVnode, newStartVnode);
+        oldStartVnode = oldCh[++oldStartIdx];
+        newStartVnode = newCh[++newStartIdx];
+      }
+    } else if (sameVnode(oldEndVnode, newEndVnode)) {
+      patchElm(oldEndVnode, newEndVnode);
+      oldEndVnode = oldCh[--oldEndIdx];
+      newEndVnode = newCh[--newEndIdx];
+    } else if (!isUndef(oldStartVnode) && !isUndef(newEndVnode) &&
+               sameVnode(oldStartVnode, newEndVnode)) { // Vnode moved right
+      patchElm(oldStartVnode, newEndVnode);
+      parentElm.insertBefore(oldStartVnode.elm, oldEndVnode.elm.nextSibling);
+      oldStartVnode = oldCh[++oldStartIdx];
+      newEndVnode = newCh[--newEndIdx];
+    } else if (!isUndef(oldEndVnode) && !isUndef(newStartVnode) &&
+        sameVnode(oldEndVnode, newStartVnode)) { // Vnode moved left
+      patchElm(oldEndVnode, newStartVnode);
+      parentElm.insertBefore(oldEndVnode.elm, oldStartVnode.elm);
+      oldEndVnode = oldCh[--oldEndIdx];
+      newStartVnode = newCh[++newStartIdx];
+    } else {
+      if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
+      var idxInOld = oldKeyToIdx[newStartVnode.key];
+      if (isUndef(idxInOld)) { // New element
+        createElm(newStartVnode);
+        parentElm.insertBefore(newStartVnode.elm, oldStartVnode.elm);
+        newStartVnode = newCh[++newStartIdx];
+      } else {
+        var elmToMove = oldCh[idxInOld];
+        patchElm(elmToMove, newStartVnode);
+        oldCh[idxInOld] = undefined;
+        parentElm.insertBefore(elmToMove.elm, oldStartVnode.elm);
+        newStartVnode = newCh[++newStartIdx];
+      }
     }
   }
-  if (oldStartPtr > oldEndPtr) { // Done with old elements
-    for (; newStartPtr <= newEndPtr; ++newStartPtr) {
-      frag.appendChild(createElm(newCh[newStartPtr]));
+  if (oldStartIdx > oldEndIdx) { // Done with old elements
+    for (; newStartIdx <= newEndIdx; ++newStartIdx) {
+      frag.appendChild(createElm(newCh[newStartIdx]));
     }
-    if (isUndef(oldStartElm)) {
+    if (isUndef(oldStartVnode)) {
       parentElm.appendChild(frag);
     } else {
-      parentElm.insertBefore(frag, oldStartElm.elm);
+      parentElm.insertBefore(frag, oldStartVnode.elm);
     }
-  } else if (newStartPtr > newEndPtr) { // Done with new elements
-    for (; oldStartPtr <= oldEndPtr; ++oldStartPtr) {
-      parentElm.removeChild(oldCh[oldStartPtr].elm);
-      oldCh[oldStartPtr].elm = undefined;
+  } else if (newStartIdx > newEndIdx) { // Done with new elements
+    for (; oldStartIdx <= oldEndIdx; ++oldStartIdx) {
+      var ch = oldCh[oldStartIdx];
+      if (!isUndef(ch)) {
+        parentElm.removeChild(oldCh[oldStartIdx].elm);
+        oldCh[oldStartIdx].elm = undefined;
+      }
     }
   }
 }
 
 function patchElm(oldVnode, newVnode) {
-  var elm = oldVnode.elm;
-  updateProps(elm, oldVnode.props, newVnode.props);
-  updateChildren(elm, oldVnode.children, newVnode.children);
+  var elm = newVnode.elm = oldVnode.elm;
+  if (isUndef(newVnode.text)) {
+    updateProps(elm, oldVnode.props, newVnode.props);
+    updateChildren(elm, oldVnode.children, newVnode.children);
+  } else {
+    if (oldVnode.text !== newVnode.text) {
+      elm.textContent = newVnode.text;
+    }
+  }
   return newVnode;
 }
 
-return {h: h, createElm: createElm, patchElm: patchElm};
+return {h: h, createElm: createElm, patchElm: patchElm, patch: patchElm, emptyNodeAt: emptyNodeAt, emptyNode: emptyNode};
 
 }));
