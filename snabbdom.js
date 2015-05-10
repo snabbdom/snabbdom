@@ -26,8 +26,9 @@ function VNode(tag, props, children, text, elm) {
 function emptyNodeAt(elm) {
   return VNode(elm.tagName, {style: {}, class: {}}, [], undefined, elm);
 }
-var frag = document.createDocumentFragment();
 var emptyNode = VNode(undefined, {style: {}, class: {}}, [], undefined);
+
+var frag = document.createDocumentFragment();
 
 function h(selector, b, c) {
   var props = {}, children, tag, text, i;
@@ -82,11 +83,13 @@ function updateProps(elm, oldProps, props) {
 }
 
 function createElm(vnode) {
-  var elm;
+  var elm, children;
   if (!isUndef(vnode.tag)) {
     elm = document.createElement(vnode.tag);
-    updateProps(elm, emptyNode.props, vnode.props);
-    var children = vnode.children;
+    if (!isUndef(vnode.tag)) {
+      updateProps(elm, emptyNode.props, vnode.props);
+    }
+    children = vnode.children;
     if (isArr(children)) {
       for (var i = 0; i < vnode.children.length; ++i) {
         elm.appendChild(createElm(children[i]));
@@ -135,7 +138,7 @@ function updateChildren(parentElm, oldCh, newCh) {
     newEndVnode = newCh[newEndIdx];
   }
 
-  var oldKeyToIdx;
+  var oldKeyToIdx, idxInOld, elmToMove;
 
   while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
     if (isUndef(oldStartVnode)) {
@@ -143,37 +146,32 @@ function updateChildren(parentElm, oldCh, newCh) {
     } else if (isUndef(oldEndVnode)) {
       oldEndVnode = oldCh[--oldEndIdx];
     } else if (sameVnode(oldStartVnode, newStartVnode)) {
-      while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx &&
-             !isUndef(oldStartVnode) && sameVnode(oldStartVnode, newStartVnode)) {
-        patchElm(oldStartVnode, newStartVnode);
-        oldStartVnode = oldCh[++oldStartIdx];
-        newStartVnode = newCh[++newStartIdx];
-      }
+      patchElm(oldStartVnode, newStartVnode);
+      oldStartVnode = oldCh[++oldStartIdx];
+      newStartVnode = newCh[++newStartIdx];
     } else if (sameVnode(oldEndVnode, newEndVnode)) {
       patchElm(oldEndVnode, newEndVnode);
       oldEndVnode = oldCh[--oldEndIdx];
       newEndVnode = newCh[--newEndIdx];
-    } else if (!isUndef(oldStartVnode) && !isUndef(newEndVnode) &&
-               sameVnode(oldStartVnode, newEndVnode)) { // Vnode moved right
+    } else if (sameVnode(oldStartVnode, newEndVnode)) { // Vnode moved right
       patchElm(oldStartVnode, newEndVnode);
       parentElm.insertBefore(oldStartVnode.elm, oldEndVnode.elm.nextSibling);
       oldStartVnode = oldCh[++oldStartIdx];
       newEndVnode = newCh[--newEndIdx];
-    } else if (!isUndef(oldEndVnode) && !isUndef(newStartVnode) &&
-        sameVnode(oldEndVnode, newStartVnode)) { // Vnode moved left
+    } else if (sameVnode(oldEndVnode, newStartVnode)) { // Vnode moved left
       patchElm(oldEndVnode, newStartVnode);
       parentElm.insertBefore(oldEndVnode.elm, oldStartVnode.elm);
       oldEndVnode = oldCh[--oldEndIdx];
       newStartVnode = newCh[++newStartIdx];
     } else {
       if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
-      var idxInOld = oldKeyToIdx[newStartVnode.key];
+      idxInOld = oldKeyToIdx[newStartVnode.key];
       if (isUndef(idxInOld)) { // New element
         createElm(newStartVnode);
         parentElm.insertBefore(newStartVnode.elm, oldStartVnode.elm);
         newStartVnode = newCh[++newStartIdx];
       } else {
-        var elmToMove = oldCh[idxInOld];
+        elmToMove = oldCh[idxInOld];
         patchElm(elmToMove, newStartVnode);
         oldCh[idxInOld] = undefined;
         parentElm.insertBefore(elmToMove.elm, oldStartVnode.elm);
@@ -203,13 +201,13 @@ function updateChildren(parentElm, oldCh, newCh) {
 
 function patchElm(oldVnode, newVnode) {
   var elm = newVnode.elm = oldVnode.elm;
-  updateProps(elm, oldVnode.props, newVnode.props);
+  if (!isUndef(newVnode.props)) {
+    updateProps(elm, oldVnode.props, newVnode.props);
+  }
   if (isUndef(newVnode.text)) {
     updateChildren(elm, oldVnode.children, newVnode.children);
   } else {
-    if (oldVnode.text !== newVnode.text) {
-      elm.textContent = newVnode.text;
-    }
+    if (oldVnode.text !== newVnode.text) elm.textContent = newVnode.text;
   }
   return newVnode;
 }

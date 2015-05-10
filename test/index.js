@@ -186,7 +186,7 @@ describe('snabbdom', function() {
           patchElm(vnode1, vnode2);
           assert.deepEqual(map(inner, elm.children), ['1', '2', '3']);
         });
-        it('removes children from parent', function() {
+        it('removes all children from parent', function() {
           var vnode1 = h('span', {key: 'span'}, [1, 2, 3].map(spanNum));
           var vnode2 = h('span', {key: 'span'});
           var elm = createElm(vnode1);
@@ -292,15 +292,13 @@ describe('snabbdom', function() {
           assert.equal(elm.children[3].innerHTML, '3');
           assert.equal(elm.children[4].innerHTML, '6');
         });
-        it('move to left and leave hole', function() {
+        it('moves to left and leaves hole', function() {
           var vnode1 = h('span', [1, 4, 5].map(spanNum));
           var vnode2 = h('span', [4, 6].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 3);
           patchElm(vnode1, vnode2);
-          assert.equal(elm.children.length, 2);
-          assert.equal(elm.children[0].innerHTML, '4');
-          assert.equal(elm.children[1].innerHTML, '6');
+          assert.deepEqual(map(inner, elm.children), ['4', '6']);
         });
         it('handles moved and set to undefined element ending at the end', function() {
           var vnode1 = h('span', [2, 4, 5].map(spanNum));
@@ -315,19 +313,23 @@ describe('snabbdom', function() {
         });
       });
       it('reverses elements', function() {
-        var vnode1 = h('span', [1, 2, 3, 4].map(spanNum));
-        var vnode2 = h('span', [4, 3, 2, 1].map(spanNum));
+        var vnode1 = h('span', [1, 2, 3, 4, 5, 6, 7, 8].map(spanNum));
+        var vnode2 = h('span', [8, 7, 6, 5, 4, 3, 2, 1].map(spanNum));
         var elm = createElm(vnode1);
-        assert.equal(elm.children.length, 4);
+        assert.equal(elm.children.length, 8);
         patchElm(vnode1, vnode2);
-        assert.equal(elm.children.length, 4);
-        assert.equal(elm.children[0].innerHTML, '4');
-        assert.equal(elm.children[1].innerHTML, '3');
-        assert.equal(elm.children[2].innerHTML, '2');
-        assert.equal(elm.children[3].innerHTML, '1');
+        assert.deepEqual(map(inner, elm.children), ['8', '7', '6', '5', '4', '3', '2', '1']);
+      });
+      it('something', function() {
+        var vnode1 = h('span', [0, 1, 2, 3, 4, 5].map(spanNum));
+        var vnode2 = h('span', [4, 3, 2, 1, 5, 0].map(spanNum));
+        var elm = createElm(vnode1);
+        assert.equal(elm.children.length, 6);
+        patchElm(vnode1, vnode2);
+        assert.deepEqual(map(inner, elm.children), ['4', '3', '2', '1', '5', '0']);
       });
       it('handles random shuffles', function() {
-        var n, i, arr = [], opacities = [], elms = 15, samples = 5;
+        var n, i, arr = [], opacities = [], elms = 6, samples = 5;
         function spanNumWithOpacity(n, o) {
           return h('span', {key: n, style: {opacity: o}}, n.toString());
         }
@@ -337,6 +339,7 @@ describe('snabbdom', function() {
             return spanNumWithOpacity(n, '1');
           }));
           var shufArr = shuffle(arr.slice(0));
+          console.log(shufArr);
           var elm = createElm(vnode1);
           for (i = 0; i < elms; ++i) {
             assert.equal(elm.children[i].innerHTML, i.toString());
