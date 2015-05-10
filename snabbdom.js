@@ -30,12 +30,14 @@ var frag = document.createDocumentFragment();
 var emptyNode = VNode(undefined, {style: {}, class: {}}, [], undefined);
 
 function h(selector, b, c) {
-  var props = {}, children, tag, i;
+  var props = {}, children, tag, text, i;
   if (arguments.length === 3) {
-    props = b; children = isPrimitive(c) ? [c] : c;
+    props = b;
+    if (isArr(c)) { children = c; }
+    else if (isPrimitive(c)) { text = c; }
   } else if (arguments.length === 2) {
     if (isArr(b)) { children = b; }
-    else if (isPrimitive(b)) { children = [b]; }
+    else if (isPrimitive(b)) { text = b; }
     else { props = b; }
   }
   // Parse selector
@@ -52,7 +54,7 @@ function h(selector, b, c) {
       if (isPrimitive(children[i])) children[i] = VNode(undefined, undefined, undefined, children[i]);
     }
   }
-  return VNode(tag, props, children, undefined, undefined);
+  return VNode(tag, props, children, text, undefined);
 }
 
 function updateProps(elm, oldProps, props) {
@@ -81,7 +83,7 @@ function updateProps(elm, oldProps, props) {
 
 function createElm(vnode) {
   var elm;
-  if (isUndef(vnode.text)) {
+  if (!isUndef(vnode.tag)) {
     elm = document.createElement(vnode.tag);
     updateProps(elm, emptyNode.props, vnode.props);
     var children = vnode.children;
@@ -89,6 +91,8 @@ function createElm(vnode) {
       for (var i = 0; i < vnode.children.length; ++i) {
         elm.appendChild(createElm(children[i]));
       }
+    } else if (isPrimitive(vnode.text)) {
+      elm.textContent = vnode.text;
     }
   } else {
     elm = document.createTextNode(vnode.text);
@@ -199,8 +203,8 @@ function updateChildren(parentElm, oldCh, newCh) {
 
 function patchElm(oldVnode, newVnode) {
   var elm = newVnode.elm = oldVnode.elm;
+  updateProps(elm, oldVnode.props, newVnode.props);
   if (isUndef(newVnode.text)) {
-    updateProps(elm, oldVnode.props, newVnode.props);
     updateChildren(elm, oldVnode.children, newVnode.children);
   } else {
     if (oldVnode.text !== newVnode.text) {

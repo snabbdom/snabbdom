@@ -59,16 +59,15 @@ describe('snabbdom', function() {
     });
     it('can create vnode with text content in string', function() {
       var vnode = h('a', 'I am a string');
-      assert.equal(vnode.children[0].text, 'I am a string');
+      assert.equal(vnode.text, 'I am a string');
     });
     it('can create vnode with props and text content in string', function() {
       var vnode = h('a', {}, 'I am a string');
-      assert.equal(vnode.children[0].text, 'I am a string');
+      assert.equal(vnode.text, 'I am a string');
     });
     it('can create empty vnode at element', function() {
       var elm = document.createElement('div');
       var vnode = snabbdom.emptyNodeAt(elm);
-      console.log(vnode);
       assert.equal(vnode.elm, elm);
     });
   });
@@ -102,6 +101,11 @@ describe('snabbdom', function() {
     it('can create elements with text content', function() {
       var elm = createElm(h('a', ['I am a string']));
       assert.equal(elm.innerHTML, 'I am a string');
+    });
+    it('can create elements with span and text content', function() {
+      var elm = createElm(h('a', [h('span'), 'I am a string']));
+      assert.equal(elm.childNodes[0].tagName, 'SPAN');
+      assert.equal(elm.childNodes[1].textContent, 'I am a string');
     });
   });
   describe('pathing an element', function() {
