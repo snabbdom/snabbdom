@@ -329,7 +329,7 @@ describe('snabbdom', function() {
         assert.deepEqual(map(inner, elm.children), ['4', '3', '2', '1', '5', '0']);
       });
       it('handles random shuffles', function() {
-        var n, i, arr = [], opacities = [], elms = 6, samples = 5;
+        var n, i, arr = [], opacities = [], elms = 14, samples = 5;
         function spanNumWithOpacity(n, o) {
           return h('span', {key: n, style: {opacity: o}}, n.toString());
         }
@@ -339,7 +339,6 @@ describe('snabbdom', function() {
             return spanNumWithOpacity(n, '1');
           }));
           var shufArr = shuffle(arr.slice(0));
-          console.log(shufArr);
           var elm = createElm(vnode1);
           for (i = 0; i < elms; ++i) {
             assert.equal(elm.children[i].innerHTML, i.toString());

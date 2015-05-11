@@ -18,7 +18,7 @@ function isPrimitive(s) { return typeof s === 'string' || typeof s === 'number';
 function isUndef(s) { return s === undefined; }
 
 function VNode(tag, props, children, text, elm) {
-  var key = !isUndef(props) ? props.key : undefined;
+  var key = isUndef(props) ? undefined : props.key;
   return {tag: tag, props: props, children: children,
           text: text, elm: elm, key: key};
 }
@@ -109,11 +109,11 @@ function sameVnode(vnode1, vnode2) {
 }
 
 function createKeyToOldIdx(children, beginIdx, endIdx) {
-  var i, map = {};
+  var i, map = {}, key;
   for (i = beginIdx; i <= endIdx; ++i) {
-    var ch = children[i];
-    if (!isUndef(ch.props) && !isUndef(ch.props.key)) {
-      map[ch.props.key] = i;
+    key = children[i].key;
+    if (!isUndef(key)) {
+      map[key] = i;
     }
   }
   return map;
@@ -146,20 +146,20 @@ function updateChildren(parentElm, oldCh, newCh) {
     } else if (isUndef(oldEndVnode)) {
       oldEndVnode = oldCh[--oldEndIdx];
     } else if (sameVnode(oldStartVnode, newStartVnode)) {
-      patchElm(oldStartVnode, newStartVnode);
+      patchVnode(oldStartVnode, newStartVnode);
       oldStartVnode = oldCh[++oldStartIdx];
       newStartVnode = newCh[++newStartIdx];
     } else if (sameVnode(oldEndVnode, newEndVnode)) {
-      patchElm(oldEndVnode, newEndVnode);
+      patchVnode(oldEndVnode, newEndVnode);
       oldEndVnode = oldCh[--oldEndIdx];
       newEndVnode = newCh[--newEndIdx];
     } else if (sameVnode(oldStartVnode, newEndVnode)) { // Vnode moved right
-      patchElm(oldStartVnode, newEndVnode);
+      patchVnode(oldStartVnode, newEndVnode);
       parentElm.insertBefore(oldStartVnode.elm, oldEndVnode.elm.nextSibling);
       oldStartVnode = oldCh[++oldStartIdx];
       newEndVnode = newCh[--newEndIdx];
     } else if (sameVnode(oldEndVnode, newStartVnode)) { // Vnode moved left
-      patchElm(oldEndVnode, newStartVnode);
+      patchVnode(oldEndVnode, newStartVnode);
       parentElm.insertBefore(oldEndVnode.elm, oldStartVnode.elm);
       oldEndVnode = oldCh[--oldEndIdx];
       newStartVnode = newCh[++newStartIdx];
@@ -172,7 +172,7 @@ function updateChildren(parentElm, oldCh, newCh) {
         newStartVnode = newCh[++newStartIdx];
       } else {
         elmToMove = oldCh[idxInOld];
-        patchElm(elmToMove, newStartVnode);
+        patchVnode(elmToMove, newStartVnode);
         oldCh[idxInOld] = undefined;
         parentElm.insertBefore(elmToMove.elm, oldStartVnode.elm);
         newStartVnode = newCh[++newStartIdx];
@@ -199,19 +199,19 @@ function updateChildren(parentElm, oldCh, newCh) {
   }
 }
 
-function patchElm(oldVnode, newVnode) {
+function patchVnode(oldVnode, newVnode) {
   var elm = newVnode.elm = oldVnode.elm;
   if (!isUndef(newVnode.props)) {
     updateProps(elm, oldVnode.props, newVnode.props);
   }
   if (isUndef(newVnode.text)) {
     updateChildren(elm, oldVnode.children, newVnode.children);
-  } else {
-    if (oldVnode.text !== newVnode.text) elm.textContent = newVnode.text;
+  } else if (oldVnode.text !== newVnode.text) {
+    elm.textContent = newVnode.text;
   }
   return newVnode;
 }
 
-return {h: h, createElm: createElm, patchElm: patchElm, patch: patchElm, emptyNodeAt: emptyNodeAt, emptyNode: emptyNode};
+return {h: h, createElm: createElm, patchElm: patchVnode, patch: patchVnode, emptyNodeAt: emptyNodeAt, emptyNode: emptyNode};
 
 }));
