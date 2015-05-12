@@ -66,7 +66,7 @@ function updateProps(elm, oldProps, props) {
       for (name in val) {
         on = val[name];
         if (on !== oldProps.style[name]) {
-          elm.style[name] = val[name];
+          elm.style[name] = on;
         }
       }
     } else if (key === 'class') {
@@ -86,12 +86,12 @@ function createElm(vnode) {
   var elm, children;
   if (!isUndef(vnode.tag)) {
     elm = document.createElement(vnode.tag);
-    if (!isUndef(vnode.tag)) {
+    if (!isUndef(vnode.props)) {
       updateProps(elm, emptyNode.props, vnode.props);
     }
     children = vnode.children;
     if (isArr(children)) {
-      for (var i = 0; i < vnode.children.length; ++i) {
+      for (var i = 0; i < children.length; ++i) {
         elm.appendChild(createElm(children[i]));
       }
     } else if (isPrimitive(vnode.text)) {
@@ -192,8 +192,8 @@ function updateChildren(parentElm, oldCh, newCh) {
     for (; oldStartIdx <= oldEndIdx; ++oldStartIdx) {
       var ch = oldCh[oldStartIdx];
       if (!isUndef(ch)) {
-        parentElm.removeChild(oldCh[oldStartIdx].elm);
-        oldCh[oldStartIdx].elm = undefined;
+        parentElm.removeChild(ch.elm);
+        ch.elm = undefined;
       }
     }
   }
