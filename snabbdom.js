@@ -61,35 +61,32 @@ function h(selector, b, c) {
 }
 
 function updateProps(elm, oldVnode, vnode) {
-  var key, val, name, on, pushed = false,
+  var key, val, name, cur, pushed = false,
       oldProps = oldVnode.props, props = vnode.props,
       selectorChanged = oldProps.className !== props.className ||
                         oldVnode.tag !== vnode.tag;
   for (key in props) {
     val = props[key];
-    if (key === 'style') {
+    if (key === 'style' || key === 'class') {
       for (name in val) {
-        on = val[name];
-        if (on !== oldProps.style[name]) {
-          elm.style[name] = on;
-        }
-      }
-    } else if (key === 'class') {
-      for (name in val) {
-        on = val[name];
-        if (on !== oldProps.class[name]) {
-          selectorChanged = true;
-          elm.classList[on ? 'add' : 'remove'](name);
+        cur = val[name];
+        if (cur !== oldProps[key][name]) {
+          if (key === 'style') {
+            elm.style[name] = cur;
+          } else {
+            selectorChanged = true;
+            elm.classList[cur ? 'add' : 'remove'](name);
+          }
         }
       }
     } else if (key === 'on') {
       pushed = true;
-      eventSelectors.push(vnode.props.on);
-    } else if (key !== 'key' && key !== 'on') {
+      eventSelectors.push(props.on);
+    } else if (key !== 'key') {
       elm[key] = val;
     }
   }
-  if (selectorChanged === true) toggleListeners(elm, oldVnode === emptyNode, pushed);
+  if (selectorChanged) toggleListeners(elm, oldVnode === emptyNode, pushed);
   return pushed;
 }
 
@@ -125,7 +122,7 @@ function createElm(vnode) {
     } else if (isPrimitive(vnode.text)) {
       elm.textContent = vnode.text;
     }
-    if (pushedSelectors === true) eventSelectors.pop();
+    if (pushedSelectors) eventSelectors.pop();
   } else {
     elm = document.createTextNode(vnode.text);
   }
@@ -236,7 +233,7 @@ function patchVnode(oldVnode, newVnode) {
   } else if (oldVnode.text !== newVnode.text) {
     elm.textContent = newVnode.text;
   }
-  if (pushedSelectors === true) eventSelectors.pop();
+  if (pushedSelectors) eventSelectors.pop();
   return newVnode;
 }
 
