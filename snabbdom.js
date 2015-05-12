@@ -30,6 +30,8 @@ var emptyNode = VNode(undefined, {style: {}, class: {}}, [], undefined);
 
 var frag = document.createDocumentFragment();
 
+var eventSelectors = [];
+
 function h(selector, b, c) {
   var props = {}, children, tag, text, i;
   if (arguments.length === 3) {
@@ -58,8 +60,11 @@ function h(selector, b, c) {
   return VNode(tag, props, children, text, undefined);
 }
 
-function updateProps(elm, oldProps, props) {
-  var key, val, name, on;
+function updateProps(elm, oldVnode, vnode) {
+  var key, val, name, on, pushed = false,
+      oldProps = oldVnode.props, props = vnode.props,
+      selectorChanged = oldProps.className !== props.className ||
+                        oldVnode.tag !== vnode.tag;
   for (key in props) {
     val = props[key];
     if (key === 'style') {
@@ -73,22 +78,45 @@ function updateProps(elm, oldProps, props) {
       for (name in val) {
         on = val[name];
         if (on !== oldProps.class[name]) {
+          selectorChanged = true;
           elm.classList[on ? 'add' : 'remove'](name);
         }
       }
-    } else if (key !== 'key') {
+    } else if (key === 'on') {
+      pushed = true;
+      eventSelectors.push(vnode.props.on);
+    } else if (key !== 'key' && key !== 'on') {
       elm[key] = val;
+    }
+  }
+  if (selectorChanged === true) toggleListeners(elm, oldVnode === emptyNode, pushed);
+  return pushed;
+}
+
+function toggleListeners(elm, justCreated, pushed) {
+  var i, obj, evSel, parts, start = eventSelectors.length - 1;
+  for (i = start; 0 <= i; --i) {
+    obj = eventSelectors[i];
+    for (evSel in obj) {
+      parts = evSel.split(' ');
+      if (parts.length === 2) {
+        if (elm.matches(parts[1])) {
+          elm.addEventListener(parts[0], obj[evSel]);
+        } else if (!justCreated) {
+          elm.removeEventListener(parts[0], obj[evSel], false);
+        }
+      } else if (justCreated && i === start && pushed) {
+        elm.addEventListener(parts[0], obj[evSel]);
+      }
     }
   }
 }
 
 function createElm(vnode) {
-  var elm, children;
+  var elm, children, pushedSelectors;
   if (!isUndef(vnode.tag)) {
     elm = document.createElement(vnode.tag);
-    if (!isUndef(vnode.props)) {
-      updateProps(elm, emptyNode.props, vnode.props);
-    }
+    pushedSelectors = updateProps(elm, emptyNode, vnode);
     children = vnode.children;
     if (isArr(children)) {
       for (var i = 0; i < children.length; ++i) {
@@ -97,6 +125,7 @@ function createElm(vnode) {
     } else if (isPrimitive(vnode.text)) {
       elm.textContent = vnode.text;
     }
+    if (pushedSelectors === true) eventSelectors.pop();
   } else {
     elm = document.createTextNode(vnode.text);
   }
@@ -200,18 +229,17 @@ function updateChildren(parentElm, oldCh, newCh) {
 }
 
 function patchVnode(oldVnode, newVnode) {
-  var elm = newVnode.elm = oldVnode.elm;
-  if (!isUndef(newVnode.props)) {
-    updateProps(elm, oldVnode.props, newVnode.props);
-  }
+  var elm = newVnode.elm = oldVnode.elm, pushedSelectors;
+  pushedSelectors = updateProps(elm, oldVnode, newVnode);
   if (isUndef(newVnode.text)) {
     updateChildren(elm, oldVnode.children, newVnode.children);
   } else if (oldVnode.text !== newVnode.text) {
     elm.textContent = newVnode.text;
   }
+  if (pushedSelectors === true) eventSelectors.pop();
   return newVnode;
 }
 
-return {h: h, createElm: createElm, patchElm: patchVnode, patch: patchVnode, emptyNodeAt: emptyNodeAt, emptyNode: emptyNode};
+return {h: h, createElm: createElm, patch: patchVnode, emptyNodeAt: emptyNodeAt, emptyNode: emptyNode};
 
 }));

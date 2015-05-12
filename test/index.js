@@ -3,7 +3,7 @@ var shuffle = require('knuth-shuffle').knuthShuffle;
 
 var snabbdom = require('../snabbdom');
 var createElm = snabbdom.createElm;
-var patchElm = snabbdom.patchElm;
+var patch = snabbdom.patch;
 var h = snabbdom.h;
 
 function prop(name) {
@@ -113,7 +113,7 @@ describe('snabbdom', function() {
       var vnode1 = h('i', {class: {i: true, am: true, horse: true}});
       var vnode2 = h('i', {class: {i: true, am: true, horse: false}});
       var elm = createElm(vnode1);
-      patchElm(vnode1, vnode2);
+      patch(vnode1, vnode2);
       assert(elm.classList.contains('i'));
       assert(elm.classList.contains('am'));
       assert(!elm.classList.contains('horse'));
@@ -122,7 +122,7 @@ describe('snabbdom', function() {
       var vnode1 = h('i', {class: {i: true, am: true, horse: true}});
       var vnode2 = h('i', {class: {i: true, am: true, horse: false}});
       var elm = createElm(vnode1);
-      patchElm(vnode1, vnode2);
+      patch(vnode1, vnode2);
       assert(elm.classList.contains('i'));
       assert(elm.classList.contains('am'));
       assert(!elm.classList.contains('horse'));
@@ -134,10 +134,10 @@ describe('snabbdom', function() {
       var elm = createElm(vnode1);
       assert.equal(elm.style.fontSize, '14px');
       assert.equal(elm.style.display, 'inline');
-      patchElm(vnode1, vnode2);
+      patch(vnode1, vnode2);
       assert.equal(elm.style.fontSize, '12px');
       assert.equal(elm.style.display, 'block');
-      patchElm(vnode2, vnode3);
+      patch(vnode2, vnode3);
       assert.equal(elm.style.fontSize, '10px');
       assert.equal(elm.style.display, 'block');
     });
@@ -149,7 +149,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [1, 2, 3].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 1);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.equal(elm.children.length, 3);
           assert.equal(elm.children[1].innerHTML, '2');
           assert.equal(elm.children[2].innerHTML, '3');
@@ -159,7 +159,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [1, 2, 3, 4, 5].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 2);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.deepEqual(map(inner, elm.children), ['1', '2', '3', '4', '5']);
         });
         it('add elements in the middle', function() {
@@ -167,7 +167,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [1, 2, 3, 4, 5].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 4);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.deepEqual(map(inner, elm.children), ['1', '2', '3', '4', '5']);
         });
         it('add elements at begin and end', function() {
@@ -175,7 +175,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [1, 2, 3, 4, 5].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 3);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.deepEqual(map(inner, elm.children), ['1', '2', '3', '4', '5']);
         });
         it('adds children to parent with no children', function() {
@@ -183,7 +183,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', {key: 'span'}, [1, 2, 3].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 0);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.deepEqual(map(inner, elm.children), ['1', '2', '3']);
         });
         it('removes all children from parent', function() {
@@ -191,7 +191,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', {key: 'span'});
           var elm = createElm(vnode1);
           assert.deepEqual(map(inner, elm.children), ['1', '2', '3']);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.equal(elm.children.length, 0);
         });
       });
@@ -201,7 +201,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [3, 4, 5].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 5);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.deepEqual(map(inner, elm.children), ['3', '4', '5']);
         });
         it('removes elements from the end', function() {
@@ -209,7 +209,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [1, 2, 3].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 5);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.equal(elm.children.length, 3);
           assert.equal(elm.children[0].innerHTML, '1');
           assert.equal(elm.children[1].innerHTML, '2');
@@ -220,7 +220,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [1, 2, 4, 5].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 5);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.equal(elm.children.length, 4);
           assert.deepEqual(elm.children[0].innerHTML, '1');
           assert.equal(elm.children[0].innerHTML, '1');
@@ -235,7 +235,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [2, 3, 1, 4].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 4);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.equal(elm.children.length, 4);
           assert.equal(elm.children[0].innerHTML, '2');
           assert.equal(elm.children[1].innerHTML, '3');
@@ -247,7 +247,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [2, 3, 1].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 3);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.equal(elm.children.length, 3);
           assert.equal(elm.children[0].innerHTML, '2');
           assert.equal(elm.children[1].innerHTML, '3');
@@ -258,7 +258,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [1, 4, 2, 3].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 4);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.equal(elm.children.length, 4);
           assert.equal(elm.children[0].innerHTML, '1');
           assert.equal(elm.children[1].innerHTML, '4');
@@ -270,7 +270,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [4, 2, 3, 1].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 4);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.equal(elm.children.length, 4);
           assert.equal(elm.children[0].innerHTML, '4');
           assert.equal(elm.children[1].innerHTML, '2');
@@ -284,7 +284,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [4, 1, 2, 3, 6].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 5);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.equal(elm.children.length, 5);
           assert.equal(elm.children[0].innerHTML, '4');
           assert.equal(elm.children[1].innerHTML, '1');
@@ -297,7 +297,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [4, 6].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 3);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.deepEqual(map(inner, elm.children), ['4', '6']);
         });
         it('handles moved and set to undefined element ending at the end', function() {
@@ -305,7 +305,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', [4, 5, 3].map(spanNum));
           var elm = createElm(vnode1);
           assert.equal(elm.children.length, 3);
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           assert.equal(elm.children.length, 3);
           assert.equal(elm.children[0].innerHTML, '4');
           assert.equal(elm.children[1].innerHTML, '5');
@@ -317,7 +317,7 @@ describe('snabbdom', function() {
         var vnode2 = h('span', [8, 7, 6, 5, 4, 3, 2, 1].map(spanNum));
         var elm = createElm(vnode1);
         assert.equal(elm.children.length, 8);
-        patchElm(vnode1, vnode2);
+        patch(vnode1, vnode2);
         assert.deepEqual(map(inner, elm.children), ['8', '7', '6', '5', '4', '3', '2', '1']);
       });
       it('something', function() {
@@ -325,7 +325,7 @@ describe('snabbdom', function() {
         var vnode2 = h('span', [4, 3, 2, 1, 5, 0].map(spanNum));
         var elm = createElm(vnode1);
         assert.equal(elm.children.length, 6);
-        patchElm(vnode1, vnode2);
+        patch(vnode1, vnode2);
         assert.deepEqual(map(inner, elm.children), ['4', '3', '2', '1', '5', '0']);
       });
       it('handles random shuffles', function() {
@@ -347,7 +347,7 @@ describe('snabbdom', function() {
           var vnode2 = h('span', arr.map(function(n) {
             return spanNumWithOpacity(shufArr[n], opacities[n]);
           }));
-          patchElm(vnode1, vnode2);
+          patch(vnode1, vnode2);
           for (i = 0; i < elms; ++i) {
             assert.equal(elm.children[i].innerHTML, shufArr[i].toString());
             assert.equal(opacities[i].indexOf(elm.children[i].style.opacity), 0);
@@ -361,7 +361,7 @@ describe('snabbdom', function() {
         var vnode2 = h('div', [h('span', 'Hello'), h('span', 'World')]);
         var elm = createElm(vnode1);
         assert.deepEqual(map(inner, elm.children), ['Hello']);
-        patchElm(vnode1, vnode2);
+        patch(vnode1, vnode2);
         assert.deepEqual(map(inner, elm.children), ['Hello', 'World']);
       });
       it('prepends element', function() {
@@ -369,7 +369,7 @@ describe('snabbdom', function() {
         var vnode2 = h('div', [h('span', 'Hello'), h('span', 'World')]);
         var elm = createElm(vnode1);
         assert.deepEqual(map(inner, elm.children), ['World']);
-        patchElm(vnode1, vnode2);
+        patch(vnode1, vnode2);
         assert.deepEqual(map(inner, elm.children), ['Hello', 'World']);
       });
       it('prepends element of different tag type', function() {
@@ -377,7 +377,7 @@ describe('snabbdom', function() {
         var vnode2 = h('div', [h('div', 'Hello'), h('span', 'World')]);
         var elm = createElm(vnode1);
         assert.deepEqual(map(inner, elm.children), ['World']);
-        patchElm(vnode1, vnode2);
+        patch(vnode1, vnode2);
         assert.deepEqual(map(prop('tagName'), elm.children), ['DIV', 'SPAN']);
         assert.deepEqual(map(inner, elm.children), ['Hello', 'World']);
       });
@@ -386,7 +386,7 @@ describe('snabbdom', function() {
         var vnode2 = h('div', [h('span', 'One'), h('span', 'Three')]);
         var elm = createElm(vnode1);
         assert.deepEqual(map(inner, elm.children), ['One', 'Two', 'Three']);
-        patchElm(vnode1, vnode2);
+        patch(vnode1, vnode2);
         assert.deepEqual(map(inner, elm.children), ['One', 'Three']);
       });
       it('reorders elements', function() {
@@ -394,9 +394,88 @@ describe('snabbdom', function() {
         var vnode2 = h('div', [h('b', 'Three'), h('span', 'One'), h('div', 'Two')]);
         var elm = createElm(vnode1);
         assert.deepEqual(map(inner, elm.children), ['One', 'Two', 'Three']);
-        patchElm(vnode1, vnode2);
+        patch(vnode1, vnode2);
         assert.deepEqual(map(prop('tagName'), elm.children), ['B', 'SPAN', 'DIV']);
         assert.deepEqual(map(inner, elm.children), ['Three', 'One', 'Two']);
+      });
+    });
+    describe('event handling', function() {
+      it('attaches click event handler to children', function() {
+        var result = [];
+        function clicked(ev) { result.push(ev); }
+        var vnode = h('div', {on: {'click a.me': clicked}}, [
+          h('a.me', 'Click me'),
+          h('span', 'Not me'),
+        ]);
+        var elm = createElm(vnode);
+        var a = elm.children[0];
+        var span = elm.children[1];
+        a.click();
+        span.click();
+        a.click();
+        assert.equal(2, result.length);
+      });
+      it('attaches click event handler self', function() {
+        var result = [];
+        function clicked(ev) { result.push(ev); }
+        var vnode = h('div', {on: {'click': clicked}}, [
+          h('a', 'Click my parent'),
+        ]);
+        var elm = createElm(vnode);
+        var a = elm.children[0];
+        elm.click();
+        assert.equal(1, result.length);
+      });
+      it('attaches click event handler to subchilden', function() {
+        var result = [];
+        function clicked(ev) { result.push(ev); }
+        function noop() { }
+        var vnode = h('div', {on: {'click .nothing': noop}}, [
+          h('span', {on: {'click a': clicked}}, [h('a', 'Click me')]),
+          h('span', 'Not me'),
+        ]);
+        var elm = createElm(vnode);
+        var a = elm.children[0].children[0];
+        a.click();
+        a.click();
+        assert.equal(2, result.length);
+      });
+      it('attaches event handler when class is added to child', function() {
+        var a, result = [];
+        function clicked(ev) { result.push(ev); }
+        var vnode1 = h('div', {on: {'click .btn': clicked}}, [
+          h('span', [h('a', 'Click me')]),
+          h('span', 'Not me'),
+        ]);
+        var vnode2 = h('div', {on: {'click .btn': clicked}}, [
+          h('span', [h('a.btn', 'Click me')]),
+          h('span', 'Not me'),
+        ]);
+        var elm = createElm(vnode1);
+        a = elm.children[0].children[0];
+        a.click();
+        patch(vnode1, vnode2);
+        a = elm.children[0].children[0];
+        a.click();
+        assert.equal(1, result.length);
+      });
+      it('removes event handler from children', function() {
+        var result = [];
+        function clicked(ev) { result.push(ev); }
+        var vnode1 = h('div', {on: {'click a.me': clicked}}, [
+          h('a.me', 'Click me'),
+          h('span', 'Not me'),
+        ]);
+        var vnode2 = h('div', {on: {'click a.yes.me': clicked}}, [
+          h('a.yes', 'Click me'),
+          h('span', 'Not me'),
+        ]);
+        var elm = createElm(vnode1);
+        var a = elm.children[0];
+        a.click();
+        patch(vnode1, vnode2);
+        a.click();
+        assert.equal(1, result.length);
       });
     });
   });
