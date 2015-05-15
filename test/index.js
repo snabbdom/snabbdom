@@ -364,6 +364,14 @@ describe('snabbdom', function() {
         patch(vnode1, vnode2);
         assert.deepEqual(map(inner, elm.children), ['Hello', 'World']);
       });
+      it('handles unmoved text nodes', function() {
+        var vnode1 = h('div', ['Text', h('span', 'Span')]);
+        var vnode2 = h('div', ['Text', h('span', 'Span')]);
+        var elm = createElm(vnode1);
+        assert.equal(elm.childNodes[0].textContent, 'Text');
+        patch(vnode1, vnode2);
+        assert.equal(elm.childNodes[0].textContent, 'Text');
+      });
       it('prepends element', function() {
         var vnode1 = h('div', [h('span', 'World')]);
         var vnode2 = h('div', [h('span', 'Hello'), h('span', 'World')]);

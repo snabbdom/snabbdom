@@ -231,7 +231,7 @@ function updateChildren(parentElm, oldCh, newCh) {
 
 function patchVnode(oldVnode, newVnode) {
   var elm = newVnode.elm = oldVnode.elm, pushedSelectors;
-  pushedSelectors = updateProps(elm, oldVnode, newVnode);
+  if (!isUndef(newVnode.props)) pushedSelectors = updateProps(elm, oldVnode, newVnode);
   if (isUndef(newVnode.text)) {
     updateChildren(elm, oldVnode.children, newVnode.children);
   } else if (oldVnode.text !== newVnode.text) {
