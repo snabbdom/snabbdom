@@ -478,5 +478,50 @@ describe('snabbdom', function() {
         assert.equal(1, result.length);
       });
     });
+    describe('custom events', function() {
+      it('calls `insert` listener', function() {
+        var result = [];
+        function cb(vnode) {
+          assert(vnode.elm instanceof Element);
+          assert.equal(vnode.elm.children.length, 2);
+          result.push(vnode);
+        }
+        var vnode1 = h('div', [
+          h('span', 'First sibling'),
+          h('div', {oninsert: cb}, [
+            h('span', 'Child 1'),
+            h('span', 'Child 2'),
+          ]),
+          h('span', 'Can\'t touch me'),
+        ]);
+        var elm = createElm(vnode1);
+        assert.equal(1, result.length);
+      });
+      it('calls `remove` listener', function() {
+        var result = [];
+        function cb(vnode, rm) {
+          var parent = vnode.elm.parentNode;
+          assert(vnode.elm instanceof Element);
+          assert.equal(vnode.elm.children.length, 2);
+          assert.equal(parent.children.length, 2);
+          result.push(vnode);
+          rm();
+          assert.equal(parent.children.length, 1);
+        }
+        var vnode1 = h('div', [
+          h('span', 'First sibling'),
+          h('div', {onremove: cb}, [
+            h('span', 'Child 1'),
+            h('span', 'Child 2'),
+          ]),
+        ]);
+        var vnode2 = h('div', [
+          h('span', 'First sibling'),
+        ]);
+        var elm = createElm(vnode1);
+        patch(vnode1, vnode2);
+        assert.equal(1, result.length);
+      });
+    });
   });
 });

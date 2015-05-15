@@ -82,7 +82,7 @@ function updateProps(elm, oldVnode, vnode) {
     } else if (key === 'on') {
       pushed = true;
       eventSelectors.push(props.on);
-    } else if (key !== 'key') {
+    } else if (key !== 'key' && (key[0] !== 'o' || key[1] !== 'n')) {
       elm[key] = val;
     }
   }
@@ -112,7 +112,7 @@ function toggleListeners(elm, justCreated, pushed) {
 function createElm(vnode) {
   var elm, children, pushedSelectors;
   if (!isUndef(vnode.tag)) {
-    elm = document.createElement(vnode.tag);
+    elm = vnode.elm = document.createElement(vnode.tag);
     pushedSelectors = updateProps(elm, emptyNode, vnode);
     children = vnode.children;
     if (isArr(children)) {
@@ -123,10 +123,10 @@ function createElm(vnode) {
       elm.textContent = vnode.text;
     }
     if (pushedSelectors) eventSelectors.pop();
+    if (vnode.props.oninsert) vnode.props.oninsert(vnode);
   } else {
-    elm = document.createTextNode(vnode.text);
+    elm = vnode.elm = document.createTextNode(vnode.text);
   }
-  vnode.elm = elm;
   return elm;
 }
 
@@ -218,7 +218,11 @@ function updateChildren(parentElm, oldCh, newCh) {
     for (; oldStartIdx <= oldEndIdx; ++oldStartIdx) {
       var ch = oldCh[oldStartIdx];
       if (!isUndef(ch)) {
-        parentElm.removeChild(ch.elm);
+        if (ch.props.onremove) {
+          ch.props.onremove(ch, parentElm.removeChild.bind(parentElm, ch.elm));
+        } else {
+          parentElm.removeChild(ch.elm);
+        }
         ch.elm = undefined;
       }
     }
