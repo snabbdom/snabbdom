@@ -408,82 +408,54 @@ describe('snabbdom', function() {
       });
     });
     describe('event handling', function() {
-      it('attaches click event handler to children', function() {
+      it('attaches click event handler to element', function() {
         var result = [];
         function clicked(ev) { result.push(ev); }
-        var vnode = h('div', {on: {'click a.me': clicked}}, [
-          h('a.me', 'Click me'),
-          h('span', 'Not me'),
-        ]);
-        var elm = createElm(vnode);
-        var a = elm.children[0];
-        var span = elm.children[1];
-        a.click();
-        span.click();
-        a.click();
-        assert.equal(2, result.length);
-      });
-      it('attaches click event handler self', function() {
-        var result = [];
-        function clicked(ev) { result.push(ev); }
-        var vnode = h('div', {on: {'click': clicked}}, [
+        var vnode = h('div', {onclick: clicked}, [
           h('a', 'Click my parent'),
         ]);
         var elm = createElm(vnode);
-        var a = elm.children[0];
         elm.click();
         assert.equal(1, result.length);
       });
-      it('attaches click event handler to subchilden', function() {
+      it('does not attach new listener', function() {
+        var result = [];
+        //function clicked(ev) { result.push(ev); }
+        var vnode1 = h('div', {onclick: function(ev) { result.push(ev); }}, [
+          h('a', 'Click my parent'),
+        ]);
+        var vnode2 = h('div', {onclick: function(ev) { result.push(ev); }}, [
+          h('a', 'Click my parent'),
+        ]);
+        var elm = createElm(vnode1);
+        patch(vnode1, vnode2);
+        elm.click();
+        assert.equal(1, result.length);
+      });
+      it('does calls handler for function in array', function() {
         var result = [];
         function clicked(ev) { result.push(ev); }
-        function noop() { }
-        var vnode = h('div', {on: {'click .nothing': noop}}, [
-          h('span', {on: {'click a': clicked}}, [h('a', 'Click me')]),
-          h('span', 'Not me'),
+        var vnode = h('div', {onclick: [clicked, 1]}, [
+          h('a', 'Click my parent'),
         ]);
         var elm = createElm(vnode);
-        var a = elm.children[0].children[0];
-        a.click();
-        a.click();
-        assert.equal(2, result.length);
+        elm.click();
+        assert.deepEqual(result, [1]);
       });
-      it('attaches event handler when class is added to child', function() {
-        var a, result = [];
-        function clicked(ev) { result.push(ev); }
-        var vnode1 = h('div', {on: {'click .btn': clicked}}, [
-          h('span', [h('a', 'Click me')]),
-          h('span', 'Not me'),
-        ]);
-        var vnode2 = h('div', {on: {'click .btn': clicked}}, [
-          h('span', [h('a.btn', 'Click me')]),
-          h('span', 'Not me'),
-        ]);
-        var elm = createElm(vnode1);
-        a = elm.children[0].children[0];
-        a.click();
-        patch(vnode1, vnode2);
-        a = elm.children[0].children[0];
-        a.click();
-        assert.equal(1, result.length);
-      });
-      it('removes event handler from children', function() {
+      it('handles changed value in array', function() {
         var result = [];
         function clicked(ev) { result.push(ev); }
-        var vnode1 = h('div', {on: {'click a.me': clicked}}, [
-          h('a.me', 'Click me'),
-          h('span', 'Not me'),
+        var vnode1 = h('div', {onclick: [clicked, 1]}, [
+          h('a', 'Click my parent'),
         ]);
-        var vnode2 = h('div', {on: {'click a.yes.me': clicked}}, [
-          h('a.yes', 'Click me'),
-          h('span', 'Not me'),
+        var vnode2 = h('div', {onclick: [clicked, 2]}, [
+          h('a', 'Click my parent'),
         ]);
         var elm = createElm(vnode1);
-        var a = elm.children[0];
-        a.click();
+        elm.click();
         patch(vnode1, vnode2);
-        a.click();
-        assert.equal(1, result.length);
+        elm.click();
+        assert.deepEqual(result, [1, 2]);
       });
     });
     describe('custom events', function() {

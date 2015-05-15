@@ -12,7 +12,6 @@
 'use strict';
 
 var isArr = Array.isArray;
-
 function isString(s) { return typeof s === 'string'; }
 function isPrimitive(s) { return typeof s === 'string' || typeof s === 'number'; }
 function isUndef(s) { return s === undefined; }
@@ -29,8 +28,6 @@ function emptyNodeAt(elm) {
 var emptyNode = VNode(undefined, {style: {}, class: {}}, [], undefined);
 
 var frag = document.createDocumentFragment();
-
-var eventSelectors = [];
 
 function h(selector, b, c) {
   var props = {}, children, tag, text, i;
@@ -60,11 +57,12 @@ function h(selector, b, c) {
   return VNode(tag, props, children, text, undefined);
 }
 
+function arrInvoker(arr) {
+  return function() { arr[0](arr[1]); };
+}
+
 function updateProps(elm, oldVnode, vnode) {
-  var key, val, name, cur, pushed = false,
-      oldProps = oldVnode.props, props = vnode.props,
-      selectorChanged = oldProps.className !== props.className ||
-                        oldVnode.tag !== vnode.tag;
+  var key, val, name, cur, old, oldProps = oldVnode.props, props = vnode.props;
   for (key in props) {
     val = props[key];
     if (key === 'style' || key === 'class') {
@@ -74,46 +72,32 @@ function updateProps(elm, oldVnode, vnode) {
           if (key === 'style') {
             elm.style[name] = cur;
           } else {
-            selectorChanged = true;
             elm.classList[cur ? 'add' : 'remove'](name);
           }
         }
       }
-    } else if (key === 'on') {
-      pushed = true;
-      eventSelectors.push(props.on);
-    } else if (key !== 'key' && (key[0] !== 'o' || key[1] !== 'n')) {
-      elm[key] = val;
-    }
-  }
-  if (selectorChanged) toggleListeners(elm, oldVnode === emptyNode, pushed);
-  return pushed;
-}
-
-function toggleListeners(elm, justCreated, pushed) {
-  var i, obj, evSel, parts, start = eventSelectors.length - 1;
-  for (i = start; 0 <= i; --i) {
-    obj = eventSelectors[i];
-    for (evSel in obj) {
-      parts = evSel.split(' ');
-      if (parts.length === 2) {
-        if (elm.matches(parts[1])) {
-          elm.addEventListener(parts[0], obj[evSel]);
-        } else if (!justCreated) {
-          elm.removeEventListener(parts[0], obj[evSel], false);
+    } else if (key[0] === 'o' && key[1] === 'n') {
+      name = key.slice(2);
+      if (name !== 'insert' && name !== 'remove') {
+        old = oldProps[key];
+        if (isUndef(old)) {
+          elm.addEventListener(name, isArr(val) ? arrInvoker(val) : val);
+        } else if (isArr(old)) {
+          old[0] = val[0]; // Deliberately modify old array since it's
+          old[1] = val[1]; // captured in closure created with `arrInvoker`
         }
-      } else if (justCreated && i === start && pushed) {
-        elm.addEventListener(parts[0], obj[evSel]);
       }
+    } else if (key !== 'key') {
+      elm[key] = val;
     }
   }
 }
 
 function createElm(vnode) {
-  var elm, children, pushedSelectors;
+  var elm, children;
   if (!isUndef(vnode.tag)) {
     elm = vnode.elm = document.createElement(vnode.tag);
-    pushedSelectors = updateProps(elm, emptyNode, vnode);
+    updateProps(elm, emptyNode, vnode);
     children = vnode.children;
     if (isArr(children)) {
       for (var i = 0; i < children.length; ++i) {
@@ -122,7 +106,6 @@ function createElm(vnode) {
     } else if (isPrimitive(vnode.text)) {
       elm.textContent = vnode.text;
     }
-    if (pushedSelectors) eventSelectors.pop();
     if (vnode.props.oninsert) vnode.props.oninsert(vnode);
   } else {
     elm = vnode.elm = document.createTextNode(vnode.text);
@@ -230,14 +213,13 @@ function updateChildren(parentElm, oldCh, newCh) {
 }
 
 function patchVnode(oldVnode, newVnode) {
-  var elm = newVnode.elm = oldVnode.elm, pushedSelectors;
-  if (!isUndef(newVnode.props)) pushedSelectors = updateProps(elm, oldVnode, newVnode);
+  var elm = newVnode.elm = oldVnode.elm;
+  if (!isUndef(newVnode.props)) updateProps(elm, oldVnode, newVnode);
   if (isUndef(newVnode.text)) {
     updateChildren(elm, oldVnode.children, newVnode.children);
   } else if (oldVnode.text !== newVnode.text) {
     elm.textContent = newVnode.text;
   }
-  if (pushedSelectors) eventSelectors.pop();
   return newVnode;
 }
 
