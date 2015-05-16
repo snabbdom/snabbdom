@@ -120,6 +120,7 @@ function createElm(vnode) {
     } else if (isPrimitive(vnode.text)) {
       elm.textContent = vnode.text;
     }
+    if (vnode.props.oncreate) vnode.props.oncreate(vnode);
     if (vnode.props.oninsert) insertCbQueue.push(vnode);
   } else {
     elm = vnode.elm = document.createTextNode(vnode.text);

@@ -470,6 +470,27 @@ describe('snabbdom', function() {
       });
     });
     describe('custom events', function() {
+      it('calls `create` listener before inserted into parent but after children', function() {
+        var result = [];
+        function cb(vnode) {
+          assert(vnode.elm instanceof Element);
+          assert.equal(vnode.elm.children.length, 2);
+          assert.strictEqual(vnode.elm.parentNode, null);
+          result.push(vnode);
+        }
+        var elm = document.createElement('div');
+        var vnode0 = snabbdom.emptyNodeAt(elm);
+        var vnode1 = h('div', [
+          h('span', 'First sibling'),
+          h('div', {oncreate: cb}, [
+            h('span', 'Child 1'),
+            h('span', 'Child 2'),
+          ]),
+          h('span', 'Can\'t touch me'),
+        ]);
+        patch(vnode0, vnode1);
+        assert.equal(1, result.length);
+      });
       it('calls `insert` listener after both parents, siblings and children have been inserted', function() {
         var result = [];
         function cb(vnode) {
@@ -486,7 +507,7 @@ describe('snabbdom', function() {
             h('span', 'Child 1'),
             h('span', 'Child 2'),
           ]),
-          h('span', 'Can\'t touch me'),
+          h('span', 'Can touch me'),
         ]);
         //var elm = createElm(vnode1);
         patch(vnode0, vnode1);
