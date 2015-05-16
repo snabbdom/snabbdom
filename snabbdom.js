@@ -70,7 +70,9 @@ function arrInvoker(arr) {
 }
 
 function updateProps(elm, oldVnode, vnode) {
-  var key, val, name, cur, old, oldProps = oldVnode.props, props = vnode.props;
+  var key, name, cur, old, oldProps = oldVnode.props, props = vnode.props,
+      val = props.className;
+  if (isUndef(oldProps) || val !== oldProps.className) elm.className = val;
   for (key in props) {
     val = props[key];
     if (key === 'style' || key === 'class') {
@@ -99,7 +101,7 @@ function updateProps(elm, oldVnode, vnode) {
           old[1] = val[1]; // captured in closure created with `arrInvoker`
         }
       }
-    } else if (key !== 'key') {
+    } else if (key !== 'key' && key !== 'className') {
       elm[key] = val;
     }
   }

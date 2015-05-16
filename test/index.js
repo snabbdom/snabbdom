@@ -103,6 +103,12 @@ describe('snabbdom', function() {
       assert(elm.classList.contains('class'));
       assert(!elm.classList.contains('not'));
     });
+    it('handles classes from both selector and property', function() {
+      var elm = createElm(h('i.has', {class: {classes: true}}));
+      console.log(elm.classList);
+      assert(elm.classList.contains('has'));
+      assert(elm.classList.contains('classes'));
+    });
     it('can create elements with text content', function() {
       var elm = createElm(h('a', ['I am a string']));
       assert.equal(elm.innerHTML, 'I am a string');
