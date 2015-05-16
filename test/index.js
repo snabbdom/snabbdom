@@ -23,6 +23,11 @@ function map(fn, list) {
 var inner = prop('innerHTML');
 
 describe('snabbdom', function() {
+  var elm, vnode0;
+  beforeEach(function() {
+    elm = document.createElement('div');
+    vnode0 = snabbdom.emptyNodeAt(elm);
+  });
   describe('hyperscript', function() {
     it('can create vnode with proper tag', function() {
       assert.equal(h('div').tag, 'div');
@@ -359,7 +364,7 @@ describe('snabbdom', function() {
       it('appends elements', function() {
         var vnode1 = h('div', [h('span', 'Hello')]);
         var vnode2 = h('div', [h('span', 'Hello'), h('span', 'World')]);
-        var elm = createElm(vnode1);
+        patch(vnode0, vnode1);
         assert.deepEqual(map(inner, elm.children), ['Hello']);
         patch(vnode1, vnode2);
         assert.deepEqual(map(inner, elm.children), ['Hello', 'World']);
@@ -459,13 +464,16 @@ describe('snabbdom', function() {
       });
     });
     describe('custom events', function() {
-      it('calls `insert` listener', function() {
+      it('calls `insert` listener after both parents, siblings and children have been inserted', function() {
         var result = [];
         function cb(vnode) {
           assert(vnode.elm instanceof Element);
           assert.equal(vnode.elm.children.length, 2);
+          assert.equal(vnode.elm.parentNode.children.length, 3);
           result.push(vnode);
         }
+        var elm = document.createElement('div');
+        var vnode0 = snabbdom.emptyNodeAt(elm);
         var vnode1 = h('div', [
           h('span', 'First sibling'),
           h('div', {oninsert: cb}, [
@@ -474,7 +482,8 @@ describe('snabbdom', function() {
           ]),
           h('span', 'Can\'t touch me'),
         ]);
-        var elm = createElm(vnode1);
+        //var elm = createElm(vnode1);
+        patch(vnode0, vnode1);
         assert.equal(1, result.length);
       });
       it('calls `remove` listener', function() {

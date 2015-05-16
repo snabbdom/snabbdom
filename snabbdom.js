@@ -29,6 +29,8 @@ var emptyNode = VNode(undefined, {style: {}, class: {}}, [], undefined);
 
 var frag = document.createDocumentFragment();
 
+var insertCbQueue;
+
 function h(selector, b, c) {
   var props = {}, children, tag, text, i;
   if (arguments.length === 3) {
@@ -106,7 +108,7 @@ function createElm(vnode) {
     } else if (isPrimitive(vnode.text)) {
       elm.textContent = vnode.text;
     }
-    if (vnode.props.oninsert) vnode.props.oninsert(vnode);
+    if (vnode.props.oninsert) insertCbQueue.push(vnode);
   } else {
     elm = vnode.elm = document.createTextNode(vnode.text);
   }
@@ -213,12 +215,22 @@ function updateChildren(parentElm, oldCh, newCh) {
 }
 
 function patchVnode(oldVnode, newVnode) {
-  var elm = newVnode.elm = oldVnode.elm;
+  var i, managesQueue = false, elm = newVnode.elm = oldVnode.elm;
+  if (isUndef(insertCbQueue)) {
+    insertCbQueue = [];
+    managesQueue = true;
+  }
   if (!isUndef(newVnode.props)) updateProps(elm, oldVnode, newVnode);
   if (isUndef(newVnode.text)) {
     updateChildren(elm, oldVnode.children, newVnode.children);
   } else if (oldVnode.text !== newVnode.text) {
     elm.textContent = newVnode.text;
+  }
+  if (managesQueue) {
+    for (i = 0; i < insertCbQueue.length; ++i) {
+      insertCbQueue[i].props.oninsert(insertCbQueue[i]);
+    }
+    insertCbQueue = undefined;
   }
   return newVnode;
 }
