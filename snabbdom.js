@@ -31,6 +31,12 @@ var frag = document.createDocumentFragment();
 
 var insertCbQueue;
 
+var nextFrame = requestAnimationFrame || setTimeout;
+
+function setNextFrame(obj, prop, val) {
+  nextFrame(function() { obj[prop] = val; });
+}
+
 function h(selector, b, c) {
   var props = {}, children, tag, text, i;
   if (arguments.length === 3) {
@@ -72,7 +78,11 @@ function updateProps(elm, oldVnode, vnode) {
         cur = val[name];
         if (cur !== oldProps[key][name]) {
           if (key === 'style') {
-            elm.style[name] = cur;
+            if (name[0] === 'a' && name[1] === '-') {
+              setNextFrame(elm.style, name.slice(2), cur);
+            } else {
+              elm.style[name] = cur;
+            }
           } else {
             elm.classList[cur ? 'add' : 'remove'](name);
           }
