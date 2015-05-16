@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Reorder animation</title>
+    <script type="text/javascript" src="build.js"></script>
+    <style>
+      body {
+        background: #fafafa;
+      }
+      .btn {
+        display: inline-block;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #cccccc;
+        padding: .5em .8em;
+      }
+      .active {
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, .1);
+      }
+      .add {
+        float: right;
+      }
+      #container {
+        max-width: 42em;
+        margin: 0 auto;
+      }
+      .list {
+        position: relative;
+      }
+      .row {
+        position: absolute;
+        box-sizing: border-box;
+        width: 100%;
+        left: 0px;
+        margin: .5em 0;
+        padding: 1em;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+        transition: transform .5s ease-in-out, opacity .5s ease-out, left .5s ease-in-out;
+        -webkit-transition: transform .5s ease-in-out, opacity .5s ease-out, left .5s ease-in-out;
+      }
+      .row div {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .row > div:nth-child(1) {
+        width: 5%;
+      }
+      .row > div:nth-child(2) {
+        width: 30%;
+      }
+      .row > div:nth-child(3) {
+        width: 65%;
+      }
+      .row.enter {
+        left: -100px;
+        opacity: 0;
+      }
+      .row.leave {
+        left: 100px;
+        opacity: 0;
+      }
+      .rm-btn {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-weight: bold;
+        color: rgba(202, 26, 26, 1);
+        background: rgba(202, 26, 26, .2);
+        width: 1.2em;
+        height: 1.2em;
+        text-align: center;
+        line-height: 1.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+  </body>
+</html>
