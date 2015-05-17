@@ -56,6 +56,7 @@ function add() {
   var n = originalData[Math.floor(Math.random() * 10)];
   data = [{rank: nextKey++, title: n.title, desc: n.desc, elmHeight: 0}].concat(data);
   render();
+  render();
 }
 
 function remove(movie) {
@@ -64,26 +65,24 @@ function remove(movie) {
 }
 
 function movieView(movie) {
+  console.log(movie.offset);
   return h('div.row', {
     key: movie.rank,
-    style: {'a-transform': 'translateY(' + movie.offset + 'px)'},
-    oncreate: function(vnode) {
-      vnode.elm.classList.add('enter');
-      setTimeout(function() { vnode.elm.classList.remove('enter'); });
-    },
+    style: {opacity: '0', transform: 'translate(-200px)',
+            'a-transform': 'translateY(' + movie.offset + 'px)', 'a-opacity': '1'},
     oninsert: function(vnode) {
       movie.elmHeight = vnode.elm.offsetHeight;
-      setTimeout(render, 0);
     },
     onremove: function(vnode, rm) {
-      vnode.elm.classList.add('leave');
+      vnode.elm.style.transform = vnode.elm.style.transform + ' translateX(200px)';
+      vnode.elm.style.opacity = '0';
       setTimeout(rm, 500);
     },
   }, [
-    h('div', movie.rank),
+    h('div', {style: {fontWeight: 'bold'}}, movie.rank),
     h('div', movie.title),
     h('div', movie.desc),
-    h('div.rm-btn', {onclick: [remove, movie]}, 'x'),
+    h('div.btn.rm-btn', {onclick: [remove, movie]}, 'x'),
   ]);
 }
 
@@ -100,11 +99,15 @@ function render() {
 function view(data) {
   return h('div', [
     h('h1', 'Top 10 movies'),
-    h('div', {
-    }, [h('a.btn.add', {onclick: add}, 'Add'),
-        'Sort by: ', h('a.btn.rank', {class: {active: sortBy === 'rank'}, onclick: [changeSort, 'rank']}, 'Rank'), ' ',
-                     h('a.btn.title', {class: {active: sortBy === 'title'}, onclick: [changeSort, 'title']}, 'Title'), ' ',
-                     h('a.btn.desc', {class: {active: sortBy === 'desc'}, onclick: [changeSort, 'desc']}, 'Description')]),
+    h('div', [
+      h('a.btn.add', {onclick: add}, 'Add'),
+      'Sort by: ',
+      h('span.btn-group', [
+        h('a.btn.rank', {class: {active: sortBy === 'rank'}, onclick: [changeSort, 'rank']}, 'Rank'),
+        h('a.btn.title', {class: {active: sortBy === 'title'}, onclick: [changeSort, 'title']}, 'Title'),
+        h('a.btn.desc', {class: {active: sortBy === 'desc'}, onclick: [changeSort, 'desc']}, 'Description'),
+      ]),
+    ]),
     h('div.list', {style: {height: totalHeight+'px'}}, data.map(movieView)),
   ]);
 }
@@ -112,6 +115,7 @@ function view(data) {
 window.addEventListener('DOMContentLoaded', function() {
   var container = document.getElementById('container');
   vnode = snabbdom.patch(snabbdom.emptyNodeAt(container), view(data));
+  render();
 });
 
 },{"../../snabbdom.js":2}],2:[function(require,module,exports){
@@ -142,13 +146,13 @@ function VNode(tag, props, children, text, elm) {
 function emptyNodeAt(elm) {
   return VNode(elm.tagName, {style: {}, class: {}}, [], undefined, elm);
 }
-var emptyNode = VNode(undefined, {style: {}, class: {}}, [], undefined);
 
 var frag = document.createDocumentFragment();
 
-var insertCbQueue;
+var insertedVnodeQueue;
 
-var nextFrame = requestAnimationFrame || setTimeout;
+var raf = requestAnimationFrame || setTimeout;
+var nextFrame = function(fn) { raf(function() { raf(fn); }); };
 
 function setNextFrame(obj, prop, val) {
   nextFrame(function() { obj[prop] = val; });
@@ -186,9 +190,9 @@ function arrInvoker(arr) {
   return function() { arr[0](arr[1]); };
 }
 
-function updateProps(elm, oldVnode, vnode) {
+function updateProps(oldVnode, vnode) {
   var key, name, cur, old, oldProps = oldVnode.props, props = vnode.props,
-      val = props.className;
+      elm = vnode.elm, val = props.className;
   if (isUndef(oldProps) || val !== oldProps.className) elm.className = val;
   for (key in props) {
     val = props[key];
@@ -224,11 +228,14 @@ function updateProps(elm, oldVnode, vnode) {
   }
 }
 
+function createProps(vnode) {
+  updateProps({props: {style: {}, class: {}}}, vnode);
+}
+
 function createElm(vnode) {
   var elm, children;
   if (!isUndef(vnode.tag)) {
     elm = vnode.elm = document.createElement(vnode.tag);
-    updateProps(elm, emptyNode, vnode);
     children = vnode.children;
     if (isArr(children)) {
       for (var i = 0; i < children.length; ++i) {
@@ -237,8 +244,9 @@ function createElm(vnode) {
     } else if (isPrimitive(vnode.text)) {
       elm.textContent = vnode.text;
     }
+    createProps(vnode);
     if (vnode.props.oncreate) vnode.props.oncreate(vnode);
-    if (vnode.props.oninsert) insertCbQueue.push(vnode);
+    if (vnode.props.oninsert) insertedVnodeQueue.push(vnode);
   } else {
     elm = vnode.elm = document.createTextNode(vnode.text);
   }
@@ -308,8 +316,7 @@ function updateChildren(parentElm, oldCh, newCh) {
       if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
       idxInOld = oldKeyToIdx[newStartVnode.key];
       if (isUndef(idxInOld)) { // New element
-        createElm(newStartVnode);
-        parentElm.insertBefore(newStartVnode.elm, oldStartVnode.elm);
+        parentElm.insertBefore(createElm(newStartVnode), oldStartVnode.elm);
         newStartVnode = newCh[++newStartIdx];
       } else {
         elmToMove = oldCh[idxInOld];
@@ -346,26 +353,26 @@ function updateChildren(parentElm, oldCh, newCh) {
 
 function patchVnode(oldVnode, newVnode) {
   var i, managesQueue = false, elm = newVnode.elm = oldVnode.elm;
-  if (isUndef(insertCbQueue)) {
-    insertCbQueue = [];
+  if (isUndef(insertedVnodeQueue)) {
+    insertedVnodeQueue = [];
     managesQueue = true;
   }
-  if (!isUndef(newVnode.props)) updateProps(elm, oldVnode, newVnode);
+  if (!isUndef(newVnode.props)) updateProps(oldVnode, newVnode);
   if (isUndef(newVnode.text)) {
     updateChildren(elm, oldVnode.children, newVnode.children);
   } else if (oldVnode.text !== newVnode.text) {
     elm.textContent = newVnode.text;
   }
   if (managesQueue) {
-    for (i = 0; i < insertCbQueue.length; ++i) {
-      insertCbQueue[i].props.oninsert(insertCbQueue[i]);
+    for (i = 0; i < insertedVnodeQueue.length; ++i) {
+      insertedVnodeQueue[i].props.oninsert(insertedVnodeQueue[i]);
     }
-    insertCbQueue = undefined;
+    insertedVnodeQueue = undefined;
   }
   return newVnode;
 }
 
-return {h: h, createElm: createElm, patch: patchVnode, emptyNodeAt: emptyNodeAt, emptyNode: emptyNode};
+return {h: h, createElm: createElm, patch: patchVnode, emptyNodeAt: emptyNodeAt};
 
 }));
 

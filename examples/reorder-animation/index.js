@@ -55,6 +55,7 @@ function add() {
   var n = originalData[Math.floor(Math.random() * 10)];
   data = [{rank: nextKey++, title: n.title, desc: n.desc, elmHeight: 0}].concat(data);
   render();
+  render();
 }
 
 function remove(movie) {
@@ -63,26 +64,24 @@ function remove(movie) {
 }
 
 function movieView(movie) {
+  console.log(movie.offset);
   return h('div.row', {
     key: movie.rank,
-    style: {'a-transform': 'translateY(' + movie.offset + 'px)'},
-    oncreate: function(vnode) {
-      vnode.elm.classList.add('enter');
-      setTimeout(function() { vnode.elm.classList.remove('enter'); });
-    },
+    style: {opacity: '0', transform: 'translate(-200px)',
+            'a-transform': 'translateY(' + movie.offset + 'px)', 'a-opacity': '1'},
     oninsert: function(vnode) {
       movie.elmHeight = vnode.elm.offsetHeight;
-      setTimeout(render, 0);
     },
     onremove: function(vnode, rm) {
-      vnode.elm.classList.add('leave');
+      vnode.elm.style.transform = vnode.elm.style.transform + ' translateX(200px)';
+      vnode.elm.style.opacity = '0';
       setTimeout(rm, 500);
     },
   }, [
-    h('div', movie.rank),
+    h('div', {style: {fontWeight: 'bold'}}, movie.rank),
     h('div', movie.title),
     h('div', movie.desc),
-    h('div.rm-btn', {onclick: [remove, movie]}, 'x'),
+    h('div.btn.rm-btn', {onclick: [remove, movie]}, 'x'),
   ]);
 }
 
@@ -99,11 +98,15 @@ function render() {
 function view(data) {
   return h('div', [
     h('h1', 'Top 10 movies'),
-    h('div', {
-    }, [h('a.btn.add', {onclick: add}, 'Add'),
-        'Sort by: ', h('a.btn.rank', {class: {active: sortBy === 'rank'}, onclick: [changeSort, 'rank']}, 'Rank'), ' ',
-                     h('a.btn.title', {class: {active: sortBy === 'title'}, onclick: [changeSort, 'title']}, 'Title'), ' ',
-                     h('a.btn.desc', {class: {active: sortBy === 'desc'}, onclick: [changeSort, 'desc']}, 'Description')]),
+    h('div', [
+      h('a.btn.add', {onclick: add}, 'Add'),
+      'Sort by: ',
+      h('span.btn-group', [
+        h('a.btn.rank', {class: {active: sortBy === 'rank'}, onclick: [changeSort, 'rank']}, 'Rank'),
+        h('a.btn.title', {class: {active: sortBy === 'title'}, onclick: [changeSort, 'title']}, 'Title'),
+        h('a.btn.desc', {class: {active: sortBy === 'desc'}, onclick: [changeSort, 'desc']}, 'Description'),
+      ]),
+    ]),
     h('div.list', {style: {height: totalHeight+'px'}}, data.map(movieView)),
   ]);
 }
@@ -111,4 +114,5 @@ function view(data) {
 window.addEventListener('DOMContentLoaded', function() {
   var container = document.getElementById('container');
   vnode = snabbdom.patch(snabbdom.emptyNodeAt(container), view(data));
+  render();
 });
