@@ -71,9 +71,7 @@ describe('snabbdom', function() {
       assert.equal(vnode.text, 'I am a string');
     });
     it('can create empty vnode at element', function() {
-      var elm = document.createElement('div');
-      var vnode = snabbdom.emptyNodeAt(elm);
-      assert.equal(vnode.elm, elm);
+      assert.equal(vnode0.elm, elm);
     });
   });
   describe('created element', function() {
@@ -477,8 +475,6 @@ describe('snabbdom', function() {
           assert.strictEqual(vnode.elm.parentNode, null);
           result.push(vnode);
         }
-        var elm = document.createElement('div');
-        var vnode0 = snabbdom.emptyNodeAt(elm);
         var vnode1 = h('div', [
           h('span', 'First sibling'),
           h('div', {oncreate: cb}, [
@@ -498,8 +494,6 @@ describe('snabbdom', function() {
           assert.equal(vnode.elm.parentNode.children.length, 3);
           result.push(vnode);
         }
-        var elm = document.createElement('div');
-        var vnode0 = snabbdom.emptyNodeAt(elm);
         var vnode1 = h('div', [
           h('span', 'First sibling'),
           h('div', {oninsert: cb}, [

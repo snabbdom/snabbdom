@@ -25,7 +25,6 @@ function VNode(tag, props, children, text, elm) {
 function emptyNodeAt(elm) {
   return VNode(elm.tagName, {style: {}, class: {}}, [], undefined, elm);
 }
-var emptyNode = VNode(undefined, {style: {}, class: {}}, [], undefined);
 
 var frag = document.createDocumentFragment();
 
@@ -70,9 +69,9 @@ function arrInvoker(arr) {
   return function() { arr[0](arr[1]); };
 }
 
-function updateProps(elm, oldVnode, vnode) {
+function updateProps(oldVnode, vnode) {
   var key, name, cur, old, oldProps = oldVnode.props, props = vnode.props,
-      val = props.className;
+      elm = vnode.elm, val = props.className;
   if (isUndef(oldProps) || val !== oldProps.className) elm.className = val;
   for (key in props) {
     val = props[key];
@@ -108,11 +107,14 @@ function updateProps(elm, oldVnode, vnode) {
   }
 }
 
+function createProps(vnode) {
+  updateProps({props: {style: {}, class: {}}}, vnode);
+}
+
 function createElm(vnode) {
   var elm, children;
   if (!isUndef(vnode.tag)) {
     elm = vnode.elm = document.createElement(vnode.tag);
-    updateProps(elm, emptyNode, vnode);
     children = vnode.children;
     if (isArr(children)) {
       for (var i = 0; i < children.length; ++i) {
@@ -121,6 +123,7 @@ function createElm(vnode) {
     } else if (isPrimitive(vnode.text)) {
       elm.textContent = vnode.text;
     }
+    createProps(vnode);
     if (vnode.props.oncreate) vnode.props.oncreate(vnode);
     if (vnode.props.oninsert) insertedVnodeQueue.push(vnode);
   } else {
@@ -233,7 +236,7 @@ function patchVnode(oldVnode, newVnode) {
     insertedVnodeQueue = [];
     managesQueue = true;
   }
-  if (!isUndef(newVnode.props)) updateProps(elm, oldVnode, newVnode);
+  if (!isUndef(newVnode.props)) updateProps(oldVnode, newVnode);
   if (isUndef(newVnode.text)) {
     updateChildren(elm, oldVnode.children, newVnode.children);
   } else if (oldVnode.text !== newVnode.text) {
@@ -248,6 +251,6 @@ function patchVnode(oldVnode, newVnode) {
   return newVnode;
 }
 
-return {h: h, createElm: createElm, patch: patchVnode, emptyNodeAt: emptyNodeAt, emptyNode: emptyNode};
+return {h: h, createElm: createElm, patch: patchVnode, emptyNodeAt: emptyNodeAt};
 
 }));
