@@ -29,9 +29,10 @@ var emptyNode = VNode(undefined, {style: {}, class: {}}, [], undefined);
 
 var frag = document.createDocumentFragment();
 
-var insertCbQueue;
+var insertedVnodeQueue;
 
-var nextFrame = requestAnimationFrame || setTimeout;
+var raf = requestAnimationFrame || setTimeout;
+var nextFrame = function(fn) { raf(function() { raf(fn); }); };
 
 function setNextFrame(obj, prop, val) {
   nextFrame(function() { obj[prop] = val; });
@@ -121,7 +122,7 @@ function createElm(vnode) {
       elm.textContent = vnode.text;
     }
     if (vnode.props.oncreate) vnode.props.oncreate(vnode);
-    if (vnode.props.oninsert) insertCbQueue.push(vnode);
+    if (vnode.props.oninsert) insertedVnodeQueue.push(vnode);
   } else {
     elm = vnode.elm = document.createTextNode(vnode.text);
   }
@@ -191,8 +192,7 @@ function updateChildren(parentElm, oldCh, newCh) {
       if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
       idxInOld = oldKeyToIdx[newStartVnode.key];
       if (isUndef(idxInOld)) { // New element
-        createElm(newStartVnode);
-        parentElm.insertBefore(newStartVnode.elm, oldStartVnode.elm);
+        parentElm.insertBefore(createElm(newStartVnode), oldStartVnode.elm);
         newStartVnode = newCh[++newStartIdx];
       } else {
         elmToMove = oldCh[idxInOld];
@@ -229,8 +229,8 @@ function updateChildren(parentElm, oldCh, newCh) {
 
 function patchVnode(oldVnode, newVnode) {
   var i, managesQueue = false, elm = newVnode.elm = oldVnode.elm;
-  if (isUndef(insertCbQueue)) {
-    insertCbQueue = [];
+  if (isUndef(insertedVnodeQueue)) {
+    insertedVnodeQueue = [];
     managesQueue = true;
   }
   if (!isUndef(newVnode.props)) updateProps(elm, oldVnode, newVnode);
@@ -240,10 +240,10 @@ function patchVnode(oldVnode, newVnode) {
     elm.textContent = newVnode.text;
   }
   if (managesQueue) {
-    for (i = 0; i < insertCbQueue.length; ++i) {
-      insertCbQueue[i].props.oninsert(insertCbQueue[i]);
+    for (i = 0; i < insertedVnodeQueue.length; ++i) {
+      insertedVnodeQueue[i].props.oninsert(insertedVnodeQueue[i]);
     }
-    insertCbQueue = undefined;
+    insertedVnodeQueue = undefined;
   }
   return newVnode;
 }

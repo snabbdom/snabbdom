@@ -105,7 +105,6 @@ describe('snabbdom', function() {
     });
     it('handles classes from both selector and property', function() {
       var elm = createElm(h('i.has', {class: {classes: true}}));
-      console.log(elm.classList);
       assert(elm.classList.contains('has'));
       assert(elm.classList.contains('classes'));
     });
