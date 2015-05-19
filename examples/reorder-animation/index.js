@@ -4,7 +4,13 @@
 //var scanMerge = require('flyd-scanmerge');
 
 var snabbdom = require('../../snabbdom.js');
-var h = snabbdom.h;
+snabbdom.init([
+  require('../../modules/class'),
+  require('../../modules/props'),
+  require('../../modules/style'),
+  require('../../modules/eventlisteners'),
+]);
+var h = require('../../h.js');
 
 var vnode;
 
@@ -64,7 +70,6 @@ function remove(movie) {
 }
 
 function movieView(movie) {
-  console.log(movie.offset);
   return h('div.row', {
     key: movie.rank,
     style: {opacity: '0', transform: 'translate(-200px)',
@@ -81,7 +86,7 @@ function movieView(movie) {
     h('div', {style: {fontWeight: 'bold'}}, movie.rank),
     h('div', movie.title),
     h('div', movie.desc),
-    h('div.btn.rm-btn', {onclick: [remove, movie]}, 'x'),
+    h('div.btn.rm-btn', {on: {click: [remove, movie]}}, 'x'),
   ]);
 }
 
@@ -99,12 +104,12 @@ function view(data) {
   return h('div', [
     h('h1', 'Top 10 movies'),
     h('div', [
-      h('a.btn.add', {onclick: add}, 'Add'),
+      h('a.btn.add', {on: {click: add}}, 'Add'),
       'Sort by: ',
       h('span.btn-group', [
-        h('a.btn.rank', {class: {active: sortBy === 'rank'}, onclick: [changeSort, 'rank']}, 'Rank'),
-        h('a.btn.title', {class: {active: sortBy === 'title'}, onclick: [changeSort, 'title']}, 'Title'),
-        h('a.btn.desc', {class: {active: sortBy === 'desc'}, onclick: [changeSort, 'desc']}, 'Description'),
+        h('a.btn.rank', {class: {active: sortBy === 'rank'}, on: {click: [changeSort, 'rank']}}, 'Rank'),
+        h('a.btn.title', {class: {active: sortBy === 'title'}, on: {click: [changeSort, 'title']}}, 'Title'),
+        h('a.btn.desc', {class: {active: sortBy === 'desc'}, on: {click: [changeSort, 'desc']}}, 'Description'),
       ]),
     ]),
     h('div.list', {style: {height: totalHeight+'px'}}, data.map(movieView)),

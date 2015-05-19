@@ -3,8 +3,14 @@ var shuffle = require('knuth-shuffle').knuthShuffle;
 
 var snabbdom = require('../snabbdom');
 var createElm = snabbdom.createElm;
+snabbdom.init([
+  require('../modules/class'),
+  require('../modules/props'),
+  require('../modules/style'),
+  require('../modules/eventlisteners'),
+]);
 var patch = snabbdom.patch;
-var h = snabbdom.h;
+var h = require('../h');
 
 function prop(name) {
   return function(obj) {
@@ -30,33 +36,37 @@ describe('snabbdom', function() {
   });
   describe('hyperscript', function() {
     it('can create vnode with proper tag', function() {
-      assert.equal(h('div').tag, 'div');
-      assert.equal(h('a').tag, 'a');
+      assert.equal(h('div').sel, 'div');
+      assert.equal(h('a').sel, 'a');
     });
+    /*
     it('can create vnode with id from selector', function() {
       var vnode = h('span#foo');
       assert.equal(vnode.tag, 'span');
-      assert.equal(vnode.props.id, 'foo');
+      assert.equal(vnode.data.id, 'foo');
     });
     it('can create vnode with classes from selector', function() {
       var vnode = h('span.foo.bar');
       assert.equal(vnode.tag, 'span');
-      assert.deepEqual(vnode.props.className, 'foo bar');
+      assert.deepEqual(vnode.data.className, 'foo bar');
     });
     it('can create vnode with id and classes from selector', function() {
       var vnode = h('span#horse.rabbit.cow');
       assert.equal(vnode.tag, 'span');
-      assert.equal(vnode.props.id, 'horse');
+      assert.equal(vnode.data.id, 'horse');
       assert.deepEqual(vnode.tag, 'span');
-      assert.deepEqual(vnode.props.className, 'rabbit cow');
+      assert.deepEqual(vnode.data.className, 'rabbit cow');
     });
+    */
     it('can create vnode with children', function() {
       var vnode = h('div', [h('span#hello'), h('b.world')]);
-      assert.equal(vnode.tag, 'div');
-      assert.equal(vnode.children[0].tag, 'span');
-      assert.equal(vnode.children[0].props.id, 'hello');
-      assert.equal(vnode.children[1].tag, 'b');
-      assert.equal(vnode.children[1].props.className, 'world');
+      assert.equal(vnode.sel, 'div');
+      assert.equal(vnode.children[0].sel, 'span#hello');
+      assert.equal(vnode.children[1].sel, 'b.world');
+      //assert.equal(vnode.children[0].tag, 'span');
+      //assert.equal(vnode.children[0].data.id, 'hello');
+      //assert.equal(vnode.children[1].tag, 'b');
+      //assert.equal(vnode.children[1].data.className, 'world');
     });
     it('can create vnode with text content', function() {
       var vnode = h('a', ['I am a string']);
@@ -419,7 +429,7 @@ describe('snabbdom', function() {
       it('attaches click event handler to element', function() {
         var result = [];
         function clicked(ev) { result.push(ev); }
-        var vnode = h('div', {onclick: clicked}, [
+        var vnode = h('div', {on: {click: clicked}}, [
           h('a', 'Click my parent'),
         ]);
         var elm = createElm(vnode);
@@ -429,10 +439,10 @@ describe('snabbdom', function() {
       it('does not attach new listener', function() {
         var result = [];
         //function clicked(ev) { result.push(ev); }
-        var vnode1 = h('div', {onclick: function(ev) { result.push(ev); }}, [
+        var vnode1 = h('div', {on: {click: function(ev) { result.push(ev); }}}, [
           h('a', 'Click my parent'),
         ]);
-        var vnode2 = h('div', {onclick: function(ev) { result.push(ev); }}, [
+        var vnode2 = h('div', {on: {click: function(ev) { result.push(ev); }}}, [
           h('a', 'Click my parent'),
         ]);
         var elm = createElm(vnode1);
@@ -443,7 +453,7 @@ describe('snabbdom', function() {
       it('does calls handler for function in array', function() {
         var result = [];
         function clicked(ev) { result.push(ev); }
-        var vnode = h('div', {onclick: [clicked, 1]}, [
+        var vnode = h('div', {on: {click: [clicked, 1]}}, [
           h('a', 'Click my parent'),
         ]);
         var elm = createElm(vnode);
@@ -453,10 +463,10 @@ describe('snabbdom', function() {
       it('handles changed value in array', function() {
         var result = [];
         function clicked(ev) { result.push(ev); }
-        var vnode1 = h('div', {onclick: [clicked, 1]}, [
+        var vnode1 = h('div', {on: {click: [clicked, 1]}}, [
           h('a', 'Click my parent'),
         ]);
-        var vnode2 = h('div', {onclick: [clicked, 2]}, [
+        var vnode2 = h('div', {on: {click: [clicked, 2]}}, [
           h('a', 'Click my parent'),
         ]);
         var elm = createElm(vnode1);
@@ -502,7 +512,6 @@ describe('snabbdom', function() {
           ]),
           h('span', 'Can touch me'),
         ]);
-        //var elm = createElm(vnode1);
         patch(vnode0, vnode1);
         assert.equal(1, result.length);
       });
