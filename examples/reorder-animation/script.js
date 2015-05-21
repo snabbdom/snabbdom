@@ -1,10 +1,5 @@
-//var R = require('ramda');
-//var flyd = require('flyd');
-//var stream = flyd.stream;
-//var scanMerge = require('flyd-scanmerge');
-
 var snabbdom = require('../../snabbdom.js');
-snabbdom.init([
+var patch = snabbdom.init([
   require('../../modules/class'),
   require('../../modules/props'),
   require('../../modules/style'),
@@ -45,7 +40,7 @@ var data = [
 
 function changeSort(prop) {
   sortBy = prop;
-  data.sort(function(a, b) {
+  data.sort((a, b) => {
     if (a[prop] > b[prop]) {
       return 1;
     }
@@ -65,7 +60,7 @@ function add() {
 }
 
 function remove(movie) {
-  data = data.filter(function(m) { return m !== movie; });
+  data = data.filter((m) => { return m !== movie; });
   render();
 }
 
@@ -73,15 +68,9 @@ function movieView(movie) {
   return h('div.row', {
     key: movie.rank,
     style: {opacity: '0', transform: 'translate(-200px)',
-            'a-transform': 'translateY(' + movie.offset + 'px)', 'a-opacity': '1'},
-    oninsert: function(vnode) {
-      movie.elmHeight = vnode.elm.offsetHeight;
-    },
-    onremove: function(vnode, rm) {
-      vnode.elm.style.transform = vnode.elm.style.transform + ' translateX(200px)';
-      vnode.elm.style.opacity = '0';
-      setTimeout(rm, 500);
-    },
+            'd-transform': `translateY(${movie.offset}px)`, 'd-opacity': '1',
+            remove: {opacity: '0', transform: `translateY(${movie.offset}px) translateX(200px)`}},
+    hook: {insert: (vnode) => { movie.elmHeight = vnode.elm.offsetHeight; }},
   }, [
     h('div', {style: {fontWeight: 'bold'}}, movie.rank),
     h('div', movie.title),
@@ -91,13 +80,13 @@ function movieView(movie) {
 }
 
 function render() {
-  data = data.reduce(function(acc, m) {
+  data = data.reduce((acc, m) => {
     var last = acc[acc.length - 1];
     m.offset = last ? last.offset + last.elmHeight + margin : margin;
     return acc.concat(m);
   }, []);
   totalHeight = data[data.length - 1].offset + data[data.length - 1].elmHeight;
-  vnode = snabbdom.patch(vnode, view(data));
+  vnode = patch(vnode, view(data));
 }
 
 function view(data) {
@@ -116,8 +105,8 @@ function view(data) {
   ]);
 }
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', () => {
   var container = document.getElementById('container');
-  vnode = snabbdom.patch(snabbdom.emptyNodeAt(container), view(data));
+  vnode = patch(snabbdom.emptyNodeAt(container), view(data));
   render();
 });
