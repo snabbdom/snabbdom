@@ -452,7 +452,7 @@ describe('snabbdom', function() {
         assert.deepEqual(result, [1, 2]);
       });
     });
-    describe('custom events', function() {
+    describe('lifecycle hooks', function() {
       it('calls `create` listener before inserted into parent but after children', function() {
         var result = [];
         function cb(vnode) {
@@ -463,7 +463,7 @@ describe('snabbdom', function() {
         }
         var vnode1 = h('div', [
           h('span', 'First sibling'),
-          h('div', {oncreate: cb}, [
+          h('div', {hook: {create: cb}}, [
             h('span', 'Child 1'),
             h('span', 'Child 2'),
           ]),
@@ -482,7 +482,7 @@ describe('snabbdom', function() {
         }
         var vnode1 = h('div', [
           h('span', 'First sibling'),
-          h('div', {oninsert: cb}, [
+          h('div', {hook: {insert: cb}}, [
             h('span', 'Child 1'),
             h('span', 'Child 2'),
           ]),
@@ -504,7 +504,7 @@ describe('snabbdom', function() {
         }
         var vnode1 = h('div', [
           h('span', 'First sibling'),
-          h('div', {onremove: cb}, [
+          h('div', {hook: {remove: cb}}, [
             h('span', 'Child 1'),
             h('span', 'Child 2'),
           ]),

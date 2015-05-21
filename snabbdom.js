@@ -58,8 +58,11 @@ function init(modules) {
         elm.appendChild(document.createTextNode(vnode.text));
       }
       for (i = 0; i < createCbs.length; ++i) createCbs[i](emptyNode, vnode);
-      if (vnode.data.oncreate) vnode.data.oncreate(vnode);
-      if (vnode.data.oninsert) insertedVnodeQueue.push(vnode);
+      i = vnode.data.hook; // Reuse variable
+      if (!isUndef(i)) {
+        if (i.create) i.create(vnode);
+        if (i.insert) insertedVnodeQueue.push(vnode);
+      }
     } else {
       elm = vnode.elm = document.createTextNode(vnode.text);
     }
@@ -83,8 +86,8 @@ function init(modules) {
     for (; startIdx <= endIdx; ++startIdx) {
       var ch = vnodes[startIdx];
       if (!isUndef(ch)) {
-        if (ch.data.onremove) {
-          ch.data.onremove(ch, parentElm.removeChild.bind(parentElm, ch.elm));
+        if (ch.data.hook && ch.data.hook.remove) {
+          ch.data.hook.remove(ch, parentElm.removeChild.bind(parentElm, ch.elm));
         } else {
           parentElm.removeChild(ch.elm);
         }
@@ -168,7 +171,7 @@ function init(modules) {
     insertedVnodeQueue = [];
     patchVnode(oldVnode, vnode);
     for (var i = 0; i < insertedVnodeQueue.length; ++i) {
-      insertedVnodeQueue[i].data.oninsert(insertedVnodeQueue[i]);
+      insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);
     }
     insertedVnodeQueue = undefined;
     return vnode;
