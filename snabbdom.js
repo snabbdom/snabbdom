@@ -29,13 +29,21 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
   return map;
 }
 
+function createRmCb(parentElm, childElm, listeners) {
+  return function() {
+    if (--listeners === 0) parentElm.removeChild(childElm);
+  };
+}
+
 function init(modules) {
   var createCbs = [];
   var updateCbs = [];
+  var removeCbs = [];
 
   modules.forEach(function(module) {
     if (module.create) createCbs.push(module.create);
-    if (module.update) updateCbs.push(module.create);
+    if (module.update) updateCbs.push(module.update);
+    if (module.remove) removeCbs.push(module.remove);
   });
 
   function createElm(vnode) {
@@ -86,12 +94,14 @@ function init(modules) {
     for (; startIdx <= endIdx; ++startIdx) {
       var ch = vnodes[startIdx];
       if (!isUndef(ch)) {
+        var listeners = removeCbs.length + 1;
+        var rm = createRmCb(parentElm, ch.elm, listeners);
+        for (var i = 0; i < removeCbs.length; ++i) removeCbs[i](ch, rm);
         if (ch.data.hook && ch.data.hook.remove) {
-          ch.data.hook.remove(ch, parentElm.removeChild.bind(parentElm, ch.elm));
+          ch.data.hook.remove(ch, rm);
         } else {
-          parentElm.removeChild(ch.elm);
+          rm();
         }
-        ch.elm = undefined;
       }
     }
   }
