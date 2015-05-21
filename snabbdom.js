@@ -39,11 +39,15 @@ function init(modules) {
   var createCbs = [];
   var updateCbs = [];
   var removeCbs = [];
+  var preCbs = [];
+  var postCbs = [];
 
   modules.forEach(function(module) {
     if (module.create) createCbs.push(module.create);
     if (module.update) updateCbs.push(module.update);
     if (module.remove) removeCbs.push(module.remove);
+    if (module.pre) preCbs.push(module.pre);
+    if (module.post) postCbs.push(module.post);
   });
 
   function createElm(vnode) {
@@ -178,12 +182,15 @@ function init(modules) {
   }
 
   return function(oldVnode, vnode) {
+    var i;
     insertedVnodeQueue = [];
+    for (i = 0; i < preCbs.length; ++i) preCbs[i]();
     patchVnode(oldVnode, vnode);
-    for (var i = 0; i < insertedVnodeQueue.length; ++i) {
+    for (i = 0; i < insertedVnodeQueue.length; ++i) {
       insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);
     }
     insertedVnodeQueue = undefined;
+    for (i = 0; i < postCbs.length; ++i) postCbs[i]();
     return vnode;
   };
 }

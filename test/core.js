@@ -515,6 +515,16 @@ describe('snabbdom', function() {
         rm2();
         assert.equal(elm.children.length, 0);
       });
+      it('invokes `pre` and `post` hook', function() {
+        var result = [];
+        var patch = snabbdom.init([
+            {pre: function() { result.push('pre'); }},
+            {post: function() { result.push('post'); }},
+        ]);
+        var vnode1 = h('div');
+        patch(vnode0, vnode1);
+        assert.deepEqual(result, ['pre', 'post']);
+      });
     });
   });
 });
