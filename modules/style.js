@@ -11,7 +11,7 @@ function updateStyle(oldVnode, vnode) {
       style = vnode.data.style || {};
   for (name in style) {
     cur = style[name];
-    if ((name[0] !== 'r' || name[0] !== '-') &&
+    if (name !== 'remove' &&
         cur !== oldStyle[name]) {
       if (name[0] === 'd' && name[1] === '-') {
         setNextFrame(elm.style, name.slice(2), cur);
@@ -23,16 +23,14 @@ function updateStyle(oldVnode, vnode) {
 }
 
 function applyRemoveStyle(vnode, rm) {
+  var s = vnode.data.style;
+  if (!s || !s.remove) return;
   var cur, name, elm = vnode.elm, idx, i = 0, maxDur = 0,
-      compStyle, style = vnode.data.style || {};
+      compStyle, style = s.remove;
   var applied = [];
   for (name in style) {
-    cur = style[name];
-    if (name[0] === 'r' && name[1] === '-') {
-      name = name.slice(2);
-      applied.push(name);
-      setNextFrame(elm.style, name, cur);
-    }
+    applied.push(name);
+    elm.style[name] = style[name];
   }
   if (applied.length > 0) {
     compStyle = getComputedStyle(elm);
