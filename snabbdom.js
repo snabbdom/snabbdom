@@ -39,6 +39,7 @@ function init(modules) {
   var createCbs = [];
   var updateCbs = [];
   var removeCbs = [];
+  var destroyCbs = [];
   var preCbs = [];
   var postCbs = [];
 
@@ -46,6 +47,7 @@ function init(modules) {
     if (module.create) createCbs.push(module.create);
     if (module.update) updateCbs.push(module.update);
     if (module.remove) removeCbs.push(module.remove);
+    if (module.destroy) destroyCbs.push(module.destroy);
     if (module.pre) preCbs.push(module.pre);
     if (module.post) postCbs.push(module.post);
   });
@@ -94,13 +96,24 @@ function init(modules) {
     }
   }
 
+  function invokeDestroyHook(vnode) {
+    var i, j;
+    for (i = 0; i < destroyCbs.length; ++i) destroyCbs[i](vnode);
+    if (!isUndef(vnode.children)) {
+      for (j = 0; j < vnode.children.length; ++j) {
+        invokeDestroyHook(vnode.children[j]);
+      }
+    }
+  }
+
   function removeVnodes(parentElm, vnodes, startIdx, endIdx) {
     for (; startIdx <= endIdx; ++startIdx) {
-      var ch = vnodes[startIdx];
+      var i, listeners, rm, ch = vnodes[startIdx];
       if (!isUndef(ch)) {
-        var listeners = removeCbs.length + 1;
-        var rm = createRmCb(parentElm, ch.elm, listeners);
-        for (var i = 0; i < removeCbs.length; ++i) removeCbs[i](ch, rm);
+        listeners = removeCbs.length + 1;
+        rm = createRmCb(parentElm, ch.elm, listeners);
+        for (i = 0; i < removeCbs.length; ++i) removeCbs[i](ch, rm);
+        invokeDestroyHook(ch);
         if (ch.data.hook && ch.data.hook.remove) {
           ch.data.hook.remove(ch, rm);
         } else {
