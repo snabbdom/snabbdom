@@ -22,29 +22,36 @@ function updateStyle(oldVnode, vnode) {
   }
 }
 
+function applyDestroyStyle(vnode) {
+  var style, name, elm = vnode.elm, s = vnode.data.style;
+  if (!s || !(style = s.destroy)) return;
+  for (name in style) {
+    elm.style[name] = style[name];
+  }
+}
+
 function applyRemoveStyle(vnode, rm) {
   var s = vnode.data.style;
-  if (!s || !s.remove) return;
-  var cur, name, elm = vnode.elm, idx, i = 0, maxDur = 0,
-      compStyle, style = s.remove;
+  if (!s || !s.remove) {
+    rm();
+    return;
+  }
+  var name, elm = vnode.elm, idx, i = 0, maxDur = 0,
+      compStyle, style = s.remove, amount = 0;
   var applied = [];
   for (name in style) {
     applied.push(name);
     elm.style[name] = style[name];
   }
-  if (applied.length > 0) {
-    compStyle = getComputedStyle(elm);
-    var dels = compStyle['transition-delay'].split(', ');
-    var durs = compStyle['transition-duration'].split(', ');
-    var props = compStyle['transition-property'].split(', ');
-    for (; i < applied.length; ++i) {
-      idx = props.indexOf(applied[i]);
-      if (idx !== -1) maxDur = Math.max(maxDur, parseFloat(dels[idx]) + parseFloat(durs[idx]));
-    }
-    setTimeout(rm, maxDur * 1000); // s to ms
-  } else {
-    rm();
+  compStyle = getComputedStyle(elm);
+  var props = compStyle['transition-property'].split(', ');
+  for (; i < props.length; ++i) {
+    if(applied.indexOf(props[i]) !== -1) amount++;
   }
+  elm.addEventListener('transitionend', function(ev) {
+    if (ev.target === elm) --amount;
+    if (amount === 0) rm();
+  });
 }
 
-module.exports = {create: updateStyle, update: updateStyle, remove: applyRemoveStyle};
+module.exports = {create: updateStyle, update: updateStyle, destroy: applyDestroyStyle, remove: applyRemoveStyle};
