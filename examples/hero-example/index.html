@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hero animation</title>
+    <script type="text/javascript" src="build.js"></script>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: #aaaaaa;
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      #container {
+        width: 28em;
+        max-width: 100%;
+        height: 40em;
+        max-height: 100%;
+        background: #fff;
+        box-shadow: 0 0 1em rgba(0, 0, 0, .5);
+        position: relative;
+        overflow: hidden;
+      }
+      .page {
+        transition: opacity 0.4s ease-in-out,
+                    transform 0.4s ease-in-out;
+        width: 100%;
+      }
+      h2 {
+        font-size: 1.1em;
+        margin: .2em 0;
+      }
+      .header {
+        height: 3.5em;
+        background: #1293ea;
+      }
+      .header-content {
+        width: 100%;
+        box-sizing: border-box;
+        padding: .4em .8em;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        transition: opacity 0.4s ease-in-out,
+                    transform 0.4s ease-in-out;
+      }
+      .header h1 {
+        font-weight: normal;
+        margin: 0;
+        font-size: 1.5em;
+        line-height: 1.8em;
+      }
+      .header-title {
+        color: #fff;
+        font-size: 1.5em;
+        line-height: 1.8em;
+        transition: transform 0.4s ease-in-out;
+      }
+      .header .rank {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 2.7em;
+        height: 2.7em;
+        margin-right: .5em;
+        position: relative;
+      }
+      .header .rank-circle {
+        position: absolute;
+        background: #fff;
+        width: 2.7em;
+        height: 2.7em;
+        border-radius: 1.35em;
+        margin-right: .5em;
+        transition: transform 0.4s ease-in-out;
+        top: 0;
+        left: 0;
+      }
+      .header-rank {
+        z-index: 2;
+        color: #1293ea;
+        font-size: 1.5em;
+      }
+      .header .close {
+        line-height: 1.8em;
+        cursor: pointer;
+        text-align: center;
+        width: 1.8em;
+        height: 1.8em;
+        border-radius: .9em;
+        background: rgba(0, 0, 0, .5);
+        transition: transform 0.4s ease-in-out;
+      }
+      .hero {
+        transition: transform 0.4s ease-in-out,
+                    opacity 0.4s ease-in-out;
+      }
+      .page-content {
+        position: relative;
+      }
+      .list {
+        transition: transform 0.4s ease-in-out,
+                    opacity 0.4s ease-in-out;
+      }
+      .desc {
+        transition: transform 0.4s ease-in-out,
+                    opacity 0.4s ease-in-out;
+        padding: 1em;
+      }
+      .spacer {
+        flex: 1;
+      }
+      .row {
+        cursor: pointer;
+        box-sizing: border-box;
+        padding: 1em;
+      }
+      .row:not(:first-child) {
+        border-top: 1px solid #eeeeee;
+      }
+      .row div {
+        display: inline-block;
+      }
+      .row > div:nth-child(1) {
+        text-align: center;
+        margin-right: 1em;
+        width: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+  </body>
+</html>
