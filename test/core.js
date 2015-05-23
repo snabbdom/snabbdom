@@ -526,6 +526,20 @@ describe('snabbdom', function() {
         assert.deepEqual(result, ['pre', 'post']);
       });
       it('invokes `destroy` hook for all removed children', function() {
+        var result = [];
+        function cb(vnode) { result.push(vnode); }
+        var vnode1 = h('div', [
+          h('span', 'First sibling'),
+          h('div', [
+            h('span', {hook: {destroy: cb}}, 'Child 1'),
+            h('span', 'Child 2'),
+          ]),
+        ]);
+        patch(vnode0, vnode1);
+        patch(vnode1, vnode0);
+        assert.equal(result.length, 1);
+      });
+      it('invokes `destroy` module hook for all removed children', function() {
         var created = 0;
         var destroyed = 0;
         var patch = snabbdom.init([

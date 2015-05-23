@@ -97,7 +97,8 @@ function init(modules) {
   }
 
   function invokeDestroyHook(vnode) {
-    var i, j;
+    var i = vnode.data.hook, j;
+    if (!isUndef(i) && !isUndef(j = i.destroy)) j(vnode);
     for (i = 0; i < destroyCbs.length; ++i) destroyCbs[i](vnode);
     if (!isUndef(vnode.children)) {
       for (j = 0; j < vnode.children.length; ++j) {
