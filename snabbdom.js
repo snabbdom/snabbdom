@@ -178,12 +178,18 @@ function init(modules) {
 
   function patchVnode(oldVnode, vnode) {
     var i, elm = vnode.elm = oldVnode.elm, oldCh = oldVnode.children, ch = vnode.children;
+    if (!isUndef(i = vnode.data) && !isUndef(i = i.hook) && !isUndef(i = i.patch)) {
+      i(oldVnode, vnode);
+    }
+    if (oldVnode === vnode) return;
     if (!isUndef(vnode.data)) {
       for (i = 0; i < updateCbs.length; ++i) updateCbs[i](oldVnode, vnode);
+      i = vnode.data.hook;
+      if (!isUndef(i) && !isUndef(i = i.update)) i(vnode);
     }
     if (isUndef(vnode.text)) {
       if (!isUndef(oldCh) && !isUndef(ch)) {
-        updateChildren(elm, oldCh, ch);
+        if (oldCh !== ch) updateChildren(elm, oldCh, ch);
       } else if (!isUndef(ch)) {
         addVnodes(elm, undefined, ch, 0, ch.length - 1);
       } else if (!isUndef(oldCh)) {

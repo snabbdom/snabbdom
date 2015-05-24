@@ -382,58 +382,60 @@ describe('snabbdom', function() {
         assert.deepEqual(map(inner, elm.children), ['Three', 'One', 'Two']);
       });
     });
-    describe('event handling', function() {
-      it('attaches click event handler to element', function() {
-        var result = [];
-        function clicked(ev) { result.push(ev); }
-        var vnode = h('div', {on: {click: clicked}}, [
-          h('a', 'Click my parent'),
-        ]);
-        patch(vnode0, vnode);
-        elm.click();
-        assert.equal(1, result.length);
-      });
-      it('does not attach new listener', function() {
-        var result = [];
-        //function clicked(ev) { result.push(ev); }
-        var vnode1 = h('div', {on: {click: function(ev) { result.push(ev); }}}, [
-          h('a', 'Click my parent'),
-        ]);
-        var vnode2 = h('div', {on: {click: function(ev) { result.push(ev); }}}, [
-          h('a', 'Click my parent'),
-        ]);
-        patch(vnode0, vnode1);
-        patch(vnode1, vnode2);
-        elm.click();
-        assert.equal(1, result.length);
-      });
-      it('does calls handler for function in array', function() {
-        var result = [];
-        function clicked(ev) { result.push(ev); }
-        var vnode = h('div', {on: {click: [clicked, 1]}}, [
-          h('a', 'Click my parent'),
-        ]);
-        patch(vnode0, vnode);
-        elm.click();
-        assert.deepEqual(result, [1]);
-      });
-      it('handles changed value in array', function() {
-        var result = [];
-        function clicked(ev) { result.push(ev); }
-        var vnode1 = h('div', {on: {click: [clicked, 1]}}, [
-          h('a', 'Click my parent'),
-        ]);
-        var vnode2 = h('div', {on: {click: [clicked, 2]}}, [
-          h('a', 'Click my parent'),
-        ]);
-        patch(vnode0, vnode1);
-        elm.click();
-        patch(vnode1, vnode2);
-        elm.click();
-        assert.deepEqual(result, [1, 2]);
-      });
+  });
+  describe('event handling', function() {
+    it('attaches click event handler to element', function() {
+      var result = [];
+      function clicked(ev) { result.push(ev); }
+      var vnode = h('div', {on: {click: clicked}}, [
+        h('a', 'Click my parent'),
+      ]);
+      patch(vnode0, vnode);
+      elm.click();
+      assert.equal(1, result.length);
     });
-    describe('lifecycle vnode hooks', function() {
+    it('does not attach new listener', function() {
+      var result = [];
+      //function clicked(ev) { result.push(ev); }
+      var vnode1 = h('div', {on: {click: function(ev) { result.push(ev); }}}, [
+        h('a', 'Click my parent'),
+      ]);
+      var vnode2 = h('div', {on: {click: function(ev) { result.push(ev); }}}, [
+        h('a', 'Click my parent'),
+      ]);
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+      elm.click();
+      assert.equal(1, result.length);
+    });
+    it('does calls handler for function in array', function() {
+      var result = [];
+      function clicked(ev) { result.push(ev); }
+      var vnode = h('div', {on: {click: [clicked, 1]}}, [
+        h('a', 'Click my parent'),
+      ]);
+      patch(vnode0, vnode);
+      elm.click();
+      assert.deepEqual(result, [1]);
+    });
+    it('handles changed value in array', function() {
+      var result = [];
+      function clicked(ev) { result.push(ev); }
+      var vnode1 = h('div', {on: {click: [clicked, 1]}}, [
+        h('a', 'Click my parent'),
+      ]);
+      var vnode2 = h('div', {on: {click: [clicked, 2]}}, [
+        h('a', 'Click my parent'),
+      ]);
+      patch(vnode0, vnode1);
+      elm.click();
+      patch(vnode1, vnode2);
+      elm.click();
+      assert.deepEqual(result, [1, 2]);
+    });
+  });
+  describe('hooks', function() {
+    describe('element hooks', function() {
       it('calls `create` listener before inserted into parent but after children', function() {
         var result = [];
         function cb(vnode) {
@@ -471,6 +473,54 @@ describe('snabbdom', function() {
         ]);
         patch(vnode0, vnode1);
         assert.equal(1, result.length);
+      });
+      it('calls `patch` listener', function() {
+        var result = [];
+        function cb(oldVnode, vnode) {
+          assert.strictEqual(oldVnode, vnode1.children[1]);
+          assert.strictEqual(vnode, vnode2.children[1]);
+          result.push(vnode);
+        }
+        var vnode1 = h('div', [
+          h('span', 'First sibling'),
+          h('div', {hook: {patch: cb}}, [
+            h('span', 'Child 1'),
+            h('span', 'Child 2'),
+          ]),
+        ]);
+        var vnode2 = h('div', [
+          h('span', 'First sibling'),
+          h('div', {hook: {patch: cb}}, [
+            h('span', 'Child 1'),
+            h('span', 'Child 2'),
+          ]),
+        ]);
+        patch(vnode0, vnode1);
+        patch(vnode1, vnode2);
+        assert.equal(result.length, 1);
+      });
+      it('calls `update` listener', function() {
+        var result = [];
+        function cb(vnode, rm) {
+          result.push(vnode);
+        }
+        var vnode1 = h('div', [
+          h('span', 'First sibling'),
+          h('div', {hook: {update: cb}}, [
+            h('span', 'Child 1'),
+            h('span', {hook: {update: cb}}, 'Child 2'),
+          ]),
+        ]);
+        var vnode2 = h('div', [
+          h('span', 'First sibling'),
+          h('div', {hook: {update: cb}}, [
+            h('span', 'Child 1'),
+            h('span', {hook: {update: cb}}, 'Child 2'),
+          ]),
+        ]);
+        patch(vnode0, vnode1);
+        patch(vnode1, vnode2);
+        assert.equal(result.length, 2);
       });
       it('calls `remove` listener', function() {
         var result = [];
@@ -515,6 +565,8 @@ describe('snabbdom', function() {
         rm2();
         assert.equal(elm.children.length, 0);
       });
+    });
+    describe('module hooks', function() {
       it('invokes `pre` and `post` hook', function() {
         var result = [];
         var patch = snabbdom.init([
@@ -558,6 +610,32 @@ describe('snabbdom', function() {
         assert.equal(created, 4);
         assert.equal(destroyed, 4);
       });
+    });
+  });
+  describe('short circuiting', function() {
+    it('does not update strictly equal vnodes', function() {
+      var result = [];
+      function cb(vnode) { result.push(vnode); }
+      var vnode1 = h('div', [
+        h('span', {hook: {update: cb}}, 'Hello'),
+        h('span', 'there'),
+      ]);
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode1);
+      assert.equal(result.length, 0);
+    });
+    it('does not update strictly equal children', function() {
+      var result = [];
+      function cb(vnode) { result.push(vnode); }
+      var vnode1 = h('div', [
+        h('span', {hook: {patch: cb}}, 'Hello'),
+        h('span', 'there'),
+      ]);
+      var vnode2 = h('div');
+      vnode2.children = vnode1.children;
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+      assert.equal(result.length, 0);
     });
   });
 });
