@@ -53,7 +53,11 @@ function init(modules) {
   });
 
   function createElm(vnode) {
-    var i, elm, children = vnode.children, sel = vnode.sel;
+    var i;
+    if (!isUndef(i = vnode.data) && !isUndef(i = i.hook) && !isUndef(i = i.init)) {
+      vnode = i(vnode);
+    }
+    var elm, children = vnode.children, sel = vnode.sel;
     if (!isUndef(sel)) {
       // Parse selector
       var hashIdx = sel.indexOf('#');
@@ -177,10 +181,13 @@ function init(modules) {
   }
 
   function patchVnode(oldVnode, vnode) {
-    var i, elm = vnode.elm = oldVnode.elm, oldCh = oldVnode.children, ch = vnode.children;
+    var i;
     if (!isUndef(i = vnode.data) && !isUndef(i = i.hook) && !isUndef(i = i.patch)) {
-      i(oldVnode, vnode);
+      i = i(oldVnode, vnode);
+      oldVnode = i[0];
+      vnode = i[1];
     }
+    var elm = vnode.elm = oldVnode.elm, oldCh = oldVnode.children, ch = vnode.children;
     if (oldVnode === vnode) return;
     if (!isUndef(vnode.data)) {
       for (i = 0; i < updateCbs.length; ++i) updateCbs[i](oldVnode, vnode);
