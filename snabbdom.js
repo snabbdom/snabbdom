@@ -36,13 +36,13 @@ function createRmCb(parentElm, childElm, listeners) {
 var hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
 function init(modules) {
-  var cbs = {};
-  hooks.forEach(function(hook) {
-    cbs[hook] = [];
-    modules.forEach(function(module) {
-      if (module[hook] !== undefined) cbs[hook].push(module[hook]);
-    });
-  });
+  var i, j, cbs = {};
+  for (i = 0; i < hooks.length; ++i) {
+    cbs[hooks[i]] = [];
+    for (j = 0; j < modules.length; ++j) {
+      if (modules[j][hooks[i]] !== undefined) cbs[hooks[i]].push(modules[j][hooks[i]]);
+    }
+  }
 
   function createElm(vnode) {
     var i;
