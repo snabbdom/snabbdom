@@ -10,7 +10,7 @@ describe('style', function() {
   var elm, vnode0;
   beforeEach(function() {
     elm = document.createElement('div');
-    vnode0 = snabbdom.emptyNodeAt(elm);
+    vnode0 = elm;
   });
   it('is being styled', function() {
     patch(vnode0, h('div', {style: {fontSize: '12px'}}));

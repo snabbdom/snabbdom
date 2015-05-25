@@ -204,6 +204,9 @@ function init(modules) {
   return function(oldVnode, vnode) {
     var i;
     insertedVnodeQueue = [];
+    if (oldVnode instanceof Element) {
+      oldVnode = emptyNodeAt(oldVnode);
+    }
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
     patchVnode(oldVnode, vnode);
     for (i = 0; i < insertedVnodeQueue.length; ++i) {
@@ -215,4 +218,4 @@ function init(modules) {
   };
 }
 
-module.exports = {init: init, emptyNodeAt: emptyNodeAt};
+module.exports = {init: init};

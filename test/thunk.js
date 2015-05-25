@@ -10,7 +10,7 @@ describe('thunk', function() {
   var elm, vnode0;
   beforeEach(function() {
     elm = document.createElement('div');
-    vnode0 = snabbdom.emptyNodeAt(elm);
+    vnode0 = elm;
   });
   it('returns vnode with data and render function', function() {
     function numberInSpan(n) {

@@ -107,6 +107,6 @@ function view(data) {
 
 window.addEventListener('DOMContentLoaded', () => {
   var container = document.getElementById('container');
-  vnode = patch(snabbdom.emptyNodeAt(container), view(data));
+  vnode = patch(container, view(data));
   render();
 });

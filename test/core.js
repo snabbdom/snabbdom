@@ -29,7 +29,7 @@ describe('snabbdom', function() {
   var elm, vnode0;
   beforeEach(function() {
     elm = document.createElement('div');
-    vnode0 = snabbdom.emptyNodeAt(elm);
+    vnode0 = elm;
   });
   describe('hyperscript', function() {
     it('can create vnode with proper tag', function() {
@@ -53,9 +53,6 @@ describe('snabbdom', function() {
     it('can create vnode with props and text content in string', function() {
       var vnode = h('a', {}, 'I am a string');
       assert.equal(vnode.text, 'I am a string');
-    });
-    it('can create empty vnode at element', function() {
-      assert.equal(vnode0.elm, elm);
     });
   });
   describe('created element', function() {
@@ -314,7 +311,7 @@ describe('snabbdom', function() {
           }));
           var shufArr = shuffle(arr.slice(0));
           var elm = document.createElement('div');
-          patch(snabbdom.emptyNodeAt(elm), vnode1);
+          patch(elm, vnode1);
           for (i = 0; i < elms; ++i) {
             assert.equal(elm.children[i].innerHTML, i.toString());
             opacities[i] = Math.random().toFixed(5).toString();
