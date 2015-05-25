@@ -12,8 +12,6 @@ function emptyNodeAt(elm) {
 
 var emptyNode = VNode('', {}, [], undefined, undefined);
 
-var frag = document.createDocumentFragment();
-
 var insertedVnodeQueue;
 
 function sameVnode(vnode1, vnode2) {
@@ -35,21 +33,15 @@ function createRmCb(parentElm, childElm, listeners) {
   };
 }
 
-function init(modules) {
-  var createCbs = [];
-  var updateCbs = [];
-  var removeCbs = [];
-  var destroyCbs = [];
-  var preCbs = [];
-  var postCbs = [];
+var hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
-  modules.forEach(function(module) {
-    if (module.create) createCbs.push(module.create);
-    if (module.update) updateCbs.push(module.update);
-    if (module.remove) removeCbs.push(module.remove);
-    if (module.destroy) destroyCbs.push(module.destroy);
-    if (module.pre) preCbs.push(module.pre);
-    if (module.post) postCbs.push(module.post);
+function init(modules) {
+  var cbs = {};
+  hooks.forEach(function(hook) {
+    cbs[hook] = [];
+    modules.forEach(function(module) {
+      if (module[hook] !== undefined) cbs[hook].push(module[hook]);
+    });
   });
 
   function createElm(vnode) {
@@ -76,7 +68,7 @@ function init(modules) {
       } else if (is.primitive(vnode.text)) {
         elm.appendChild(document.createTextNode(vnode.text));
       }
-      for (i = 0; i < createCbs.length; ++i) createCbs[i](emptyNode, vnode);
+      for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
       i = vnode.data.hook; // Reuse variable
       if (!isUndef(i)) {
         if (i.create) i.create(vnode);
@@ -104,7 +96,7 @@ function init(modules) {
   function invokeDestroyHook(vnode) {
     var i = vnode.data.hook, j;
     if (!isUndef(i) && !isUndef(j = i.destroy)) j(vnode);
-    for (i = 0; i < destroyCbs.length; ++i) destroyCbs[i](vnode);
+    for (i = 0; i < cbs.destroy.length; ++i) cbs.destroy[i](vnode);
     if (!isUndef(vnode.children)) {
       for (j = 0; j < vnode.children.length; ++j) {
         invokeDestroyHook(vnode.children[j]);
@@ -116,9 +108,9 @@ function init(modules) {
     for (; startIdx <= endIdx; ++startIdx) {
       var i, listeners, rm, ch = vnodes[startIdx];
       if (!isUndef(ch)) {
-        listeners = removeCbs.length + 1;
+        listeners = cbs.remove.length + 1;
         rm = createRmCb(parentElm, ch.elm, listeners);
-        for (i = 0; i < removeCbs.length; ++i) removeCbs[i](ch, rm);
+        for (i = 0; i < cbs.remove.length; ++i) cbs.remove[i](ch, rm);
         invokeDestroyHook(ch);
         if (ch.data.hook && ch.data.hook.remove) {
           ch.data.hook.remove(ch, rm);
@@ -191,7 +183,7 @@ function init(modules) {
     var elm = vnode.elm = oldVnode.elm, oldCh = oldVnode.children, ch = vnode.children;
     if (oldVnode === vnode) return;
     if (!isUndef(vnode.data)) {
-      for (i = 0; i < updateCbs.length; ++i) updateCbs[i](oldVnode, vnode);
+      for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);
       i = vnode.data.hook;
       if (!isUndef(i) && !isUndef(i = i.update)) i(vnode);
     }
@@ -212,13 +204,13 @@ function init(modules) {
   return function(oldVnode, vnode) {
     var i;
     insertedVnodeQueue = [];
-    for (i = 0; i < preCbs.length; ++i) preCbs[i]();
+    for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
     patchVnode(oldVnode, vnode);
     for (i = 0; i < insertedVnodeQueue.length; ++i) {
       insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);
     }
     insertedVnodeQueue = undefined;
-    for (i = 0; i < postCbs.length; ++i) postCbs[i]();
+    for (i = 0; i < cbs.post.length; ++i) cbs.post[i]();
     return vnode;
   };
 }
