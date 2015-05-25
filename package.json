@@ -1,0 +1,35 @@
+{
+  "name": "snabbdom",
+  "version": "0.1.0",
+  "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
+  "main": "snabbdom.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "knuth-shuffle": "^1.0.1",
+    "benchmark": "^1.0.0"
+  },
+  "scripts": {
+    "test": "testem"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paldepind/snabbdom.git"
+  },
+  "keywords": [
+    "virtual",
+    "dom",
+    "light",
+    "kiss",
+    "performance"
+  ],
+  "author": "Simon Friis Vindum",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/paldepind/snabbdom/issues"
+  },
+  "homepage": "https://github.com/paldepind/snabbdom#readme"
+}
