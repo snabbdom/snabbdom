@@ -55,8 +55,9 @@ function init(modules) {
   function createElm(vnode) {
     var i;
     if (!isUndef(i = vnode.data) && !isUndef(i = i.hook) && !isUndef(i = i.init)) {
-      vnode = i(vnode);
+      i(vnode);
     }
+    if (!isUndef(i = vnode.data) && !isUndef(i = i.vnode)) vnode = i;
     var elm, children = vnode.children, sel = vnode.sel;
     if (!isUndef(sel)) {
       // Parse selector
@@ -184,9 +185,9 @@ function init(modules) {
     var i;
     if (!isUndef(i = vnode.data) && !isUndef(i = i.hook) && !isUndef(i = i.patch)) {
       i = i(oldVnode, vnode);
-      oldVnode = i[0];
-      vnode = i[1];
     }
+    if (!isUndef(i = oldVnode.data) && !isUndef(i = i.vnode)) oldVnode = i;
+    if (!isUndef(i = vnode.data) && !isUndef(i = i.vnode)) vnode = i;
     var elm = vnode.elm = oldVnode.elm, oldCh = oldVnode.children, ch = vnode.children;
     if (oldVnode === vnode) return;
     if (!isUndef(vnode.data)) {

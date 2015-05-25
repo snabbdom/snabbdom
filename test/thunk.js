@@ -6,7 +6,7 @@ var patch = snabbdom.init([
 var h = require('../h');
 var thunk = require('../thunk');
 
-describe.only('thunk', function() {
+describe('thunk', function() {
   var elm, vnode0;
   beforeEach(function() {
     elm = document.createElement('div');
@@ -18,7 +18,7 @@ describe.only('thunk', function() {
     }
     var vnode = thunk('num', numberInSpan, 22);
     assert.deepEqual(vnode.sel, 'thunknum');
-    assert.deepEqual(vnode.data.thunk.args, [22]);
+    assert.deepEqual(vnode.data.args, [22]);
   });
   it('only calls render function on data change', function() {
     var called = 0;

@@ -1,23 +1,24 @@
 var h = require('./h');
 
 function init(thunk) {
-  var i, cur = thunk.data.thunk,
-      args = cur.args;
-  return (cur.vnode = cur.fn.apply(undefined, cur.args));
+  var i, cur = thunk.data;
+  cur.vnode = cur.fn.apply(undefined, cur.args);
 }
 
 function patch(oldThunk, thunk) {
-  var i, old = oldThunk.data.thunk,
-      cur = thunk.data.thunk,
-      oldArgs = old.args,
-      args = cur.args;
+  var i, old = oldThunk.data, cur = thunk.data;
+  var oldArgs = old.args, args = cur.args;
   cur.vnode = old.vnode;
+  if (oldArgs.length !== args.length) {
+    cur.vnode = cur.fn.apply(undefined, args);
+    return;
+  }
   for (i = 0; i < args.length; ++i) {
     if (oldArgs[i] !== args[i]) {
       cur.vnode = cur.fn.apply(undefined, args);
+      return;
     }
   }
-  return [old.vnode, cur.vnode];
 }
 
 module.exports = function(name, fn /* args */) {
@@ -27,6 +28,6 @@ module.exports = function(name, fn /* args */) {
   }
   return h('thunk' + name, {
     hook: {init: init, patch: patch},
-    thunk: {fn: fn, args: args},
+    fn: fn, args: args,
   });
 };
