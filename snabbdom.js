@@ -81,15 +81,8 @@ function init(modules) {
   }
 
   function addVnodes(parentElm, before, vnodes, startIdx, endIdx) {
-    if (isUndef(before)) {
-      for (; startIdx <= endIdx; ++startIdx) {
-        parentElm.appendChild(createElm(vnodes[startIdx]));
-      }
-    } else {
-      var elm = before.elm;
-      for (; startIdx <= endIdx; ++startIdx) {
-        parentElm.insertBefore(createElm(vnodes[startIdx]), elm);
-      }
+    for (; startIdx <= endIdx; ++startIdx) {
+      parentElm.insertBefore(createElm(vnodes[startIdx]), before);
     }
   }
 
@@ -129,7 +122,7 @@ function init(modules) {
     var newEndIdx = newCh.length - 1;
     var newStartVnode = newCh[0];
     var newEndVnode = newCh[newEndIdx];
-    var oldKeyToIdx, idxInOld, elmToMove;
+    var oldKeyToIdx, idxInOld, elmToMove, before;
 
     while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
       if (isUndef(oldStartVnode)) {
@@ -169,8 +162,12 @@ function init(modules) {
         }
       }
     }
-    if (oldStartIdx > oldEndIdx) addVnodes(parentElm, oldStartVnode, newCh, newStartIdx, newEndIdx);
-    else if (newStartIdx > newEndIdx) removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
+    if (oldStartIdx > oldEndIdx) {
+      before = isUndef(newCh[newEndIdx+1]) ? null : newCh[newEndIdx+1].elm;
+      addVnodes(parentElm, before, newCh, newStartIdx, newEndIdx);
+    } else if (newStartIdx > newEndIdx) {
+      removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
+    }
   }
 
   function patchVnode(oldVnode, vnode) {
@@ -191,7 +188,7 @@ function init(modules) {
       if (!isUndef(oldCh) && !isUndef(ch)) {
         if (oldCh !== ch) updateChildren(elm, oldCh, ch);
       } else if (!isUndef(ch)) {
-        addVnodes(elm, undefined, ch, 0, ch.length - 1);
+        addVnodes(elm, null, ch, 0, ch.length - 1);
       } else if (!isUndef(oldCh)) {
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
       }
