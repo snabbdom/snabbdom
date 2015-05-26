@@ -424,11 +424,16 @@ describe('snabbdom', function() {
       var vnode2 = h('div', {on: {click: [clicked, 2]}}, [
         h('a', 'Click my parent'),
       ]);
+      var vnode3 = h('div', {on: {click: [clicked, 3]}}, [
+        h('a', 'Click my parent'),
+      ]);
       patch(vnode0, vnode1);
       elm.click();
       patch(vnode1, vnode2);
       elm.click();
-      assert.deepEqual(result, [1, 2]);
+      patch(vnode2, vnode3);
+      elm.click();
+      assert.deepEqual(result, [1, 2, 3]);
     });
   });
   describe('hooks', function() {

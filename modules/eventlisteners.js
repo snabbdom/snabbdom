@@ -16,6 +16,7 @@ function updateEventListeners(oldVnode, vnode) {
     } else if (is.array(old)) {
       old[0] = cur[0]; // Deliberately modify old array since it's
       old[1] = cur[1]; // captured in closure created with `arrInvoker`
+      on[name]  = old;
     }
   }
 }
