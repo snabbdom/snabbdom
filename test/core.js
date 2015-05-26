@@ -112,7 +112,13 @@ describe('snabbdom', function() {
       assert(!elm.classList.contains('horse'));
     });
     describe('updating children with keys', function() {
-      function spanNum(n) { return h('span', {key: n}, n.toString()); }
+      function spanNum(n) {
+        if (typeof n === "string") {
+          return h('span', {}, n);
+        } else {
+          return h('span', {key: n}, n.toString());
+        }
+      }
       describe('addition of elements', function() {
         it('appends elements', function() {
           var vnode1 = h('span', [1].map(spanNum));
@@ -281,6 +287,15 @@ describe('snabbdom', function() {
           assert.equal(elm.children[0].innerHTML, '4');
           assert.equal(elm.children[1].innerHTML, '5');
           assert.equal(elm.children[2].innerHTML, '3');
+        });
+        it("moves a key in non-keyed nodes with a size up", function() {
+          var vnode1 = h('span', [1, 'a', 'b', 'c'].map(spanNum));
+          var vnode2 = h('span', ['d', 'a', 'b', 'c', 1, 'e'].map(spanNum));
+          patch(vnode0, vnode1);
+          assert.equal(elm.childNodes.length, 4);
+          patch(vnode1, vnode2);
+          assert.equal(elm.childNodes.length, 6);
+          assert.equal(elm.textContent, 'dabc1e');
         });
       });
       it('reverses elements', function() {
