@@ -23,19 +23,21 @@ function render() {
 }
 
 var fadeInOutStyle = {
-  opacity: '0', 'd-opacity': '1', remove: { opacity: '0' }
+  opacity: '0', delayed: { opacity: '1' }, remove: { opacity: '0' }
 };
 
 var detailView = function detailView(movie) {
   return h('div.page', { style: fadeInOutStyle }, [h('div.header', [h('div.header-content.detail', {
     style: { opacity: '1', remove: { opacity: '0' } } }, [h('div.rank', [h('span.header-rank.hero', { hero: { id: 'rank' + movie.rank } }, movie.rank), h('div.rank-circle', {
-    style: { transform: 'scale(0)', 'd-transform': 'scale(1)',
+    style: { transform: 'scale(0)',
+      delayed: { transform: 'scale(1)' },
       destroy: { transform: 'scale(0)' } } })]), h('div.hero.header-title', { hero: { id: movie.title } }, movie.title), h('div.spacer'), h('div.close', {
     on: { click: [select, undefined] },
-    style: { transform: 'scale(0)', 'd-transform': 'scale(1)',
+    style: { transform: 'scale(0)',
+      delayed: { transform: 'scale(1)' },
       destroy: { transform: 'scale(0)' } } }, 'x')])]), h('div.page-content', [h('div.desc', {
-    style: { opacity: '0', 'd-opacity': '1',
-      transform: 'translateX(3em)', 'd-transform': 'translate(0)',
+    style: { opacity: '0', transform: 'translateX(3em)',
+      delayed: { opacity: '1', transform: 'translate(0)' },
       remove: { opacity: '0', position: 'absolute', top: '0', left: '0',
         transform: 'translateX(3em)' }
     }
@@ -45,10 +47,11 @@ var detailView = function detailView(movie) {
 var overviewView = function overviewView(movies) {
   return h('div.page', { style: fadeInOutStyle }, [h('div.header', [h('div.header-content.overview', {
     style: fadeInOutStyle }, [h('div.header-title', {
-    style: { transform: 'translateY(-2em)', 'd-transform': 'translate(0)',
+    style: { transform: 'translateY(-2em)',
+      delayed: { transform: 'translate(0)' },
       destroy: { transform: 'translateY(-2em)' } }
   }, 'Top 10 movies'), h('div.spacer')])]), h('div.page-content', [h('div.list', {
-    style: { opacity: '0', 'd-opacity': '1',
+    style: { opacity: '0', delayed: { opacity: '1' },
       remove: { opacity: '0', position: 'absolute', top: '0', left: '0' } }
   }, movies.map(function (movie) {
     return h('div.row', {
@@ -267,15 +270,19 @@ function updateStyle(oldVnode, vnode) {
       name,
       elm = vnode.elm,
       oldStyle = oldVnode.data.style || {},
-      style = vnode.data.style || {};
+      style = vnode.data.style || {},
+      oldHasDel = ('delayed' in oldStyle);
   for (name in style) {
     cur = style[name];
-    if (name !== 'remove' && cur !== oldStyle[name]) {
-      if (name[0] === 'd' && name[1] === '-') {
-        setNextFrame(elm.style, name.slice(2), cur);
-      } else {
-        elm.style[name] = cur;
+    if (name === 'delayed') {
+      for (name in style.delayed) {
+        cur = style.delayed[name];
+        if (!oldHasDel || cur !== oldStyle.delayed[name]) {
+          setNextFrame(elm.style, name, cur);
+        }
       }
+    } else if (name !== 'remove' && cur !== oldStyle[name]) {
+      elm.style[name] = cur;
     }
   }
 }
@@ -366,13 +373,15 @@ function createRmCb(parentElm, childElm, listeners) {
 var hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
 function init(modules) {
-  var cbs = {};
-  hooks.forEach(function (hook) {
-    cbs[hook] = [];
-    modules.forEach(function (module) {
-      if (module[hook] !== undefined) cbs[hook].push(module[hook]);
-    });
-  });
+  var i,
+      j,
+      cbs = {};
+  for (i = 0; i < hooks.length; ++i) {
+    cbs[hooks[i]] = [];
+    for (j = 0; j < modules.length; ++j) {
+      if (modules[j][hooks[i]] !== undefined) cbs[hooks[i]].push(modules[j][hooks[i]]);
+    }
+  }
 
   function createElm(vnode) {
     var i;

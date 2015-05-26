@@ -68,7 +68,7 @@ function movieView(movie) {
   return h('div.row', {
     key: movie.rank,
     style: {opacity: '0', transform: 'translate(-200px)',
-            'd-transform': `translateY(${movie.offset}px)`, 'd-opacity': '1',
+            delayed: {transform: `translateY(${movie.offset}px)`, opacity: '1'},
             remove: {opacity: '0', transform: `translateY(${movie.offset}px) translateX(200px)`}},
     hook: {insert: (vnode) => { movie.elmHeight = vnode.elm.offsetHeight; }},
   }, [

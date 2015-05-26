@@ -46,7 +46,7 @@ function movieView(movie) {
   return h('div.row', {
     key: movie.rank,
     style: { opacity: '0', transform: 'translate(-200px)',
-      'd-transform': 'translateY(' + movie.offset + 'px)', 'd-opacity': '1',
+      delayed: { transform: 'translateY(' + movie.offset + 'px)', opacity: '1' },
       remove: { opacity: '0', transform: 'translateY(' + movie.offset + 'px) translateX(200px)' } },
     hook: { insert: function insert(vnode) {
         movie.elmHeight = vnode.elm.offsetHeight;
@@ -211,15 +211,19 @@ function updateStyle(oldVnode, vnode) {
       name,
       elm = vnode.elm,
       oldStyle = oldVnode.data.style || {},
-      style = vnode.data.style || {};
+      style = vnode.data.style || {},
+      oldHasDel = ('delayed' in oldStyle);
   for (name in style) {
     cur = style[name];
-    if (name !== 'remove' && cur !== oldStyle[name]) {
-      if (name[0] === 'd' && name[1] === '-') {
-        setNextFrame(elm.style, name.slice(2), cur);
-      } else {
-        elm.style[name] = cur;
+    if (name === 'delayed') {
+      for (name in style.delayed) {
+        cur = style.delayed[name];
+        if (!oldHasDel || cur !== oldStyle.delayed[name]) {
+          setNextFrame(elm.style, name, cur);
+        }
       }
+    } else if (name !== 'remove' && cur !== oldStyle[name]) {
+      elm.style[name] = cur;
     }
   }
 }
@@ -310,13 +314,15 @@ function createRmCb(parentElm, childElm, listeners) {
 var hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
 function init(modules) {
-  var cbs = {};
-  hooks.forEach(function (hook) {
-    cbs[hook] = [];
-    modules.forEach(function (module) {
-      if (module[hook] !== undefined) cbs[hook].push(module[hook]);
-    });
-  });
+  var i,
+      j,
+      cbs = {};
+  for (i = 0; i < hooks.length; ++i) {
+    cbs[hooks[i]] = [];
+    for (j = 0; j < modules.length; ++j) {
+      if (modules[j][hooks[i]] !== undefined) cbs[hooks[i]].push(modules[j][hooks[i]]);
+    }
+  }
 
   function createElm(vnode) {
     var i;

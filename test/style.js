@@ -1,6 +1,8 @@
 var assert = require('assert');
+var fakeRaf = require('fake-raf');
 
 var snabbdom = require('../snabbdom');
+fakeRaf.use();
 var patch = snabbdom.init([
   require('../modules/style'),
 ]);
@@ -30,4 +32,23 @@ describe('style', function() {
     assert.equal(elm.style.fontSize, '10px');
     assert.equal(elm.style.display, 'block');
   });
+  it('updates delayed styles in next frame', function() {
+    var patch = snabbdom.init([
+      require('../modules/style'),
+    ]);
+    var vnode1 = h('i', {style: {fontSize: '14px', delayed: {fontSize: '16px'}}});
+    var vnode2 = h('i', {style: {fontSize: '18px', delayed: {fontSize: '20px'}}});
+    patch(vnode0, vnode1);
+    assert.equal(elm.style.fontSize, '14px');
+    fakeRaf.step();
+    fakeRaf.step();
+    assert.equal(elm.style.fontSize, '16px');
+    patch(vnode1, vnode2);
+    assert.equal(elm.style.fontSize, '18px');
+    fakeRaf.step();
+    fakeRaf.step();
+    assert.equal(elm.style.fontSize, '20px');
+  });
 });
+
+fakeRaf.restore();

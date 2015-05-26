@@ -36,7 +36,7 @@ function render() {
 }
 
 const fadeInOutStyle = {
-  opacity: '0', 'd-opacity': '1', remove: {opacity: '0'}
+  opacity: '0', delayed: {opacity: '1'}, remove: {opacity: '0'}
 };
 
 const detailView = (movie) =>
@@ -48,7 +48,8 @@ const detailView = (movie) =>
         h('div.rank', [
           h('span.header-rank.hero', {hero: {id: 'rank'+movie.rank}}, movie.rank),
           h('div.rank-circle', {
-            style: {transform: 'scale(0)', 'd-transform': 'scale(1)',
+            style: {transform: 'scale(0)',
+                    delayed: {transform: 'scale(1)'},
                     destroy: {transform: 'scale(0)'}},
           }),
         ]),
@@ -56,15 +57,16 @@ const detailView = (movie) =>
         h('div.spacer'),
         h('div.close', {
           on: {click: [select, undefined]},
-          style: {transform: 'scale(0)', 'd-transform': 'scale(1)',
+          style: {transform: 'scale(0)',
+                  delayed: {transform: 'scale(1)'},
                   destroy: {transform: 'scale(0)'}},
         }, 'x'),
       ]),
     ]),
     h('div.page-content', [
       h('div.desc', {
-        style: {opacity: '0', 'd-opacity': '1',
-                transform: 'translateX(3em)', 'd-transform': 'translate(0)',
+        style: {opacity: '0', transform: 'translateX(3em)',
+                delayed: {opacity: '1', transform: 'translate(0)'},
                 remove: {opacity: '0', position: 'absolute', top: '0', left: '0',
                          transform: 'translateX(3em)'}
         }
@@ -82,7 +84,8 @@ const overviewView = (movies) =>
         style: fadeInOutStyle,
       }, [
         h('div.header-title', {
-          style: {transform: 'translateY(-2em)', 'd-transform': 'translate(0)',
+          style: {transform: 'translateY(-2em)',
+                  delayed: {transform: 'translate(0)'},
                   destroy: {transform: 'translateY(-2em)'}}
         }, 'Top 10 movies'),
         h('div.spacer'),
@@ -90,7 +93,7 @@ const overviewView = (movies) =>
     ]),
     h('div.page-content', [
       h('div.list', {
-        style: {opacity: '0', 'd-opacity': '1',
+        style: {opacity: '0', delayed: {opacity: '1'},
                 remove: {opacity: '0', position: 'absolute', top: '0', left: '0'}}
       }, movies.map((movie) =>
         h('div.row', {
