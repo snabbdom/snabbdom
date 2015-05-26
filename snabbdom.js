@@ -94,10 +94,10 @@ function init(modules) {
   }
 
   function invokeDestroyHook(vnode) {
-    var i = vnode.data.hook, j;
-    if (!isUndef(i) && !isUndef(j = i.destroy)) j(vnode);
+    var i = vnode.data, j;
+    if (!isUndef(i) && !isUndef(i = i.hook) && !isUndef(i = i.destroy)) i(vnode);
     for (i = 0; i < cbs.destroy.length; ++i) cbs.destroy[i](vnode);
-    if (!isUndef(vnode.children)) {
+    if (!isUndef(i = vnode.children)) {
       for (j = 0; j < vnode.children.length; ++j) {
         invokeDestroyHook(vnode.children[j]);
       }
@@ -112,8 +112,8 @@ function init(modules) {
         rm = createRmCb(parentElm, ch.elm, listeners);
         for (i = 0; i < cbs.remove.length; ++i) cbs.remove[i](ch, rm);
         invokeDestroyHook(ch);
-        if (ch.data.hook && ch.data.hook.remove) {
-          ch.data.hook.remove(ch, rm);
+        if (!isUndef(i = ch.data) && !isUndef(i = i.hook) && !isUndef(i = i.remove)) {
+          i(ch, rm);
         } else {
           rm();
         }

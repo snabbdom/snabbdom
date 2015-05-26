@@ -593,6 +593,14 @@ describe('snabbdom', function() {
         patch(vnode1, vnode0);
         assert.equal(result.length, 1);
       });
+      it('handles text vnodes with `undefined` `data` property', function() {
+        var vnode1 = h('div', [
+          ' '
+        ]);
+        var vnode2 = h('div', []);
+        patch(vnode0, vnode1);
+        patch(vnode1, vnode2);
+      });
       it('invokes `destroy` module hook for all removed children', function() {
         var created = 0;
         var destroyed = 0;
