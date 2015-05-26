@@ -71,7 +71,9 @@ patch(container, vnode);
 The core of Snabbdom provides only the most essential functionality. It is
 designed to be as simple as possible while still being fast and extendable.
 
-It exports only one single function: `snabbdom.init`. `init` takes a list of
+## `snabbdom.init`
+
+The core exposes only one single function `snabbdom.init`. `init` takes a list of
 modules and returns a `patch` function that uses the specified set of modules.
 
 ```javascript
@@ -81,31 +83,95 @@ var patch = snabbdom.init([
 ]);
 ```
 
-The returned patch function takes two arguments. The first is a DOM element or
-a vnode representing the current view and the second is a vnode representing
-the new view.
+## `patch`
+
+The `patch` function returned by `init` takes two arguments. The first is a DOM
+element or a vnode representing the current view. The second is a vnode
+representing the new view.
 
 ```javascript
 patch(oldVnode, newVnode);
 ```
 
+## `snabbdom/h`
+
+It is recommended that you use `snabbdom/h` to create VNodes. `h` accepts a a
+tag/selector as a string, an optional data object and an option string or array of children.
+
+```javascript
+var h = require('snabbdom/h');
+var vnode = h('div', {style: {color: '#000'}}, [
+  h('h1', 'Headline'),
+  h('p', 'A paragraph'),
+]);
+```
+
+## Hooks
+
 # Modules documentation
 
 This describes the core modules.
 
-### Class module
+### The class module
+
+The class module provides an easy way to dynamically toggle classes on
+elements. It expects an object in the `class` data property. The object should
+map class names to booleans that indicates whether or not the class should stay
+or go on the VNode.
 
 ```javascript
 h('a', {class: {active: true, selected: false}}, 'Toggle');
 ```
 
-### Props module
+### The props module
 
 ```javascript
 h('a', {props: {href: '/foo'}, 'Go to Foo');
 ```
 
-### Style module
+### The style module
+
+The style module is for making your HTML look slick and animate smoothly. At
+it's core it allows you to set CSS properties on elements.
+
+```javascript
+h('span', {
+  style: {border: '1px solid #bada55', color: '#c0ffee', fontWeight: 'bold'}
+}, 'Say my name, and every colour illuminates');
+```
+
+#### Delayed properties
+
+```javascript
+h('span', {
+  style: {opacity: '0', transitionDuration: 'opacity 1s', delayed: {opacity: '1'}}
+}, 'Imma fade right in!');
+```
+
+#### Set properties on `remove`
+
+```javascript
+h('span', {
+  style: {opacity: '1', transitionDuration: 'opacity 1s',
+          remove: {opacity: '1'}}
+}, 'It\'s better to fade out than to burn away');
+```
+
+#### Set properties on `destroy`
+
+```javascript
+h('span', {
+  style: {opacity: '1', transitionDuration: 'opacity 1s',
+          destroy: {opacity: '1'}}
+}, 'It\'s better to fade out than to burn away');
+```
+
+#### Destroy properties
+
+### Eventlisteners module
+
+
+#### Destroy properties
 
 ### Eventlisteners module
 
