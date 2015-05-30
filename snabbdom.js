@@ -193,7 +193,7 @@ function init(modules) {
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
       }
     } else if (oldVnode.text !== vnode.text) {
-      elm.childNodes[0].nodeValue = vnode.text;
+      elm.textContent = vnode.text;
     }
     return vnode;
   }

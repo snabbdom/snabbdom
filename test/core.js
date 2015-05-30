@@ -360,6 +360,14 @@ describe('snabbdom', function() {
         patch(vnode1, vnode2);
         assert.equal(elm.childNodes[0].textContent, 'Text');
       });
+      it('handles changing text children', function() {
+        var vnode1 = h('div', ['Text', h('span', 'Span')]);
+        var vnode2 = h('div', ['Text2', h('span', 'Span')]);
+        patch(vnode0, vnode1);
+        assert.equal(elm.childNodes[0].textContent, 'Text');
+        patch(vnode1, vnode2);
+        assert.equal(elm.childNodes[0].textContent, 'Text2');
+      });
       it('prepends element', function() {
         var vnode1 = h('div', [h('span', 'World')]);
         var vnode2 = h('div', [h('span', 'Hello'), h('span', 'World')]);
