@@ -182,7 +182,7 @@ function init(modules) {
     if (!isUndef(vnode.data)) {
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);
       i = vnode.data.hook;
-      if (!isUndef(i) && !isUndef(i = i.update)) i(vnode);
+      if (!isUndef(i) && !isUndef(i = i.update)) i(oldVnode, vnode);
     }
     if (isUndef(vnode.text)) {
       if (!isUndef(oldCh) && !isUndef(ch)) {

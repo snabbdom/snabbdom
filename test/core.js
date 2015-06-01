@@ -526,27 +526,34 @@ describe('snabbdom', function() {
         assert.equal(result.length, 1);
       });
       it('calls `update` listener', function() {
-        var result = [];
-        function cb(vnode, rm) {
+        var result1 = [];
+        var result2 = [];
+        function cb(result, oldVnode, vnode) {
+          if (result.length > 0) {
+            console.log(result[result.length-1]);
+            console.log(oldVnode);
+            assert.strictEqual(result[result.length-1], oldVnode);
+          }
           result.push(vnode);
         }
         var vnode1 = h('div', [
           h('span', 'First sibling'),
-          h('div', {hook: {update: cb}}, [
+          h('div', {hook: {update: cb.bind(null, result1)}}, [
             h('span', 'Child 1'),
-            h('span', {hook: {update: cb}}, 'Child 2'),
+            h('span', {hook: {update: cb.bind(null, result2)}}, 'Child 2'),
           ]),
         ]);
         var vnode2 = h('div', [
           h('span', 'First sibling'),
-          h('div', {hook: {update: cb}}, [
+          h('div', {hook: {update: cb.bind(null, result1)}}, [
             h('span', 'Child 1'),
-            h('span', {hook: {update: cb}}, 'Child 2'),
+            h('span', {hook: {update: cb.bind(null, result2)}}, 'Child 2'),
           ]),
         ]);
         patch(vnode0, vnode1);
         patch(vnode1, vnode2);
-        assert.equal(result.length, 2);
+        assert.equal(result1.length, 1);
+        assert.equal(result2.length, 1);
       });
       it('calls `remove` listener', function() {
         var result = [];
