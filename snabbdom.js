@@ -71,7 +71,7 @@ function init(modules) {
       for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
       i = vnode.data.hook; // Reuse variable
       if (!isUndef(i)) {
-        if (i.create) i.create(vnode);
+        if (i.create) i.create(emptyNode, vnode);
         if (i.insert) insertedVnodeQueue.push(vnode);
       }
     } else {

@@ -464,7 +464,7 @@ describe('snabbdom', function() {
     describe('element hooks', function() {
       it('calls `create` listener before inserted into parent but after children', function() {
         var result = [];
-        function cb(vnode) {
+        function cb(empty, vnode) {
           assert(vnode.elm instanceof Element);
           assert.equal(vnode.elm.children.length, 2);
           assert.strictEqual(vnode.elm.parentNode, null);
