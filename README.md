@@ -109,6 +109,7 @@ var vnode = h('div', {style: {color: '#000'}}, [
 ### Hooks
 
 | Name      | Triggered when | Arguments to callback |
+| --------- | -------------- | --------------------- |
 | `pre`     | the patch process begins. | |
 | `create`  | a DOM element has been created based on a VNode. | `emptyVNode, createdVnode` |
 | `insert`  | an element has been inserted into the DOM. | `insertedVnode` |
@@ -183,4 +184,24 @@ h('span', {
 
 ### Eventlisteners module
 
+The event listeners module gives powerful capabilities for attaching
+event listeners.
 
+You can attach a function that will be called with the event object.
+
+```javascript
+function clickHandler(ev) { console.log('got clicked'); }
+h('div', {on: {click: clickHandler}});
+```
+
+We can also use the array syntax to attach a function that will be
+invoked with a constant value.
+
+```javascript
+function clickHandler(number) { console.log('button ' + number + ' was clicked!'); }
+h('div', [
+  h('a', {on: {click: [clickHandler, 1]}}),
+  h('a', {on: {click: [clickHandler, 2]}}),
+  h('a', {on: {click: [clickHandler, 3]}}),
+]);
+```
