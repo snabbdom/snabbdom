@@ -2,7 +2,7 @@
 A virtual DOM library with focus on simplicity, modularity, powerful features
 and performance.
 
-# Table of contents
+## Table of contents
 
 * [Introduction](#introduction)
 * [Features](#features)
@@ -11,7 +11,7 @@ and performance.
 * [Core documentation](#core-documentation)
 * [Modules documentation](#modules-documentation)
 
-# Introduction
+## Introduction
 
 Snabbdom consists of an extremely simple, performant and extensible core that
 is only ≈ 200 SLOC. It offers a modular architecture with rich functionality
@@ -23,7 +23,7 @@ functionality you want. Alternatively you can just use the default extensions
 and get a virtual DOM library with high performance, small size and all the
 features listed below.
 
-# Features
+## Features
 
 * Core features
   * About 200 SLOC – you could easily read through the entire core and fully
@@ -40,7 +40,7 @@ features listed below.
   * Powerful event listener functionality
   * Thunks to optimize the diff and patch process even further
 
-# Inline example
+## Inline example
 
 ```javascript
 var snabbdom = require('snabbdom');
@@ -61,17 +61,17 @@ var container = document.getElementById('container');
 patch(container, vnode);
 ```
 
-# Examples
+## Examples
 
 * [Animated reordering of elements](http://paldepind.github.io/snabbdom/examples/reorder-animation/)
 * [Hero transitions](http://paldepind.github.io/snabbdom/examples/hero/)
 
-# Core documentation
+## Core documentation
 
 The core of Snabbdom provides only the most essential functionality. It is
 designed to be as simple as possible while still being fast and extendable.
 
-## `snabbdom.init`
+### `snabbdom.init`
 
 The core exposes only one single function `snabbdom.init`. `init` takes a list of
 modules and returns a `patch` function that uses the specified set of modules.
@@ -83,7 +83,7 @@ var patch = snabbdom.init([
 ]);
 ```
 
-## `patch`
+### `patch`
 
 The `patch` function returned by `init` takes two arguments. The first is a DOM
 element or a vnode representing the current view. The second is a vnode
@@ -93,7 +93,7 @@ representing the new view.
 patch(oldVnode, newVnode);
 ```
 
-## `snabbdom/h`
+### `snabbdom/h`
 
 It is recommended that you use `snabbdom/h` to create VNodes. `h` accepts a a
 tag/selector as a string, an optional data object and an option string or array of children.
@@ -106,9 +106,19 @@ var vnode = h('div', {style: {color: '#000'}}, [
 ]);
 ```
 
-## Hooks
+### Hooks
 
-# Modules documentation
+| Name      | Triggered when | Arguments to callback |
+| `pre`     | the patch process begins. | |
+| `create`  | a DOM element has been created based on a VNode. | `emptyVNode, createdVnode` |
+| `insert`  | an element has been inserted into the DOM. | `insertedVnode` |
+| `patch`   | an element is about to be patched. | `oldVnode, newVnode` |
+| `update`  | an element is being updated. | `oldVnode, newVnode` |
+| `remove`  | an element is directly being removed from the DOM. | `vnode, removeCallback` |
+| `destroy` | an element is begin removed from the DOM or it's parent is. | `vnode` |
+| `post`    | the patch process is done. | |
+
+## Modules documentation
 
 This describes the core modules.
 
@@ -124,6 +134,8 @@ h('a', {class: {active: true, selected: false}}, 'Toggle');
 ```
 
 ### The props module
+
+Allows you to set properties on DOM elements.
 
 ```javascript
 h('a', {props: {href: '/foo'}, 'Go to Foo');
@@ -141,6 +153,9 @@ h('span', {
 ```
 
 #### Delayed properties
+
+You can specify properties as being delayed. Whenver these properties change
+the change is not applied until after the next frame.
 
 ```javascript
 h('span', {
@@ -166,12 +181,6 @@ h('span', {
 }, 'It\'s better to fade out than to burn away');
 ```
 
-#### Destroy properties
-
 ### Eventlisteners module
 
-
-#### Destroy properties
-
-### Eventlisteners module
 
