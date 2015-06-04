@@ -2,6 +2,9 @@
 A virtual DOM library with focus on simplicity, modularity, powerful features
 and performance.
 
+_Note:_ Snabbdom is mostly done. I'm currently only making minor tweaks. The
+documentation however is still quite lagging.
+
 ## Table of contents
 
 * [Introduction](#introduction)
@@ -10,6 +13,13 @@ and performance.
 * [Examples](#examples)
 * [Core documentation](#core-documentation)
 * [Modules documentation](#modules-documentation)
+
+## Why
+
+Virtual DOM is awesome. It allow us to express our applications view as a
+function of its state. But existing solutions where way way too bloated, too
+slow, lacked features, had an API biased towards OOP and/or lacked features I
+needed.
 
 ## Introduction
 
@@ -151,7 +161,7 @@ it's core it allows you to set CSS properties on elements.
 h('span', {
   style: {border: '1px solid #bada55', color: '#c0ffee', fontWeight: 'bold'}
 }, 'Say my name, and every colour illuminates');
-```
+``````
 
 #### Delayed properties
 
