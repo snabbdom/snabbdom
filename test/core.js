@@ -418,16 +418,17 @@ describe('snabbdom', function() {
     it('does not attach new listener', function() {
       var result = [];
       //function clicked(ev) { result.push(ev); }
-      var vnode1 = h('div', {on: {click: function(ev) { result.push(ev); }}}, [
+      var vnode1 = h('div', {on: {click: function(ev) { result.push(1); }}}, [
         h('a', 'Click my parent'),
       ]);
-      var vnode2 = h('div', {on: {click: function(ev) { result.push(ev); }}}, [
+      var vnode2 = h('div', {on: {click: function(ev) { result.push(2); }}}, [
         h('a', 'Click my parent'),
       ]);
       patch(vnode0, vnode1);
+      elm.click();
       patch(vnode1, vnode2);
       elm.click();
-      assert.equal(1, result.length);
+      assert.deepEqual(result, [1, 2]);
     });
     it('does calls handler for function in array', function() {
       var result = [];
