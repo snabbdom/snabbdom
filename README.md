@@ -17,7 +17,7 @@ documentation however is still quite lagging.
 ## Why
 
 Virtual DOM is awesome. It allow us to express our applications view as a
-function of its state. But existing solutions where way way too bloated, too
+function of its state. But existing solutions were way way too bloated, too
 slow, lacked features, had an API biased towards OOP and/or lacked features I
 needed.
 
@@ -25,7 +25,7 @@ needed.
 
 Snabbdom consists of an extremely simple, performant and extensible core that
 is only ≈ 200 SLOC. It offers a modular architecture with rich functionality
-for extensions through custom modules. To keep the core simple all non-esential
+for extensions through custom modules. To keep the core simple all non-essential
 functionality is delegated to modules.
 
 You can mold Snabbdom into whatever you desire! Pick, choose and customize the
@@ -213,7 +213,7 @@ and you want that data passed along instead.
 
 Consider a counter application with three buttons, one to increment the counter
 by 1, one to increment the counter by 2 and one to increment the counter by 3.
-You're don't really care excactly which button was pressed. Instead you're
+You're don't really care exactly which button was pressed. Instead you're
 interested in what number was associated with the clicked button. The event listeners
 module allows one to express that by supplying an array at the named event property.
 The first element in the array should be a function that will be invoked with
