@@ -197,15 +197,27 @@ h('span', {
 The event listeners module gives powerful capabilities for attaching
 event listeners.
 
-You can attach a function that will be called with the event object.
+You can attach a function to an event on a VNode by supplying an object at `on`
+with a property corresponding to the name of the event you want to listen to.
+The function will be called when the event happens and will be passed the event
+object that belongs to it.
 
 ```javascript
 function clickHandler(ev) { console.log('got clicked'); }
 h('div', {on: {click: clickHandler}});
 ```
 
-We can also use the array syntax to attach a function that will be
-invoked with a constant value.
+Very often however you're not really interested in the event object itself.
+Often you have some data associated with the element that triggers an event
+and you want that data passed along instead.
+
+Consider a counter application with three buttons, one to increment the counter
+by 1, one to increment the counter by 2 and one to increment the counter by 3.
+You're don't really care excactly which button was pressed. Instead you're
+interested in what number was associated with the clicked button. The event listeners
+module allows one to express that by supplying an array at the named event property.
+The first element in the array should be a function that will be invoked with
+the value in the second element once the event occurs.
 
 ```javascript
 function clickHandler(number) { console.log('button ' + number + ' was clicked!'); }
@@ -215,3 +227,7 @@ h('div', [
   h('a', {on: {click: [clickHandler, 3]}}),
 ]);
 ```
+
+Snabbdom allows swapping event handlers between renders. This happens without
+actually touching the event handlers attached to the DOM.
+
