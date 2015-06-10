@@ -90,11 +90,13 @@ function init(modules) {
 
   function invokeDestroyHook(vnode) {
     var i = vnode.data, j;
-    if (!isUndef(i) && !isUndef(i = i.hook) && !isUndef(i = i.destroy)) i(vnode);
-    for (i = 0; i < cbs.destroy.length; ++i) cbs.destroy[i](vnode);
-    if (!isUndef(i = vnode.children)) {
-      for (j = 0; j < vnode.children.length; ++j) {
-        invokeDestroyHook(vnode.children[j]);
+    if (!isUndef(i)) {
+      if (!isUndef(i = i.hook) && !isUndef(i = i.destroy)) i(vnode);
+      for (i = 0; i < cbs.destroy.length; ++i) cbs.destroy[i](vnode);
+      if (!isUndef(i = vnode.children)) {
+        for (j = 0; j < vnode.children.length; ++j) {
+          invokeDestroyHook(vnode.children[j]);
+        }
       }
     }
   }

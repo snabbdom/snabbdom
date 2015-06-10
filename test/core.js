@@ -656,6 +656,25 @@ describe('snabbdom', function() {
         assert.equal(created, 4);
         assert.equal(destroyed, 4);
       });
+      it('does not invoke `destroy` module hook for text nodes', function() {
+        var created = 0;
+        var destroyed = 0;
+        var patch = snabbdom.init([
+          {create: function() { created++; }},
+          {destroy: function() { destroyed++; }},
+        ]);
+        var vnode1 = h('div', [
+          h('span', 'First sibling'),
+          h('div', [
+            h('span', 'Child 1'),
+            h('span', ['Text 1', 'Text 2']),
+          ]),
+        ]);
+        patch(vnode0, vnode1);
+        patch(vnode1, vnode0);
+        assert.equal(created, 4);
+        assert.equal(destroyed, 4);
+      });
     });
   });
   describe('short circuiting', function() {
