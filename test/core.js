@@ -64,6 +64,10 @@ describe('snabbdom', function() {
       patch(vnode0, h('div', [h('div#unique')]));
       assert.equal(elm.firstChild.id, 'unique');
     });
+    it('has correct namespace', function() {
+      patch(vnode0, h('div', [h('div', {ns: 'http://www.w3.org/2000/svg'})]));
+      assert.equal(elm.firstChild.namespaceURI, 'http://www.w3.org/2000/svg');
+    });
     it('is recieves classes in selector', function() {
       patch(vnode0, h('div', [h('i.am.a.class')]));
       assert(elm.firstChild.classList.contains('am'));

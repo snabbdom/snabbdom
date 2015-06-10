@@ -1,4 +1,5 @@
 // jshint newcap: false
+/* global require, module, document, Element */
 'use strict';
 
 var VNode = require('./vnode');
@@ -45,11 +46,11 @@ function init(modules) {
   }
 
   function createElm(vnode) {
-    var i;
-    if (!isUndef(i = vnode.data) && !isUndef(i = i.hook) && !isUndef(i = i.init)) {
-      i(vnode);
+    var i, data = vnode.data;
+    if (!isUndef(data)) {
+      if (!isUndef(i = data.hook) && !isUndef(i = i.init)) i(vnode);
+      if (!isUndef(i = data.vnode)) vnode = i;
     }
-    if (!isUndef(i = vnode.data) && !isUndef(i = i.vnode)) vnode = i;
     var elm, children = vnode.children, sel = vnode.sel;
     if (!isUndef(sel)) {
       // Parse selector
@@ -58,7 +59,8 @@ function init(modules) {
       var hash = hashIdx > 0 ? hashIdx : sel.length;
       var dot = dotIdx > 0 ? dotIdx : sel.length;
       var tag = hashIdx !== -1 || dotIdx !== -1 ? sel.slice(0, Math.min(hash, dot)) : sel;
-      elm = vnode.elm = document.createElement(tag);
+      elm = vnode.elm = !isUndef(data) && !isUndef(i = data.ns) ? document.createElementNS(i, tag)
+                                                                : document.createElement(tag);
       if (hash < dot) elm.id = sel.slice(hash + 1, dot);
       if (dotIdx > 0) elm.className = sel.slice(dot+1).replace(/\./g, ' ');
       if (is.array(children)) {
