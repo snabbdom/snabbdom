@@ -79,7 +79,7 @@ function init(modules) {
     } else {
       elm = vnode.elm = document.createTextNode(vnode.text);
     }
-    return elm;
+    return vnode.elm;
   }
 
   function addVnodes(parentElm, before, vnodes, startIdx, endIdx) {
@@ -103,10 +103,10 @@ function init(modules) {
     for (; startIdx <= endIdx; ++startIdx) {
       var i, listeners, rm, ch = vnodes[startIdx];
       if (!isUndef(ch)) {
+        invokeDestroyHook(ch);
         listeners = cbs.remove.length + 1;
         rm = createRmCb(parentElm, ch.elm, listeners);
         for (i = 0; i < cbs.remove.length; ++i) cbs.remove[i](ch, rm);
-        invokeDestroyHook(ch);
         if (!isUndef(i = ch.data) && !isUndef(i = i.hook) && !isUndef(i = i.remove)) {
           i(ch, rm);
         } else {

@@ -588,8 +588,8 @@ describe('snabbdom', function() {
       it('removes element when all remove listeners are done', function() {
         var rm1, rm2, rm3;
         var patch = snabbdom.init([
-            {remove: function(_, rm) { rm1 = rm; }},
-            {remove: function(_, rm) { rm2 = rm; }},
+          {remove: function(_, rm) { rm1 = rm; }},
+          {remove: function(_, rm) { rm2 = rm; }},
         ]);
         var vnode1 = h('div', [h('a', {hook: {remove: function(_, rm) { rm3 = rm; }}})]);
         patch(vnode0, vnode1);
@@ -608,14 +608,14 @@ describe('snabbdom', function() {
       it('invokes `pre` and `post` hook', function() {
         var result = [];
         var patch = snabbdom.init([
-            {pre: function() { result.push('pre'); }},
-            {post: function() { result.push('post'); }},
+          {pre: function() { result.push('pre'); }},
+          {post: function() { result.push('post'); }},
         ]);
         var vnode1 = h('div');
         patch(vnode0, vnode1);
         assert.deepEqual(result, ['pre', 'post']);
       });
-      it('invokes `destroy` hook for all removed children', function() {
+      it('invokes global `destroy` hook for all removed children', function() {
         var result = [];
         function cb(vnode) { result.push(vnode); }
         var vnode1 = h('div', [
