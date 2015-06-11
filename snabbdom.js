@@ -175,9 +175,9 @@ function init(modules) {
   }
 
   function patchVnode(oldVnode, vnode) {
-    var i;
-    if (!isUndef(i = vnode.data) && !isUndef(i = i.hook) && !isUndef(i = i.patch)) {
-      i = i(oldVnode, vnode);
+    var i, hook;
+    if (!isUndef(i = vnode.data) && !isUndef(hook = i.hook) && !isUndef(i = hook.prepatch)) {
+      i(oldVnode, vnode);
     }
     if (!isUndef(i = oldVnode.data) && !isUndef(i = i.vnode)) oldVnode = i;
     if (!isUndef(i = vnode.data) && !isUndef(i = i.vnode)) vnode = i;
@@ -198,6 +198,9 @@ function init(modules) {
       }
     } else if (oldVnode.text !== vnode.text) {
       elm.textContent = vnode.text;
+    }
+    if (!isUndef(hook) && !isUndef(i = hook.postpatch)) {
+      i(oldVnode, vnode);
     }
     return vnode;
   }

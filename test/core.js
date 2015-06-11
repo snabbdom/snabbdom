@@ -505,7 +505,7 @@ describe('snabbdom', function() {
         patch(vnode0, vnode1);
         assert.equal(1, result.length);
       });
-      it('calls `patch` listener', function() {
+      it('calls `prepatch` listener', function() {
         var result = [];
         function cb(oldVnode, vnode) {
           assert.strictEqual(oldVnode, vnode1.children[1]);
@@ -514,14 +514,14 @@ describe('snabbdom', function() {
         }
         var vnode1 = h('div', [
           h('span', 'First sibling'),
-          h('div', {hook: {patch: cb}}, [
+          h('div', {hook: {prepatch: cb}}, [
             h('span', 'Child 1'),
             h('span', 'Child 2'),
           ]),
         ]);
         var vnode2 = h('div', [
           h('span', 'First sibling'),
-          h('div', {hook: {patch: cb}}, [
+          h('div', {hook: {prepatch: cb}}, [
             h('span', 'Child 1'),
             h('span', 'Child 2'),
           ]),
@@ -529,6 +529,34 @@ describe('snabbdom', function() {
         patch(vnode0, vnode1);
         patch(vnode1, vnode2);
         assert.equal(result.length, 1);
+      });
+      it('calls `postpatch` after `prepatch` listener', function() {
+        var pre = [], post = [];
+        function preCb(oldVnode, vnode) {
+          pre.push(pre);
+        }
+        function postCb(oldVnode, vnode) {
+          assert.equal(pre.length, post.length + 1);
+          post.push(post);
+        }
+        var vnode1 = h('div', [
+          h('span', 'First sibling'),
+          h('div', {hook: {prepatch: preCb, postpatch: postCb}}, [
+            h('span', 'Child 1'),
+            h('span', 'Child 2'),
+          ]),
+        ]);
+        var vnode2 = h('div', [
+          h('span', 'First sibling'),
+          h('div', {hook: {prepatch: preCb, postpatch: postCb}}, [
+            h('span', 'Child 1'),
+            h('span', 'Child 2'),
+          ]),
+        ]);
+        patch(vnode0, vnode1);
+        patch(vnode1, vnode2);
+        assert.equal(pre.length, 1);
+        assert.equal(post.length, 1);
       });
       it('calls `update` listener', function() {
         var result1 = [];

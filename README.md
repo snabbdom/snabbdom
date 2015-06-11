@@ -123,16 +123,17 @@ var vnode = h('div', {style: {color: '#000'}}, [
 
 #### Overview
 
-| Name      | Triggered when | Arguments to callback |
-| --------- | -------------- | --------------------- |
-| `pre`     | the patch process begins. | none |
-| `create`  | a DOM element has been created based on a VNode. | `emptyVNode, vnode` |
-| `insert`  | an element has been inserted into the DOM. | `vnode` |
-| `patch`   | an element is about to be patched. | `oldVnode, vnode` |
-| `update`  | an element is being updated. | `oldVnode, vnode` |
-| `remove`  | an element is directly being removed from the DOM. | `vnode, removeCallback` |
-| `destroy` | an element is being removed from the DOM or it's parent is. | `vnode` |
-| `post`    | the patch process is done. | none |
+| Name        | Triggered when | Arguments to callback |
+| ----------- | -------------- | --------------------- |
+| `pre`       | the patch process begins. | none |
+| `create`    | a DOM element has been created based on a VNode. | `emptyVNode, vnode` |
+| `insert`    | an element has been inserted into the DOM. | `vnode` |
+| `prepatch`  | an element is about to be patched. | `oldVnode, vnode` |
+| `update`    | an element is being updated. | `oldVnode, vnode` |
+| `postpatch` | an element has been patched. | `oldVnode, vnode` |
+| `remove`    | an element is directly being removed from the DOM. | `vnode, removeCallback` |
+| `destroy`   | an element is being removed from the DOM or it's parent is. | `vnode` |
+| `post`      | the patch process is done. | none |
 
 ## Modules documentation
 

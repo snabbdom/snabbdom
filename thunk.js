@@ -5,7 +5,7 @@ function init(thunk) {
   cur.vnode = cur.fn.apply(undefined, cur.args);
 }
 
-function patch(oldThunk, thunk) {
+function prepatch(oldThunk, thunk) {
   var i, old = oldThunk.data, cur = thunk.data;
   var oldArgs = old.args, args = cur.args;
   cur.vnode = old.vnode;
@@ -27,7 +27,7 @@ module.exports = function(name, fn /* args */) {
     args[i - 2] = arguments[i];
   }
   return h('thunk' + name, {
-    hook: {init: init, patch: patch},
+    hook: {init: init, prepatch: prepatch},
     fn: fn, args: args,
   });
 };
