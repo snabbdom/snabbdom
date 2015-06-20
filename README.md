@@ -108,7 +108,8 @@ patch(oldVnode, newVnode);
 ### `snabbdom/h`
 
 It is recommended that you use `snabbdom/h` to create VNodes. `h` accepts a a
-tag/selector as a string, an optional data object and an option string or array of children.
+tag/selector as a string, an optional data object and an optional string or
+array of children.
 
 ```javascript
 var h = require('snabbdom/h');
