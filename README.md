@@ -121,7 +121,6 @@ var vnode = h('div', {style: {color: '#000'}}, [
 
 ### Hooks
 
-
 #### Overview
 
 | Name        | Triggered when | Arguments to callback |
@@ -135,6 +134,21 @@ var vnode = h('div', {style: {color: '#000'}}, [
 | `remove`    | an element is directly being removed from the DOM. | `vnode, removeCallback` |
 | `destroy`   | an element is being removed from the DOM or it's parent is. | `vnode` |
 | `post`      | the patch process is done. | none |
+
+
+#### Usage
+
+To use hooks, pass them as an object to `hook` field of the data object
+argument.
+
+```javascript
+h('div.row', {
+  key: movie.rank,
+  hook: {
+    insert: (vnode) => { movie.elmHeight = vnode.elm.offsetHeight; }
+  }
+});
+```
 
 ## Modules documentation
 
