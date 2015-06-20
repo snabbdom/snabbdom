@@ -108,7 +108,8 @@ patch(oldVnode, newVnode);
 ### `snabbdom/h`
 
 It is recommended that you use `snabbdom/h` to create VNodes. `h` accepts a a
-tag/selector as a string, an optional data object and an option string or array of children.
+tag/selector as a string, an optional data object and an optional string or
+array of children.
 
 ```javascript
 var h = require('snabbdom/h');
@@ -119,7 +120,6 @@ var vnode = h('div', {style: {color: '#000'}}, [
 ```
 
 ### Hooks
-
 
 #### Overview
 
@@ -134,6 +134,21 @@ var vnode = h('div', {style: {color: '#000'}}, [
 | `remove`    | an element is directly being removed from the DOM. | `vnode, removeCallback` |
 | `destroy`   | an element is being removed from the DOM or it's parent is. | `vnode` |
 | `post`      | the patch process is done. | none |
+
+
+#### Usage
+
+To use hooks, pass them as an object to `hook` field of the data object
+argument.
+
+```javascript
+h('div.row', {
+  key: movie.rank,
+  hook: {
+    insert: (vnode) => { movie.elmHeight = vnode.elm.offsetHeight; }
+  }
+});
+```
 
 ## Modules documentation
 
