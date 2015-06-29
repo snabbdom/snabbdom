@@ -1,11 +1,12 @@
 # Snabbdom
 
-[![Join the chat at https://gitter.im/paldepind/snabbdom](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/paldepind/snabbdom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A virtual DOM library with focus on simplicity, modularity, powerful features
 and performance.
 
 _Note:_ Snabbdom is mostly done. I'm currently only making minor tweaks. The
 documentation however is still quite lagging.
+
+[![Join the chat at https://gitter.im/paldepind/snabbdom](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/paldepind/snabbdom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Table of contents
 
@@ -63,7 +64,7 @@ var patch = snabbdom.init([ // Init patch function with choosen modules
   require('snabbdom/modules/eventlisteners'), // attaches event listeners
 ]);
 var h = require('snabbdom/h'); // helper function for creating VNodes
-var vnode = h('div#id.two.classes', {on: {click: someFn}}, [
+var vnode = h('div#container.two.classes', {on: {click: someFn}}, [
   h('span', {style: {fontWeight: 'bold'}}, 'This is bold'),
   ' and this is just normal text',
   h('a', {props: {href: '/foo'}, 'I\'ll take you places!'})
@@ -99,7 +100,17 @@ var patch = snabbdom.init([
 
 The `patch` function returned by `init` takes two arguments. The first is a DOM
 element or a vnode representing the current view. The second is a vnode
-representing the new view.
+representing the new updated view.
+
+If a DOM element with a parent is passed `newVnode` will be turned into a DOM
+node and the passed element will be replaced by the created DOM node. If an old
+vnode is passed Snabbdom will effeciently modify to match the description in
+the new vnode.
+
+Any old vnode passed must be the resulting vnode from a previous call to
+`patch`. This is necessary since Snabbdom stores information in the vnode.
+This makes it possible to implement a simpler and more performant architecture.
+This also avoids the creation of a new old vnode tree.
 
 ```javascript
 patch(oldVnode, newVnode);
