@@ -60,6 +60,14 @@ describe('snabbdom', function() {
       patch(vnode0, h('div'));
       assert.equal(elm.tagName, 'DIV');
     });
+    it('has different tag and id', function() {
+      var elm = document.createElement('div');
+      vnode0.appendChild(elm);
+      var vnode1 = h('span#id');
+      patch(elm, vnode1);
+      assert.equal(vnode1.elm.tagName, 'SPAN');
+      assert.equal(vnode1.elm.id, 'id');
+    });
     it('has id', function() {
       patch(vnode0, h('div', [h('div#unique')]));
       assert.equal(elm.firstChild.id, 'unique');

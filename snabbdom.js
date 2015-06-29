@@ -208,11 +208,18 @@ function init(modules) {
   return function(oldVnode, vnode) {
     var i;
     insertedVnodeQueue = [];
-    if (oldVnode instanceof Element) {
-      oldVnode = emptyNodeAt(oldVnode);
-    }
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
-    patchVnode(oldVnode, vnode);
+    if (oldVnode instanceof Element) {
+      if (oldVnode.parentElement !== null) {
+        createElm(vnode);
+        oldVnode.parentElement.replaceChild(vnode.elm, oldVnode);
+      } else {
+        oldVnode = emptyNodeAt(oldVnode);
+        patchVnode(oldVnode, vnode);
+      }
+    } else {
+      patchVnode(oldVnode, vnode);
+    }
     for (i = 0; i < insertedVnodeQueue.length; ++i) {
       insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);
     }
