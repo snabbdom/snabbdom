@@ -692,6 +692,23 @@ describe('snabbdom', function() {
         assert.equal(created, 4);
         assert.equal(destroyed, 4);
       });
+      it('does not invoke `create` and `remove` module hook for text nodes', function() {
+        var created = 0;
+        var removed = 0;
+        var patch = snabbdom.init([
+          {create: function() { created++; }},
+          {remove: function() { removed++; }},
+        ]);
+        var vnode1 = h('div', [
+          h('span', 'First child'),
+          '',
+          h('span', 'Third child'),
+        ]);
+        patch(vnode0, vnode1);
+        patch(vnode1, vnode0);
+        assert.equal(created, 2);
+        assert.equal(removed, 2);
+      });
       it('does not invoke `destroy` module hook for text nodes', function() {
         var created = 0;
         var destroyed = 0;

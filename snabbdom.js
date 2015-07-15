@@ -106,14 +106,18 @@ function init(modules) {
     for (; startIdx <= endIdx; ++startIdx) {
       var i, listeners, rm, ch = vnodes[startIdx];
       if (isDef(ch)) {
-        invokeDestroyHook(ch);
-        listeners = cbs.remove.length + 1;
-        rm = createRmCb(parentElm, ch.elm, listeners);
-        for (i = 0; i < cbs.remove.length; ++i) cbs.remove[i](ch, rm);
-        if (isDef(i = ch.data) && isDef(i = i.hook) && isDef(i = i.remove)) {
-          i(ch, rm);
-        } else {
-          rm();
+        if (isDef(ch.sel)) {
+          invokeDestroyHook(ch);
+          listeners = cbs.remove.length + 1;
+          rm = createRmCb(parentElm, ch.elm, listeners);
+          for (i = 0; i < cbs.remove.length; ++i) cbs.remove[i](ch, rm);
+          if (isDef(i = ch.data) && isDef(i = i.hook) && isDef(i = i.remove)) {
+            i(ch, rm);
+          } else {
+            rm();
+          }
+        } else { // Text node
+          parentElm.removeChild(ch.elm);
         }
       }
     }
