@@ -143,6 +143,12 @@ function arrInvoker(arr) {
   };
 }
 
+function fnInvoker(arr) {
+  return function (ev) {
+    arr[0](ev);
+  };
+}
+
 function updateEventListeners(oldVnode, vnode) {
   var name,
       cur,
@@ -155,10 +161,20 @@ function updateEventListeners(oldVnode, vnode) {
     cur = on[name];
     old = oldOn[name];
     if (old === undefined) {
-      elm.addEventListener(name, is.array(cur) ? arrInvoker(cur) : cur);
-    } else if (is.array(old)) {
+      if (is.array(cur)) {
+        elm.addEventListener(name, arrInvoker(cur));
+      } else {
+        cur = [cur];
+        on[name] = cur;
+        elm.addEventListener(name, fnInvoker(cur));
+      }
+    } else if (old.length === 2) {
       old[0] = cur[0]; // Deliberately modify old array since it's
       old[1] = cur[1]; // captured in closure created with `arrInvoker`
+      on[name] = old;
+    } else {
+      old[0] = cur;
+      on[name] = old;
     }
   }
 }
@@ -311,8 +327,8 @@ function applyRemoveStyle(vnode, rm) {
       maxDur = 0,
       compStyle,
       style = s.remove,
-      amount = 0;
-  var applied = [];
+      amount = 0,
+      applied = [];
   for (name in style) {
     applied.push(name);
     elm.style[name] = style[name];
@@ -332,6 +348,7 @@ module.exports = { create: updateStyle, update: updateStyle, destroy: applyDestr
 
 },{}],8:[function(require,module,exports){
 // jshint newcap: false
+/* global require, module, document, Element */
 'use strict';
 
 var VNode = require('./vnode');
@@ -339,6 +356,9 @@ var is = require('./is');
 
 function isUndef(s) {
   return s === undefined;
+}
+function isDef(s) {
+  return s !== undefined;
 }
 
 function emptyNodeAt(elm) {
@@ -359,14 +379,15 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
       key;
   for (i = beginIdx; i <= endIdx; ++i) {
     key = children[i].key;
-    if (!isUndef(key)) map[key] = i;
+    if (isDef(key)) map[key] = i;
   }
   return map;
 }
 
 function createRmCb(parentElm, childElm, listeners) {
   return function () {
-    if (--listeners === 0) parentElm.removeChild(childElm);
+    //if (--listeners === 0) parentElm.removeChild(childElm);
+    if (--listeners === 0) childElm.parentElement.removeChild(childElm);
   };
 }
 
@@ -384,22 +405,23 @@ function init(modules) {
   }
 
   function createElm(vnode) {
-    var i;
-    if (!isUndef(i = vnode.data) && !isUndef(i = i.hook) && !isUndef(i = i.init)) {
-      i(vnode);
+    var i,
+        data = vnode.data;
+    if (isDef(data)) {
+      if (isDef(i = data.hook) && isDef(i = i.init)) i(vnode);
+      if (isDef(i = data.vnode)) vnode = i;
     }
-    if (!isUndef(i = vnode.data) && !isUndef(i = i.vnode)) vnode = i;
     var elm,
         children = vnode.children,
         sel = vnode.sel;
-    if (!isUndef(sel)) {
+    if (isDef(sel)) {
       // Parse selector
       var hashIdx = sel.indexOf('#');
       var dotIdx = sel.indexOf('.', hashIdx);
       var hash = hashIdx > 0 ? hashIdx : sel.length;
       var dot = dotIdx > 0 ? dotIdx : sel.length;
       var tag = hashIdx !== -1 || dotIdx !== -1 ? sel.slice(0, Math.min(hash, dot)) : sel;
-      elm = vnode.elm = document.createElement(tag);
+      elm = vnode.elm = isDef(data) && isDef(i = data.ns) ? document.createElementNS(i, tag) : document.createElement(tag);
       if (hash < dot) elm.id = sel.slice(hash + 1, dot);
       if (dotIdx > 0) elm.className = sel.slice(dot + 1).replace(/\./g, ' ');
       if (is.array(children)) {
@@ -411,37 +433,32 @@ function init(modules) {
       }
       for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
       i = vnode.data.hook; // Reuse variable
-      if (!isUndef(i)) {
-        if (i.create) i.create(vnode);
+      if (isDef(i)) {
+        if (i.create) i.create(emptyNode, vnode);
         if (i.insert) insertedVnodeQueue.push(vnode);
       }
     } else {
       elm = vnode.elm = document.createTextNode(vnode.text);
     }
-    return elm;
+    return vnode.elm;
   }
 
   function addVnodes(parentElm, before, vnodes, startIdx, endIdx) {
-    if (isUndef(before)) {
-      for (; startIdx <= endIdx; ++startIdx) {
-        parentElm.appendChild(createElm(vnodes[startIdx]));
-      }
-    } else {
-      var elm = before.elm;
-      for (; startIdx <= endIdx; ++startIdx) {
-        parentElm.insertBefore(createElm(vnodes[startIdx]), elm);
-      }
+    for (; startIdx <= endIdx; ++startIdx) {
+      parentElm.insertBefore(createElm(vnodes[startIdx]), before);
     }
   }
 
   function invokeDestroyHook(vnode) {
-    var i = vnode.data.hook,
+    var i = vnode.data,
         j;
-    if (!isUndef(i) && !isUndef(j = i.destroy)) j(vnode);
-    for (i = 0; i < cbs.destroy.length; ++i) cbs.destroy[i](vnode);
-    if (!isUndef(vnode.children)) {
-      for (j = 0; j < vnode.children.length; ++j) {
-        invokeDestroyHook(vnode.children[j]);
+    if (isDef(i)) {
+      if (isDef(i = i.hook) && isDef(i = i.destroy)) i(vnode);
+      for (i = 0; i < cbs.destroy.length; ++i) cbs.destroy[i](vnode);
+      if (isDef(i = vnode.children)) {
+        for (j = 0; j < vnode.children.length; ++j) {
+          invokeDestroyHook(vnode.children[j]);
+        }
       }
     }
   }
@@ -452,15 +469,20 @@ function init(modules) {
           listeners,
           rm,
           ch = vnodes[startIdx];
-      if (!isUndef(ch)) {
-        listeners = cbs.remove.length + 1;
-        rm = createRmCb(parentElm, ch.elm, listeners);
-        for (i = 0; i < cbs.remove.length; ++i) cbs.remove[i](ch, rm);
-        invokeDestroyHook(ch);
-        if (ch.data.hook && ch.data.hook.remove) {
-          ch.data.hook.remove(ch, rm);
+      if (isDef(ch)) {
+        if (isDef(ch.sel)) {
+          invokeDestroyHook(ch);
+          listeners = cbs.remove.length + 1;
+          rm = createRmCb(parentElm, ch.elm, listeners);
+          for (i = 0; i < cbs.remove.length; ++i) cbs.remove[i](ch, rm);
+          if (isDef(i = ch.data) && isDef(i = i.hook) && isDef(i = i.remove)) {
+            i(ch, rm);
+          } else {
+            rm();
+          }
         } else {
-          rm();
+          // Text node
+          parentElm.removeChild(ch.elm);
         }
       }
     }
@@ -475,7 +497,7 @@ function init(modules) {
     var newEndIdx = newCh.length - 1;
     var newStartVnode = newCh[0];
     var newEndVnode = newCh[newEndIdx];
-    var oldKeyToIdx, idxInOld, elmToMove;
+    var oldKeyToIdx, idxInOld, elmToMove, before;
 
     while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
       if (isUndef(oldStartVnode)) {
@@ -518,35 +540,43 @@ function init(modules) {
         }
       }
     }
-    if (oldStartIdx > oldEndIdx) addVnodes(parentElm, oldStartVnode, newCh, newStartIdx, newEndIdx);else if (newStartIdx > newEndIdx) removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
+    if (oldStartIdx > oldEndIdx) {
+      before = isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm;
+      addVnodes(parentElm, before, newCh, newStartIdx, newEndIdx);
+    } else if (newStartIdx > newEndIdx) {
+      removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
+    }
   }
 
   function patchVnode(oldVnode, vnode) {
-    var i;
-    if (!isUndef(i = vnode.data) && !isUndef(i = i.hook) && !isUndef(i = i.patch)) {
-      i = i(oldVnode, vnode);
+    var i, hook;
+    if (isDef(i = vnode.data) && isDef(hook = i.hook) && isDef(i = hook.prepatch)) {
+      i(oldVnode, vnode);
     }
-    if (!isUndef(i = oldVnode.data) && !isUndef(i = i.vnode)) oldVnode = i;
-    if (!isUndef(i = vnode.data) && !isUndef(i = i.vnode)) vnode = i;
+    if (isDef(i = oldVnode.data) && isDef(i = i.vnode)) oldVnode = i;
+    if (isDef(i = vnode.data) && isDef(i = i.vnode)) vnode = i;
     var elm = vnode.elm = oldVnode.elm,
         oldCh = oldVnode.children,
         ch = vnode.children;
     if (oldVnode === vnode) return;
-    if (!isUndef(vnode.data)) {
+    if (isDef(vnode.data)) {
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);
       i = vnode.data.hook;
-      if (!isUndef(i) && !isUndef(i = i.update)) i(vnode);
+      if (isDef(i) && isDef(i = i.update)) i(oldVnode, vnode);
     }
     if (isUndef(vnode.text)) {
-      if (!isUndef(oldCh) && !isUndef(ch)) {
+      if (isDef(oldCh) && isDef(ch)) {
         if (oldCh !== ch) updateChildren(elm, oldCh, ch);
-      } else if (!isUndef(ch)) {
-        addVnodes(elm, undefined, ch, 0, ch.length - 1);
-      } else if (!isUndef(oldCh)) {
+      } else if (isDef(ch)) {
+        addVnodes(elm, null, ch, 0, ch.length - 1);
+      } else if (isDef(oldCh)) {
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
       }
     } else if (oldVnode.text !== vnode.text) {
-      elm.childNodes[0].nodeValue = vnode.text;
+      elm.textContent = vnode.text;
+    }
+    if (isDef(hook) && isDef(i = hook.postpatch)) {
+      i(oldVnode, vnode);
     }
     return vnode;
   }
@@ -554,11 +584,18 @@ function init(modules) {
   return function (oldVnode, vnode) {
     var i;
     insertedVnodeQueue = [];
-    if (oldVnode instanceof Element) {
-      oldVnode = emptyNodeAt(oldVnode);
-    }
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
-    patchVnode(oldVnode, vnode);
+    if (oldVnode instanceof Element) {
+      if (oldVnode.parentElement !== null) {
+        createElm(vnode);
+        oldVnode.parentElement.replaceChild(vnode.elm, oldVnode);
+      } else {
+        oldVnode = emptyNodeAt(oldVnode);
+        patchVnode(oldVnode, vnode);
+      }
+    } else {
+      patchVnode(oldVnode, vnode);
+    }
     for (i = 0; i < insertedVnodeQueue.length; ++i) {
       insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);
     }

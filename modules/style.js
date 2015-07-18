@@ -40,8 +40,7 @@ function applyRemoveStyle(vnode, rm) {
     return;
   }
   var name, elm = vnode.elm, idx, i = 0, maxDur = 0,
-      compStyle, style = s.remove, amount = 0;
-  var applied = [];
+      compStyle, style = s.remove, amount = 0, applied = [];
   for (name in style) {
     applied.push(name);
     elm.style[name] = style[name];

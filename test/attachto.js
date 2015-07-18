@@ -74,4 +74,27 @@ describe('attachTo', function() {
     patch(vnode1, vnode2);
     assert.equal(elm.children.length, 1);
   });
+  it('remove hook recieves real element', function() {
+    function rm(vnode, cb) {
+      console.log(vnode);
+      console.log(vnode.elm);
+      console.log(vnode.elm.parentElement);
+      assert.equal(vnode.elm.tagName, 'DIV');
+      assert.equal(vnode.elm.innerHTML, 'First text');
+      cb();
+    }
+    var vnode1 = h('div', [
+      h('div#wrapper', [
+        h('div', 'Some element'),
+        attachTo(elm, h('div#attached', {hook: {remove: rm}}, 'First text')),
+      ]),
+    ]);
+    var vnode2 = h('div', [
+      h('div#wrapper', [
+        h('div', 'Some element'),
+      ]),
+    ]);
+    patch(vnode0, vnode1);
+    patch(vnode1, vnode2);
+  });
 });

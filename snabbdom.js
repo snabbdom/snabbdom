@@ -31,7 +31,7 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
 
 function createRmCb(parentElm, childElm, listeners) {
   return function() {
-    if (--listeners === 0) parentElm.removeChild(childElm);
+    if (--listeners === 0) childElm.parentElement.removeChild(childElm);
   };
 }
 

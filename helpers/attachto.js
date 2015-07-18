@@ -13,9 +13,10 @@ function post(_, vnode) {
 }
 
 function destroy(vnode) {
+  // Remove placeholder
+  vnode.elm.parentElement.removeChild(vnode.elm);
   // Remove real element from where it was inserted
-  var attachData = vnode.data.attachData;
-  attachData.target.removeChild(attachData.real);
+  vnode.elm = vnode.data.attachData.real;
 }
 
 function create(_, vnode) {
