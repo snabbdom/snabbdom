@@ -161,6 +161,18 @@ h('div.row', {
 });
 ```
 
+#### The `remove` hook
+
+Allows you to hook into the removal of an element. The hook is called once a
+vnode is to be removed from the DOM. The handling function recieves both the
+vnode and a callback. You can control and delay the removal with the callback.
+It should be invoked once the hook is done doing its business and the element
+will only be removed once all `remove` hooks have invoked their callback.
+
+The hook is only triggered when and element is to be removed from its parent –
+not if it is the child of an element that is removed. For that see the destroy
+hook.
+
 ## Modules documentation
 
 This describes the core modules.
@@ -197,7 +209,7 @@ h('span', {
 
 #### Delayed properties
 
-You can specify properties as being delayed. Whenver these properties change
+You can specify properties as being delayed. Whenever these properties change
 the change is not applied until after the next frame.
 
 ```javascript
