@@ -29,7 +29,7 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
   return map;
 }
 
-function createRmCb(parentElm, childElm, listeners) {
+function createRmCb(childElm, listeners) {
   return function() {
     if (--listeners === 0) childElm.parentElement.removeChild(childElm);
   };
@@ -109,7 +109,7 @@ function init(modules) {
         if (isDef(ch.sel)) {
           invokeDestroyHook(ch);
           listeners = cbs.remove.length + 1;
-          rm = createRmCb(parentElm, ch.elm, listeners);
+          rm = createRmCb(ch.elm, listeners);
           for (i = 0; i < cbs.remove.length; ++i) cbs.remove[i](ch, rm);
           if (isDef(i = ch.data) && isDef(i = i.hook) && isDef(i = i.remove)) {
             i(ch, rm);
