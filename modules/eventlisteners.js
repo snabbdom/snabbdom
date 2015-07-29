@@ -3,7 +3,7 @@ var is = require('../is');
 function arrInvoker(arr) {
   return function() {
     // Special case when length is two, for performance
-    arr.length === 2 ? arr[0](arr[1]) : arr[0].apply(undefined, arr.splice(1));
+    arr.length === 2 ? arr[0](arr[1]) : arr[0].apply(undefined, arr.slice(1));
   };
 }
 
