@@ -12,7 +12,7 @@ function updateAttrs(oldVnode, vnode) {
     }
   }
   //remove removed attributes
-  // use `in` operator since the previous `for` iterations uses it (.i.e. )
+  // use `in` operator since the previous `for` iteration uses it (.i.e. add even attributes with undefined value)
   // the other option is to remove all attributes with value == undefined
   for (key in oldAttrs) {
     if (!(key in attrs)) {

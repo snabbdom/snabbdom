@@ -196,6 +196,14 @@ Allows you to set properties on DOM elements.
 h('a', {props: {href: '/foo'}, 'Go to Foo');
 ```
 
+### The attributes module
+
+Same as props but set attributes instead of properties on DOM elements (i.e. `setAttribute`).
+
+```javascript
+h('a', {attrs: {href: '/foo'}, 'Go to Foo');
+```
+
 ### The style module
 
 The style module is for making your HTML look slick and animate smoothly. At
