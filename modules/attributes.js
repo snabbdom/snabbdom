@@ -1,3 +1,7 @@
+function isBooleanAttribute(attrName) {
+    return (/^(?:allowfullscreen|async|autofocus|autoplay|checked|compact|controls|declare|default|defaultchecked|defaultmuted|defaultselected|defer|disabled|draggable|enabled|formnovalidate|hidden|indeterminate|inert|ismap|itemscope|loop|multiple|muted|nohref|noresize|noshade|novalidate|nowrap|open|pauseonexit|readonly|required|reversed|scoped|seamless|selected|sortable|spellcheck|translate|truespeed|typemustmatch|visible)$/).test(attrName);
+}
+
 function updateAttrs(oldVnode, vnode) {
   var key, cur, old, elm = vnode.elm,
       oldAttrs = oldVnode.data.attrs || {}, attrs = vnode.data.attrs || {};
@@ -8,7 +12,10 @@ function updateAttrs(oldVnode, vnode) {
     old = oldAttrs[key];
     if (old !== cur) {
       // TODO: add support to namespaced attributes (setAttributeNS)
-      elm.setAttribute(key, cur);
+      if(!cur && isBooleanAttribute(key))
+        elm.removeAttribute(key);
+      else
+        elm.setAttribute(key, cur);
     }
   }
   //remove removed attributes
