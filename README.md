@@ -196,6 +196,26 @@ Allows you to set properties on DOM elements.
 h('a', {props: {href: '/foo'}, 'Go to Foo');
 ```
 
+### The attributes module
+
+Same as props but set attributes instead of properties on DOM elements
+
+```javascript
+h('a', { attrs: {href: '/foo'} }, 'Go to Foo');
+```
+
+Attributes are added and updated using `setAttribute`. In case of an attribute 
+that has been previously added/set is no longer present in the `attrs` object, 
+it is removed from the DOM element's attribute list using `removeAttribute`. 
+
+In the case of boolean attributes (.e.g. `disabled`, `hidden`, `selected` ...). 
+The meaning doesn't depend on the attribute value (`true` or `false`) but depends
+instead on the presence/absence of the attribute itself in the DOM element. Those 
+attributes are handled differently by the module : if a boolean attribute is set 
+to a [falsy value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean) (`0`, `-0`, `null`, `false`,`NaN`, `undefined`, or the empty 
+string (`""`)) then the attribute will be removed from the attribute list of the
+DOM element.
+
 ### The style module
 
 The style module is for making your HTML look slick and animate smoothly. At
