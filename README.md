@@ -132,6 +132,9 @@ var vnode = h('div', {style: {color: '#000'}}, [
 
 ### Hooks
 
+Hooks are a way to hook into the lifecycle of DOM nodes. Snabbdom offers a rich
+selection of hooks.
+
 #### Overview
 
 | Name        | Triggered when | Arguments to callback |
@@ -175,7 +178,7 @@ hook.
 
 ## Modules documentation
 
-This describes the core modules.
+This describes the core modules. All modules are optional.
 
 ### The class module
 
@@ -225,7 +228,7 @@ it's core it allows you to set CSS properties on elements.
 h('span', {
   style: {border: '1px solid #bada55', color: '#c0ffee', fontWeight: 'bold'}
 }, 'Say my name, and every colour illuminates');
-``````
+```
 
 #### Delayed properties
 
@@ -238,7 +241,14 @@ h('span', {
 }, 'Imma fade right in!');
 ```
 
+This makes it easy to declaratively animate the entry of elements.
+
 #### Set properties on `remove`
+
+Styles set in the `remove` property will take effect once the element is about
+to be moved from the DOM. The applied styles should be animated with CSS
+transitions. Only once all the styles is done animating will the element be
+removed from the DOM.
 
 ```javascript
 h('span', {
@@ -246,6 +256,8 @@ h('span', {
           remove: {opacity: '1'}}
 }, 'It\'s better to fade out than to burn away');
 ```
+
+This makes it easy to declaratively animate the removal of elements.
 
 #### Set properties on `destroy`
 
