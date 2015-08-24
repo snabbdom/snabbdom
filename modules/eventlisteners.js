@@ -11,6 +11,13 @@ function fnInvoker(o) {
   return function(ev) { o.fn(ev); };
 }
 
+function assoc(k, v, obj) {
+  var keys = Object.keys(obj), i = keys.length, copy = {};
+  while (i--) copy[keys[i]] = obj[keys[i]];
+  copy[k] = v;
+  return copy;
+}
+
 function updateEventListeners(oldVnode, vnode) {
   var name, cur, old, elm = vnode.elm,
       oldOn = oldVnode.data.on || {}, on = vnode.data.on;
@@ -23,17 +30,17 @@ function updateEventListeners(oldVnode, vnode) {
         elm.addEventListener(name, arrInvoker(cur));
       } else {
         cur = {fn: cur};
-        on[name] = cur;
+        vnode.data.on = assoc(name, cur, on);
         elm.addEventListener(name, fnInvoker(cur));
       }
     } else if (is.array(old)) {
       // Deliberately modify old array since it's captured in closure created with `arrInvoker`
       old.length = cur.length;
       for (var i = 0; i < old.length; ++i) old[i] = cur[i];
-      on[name]  = old;
+      vnode.data.on = assoc(name, old, on);
     } else {
       old.fn = cur;
-      on[name] = old;
+      vnode.data.on = assoc(name, old, on);
     }
   }
 }
