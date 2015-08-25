@@ -118,7 +118,7 @@ patch(oldVnode, newVnode);
 
 ### `snabbdom/h`
 
-It is recommended that you use `snabbdom/h` to create VNodes. `h` accepts a a
+It is recommended that you use `snabbdom/h` to create VNodes. `h` accepts a
 tag/selector as a string, an optional data object and an optional string or
 array of children.
 
