@@ -49,9 +49,10 @@ features listed below.
   * Patch function with a function signature equivelant to a reduce/scan
     function. Allows for easier integration with a FRP library.
 * Features in modules
-  * Features for doing complex animations.
+  * Features for doing complex CSS animations.
   * Powerful event listener functionality
   * Thunks to optimize the diff and patch process even further
+  * JSX support thanks to [snabbdom-jsx](https://github.com/yelouafi/snabbdom-jsx)
 
 ## Inline example
 
@@ -163,6 +164,14 @@ h('div.row', {
   }
 });
 ```
+
+#### The `insert` hook
+
+This hook is invoked once the DOM element to a vnode has been inserted into the
+document _and_ the rest of the patch cycle is done. This means that you can do
+DOM measurements (like using [getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
+in this hook safely knowing that no elements will be changed afterwards which
+could affect the position of the inserted elements.
 
 #### The `remove` hook
 
