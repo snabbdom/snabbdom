@@ -246,7 +246,7 @@ the change is not applied until after the next frame.
 
 ```javascript
 h('span', {
-  style: {opacity: '0', transitionDuration: 'opacity 1s', delayed: {opacity: '1'}}
+  style: {opacity: '0', transition: 'opacity 1s', delayed: {opacity: '1'}}
 }, 'Imma fade right in!');
 ```
 
@@ -261,8 +261,8 @@ removed from the DOM.
 
 ```javascript
 h('span', {
-  style: {opacity: '1', transitionDuration: 'opacity 1s',
-          remove: {opacity: '1'}}
+  style: {opacity: '1', transition: 'opacity 1s',
+          remove: {opacity: '0'}}
 }, 'It\'s better to fade out than to burn away');
 ```
 
@@ -272,8 +272,8 @@ This makes it easy to declaratively animate the removal of elements.
 
 ```javascript
 h('span', {
-  style: {opacity: '1', transitionDuration: 'opacity 1s',
-          destroy: {opacity: '1'}}
+  style: {opacity: '1', transition: 'opacity 1s',
+          destroy: {opacity: '0'}}
 }, 'It\'s better to fade out than to burn away');
 ```
 
