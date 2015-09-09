@@ -49,6 +49,26 @@ describe('style', function() {
     fakeRaf.step();
     assert.equal(elm.style.fontSize, '20px');
   });
+  
+  it('removes styles', function() {
+    var vnode1 = h('i', {style: {fontSize: '14px', display: 'none'}});
+    var vnode2 = h('i', {style: {fontSize: '12px'}});
+    patch(vnode0,vnode1);
+    assert.equal(elm.style.display, 'none');
+    patch(vnode1, vnode2);
+    assert.equal(elm.style.display, '');
+  });
+  it('removes delayed styles', function() {
+    var vnode1 = h('i', {style: {fontSize: '14px', delayed: {fontSize: '16px', opacity: '0'}}});
+    var vnode2 = h('i', {style: {fontSize: '18px', delayed: {fontSize: '16px'}}});
+    patch(vnode0, vnode1);
+    assert.equal(elm.style.fontSize, '14px');
+    fakeRaf.step();
+    fakeRaf.step();
+    assert.equal(elm.style.opacity, '0');
+    patch(vnode1, vnode2);
+    assert.equal(elm.style.opacity, '');
+  });
 });
 
 fakeRaf.restore();
