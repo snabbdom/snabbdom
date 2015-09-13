@@ -9,7 +9,8 @@ function updateStyle(oldVnode, vnode) {
   var cur, name, elm = vnode.elm,
       oldStyle = oldVnode.data.style || {},
       style = vnode.data.style || {},
-      oldHasDel = 'delayed' in oldStyle;
+      oldHasDel = 'delayed' in oldStyle,
+      curHasDel = 'delayed' in style;
   for (name in style) {
     cur = style[name];
     if (name === 'delayed') {
@@ -21,6 +22,19 @@ function updateStyle(oldVnode, vnode) {
       }
     } else if (name !== 'remove' && cur !== oldStyle[name]) {
       elm.style[name] = cur;
+    }
+  }
+
+  for (name in oldStyle) {
+    if (name === 'delayed') {
+      for (name in oldStyle.delayed) {
+        if (!curHasDel || !(name in style.delayed)) {
+          elm.style[name] = '';
+        }
+      }
+    }
+    if (name !== 'remove' && name !== 'destroy' && !(name in style)) {
+      elm.style[name] = '';  // the DOM is weird eh?
     }
   }
 }
