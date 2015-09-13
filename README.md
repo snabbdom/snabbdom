@@ -239,6 +239,16 @@ h('span', {
 }, 'Say my name, and every colour illuminates');
 ```
 
+Note that the style module does not remove style attributes if they are removed
+as properties from the style object. To remove a style you should instead set
+it to the empty string.
+
+```javascript
+h('div', {
+  style: {position: shouldFollow ? 'fixed' : ''}
+}, 'I, I follow, I follow you');
+```
+
 #### Delayed properties
 
 You can specify properties as being delayed. Whenever these properties change
