@@ -68,7 +68,7 @@ var h = require('snabbdom/h'); // helper function for creating VNodes
 var vnode = h('div#container.two.classes', {on: {click: someFn}}, [
   h('span', {style: {fontWeight: 'bold'}}, 'This is bold'),
   ' and this is just normal text',
-  h('a', {props: {href: '/foo'}, 'I\'ll take you places!'})
+  h('a', {props: {href: '/foo'}}, 'I\'ll take you places!')
 ]);
 var container = document.getElementById('container');
 // Patch into empty DOM element – this modifies the DOM as a side effect
