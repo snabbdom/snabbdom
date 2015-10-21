@@ -16,6 +16,7 @@ documentation however is still quite lagging.
 * [Examples](#examples)
 * [Core documentation](#core-documentation)
 * [Modules documentation](#modules-documentation)
+* [Helpers](#helpers)
 
 ## Why
 
@@ -51,7 +52,7 @@ features listed below.
 * Features in modules
   * Features for doing complex CSS animations.
   * Powerful event listener functionality
-  * Thunks to optimize the diff and patch process even further
+  * [Thunks](#thunks) to optimize the diff and patch process even further
   * JSX support thanks to [snabbdom-jsx](https://github.com/yelouafi/snabbdom-jsx)
 
 ## Inline example
@@ -349,4 +350,45 @@ h('div', [
 
 Snabbdom allows swapping event handlers between renders. This happens without
 actually touching the event handlers attached to the DOM.
+
+## Helpers
+
+### Thunks
+
+The thunks function takes an id for identifying a thunk, a function that
+returns a vnode and a variable amount of state parameters. If invoked the
+render function will recieve the state parameters.
+
+`thunks(uniqueName, renderFn, [stateAguments])`
+
+Thunks is an optimation strategy that can be used when one is dealing with
+immutable data.
+
+Consider a simple function for creating a virtual node based on a number.
+
+```js
+function numberView(n) {
+  return h('div', 'Number is: ' + n);
+}
+```
+
+The view depends only on `n`. This means that if `n` is unchanged then
+creating the virtual DOM node and patching it against the old vnode is
+wasteful. To avoid the overhead we can use the `thunk` helper function.
+
+```js
+function render(state) {
+  return thunk('num', numberView, state.number);
+}
+```
+
+Instead of actually invokaing the `numberView` function this will only place
+a dummy vnode in the virtual tree. When Snabbdom patches this dummy vnode
+against a previous vnode it will compare the value of `n`. If `n` is unchanged
+it will simply reuse the old vnode. This avoids recreating the number view and
+the diff process altogether.
+
+The view function here is only an example. In practice thunks are only
+relevant if you are rendering a complicated view that takes a significant
+computation time to generate.
 
