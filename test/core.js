@@ -56,6 +56,14 @@ describe('snabbdom', function() {
     });
   });
   describe('created element', function() {
+    it('is appended to root element', function() {
+      var root = document.createElement('div');
+      root.appendChild(document.createElement('span'));
+      patch(root, h('span', 'Text'));
+      assert.equal(root.children.length, 2);
+      console.log(root.children[1]);
+      assert.equal(root.children[1].innerHTML, 'Text');
+    });
     it('has tag', function() {
       patch(vnode0, h('div'));
       assert.equal(elm.tagName, 'DIV');

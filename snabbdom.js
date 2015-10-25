@@ -212,13 +212,8 @@ function init(modules) {
     var insertedVnodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
     if (oldVnode instanceof Element) {
-      if (oldVnode.parentElement !== null) {
-        createElm(vnode, insertedVnodeQueue);
-        oldVnode.parentElement.replaceChild(vnode.elm, oldVnode);
-      } else {
-        oldVnode = emptyNodeAt(oldVnode);
-        patchVnode(oldVnode, vnode, insertedVnodeQueue);
-      }
+      createElm(vnode, insertedVnodeQueue);
+      oldVnode.appendChild(vnode.elm, oldVnode);
     } else {
       patchVnode(oldVnode, vnode, insertedVnodeQueue);
     }
