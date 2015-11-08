@@ -351,6 +351,44 @@ h('div', [
 Snabbdom allows swapping event handlers between renders. This happens without
 actually touching the event handlers attached to the DOM.
 
+Note, however, that **you should be careful when sharing event handlers between
+VNodes**, because of the technique this module uses to avoid re-binding
+event handlers to the DOM. (And in general, sharing data between VNodes is
+not guaranteed to work, because modules are allowed to mutate the given data).
+
+In particular, you should **not** do something like this:
+
+```javascript
+// Does not work
+var sharedHandler = {
+  change: function(e){ console.log('you chose: ' + e.target.value); }
+};
+h('div', [
+  h('input', {props: {type: 'radio', name: 'test', value: '0'}, 
+              on: sharedHandler}),
+  h('input', {props: {type: 'radio', name: 'test', value: '1'}, 
+              on: sharedHandler}),
+  h('input', {props: {type: 'radio', name: 'test', value: '2'}, 
+              on: sharedHandler})
+]);
+```
+
+For many such cases, you can use array-based handlers instead (described above).
+Alternatively, simply make sure each node is passed unique `on` values:
+
+```javascript
+// Works
+var sharedHandler = function(e){ console.log('you chose: ' + e.target.value); };
+h('div', [
+  h('input', {props: {type: 'radio', name: 'test', value: '0'}, 
+              on: {change: sharedHandler}}),
+  h('input', {props: {type: 'radio', name: 'test', value: '1'}, 
+              on: {change: sharedHandler}}),
+  h('input', {props: {type: 'radio', name: 'test', value: '2'}, 
+              on: {change: sharedHandler}})
+]);
+```
+
 ## Helpers
 
 ### Thunks
