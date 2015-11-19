@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Reorder animation</title>
+    <script type="text/javascript" src="build.js"></script>
+    <style>
+      body {
+        background: #fafafa;
+        font-family: sans-serif;
+      }
+      h1 {
+        font-weight: normal;
+      }
+      .btn {
+        display: inline-block;
+        cursor: pointer;
+        background: #fff;
+        box-shadow: 0 0 1px rgba(0, 0, 0, .2);
+        padding: .5em .8em;
+        transition: box-shadow .05s ease-in-out;
+        -webkit-transition: box-shadow .05s ease-in-out;
+      }
+      .btn:hover {
+        box-shadow: 0 0 2px rgba(0, 0, 0, .2);
+      }
+      .btn:active, .active, .active:hover {
+        box-shadow: 0 0 1px rgba(0, 0, 0, .2),
+                    inset 0 0 4px rgba(0, 0, 0, .1);
+      }
+      .add {
+        float: right;
+      }
+      #container {
+        max-width: 42em;
+        margin: 0 auto 2em auto;
+      }
+      .list {
+        position: relative;
+      }
+      .row {
+        overflow: hidden;
+        position: absolute;
+        box-sizing: border-box;
+        width: 100%;
+        left: 0px;
+        margin: .5em 0;
+        padding: 1em;
+        background: #fff;
+        box-shadow: 0 0 1px rgba(0, 0, 0, .2);
+        transition: transform .5s ease-in-out, opacity .5s ease-out, left .5s ease-in-out;
+        -webkit-transition: transform .5s ease-in-out, opacity .5s ease-out, left .5s ease-in-out;
+      }
+      .row div {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .row > div:nth-child(1) {
+        width: 5%;
+      }
+      .row > div:nth-child(2) {
+        width: 30%;
+      }
+      .row > div:nth-child(3) {
+        width: 65%;
+      }
+      .rm-btn {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: #C25151;
+        width: 1.4em;
+        height: 1.4em;
+        text-align: center;
+        line-height: 1.4em;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+  </body>
+</html>
