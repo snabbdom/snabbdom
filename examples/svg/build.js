@@ -4,22 +4,29 @@
 var snabbdom = require('../../snabbdom.js');
 var patch = snabbdom.init([require('../../modules/attributes')]);
 var h = require('../../h.js');
-var svg = require('../../helpers/svg.js');
 
 var vnode;
 
 window.addEventListener('DOMContentLoaded', function () {
   var container = document.getElementById('container');
-  var vnode = h('div', [svg({ attrs: { width: 100, height: 100 } }, [h('circle', { attrs: { cx: 50, cy: 50, r: 40, stroke: 'green', 'stroke-width': 4, fill: 'yellow' } })])]);
-  console.log(vnode);
+  var vnode = h('div', [h('svg', { attrs: { width: 100, height: 100 } }, [h('circle', { attrs: { cx: 50, cy: 50, r: 40, stroke: 'green', 'stroke-width': 4, fill: 'yellow' } })])]);
   vnode = patch(container, vnode);
 });
 
-},{"../../h.js":2,"../../helpers/svg.js":3,"../../modules/attributes":5,"../../snabbdom.js":6}],2:[function(require,module,exports){
+},{"../../h.js":2,"../../modules/attributes":4,"../../snabbdom.js":5}],2:[function(require,module,exports){
 'use strict';
 
 var VNode = require('./vnode');
 var is = require('./is');
+
+function addNS(data, children) {
+  data.ns = 'http://www.w3.org/2000/svg';
+  if (children !== undefined) {
+    for (var i = 0; i < children.length; ++i) {
+      addNS(children[i].data, children[i].children);
+    }
+  }
+}
 
 module.exports = function h(sel, b, c) {
   var data = {},
@@ -47,42 +54,13 @@ module.exports = function h(sel, b, c) {
       if (is.primitive(children[i])) children[i] = VNode(undefined, undefined, undefined, children[i]);
     }
   }
+  if (sel[0] === 's' && sel[1] === 'v' && sel[2] === 'g') {
+    addNS(data, children);
+  }
   return VNode(sel, data, children, text, undefined);
 };
 
-},{"./is":4,"./vnode":7}],3:[function(require,module,exports){
-'use strict';
-
-var VNode = require('../vnode');
-var is = require('../is');
-
-function addNS(vnode) {
-  vnode.data.ns = 'http://www.w3.org/2000/svg';
-  if (vnode.children !== undefined) {
-    for (var i = 0; i < vnode.children.length; ++i) {
-      addNS(vnode.children[i]);
-    }
-  }
-}
-
-module.exports = function (b, c) {
-  var data, children;
-  if (arguments.length === 2) {
-    data = b;
-    children = c;
-  } else if (is.array(b)) {
-    children = b;
-    data = {};
-  } else {
-    data = b;
-    children = [];
-  }
-  var vnode = VNode('svg', data, children, undefined, undefined);
-  addNS(vnode);
-  return vnode;
-};
-
-},{"../is":4,"../vnode":7}],4:[function(require,module,exports){
+},{"./is":3,"./vnode":6}],3:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -91,7 +69,7 @@ module.exports = {
     return typeof s === 'string' || typeof s === 'number';
   } };
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 
 var booleanAttrs = ["allowfullscreen", "async", "autofocus", "autoplay", "checked", "compact", "controls", "declare", "default", "defaultchecked", "defaultmuted", "defaultselected", "defer", "disabled", "draggable", "enabled", "formnovalidate", "hidden", "indeterminate", "inert", "ismap", "itemscope", "loop", "multiple", "muted", "nohref", "noresize", "noshade", "novalidate", "nowrap", "open", "pauseonexit", "readonly", "required", "reversed", "scoped", "seamless", "selected", "sortable", "spellcheck", "translate", "truespeed", "typemustmatch", "visible"];
@@ -130,7 +108,7 @@ function updateAttrs(oldVnode, vnode) {
 
 module.exports = { create: updateAttrs, update: updateAttrs };
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 // jshint newcap: false
 /* global require, module, document, Element */
 'use strict';
@@ -386,7 +364,7 @@ function init(modules) {
 
 module.exports = { init: init };
 
-},{"./is":4,"./vnode":7}],7:[function(require,module,exports){
+},{"./is":3,"./vnode":6}],6:[function(require,module,exports){
 "use strict";
 
 module.exports = function (sel, data, children, text, elm) {
