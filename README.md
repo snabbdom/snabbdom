@@ -73,6 +73,13 @@ var vnode = h('div#container.two.classes', {on: {click: someFn}}, [
 var container = document.getElementById('container');
 // Patch into empty DOM element – this modifies the DOM as a side effect
 patch(container, vnode);
+var newVnode = h('div#container.two.classes', {on: {click: anotherEventHandler}}, [
+  h('span', {style: {fontWeight: 'normal', fontStyle: 'italics'}}, 'This is now italics'),
+  ' and this is still just normal text',
+  h('a', {props: {href: '/bar'}}, 'I\'ll take you places!')
+]);
+// Second `patch` invocation
+patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new state
 ```
 
 ## Examples
@@ -133,23 +140,31 @@ var vnode = h('div', {style: {color: '#000'}}, [
 
 ### Hooks
 
-Hooks are a way to hook into the lifecycle of DOM nodes. Snabbdom offers a rich
-selection of hooks.
+Hooks are a way to hook into the lifecycle of DOM nodes. Snabbdom
+offers a rich selection of hooks. Hooks are used both by modules to
+extend Snabbdom and in normal code for executing arbitrary code at
+desired points in the life of a virtual node.
 
 #### Overview
 
-| Name        | Triggered when | Arguments to callback |
-| ----------- | -------------- | --------------------- |
-| `pre`       | the patch process begins. | none |
-| `create`    | a DOM element has been created based on a VNode. | `emptyVNode, vnode` |
-| `insert`    | an element has been inserted into the DOM. | `vnode` |
-| `prepatch`  | an element is about to be patched. | `oldVnode, vnode` |
-| `update`    | an element is being updated. | `oldVnode, vnode` |
-| `postpatch` | an element has been patched. | `oldVnode, vnode` |
-| `remove`    | an element is directly being removed from the DOM. | `vnode, removeCallback` |
-| `destroy`   | an element is being removed from the DOM or it's parent is. | `vnode` |
-| `post`      | the patch process is done. | none |
+| Name        | Triggered when                                     | Arguments to callback   |
+| ----------- | --------------                                     | ----------------------- |
+| `pre`       | the patch process begins                           | none                    |
+| `create`    | a DOM element has been created based on a VNode    | `emptyVNode, vnode`     |
+| `insert`    | an element has been inserted into the DOM          | `vnode`                 |
+| `prepatch`  | an element is about to be patched                  | `oldVnode, vnode`       |
+| `update`    | an element is being updated                        | `oldVnode, vnode`       |
+| `postpatch` | an element has been patched                        | `oldVnode, vnode`       |
+| `remove`    | an element is directly being removed from the DOM  | `vnode, removeCallback` |
+| `destroy`   | an element is directly or indirectly begin removed | `vnode`                 |
+| `post`      | the patch process is done                          | none                    |
 
+The following hooks are available for modules: `pre`, `create`,
+`update`, `remove`, destroy`, `post`.
+
+The following hooks are available in the `hook` property of individual
+elements: `create`, `insert`, `prepatch`, `update`, `postpatch`,
+`remove`, `destroy`.
 
 #### Usage
 
@@ -208,6 +223,24 @@ element because it is the only element being detached from its parent.
 You can for instance use `remove` to trigger an animation when an element is
 being removed and use the `destroy` hook to additionally animate the
 disappearance of the removed elements children.
+
+### Creating modules
+
+Modules works by registering global listeners for the [hooks](#hooks). A module as simply a dictionary from hook names to functions.
+
+```javascript
+var myModule = {
+  create: function(oldVnode, vnode) {
+    // invoked whenever a new virtual node is created
+  },
+  update: function(oldVnode, vnode) {
+    // invoked whenever a virtual node is updated
+  }
+};
+
+With this mechanism you can easily argument the behaviour of
+Snabbdom. For demonstration take a look at the implementations of the
+default modules.
 
 ## Modules documentation
 
