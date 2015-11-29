@@ -3,9 +3,6 @@
 A virtual DOM library with focus on simplicity, modularity, powerful features
 and performance.
 
-_Note:_ Snabbdom is mostly done. I'm currently only making minor tweaks. The
-documentation however is still quite lagging.
-
 [![Join the chat at https://gitter.im/paldepind/snabbdom](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/paldepind/snabbdom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Table of contents
@@ -50,6 +47,8 @@ features listed below.
   * Patch function with a function signature equivelant to a reduce/scan
     function. Allows for easier integration with a FRP library.
 * Features in modules
+  * `h` function for easily creating virtual DOM nodes
+  * [SVG just _works with_ the `h` helper](#svg).m
   * Features for doing complex CSS animations.
   * Powerful event listener functionality
   * [Thunks](#thunks) to optimize the diff and patch process even further
@@ -390,6 +389,22 @@ h('div', [
 ```
 
 ## Helpers
+
+### SVG
+
+SVG just works when using the `h` function for creating virtual
+nodes. SVG elements are automatially created with the appropriate
+namespaces.
+
+```javascript
+var vnode = h('div', [
+  h('svg', {attrs: {width: 100, height: 100}}, [
+    h('circle', {attrs: {cx: 50, cy: 50, r: 40, stroke: 'green', 'stroke-width': 4, fill: 'yellow'}})
+  ])
+]);
+```
+
+See also the [SVG example](./examples/svg).
 
 ### Thunks
 
