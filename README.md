@@ -237,6 +237,7 @@ var myModule = {
     // invoked whenever a virtual node is updated
   }
 };
+```
 
 With this mechanism you can easily argument the behaviour of
 Snabbdom. For demonstration take a look at the implementations of the
