@@ -263,7 +263,7 @@ h('a', {class: {active: true, selected: false}}, 'Toggle');
 Allows you to set properties on DOM elements.
 
 ```javascript
-h('a', {props: {href: '/foo'}, 'Go to Foo');
+h('a', { props: {href: '/foo'} }, 'Go to Foo');
 ```
 
 ### The attributes module
