@@ -237,6 +237,7 @@ var myModule = {
     // invoked whenever a virtual node is updated
   }
 };
+```
 
 With this mechanism you can easily argument the behaviour of
 Snabbdom. For demonstration take a look at the implementations of the
@@ -262,7 +263,7 @@ h('a', {class: {active: true, selected: false}}, 'Toggle');
 Allows you to set properties on DOM elements.
 
 ```javascript
-h('a', {props: {href: '/foo'}, 'Go to Foo');
+h('a', { props: {href: '/foo'} }, 'Go to Foo');
 ```
 
 ### The attributes module
