@@ -53,6 +53,7 @@ features listed below.
   * Powerful event listener functionality
   * [Thunks](#thunks) to optimize the diff and patch process even further
   * JSX support thanks to [snabbdom-jsx](https://github.com/yelouafi/snabbdom-jsx)
+  * Server-side HTML output thanks to [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html)
 
 ## Inline example
 
@@ -442,13 +443,13 @@ See also the [SVG example](./examples/svg).
 
 ### Thunks
 
-The thunks function takes an id for identifying a thunk, a function that
+The `thunk` function takes a name for identifying a thunk, a function that
 returns a vnode and a variable amount of state parameters. If invoked the
 render function will recieve the state parameters.
 
 `thunks(uniqueName, renderFn, [stateAguments])`
 
-Thunks is an optimation strategy that can be used when one is dealing with
+Thunks is an optimization strategy that can be used when one is dealing with
 immutable data.
 
 Consider a simple function for creating a virtual node based on a number.
@@ -469,7 +470,7 @@ function render(state) {
 }
 ```
 
-Instead of actually invokaing the `numberView` function this will only place
+Instead of actually invoking the `numberView` function this will only place
 a dummy vnode in the virtual tree. When Snabbdom patches this dummy vnode
 against a previous vnode it will compare the value of `n`. If `n` is unchanged
 it will simply reuse the old vnode. This avoids recreating the number view and
