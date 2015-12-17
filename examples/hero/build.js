@@ -60,7 +60,7 @@ var overviewView = function overviewView(movies) {
 };
 
 var view = function view(data) {
-  return h('div', [data.selected ? detailView(data.selected) : overviewView(data.movies)]);
+  return h('div.page-container', [data.selected ? detailView(data.selected) : overviewView(data.movies)]);
 };
 
 window.addEventListener('DOMContentLoaded', function () {

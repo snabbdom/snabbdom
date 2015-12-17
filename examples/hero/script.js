@@ -109,7 +109,7 @@ const overviewView = (movies) =>
   ]);
 
 const view = (data) =>
-  h('div', [
+  h('div.page-container', [
     data.selected ? detailView(data.selected) : overviewView(data.movies),
   ]);
 
