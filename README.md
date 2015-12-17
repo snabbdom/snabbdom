@@ -17,7 +17,7 @@ and performance.
 
 ## Why
 
-Virtual DOM is awesome. It allow us to express our applications view as a
+Virtual DOM is awesome. It allows us to express our applications view as a
 function of its state. But existing solutions were way way too bloated, too
 slow, lacked features, had an API biased towards OOP and/or lacked features I
 needed.
