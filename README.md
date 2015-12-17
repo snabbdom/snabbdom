@@ -155,16 +155,16 @@ desired points in the life of a virtual node.
 | `prepatch`  | an element is about to be patched                  | `oldVnode, vnode`       |
 | `update`    | an element is being updated                        | `oldVnode, vnode`       |
 | `postpatch` | an element has been patched                        | `oldVnode, vnode`       |
-| `remove`    | an element is directly being removed from the DOM  | `vnode, removeCallback` |
 | `destroy`   | an element is directly or indirectly begin removed | `vnode`                 |
+| `remove`    | an element is directly being removed from the DOM  | `vnode, removeCallback` |
 | `post`      | the patch process is done                          | none                    |
 
 The following hooks are available for modules: `pre`, `create`,
-`update`, `remove`, destroy`, `post`.
+`update`, `destroy`, `remove`, `post`.
 
 The following hooks are available in the `hook` property of individual
 elements: `create`, `insert`, `prepatch`, `update`, `postpatch`,
-`remove`, `destroy`.
+`destroy`, `remove`.
 
 #### Usage
 
@@ -263,7 +263,7 @@ h('a', {class: {active: true, selected: false}}, 'Toggle');
 Allows you to set properties on DOM elements.
 
 ```javascript
-h('a', { props: {href: '/foo'} }, 'Go to Foo');
+h('a', {props: {href: '/foo'}}, 'Go to Foo');
 ```
 
 ### The attributes module
@@ -271,7 +271,7 @@ h('a', { props: {href: '/foo'} }, 'Go to Foo');
 Same as props but set attributes instead of properties on DOM elements
 
 ```javascript
-h('a', { attrs: {href: '/foo'} }, 'Go to Foo');
+h('a', {attrs: {href: '/foo'}}, 'Go to Foo');
 ```
 
 Attributes are added and updated using `setAttribute`. In case of an attribute 
