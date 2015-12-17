@@ -23,6 +23,7 @@ function create(oldVnode, vnode) {
 function destroy(vnode) {
   var hero = vnode.data.hero;
   if (hero && hero.id) {
+    vnode.boundingRect = vnode.elm.getBoundingClientRect() //save the bounding rectangle to a new property on the vnode
     removed[hero.id] = vnode;
   }
 }
@@ -40,7 +41,7 @@ function post() {
       oldElm = oldVnode.elm;
       oldStyle = oldElm.style;
       newRect = newElm.getBoundingClientRect();
-      oldRect = oldElm.getBoundingClientRect();
+      oldRect = oldVnode.boundingRect; //Use previously saved rect
       dx = oldRect.left - newRect.left;
       dy = oldRect.top - newRect.top;
       wRatio = newRect.width / (Math.max(oldRect.width, 1));
@@ -60,6 +61,9 @@ function post() {
       oldStyle.position = 'absolute';
       oldStyle.top = newRect.top + 'px';
       oldStyle.left = newRect.left + 'px';
+      oldStyle.width = oldRect.width + 'px'; //Needed for elements who were sized relative to their parents
+      oldStyle.height = oldRect.height + 'px'; //Needed for elements who were sized relative to their parents
+      oldStyle.margin = 0; //Margin on hero element leads to incorrect positioning
       oldStyle.transformOrigin = '0 0';
       oldStyle.transform = 'translate('+dx+'px, '+dy+'px)';
       oldStyle.opacity = '1';
