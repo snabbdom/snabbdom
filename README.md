@@ -447,7 +447,7 @@ The `thunk` function takes a name for identifying a thunk, a function that
 returns a vnode and a variable amount of state parameters. If invoked the
 render function will recieve the state parameters.
 
-`thunks(uniqueName, renderFn, [stateAguments])`
+`thunk(uniqueName, renderFn, [stateAguments])`
 
 Thunks is an optimization strategy that can be used when one is dealing with
 immutable data.
