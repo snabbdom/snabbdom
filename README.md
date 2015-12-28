@@ -240,7 +240,7 @@ var myModule = {
 };
 ```
 
-With this mechanism you can easily argument the behaviour of
+With this mechanism you can easily augument the behaviour of
 Snabbdom. For demonstration take a look at the implementations of the
 default modules.
 
