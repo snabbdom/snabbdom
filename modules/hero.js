@@ -69,7 +69,7 @@ function destroy(vnode) {
     vnode.boundingRect = elm.getBoundingClientRect(); //save the bounding rectangle to a new property on the vnode
     vnode.textRect = vnode.isTextNode ? getTextNodeRect(elm.childNodes[0]) : null; //save bounding rect of inner text node
     var computedStyle = window.getComputedStyle(elm, null); //get current styles (includes inherited properties)
-    vnode.savedStyle = {
+    vnode.savedStyle = { //save important inherited styles, will be reapplied in post()
       textAlign: computedStyle.textAlign,
       color: computedStyle.color,
     };
@@ -131,8 +131,9 @@ function post() {
       oldStyle.transformOrigin = calcTransformOrigin(isTextNode, oldTextRect, oldRect);
       oldStyle.transform = '';
       oldStyle.opacity = '1';
-      oldStyle.textAlign = oldVnode.savedStyle.textAlign; //re-apply saved inherited properties
-      oldStyle.color = oldVnode.savedStyle.color;
+      for (var key in oldVnode.savedStyle) { //re-apply saved inherited properties
+    	  oldStyle[key] = oldVnode.savedStyle[key];
+      }
       document.body.appendChild(oldElm);
       setNextFrame(oldStyle, 'transform', 'translate('+ -dx +'px, '+ -dy +'px) scale('+wRatio+', '+hRatio+')'); //scale must be on far right for translate to be correct
       setNextFrame(oldStyle, 'opacity', '0');
