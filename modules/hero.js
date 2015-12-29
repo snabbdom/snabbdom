@@ -71,7 +71,13 @@ function destroy(vnode) {
     var computedStyle = window.getComputedStyle(elm, null); //get current styles (includes inherited properties)
     vnode.savedStyle = { //save important inherited styles, will be reapplied in post()
       textAlign: computedStyle.textAlign,
+      background: computedStyle.background,
+      boxShadow: computedStyle.boxShadow,
       color: computedStyle.color,
+      font: computedStyle.font,
+      fontSize: computedStyle.fontSize,
+      fontWeight: computedStyle.fontWeight,
+      textDecoration: computedStyle.textDecoration,
     };
     removed[hero.id] = vnode;
   }
