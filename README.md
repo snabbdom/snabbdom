@@ -52,8 +52,9 @@ features listed below.
   * Features for doing complex CSS animations.
   * Powerful event listener functionality
   * [Thunks](#thunks) to optimize the diff and patch process even further
-  * JSX support thanks to [snabbdom-jsx](https://github.com/yelouafi/snabbdom-jsx)
-  * Server-side HTML output thanks to [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html)
+  * JSX support thanks to [snabbdom-jsx](https://github.com/yelouafi/snabbdom-jsx).
+    There is also a Babel plugin [babel-snabbdom-jsx](https://github.com/finnsson/babel-snabbdom-jsx).
+  * Server-side HTML output provided by [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html)
 
 ## Inline example
 
