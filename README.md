@@ -37,24 +37,24 @@ features listed below.
 ## Features
 
 * Core features
-  * About 200 SLOC – you could easily read through the entire core and fully
+  * About 200 SLOC – you could easily read through the entire core and fully.
     understand how it works.
   * Extendable through modules.
-  * A rich set of hooks available both per vnode and globally for modules
+  * A rich set of hooks available both per vnode and globally for modules.
     so they can hook into any part of the diff and patch process.
-  * Splendid performance. Snabbdom is among the fastest virtual DOM libraries
+  * Splendid performance. Snabbdom is among the fastest virtual DOM libraries.
     in the [Virtual DOM Benchmark](http://vdom-benchmark.github.io/vdom-benchmark/).
-  * Patch function with a function signature equivelant to a reduce/scan
+  * Patch function with a function signature equivelant to a reduce/scan.
     function. Allows for easier integration with a FRP library.
 * Features in modules
-  * `h` function for easily creating virtual DOM nodes
-  * [SVG just _works with_ the `h` helper](#svg).m
+  * `h` function for easily creating virtual DOM nodes.
+  * [SVG _just works_ with the `h` helper](#svg).
   * Features for doing complex CSS animations.
-  * Powerful event listener functionality
-  * [Thunks](#thunks) to optimize the diff and patch process even further
+  * Powerful event listener functionality.
+  * [Thunks](#thunks) to optimize the diff and patch process even further.
   * JSX support thanks to [snabbdom-jsx](https://github.com/yelouafi/snabbdom-jsx).
     There is also a Babel plugin [babel-snabbdom-jsx](https://github.com/finnsson/babel-snabbdom-jsx).
-  * Server-side HTML output provided by [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html)
+  * Server-side HTML output provided by [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html).
 
 ## Inline example
 
