@@ -30,6 +30,7 @@
           align-items: center;
           justify-content: center;
           background: #aaaaaa;
+          position: relative;
         }
         .page-container {
           box-shadow: 0 0 1em rgba(0, 0, 0, .5);
@@ -43,6 +44,7 @@
         transition: opacity 0.4s ease-in-out,
                     transform 0.4s ease-in-out;
         width: 100%;
+        height: 100%;
       }
       h2 {
         font-size: 1.1em;
@@ -122,12 +124,17 @@
       .page-content {
         position: relative;
         overflow: hidden;
+        width: 100%;
+        height: calc(100% - 3.5em);
       }
       .list {
+        position: absolute;
+        width: 100%;
         transition: transform 0.4s ease-in-out,
                     opacity 0.4s ease-in-out;
       }
       .desc {
+        position: absolute;
         transition: transform 0.4s ease-in-out,
                     opacity 0.4s ease-in-out;
         padding: 1em;

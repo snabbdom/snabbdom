@@ -28,14 +28,17 @@ var fadeInOutStyle = {
 
 var detailView = function detailView(movie) {
   return h('div.page', { style: fadeInOutStyle }, [h('div.header', [h('div.header-content.detail', {
-    style: { opacity: '1', remove: { opacity: '0' } } }, [h('div.rank', [h('span.header-rank.hero', { hero: { id: 'rank' + movie.rank } }, movie.rank), h('div.rank-circle', {
+    style: { opacity: '1', remove: { opacity: '0' } }
+  }, [h('div.rank', [h('span.header-rank.hero', { hero: { id: 'rank' + movie.rank } }, movie.rank), h('div.rank-circle', {
     style: { transform: 'scale(0)',
       delayed: { transform: 'scale(1)' },
-      destroy: { transform: 'scale(0)' } } })]), h('div.hero.header-title', { hero: { id: movie.title } }, movie.title), h('div.spacer'), h('div.close', {
+      destroy: { transform: 'scale(0)' } }
+  })]), h('div.hero.header-title', { hero: { id: movie.title } }, movie.title), h('div.spacer'), h('div.close', {
     on: { click: [select, undefined] },
     style: { transform: 'scale(0)',
       delayed: { transform: 'scale(1)' },
-      destroy: { transform: 'scale(0)' } } }, 'x')])]), h('div.page-content', [h('div.desc', {
+      destroy: { transform: 'scale(0)' } }
+  }, 'x')])]), h('div.page-content', [h('div.desc', {
     style: { opacity: '0', transform: 'translateX(3em)',
       delayed: { opacity: '1', transform: 'translate(0)' },
       remove: { opacity: '0', position: 'absolute', top: '0', left: '0',
@@ -46,7 +49,8 @@ var detailView = function detailView(movie) {
 
 var overviewView = function overviewView(movies) {
   return h('div.page', { style: fadeInOutStyle }, [h('div.header', [h('div.header-content.overview', {
-    style: fadeInOutStyle }, [h('div.header-title', {
+    style: fadeInOutStyle
+  }, [h('div.header-title', {
     style: { transform: 'translateY(-2em)',
       delayed: { transform: 'translate(0)' },
       destroy: { transform: 'translateY(-2em)' } }
@@ -55,7 +59,8 @@ var overviewView = function overviewView(movies) {
       remove: { opacity: '0', position: 'absolute', top: '0', left: '0' } }
   }, movies.map(function (movie) {
     return h('div.row', {
-      on: { click: [select, movie] } }, [h('div.hero.rank', [h('span.hero', { hero: { id: 'rank' + movie.rank } }, movie.rank)]), h('div.hero', { hero: { id: movie.title } }, movie.title)]);
+      on: { click: [select, movie] }
+    }, [h('div.hero.rank', [h('span.hero', { hero: { id: 'rank' + movie.rank } }, movie.rank)]), h('div.hero', { hero: { id: movie.title } }, movie.title)]);
   }))])]);
 };
 
@@ -74,6 +79,15 @@ window.addEventListener('DOMContentLoaded', function () {
 
 var VNode = require('./vnode');
 var is = require('./is');
+
+function addNS(data, children) {
+  data.ns = 'http://www.w3.org/2000/svg';
+  if (children !== undefined) {
+    for (var i = 0; i < children.length; ++i) {
+      addNS(children[i].data, children[i].children);
+    }
+  }
+}
 
 module.exports = function h(sel, b, c) {
   var data = {},
@@ -101,6 +115,9 @@ module.exports = function h(sel, b, c) {
       if (is.primitive(children[i])) children[i] = VNode(undefined, undefined, undefined, children[i]);
     }
   }
+  if (sel[0] === 's' && sel[1] === 'v' && sel[2] === 'g') {
+    addNS(data, children);
+  }
   return VNode(sel, data, children, text, undefined);
 };
 
@@ -111,7 +128,8 @@ module.exports = {
   array: Array.isArray,
   primitive: function primitive(s) {
     return typeof s === 'string' || typeof s === 'number';
-  } };
+  }
+};
 
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -139,13 +157,14 @@ var is = require('../is');
 
 function arrInvoker(arr) {
   return function () {
-    arr[0](arr[1]);
+    // Special case when length is two, for performance
+    arr.length === 2 ? arr[0](arr[1]) : arr[0].apply(undefined, arr.slice(1));
   };
 }
 
-function fnInvoker(arr) {
+function fnInvoker(o) {
   return function (ev) {
-    arr[0](ev);
+    o.fn(ev);
   };
 }
 
@@ -164,16 +183,17 @@ function updateEventListeners(oldVnode, vnode) {
       if (is.array(cur)) {
         elm.addEventListener(name, arrInvoker(cur));
       } else {
-        cur = [cur];
+        cur = { fn: cur };
         on[name] = cur;
         elm.addEventListener(name, fnInvoker(cur));
       }
-    } else if (old.length === 2) {
-      old[0] = cur[0]; // Deliberately modify old array since it's
-      old[1] = cur[1]; // captured in closure created with `arrInvoker`
+    } else if (is.array(old)) {
+      // Deliberately modify old array since it's captured in closure created with `arrInvoker`
+      old.length = cur.length;
+      for (var i = 0; i < old.length; ++i) old[i] = cur[i];
       on[name] = old;
     } else {
-      old[0] = cur;
+      old.fn = cur;
       on[name] = old;
     }
   }
@@ -184,7 +204,7 @@ module.exports = { create: updateEventListeners, update: updateEventListeners };
 },{"../is":3}],6:[function(require,module,exports){
 'use strict';
 
-var raf = requestAnimationFrame || setTimeout;
+var raf = window && window.requestAnimationFrame || setTimeout;
 var nextFrame = function nextFrame(fn) {
   raf(function () {
     raf(fn);
@@ -195,6 +215,47 @@ function setNextFrame(obj, prop, val) {
   nextFrame(function () {
     obj[prop] = val;
   });
+}
+
+function getTextNodeRect(textNode) {
+  var rect;
+  if (document.createRange) {
+    var range = document.createRange();
+    range.selectNodeContents(textNode);
+    if (range.getBoundingClientRect) {
+      rect = range.getBoundingClientRect();
+    }
+  }
+  return rect;
+}
+
+function calcTransformOrigin(isTextNode, textRect, boundingRect) {
+  if (isTextNode) {
+    if (textRect) {
+      //calculate pixels to center of text from left edge of bounding box
+      var relativeCenterX = textRect.left + textRect.width / 2 - boundingRect.left;
+      var relativeCenterY = textRect.top + textRect.height / 2 - boundingRect.top;
+      return relativeCenterX + 'px ' + relativeCenterY + 'px';
+    }
+  }
+  return '0 0'; //top left
+}
+
+function getTextDx(oldTextRect, newTextRect) {
+  if (oldTextRect && newTextRect) {
+    return oldTextRect.left + oldTextRect.width / 2 - (newTextRect.left + newTextRect.width / 2);
+  }
+  return 0;
+}
+function getTextDy(oldTextRect, newTextRect) {
+  if (oldTextRect && newTextRect) {
+    return oldTextRect.top + oldTextRect.height / 2 - (newTextRect.top + newTextRect.height / 2);
+  }
+  return 0;
+}
+
+function isTextElement(elm) {
+  return elm.childNodes.length === 1 && elm.childNodes[0].nodeType === 3;
 }
 
 var removed, created;
@@ -215,45 +276,78 @@ function create(oldVnode, vnode) {
 function destroy(vnode) {
   var hero = vnode.data.hero;
   if (hero && hero.id) {
+    var elm = vnode.elm;
+    vnode.isTextNode = isTextElement(elm); //is this a text node?
+    vnode.boundingRect = elm.getBoundingClientRect(); //save the bounding rectangle to a new property on the vnode
+    vnode.textRect = vnode.isTextNode ? getTextNodeRect(elm.childNodes[0]) : null; //save bounding rect of inner text node
+    var computedStyle = window.getComputedStyle(elm, null); //get current styles (includes inherited properties)
+    vnode.savedStyle = JSON.parse(JSON.stringify(computedStyle)); //save a copy of computed style values
     removed[hero.id] = vnode;
   }
 }
 
 function post() {
-  var i, id, newElm, oldVnode, oldElm, hRatio, wRatio, oldRect, newRect, dx, dy, origTransform, origTransition, newStyle, oldStyle;
+  var i, id, newElm, oldVnode, oldElm, hRatio, wRatio, oldRect, newRect, dx, dy, origTransform, origTransition, newStyle, oldStyle, newComputedStyle, isTextNode, newTextRect, oldTextRect;
   for (i = 0; i < created.length; i += 2) {
     id = created[i];
     newElm = created[i + 1].elm;
     oldVnode = removed[id];
     if (oldVnode) {
+      isTextNode = oldVnode.isTextNode && isTextElement(newElm); //Are old & new both text?
       newStyle = newElm.style;
+      newComputedStyle = window.getComputedStyle(newElm, null); //get full computed style for new element
       oldElm = oldVnode.elm;
       oldStyle = oldElm.style;
+      //Overall element bounding boxes
       newRect = newElm.getBoundingClientRect();
-      oldRect = oldElm.getBoundingClientRect();
-      dx = oldRect.left - newRect.left;
-      dy = oldRect.top - newRect.top;
-      wRatio = newRect.width / Math.max(oldRect.width, 1);
+      oldRect = oldVnode.boundingRect; //previously saved bounding rect
+      //Text node bounding boxes & distances
+      if (isTextNode) {
+        newTextRect = getTextNodeRect(newElm.childNodes[0]);
+        oldTextRect = oldVnode.textRect;
+        dx = getTextDx(oldTextRect, newTextRect);
+        dy = getTextDy(oldTextRect, newTextRect);
+      } else {
+        //Calculate distances between old & new positions
+        dx = oldRect.left - newRect.left;
+        dy = oldRect.top - newRect.top;
+      }
       hRatio = newRect.height / Math.max(oldRect.height, 1);
+      wRatio = isTextNode ? hRatio : newRect.width / Math.max(oldRect.width, 1); //text scales based on hRatio
       // Animate new element
       origTransform = newStyle.transform;
       origTransition = newStyle.transition;
+      if (newComputedStyle.display === 'inline') //inline elements cannot be transformed
+        newStyle.display = 'inline-block'; //this does not appear to have any negative side effects
       newStyle.transition = origTransition + 'transform 0s';
-      newStyle.transformOrigin = '0 0';
+      newStyle.transformOrigin = calcTransformOrigin(isTextNode, newTextRect, newRect);
       newStyle.opacity = '0';
       newStyle.transform = origTransform + 'translate(' + dx + 'px, ' + dy + 'px) ' + 'scale(' + 1 / wRatio + ', ' + 1 / hRatio + ')';
       setNextFrame(newStyle, 'transition', origTransition);
       setNextFrame(newStyle, 'transform', origTransform);
       setNextFrame(newStyle, 'opacity', '1');
       // Animate old element
+      for (var key in oldVnode.savedStyle) {
+        //re-apply saved inherited properties
+        if (parseInt(key) != key) {
+          var ms = key.substring(0, 2) === 'ms';
+          var moz = key.substring(0, 3) === 'moz';
+          var webkit = key.substring(0, 6) === 'webkit';
+          if (!ms && !moz && !webkit) //ignore prefixed style properties
+            oldStyle[key] = oldVnode.savedStyle[key];
+        }
+      }
       oldStyle.position = 'absolute';
-      oldStyle.top = newRect.top + 'px';
-      oldStyle.left = newRect.left + 'px';
-      oldStyle.transformOrigin = '0 0';
-      oldStyle.transform = 'translate(' + dx + 'px, ' + dy + 'px)';
+      oldStyle.top = oldRect.top + 'px'; //start at existing position
+      oldStyle.left = oldRect.left + 'px';
+      oldStyle.width = oldRect.width + 'px'; //Needed for elements who were sized relative to their parents
+      oldStyle.height = oldRect.height + 'px'; //Needed for elements who were sized relative to their parents
+      oldStyle.margin = 0; //Margin on hero element leads to incorrect positioning
+      oldStyle.transformOrigin = calcTransformOrigin(isTextNode, oldTextRect, oldRect);
+      oldStyle.transform = '';
       oldStyle.opacity = '1';
       document.body.appendChild(oldElm);
-      setNextFrame(oldStyle, 'transform', 'scale(' + wRatio + ', ' + hRatio + ')');
+      setNextFrame(oldStyle, 'transform', 'translate(' + -dx + 'px, ' + -dy + 'px) scale(' + wRatio + ', ' + hRatio + ')'); //scale must be on far right for translate to be correct
       setNextFrame(oldStyle, 'opacity', '0');
       oldElm.addEventListener('transitionend', function (ev) {
         if (ev.propertyName === 'transform') document.body.removeChild(ev.target);
@@ -367,8 +461,6 @@ function emptyNodeAt(elm) {
 
 var emptyNode = VNode('', {}, [], undefined, undefined);
 
-var insertedVnodeQueue;
-
 function sameVnode(vnode1, vnode2) {
   return vnode1.key === vnode2.key && vnode1.sel === vnode2.sel;
 }
@@ -384,9 +476,8 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
   return map;
 }
 
-function createRmCb(parentElm, childElm, listeners) {
+function createRmCb(childElm, listeners) {
   return function () {
-    //if (--listeners === 0) parentElm.removeChild(childElm);
     if (--listeners === 0) childElm.parentElement.removeChild(childElm);
   };
 }
@@ -404,7 +495,7 @@ function init(modules) {
     }
   }
 
-  function createElm(vnode) {
+  function createElm(vnode, insertedVnodeQueue) {
     var i,
         data = vnode.data;
     if (isDef(data)) {
@@ -426,7 +517,7 @@ function init(modules) {
       if (dotIdx > 0) elm.className = sel.slice(dot + 1).replace(/\./g, ' ');
       if (is.array(children)) {
         for (i = 0; i < children.length; ++i) {
-          elm.appendChild(createElm(children[i]));
+          elm.appendChild(createElm(children[i], insertedVnodeQueue));
         }
       } else if (is.primitive(vnode.text)) {
         elm.appendChild(document.createTextNode(vnode.text));
@@ -443,9 +534,9 @@ function init(modules) {
     return vnode.elm;
   }
 
-  function addVnodes(parentElm, before, vnodes, startIdx, endIdx) {
+  function addVnodes(parentElm, before, vnodes, startIdx, endIdx, insertedVnodeQueue) {
     for (; startIdx <= endIdx; ++startIdx) {
-      parentElm.insertBefore(createElm(vnodes[startIdx]), before);
+      parentElm.insertBefore(createElm(vnodes[startIdx], insertedVnodeQueue), before);
     }
   }
 
@@ -473,7 +564,7 @@ function init(modules) {
         if (isDef(ch.sel)) {
           invokeDestroyHook(ch);
           listeners = cbs.remove.length + 1;
-          rm = createRmCb(parentElm, ch.elm, listeners);
+          rm = createRmCb(ch.elm, listeners);
           for (i = 0; i < cbs.remove.length; ++i) cbs.remove[i](ch, rm);
           if (isDef(i = ch.data) && isDef(i = i.hook) && isDef(i = i.remove)) {
             i(ch, rm);
@@ -488,7 +579,7 @@ function init(modules) {
     }
   }
 
-  function updateChildren(parentElm, oldCh, newCh) {
+  function updateChildren(parentElm, oldCh, newCh, insertedVnodeQueue) {
     var oldStartIdx = 0,
         newStartIdx = 0;
     var oldEndIdx = oldCh.length - 1;
@@ -503,52 +594,52 @@ function init(modules) {
       if (isUndef(oldStartVnode)) {
         oldStartVnode = oldCh[++oldStartIdx]; // Vnode has been moved left
       } else if (isUndef(oldEndVnode)) {
-        oldEndVnode = oldCh[--oldEndIdx];
-      } else if (sameVnode(oldStartVnode, newStartVnode)) {
-        patchVnode(oldStartVnode, newStartVnode);
-        oldStartVnode = oldCh[++oldStartIdx];
-        newStartVnode = newCh[++newStartIdx];
-      } else if (sameVnode(oldEndVnode, newEndVnode)) {
-        patchVnode(oldEndVnode, newEndVnode);
-        oldEndVnode = oldCh[--oldEndIdx];
-        newEndVnode = newCh[--newEndIdx];
-      } else if (sameVnode(oldStartVnode, newEndVnode)) {
-        // Vnode moved right
-        patchVnode(oldStartVnode, newEndVnode);
-        parentElm.insertBefore(oldStartVnode.elm, oldEndVnode.elm.nextSibling);
-        oldStartVnode = oldCh[++oldStartIdx];
-        newEndVnode = newCh[--newEndIdx];
-      } else if (sameVnode(oldEndVnode, newStartVnode)) {
-        // Vnode moved left
-        patchVnode(oldEndVnode, newStartVnode);
-        parentElm.insertBefore(oldEndVnode.elm, oldStartVnode.elm);
-        oldEndVnode = oldCh[--oldEndIdx];
-        newStartVnode = newCh[++newStartIdx];
-      } else {
-        if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
-        idxInOld = oldKeyToIdx[newStartVnode.key];
-        if (isUndef(idxInOld)) {
-          // New element
-          parentElm.insertBefore(createElm(newStartVnode), oldStartVnode.elm);
+          oldEndVnode = oldCh[--oldEndIdx];
+        } else if (sameVnode(oldStartVnode, newStartVnode)) {
+          patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue);
+          oldStartVnode = oldCh[++oldStartIdx];
+          newStartVnode = newCh[++newStartIdx];
+        } else if (sameVnode(oldEndVnode, newEndVnode)) {
+          patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue);
+          oldEndVnode = oldCh[--oldEndIdx];
+          newEndVnode = newCh[--newEndIdx];
+        } else if (sameVnode(oldStartVnode, newEndVnode)) {
+          // Vnode moved right
+          patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue);
+          parentElm.insertBefore(oldStartVnode.elm, oldEndVnode.elm.nextSibling);
+          oldStartVnode = oldCh[++oldStartIdx];
+          newEndVnode = newCh[--newEndIdx];
+        } else if (sameVnode(oldEndVnode, newStartVnode)) {
+          // Vnode moved left
+          patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue);
+          parentElm.insertBefore(oldEndVnode.elm, oldStartVnode.elm);
+          oldEndVnode = oldCh[--oldEndIdx];
           newStartVnode = newCh[++newStartIdx];
         } else {
-          elmToMove = oldCh[idxInOld];
-          patchVnode(elmToMove, newStartVnode);
-          oldCh[idxInOld] = undefined;
-          parentElm.insertBefore(elmToMove.elm, oldStartVnode.elm);
-          newStartVnode = newCh[++newStartIdx];
+          if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
+          idxInOld = oldKeyToIdx[newStartVnode.key];
+          if (isUndef(idxInOld)) {
+            // New element
+            parentElm.insertBefore(createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm);
+            newStartVnode = newCh[++newStartIdx];
+          } else {
+            elmToMove = oldCh[idxInOld];
+            patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);
+            oldCh[idxInOld] = undefined;
+            parentElm.insertBefore(elmToMove.elm, oldStartVnode.elm);
+            newStartVnode = newCh[++newStartIdx];
+          }
         }
-      }
     }
     if (oldStartIdx > oldEndIdx) {
       before = isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm;
-      addVnodes(parentElm, before, newCh, newStartIdx, newEndIdx);
+      addVnodes(parentElm, before, newCh, newStartIdx, newEndIdx, insertedVnodeQueue);
     } else if (newStartIdx > newEndIdx) {
       removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
     }
   }
 
-  function patchVnode(oldVnode, vnode) {
+  function patchVnode(oldVnode, vnode, insertedVnodeQueue) {
     var i, hook;
     if (isDef(i = vnode.data) && isDef(hook = i.hook) && isDef(i = hook.prepatch)) {
       i(oldVnode, vnode);
@@ -566,9 +657,9 @@ function init(modules) {
     }
     if (isUndef(vnode.text)) {
       if (isDef(oldCh) && isDef(ch)) {
-        if (oldCh !== ch) updateChildren(elm, oldCh, ch);
+        if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue);
       } else if (isDef(ch)) {
-        addVnodes(elm, null, ch, 0, ch.length - 1);
+        addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue);
       } else if (isDef(oldCh)) {
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
       }
@@ -578,28 +669,26 @@ function init(modules) {
     if (isDef(hook) && isDef(i = hook.postpatch)) {
       i(oldVnode, vnode);
     }
-    return vnode;
   }
 
   return function (oldVnode, vnode) {
     var i;
-    insertedVnodeQueue = [];
+    var insertedVnodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
     if (oldVnode instanceof Element) {
       if (oldVnode.parentElement !== null) {
-        createElm(vnode);
+        createElm(vnode, insertedVnodeQueue);
         oldVnode.parentElement.replaceChild(vnode.elm, oldVnode);
       } else {
         oldVnode = emptyNodeAt(oldVnode);
-        patchVnode(oldVnode, vnode);
+        patchVnode(oldVnode, vnode, insertedVnodeQueue);
       }
     } else {
-      patchVnode(oldVnode, vnode);
+      patchVnode(oldVnode, vnode, insertedVnodeQueue);
     }
     for (i = 0; i < insertedVnodeQueue.length; ++i) {
       insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);
     }
-    insertedVnodeQueue = undefined;
     for (i = 0; i < cbs.post.length; ++i) cbs.post[i]();
     return vnode;
   };
