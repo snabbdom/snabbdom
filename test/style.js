@@ -44,9 +44,9 @@ describe('style', function() {
     assert.equal(elm.style.fontSize, '10px');
   });
   it('implicially removes styles from element with key', function() {
-    var vnode1 = h('i', {key: '1', style: {fontSize: '14px'}});
-    var vnode2 = h('i', {key: '2'});
-    var vnode3 = h('i', {key: '1', style: {fontSize: '10px'}});
+    var vnode1 = h('div', [h('i', {key: '1', style: {fontSize: '14px'}})]);
+    var vnode2 = h('div', [h('i', {key: '2'})]);
+    var vnode3 = h('div', [h('i', {key: '1', style: {fontSize: '10px'}})]);
     patch(vnode0, vnode1);
     assert.equal(elm.style.fontSize, '14px');
     patch(vnode1, vnode2);
@@ -55,9 +55,9 @@ describe('style', function() {
     assert.equal(elm.style.fontSize, '10px');
   });
   it('implicially removes styles from child when parent element has key', function() {
-    var vnode1 = h('div', {key: '1'}, [h('i', {style: {fontSize: '14px'}})]);
-    var vnode2 = h('div', {key: '2'}, [h('i')]);
-    var vnode3 = h('div', {key: '1'}, [h('i', {style: {fontSize: '10px'}})]);
+    var vnode1 = h('div', [h('span', {key: '1'}, [h('i', {style: {fontSize: '14px'}})])]);
+    var vnode2 = h('div', [h('span', {key: '2'}, [h('i')])]);
+    var vnode3 = h('div', [h('span', {key: '1'}, [h('i', {style: {fontSize: '10px'}})])]);
     patch(vnode0, vnode1);
     assert.equal(elm.firstChild.style.fontSize, '14px');
     patch(vnode1, vnode2);
