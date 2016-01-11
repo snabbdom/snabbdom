@@ -7,11 +7,15 @@ var h = require('../h');
 var thunk = require('../thunk');
 
 describe('thunk', function() {
-  var elm, vnode0;
+  var parent, vnode0;
   beforeEach(function() {
-    elm = document.createElement('div');
-    vnode0 = elm;
+    parent = document.createElement('div');
+    vnode0 = document.createElement('div');
+    parent.appendChild(vnode0);
   });
+  function elm() {
+      return parent.firstChild;
+  }
   it('returns vnode with data and render function', function() {
     function numberInSpan(n) {
       return h('span', 'Number is ' + n);
@@ -56,11 +60,14 @@ describe('thunk', function() {
       thunk('num', numberInSpan, 2)
     ]);
     patch(vnode0, vnode1);
-    assert.equal(elm.firstChild.innerHTML, 'Number is 1');
+    assert.equal(elm().firstChild.tagName.toLowerCase(), 'span');
+    assert.equal(elm().firstChild.innerHTML, 'Number is 1');
     patch(vnode1, vnode2);
-    assert.equal(elm.firstChild.innerHTML, 'Number is 1');
+    assert.equal(elm().firstChild.tagName.toLowerCase(), 'span');
+    assert.equal(elm().firstChild.innerHTML, 'Number is 1');
     patch(vnode2, vnode3);
-    assert.equal(elm.firstChild.innerHTML, 'Number is 2');
+    assert.equal(elm().firstChild.tagName.toLowerCase(), 'span');
+    assert.equal(elm().firstChild.innerHTML, 'Number is 2');
     assert.equal(called, 2);
   });
   it('renders correctly when root', function() {
@@ -74,13 +81,16 @@ describe('thunk', function() {
       var vnode3 = thunk('num', numberInSpan, 2);
 
       patch(vnode0, vnode1);
-      assert.equal(elm.innerHTML, 'Number is 1');
+      assert.equal(elm().tagName.toLowerCase(), 'span');
+      assert.equal(elm().innerHTML, 'Number is 1');
 
       patch(vnode1, vnode2);
-      assert.equal(elm.innerHTML, 'Number is 1');
+      assert.equal(elm().tagName.toLowerCase(), 'span');
+      assert.equal(elm().innerHTML, 'Number is 1');
 
       patch(vnode2, vnode3);
-      assert.equal(elm.innerHTML, 'Number is 2');
+      assert.equal(elm().tagName.toLowerCase(), 'span');
+      assert.equal(elm().innerHTML, 'Number is 2');
       assert.equal(called, 2);
   });
   it('can mutate its root tag', function() {
@@ -91,13 +101,11 @@ describe('thunk', function() {
     var vnode1 = h('div', [thunk('oddEven', oddEven, 1)]);
     var vnode2 = h('div', [thunk('oddEven', oddEven, 4)]);
 
-    patch(vnode0, vnode1);
-    assert.equal(elm.firstChild.tagName, 'DIV');
-    assert.equal(elm.firstChild.className, 'odd');
+    assert.equal(elm().firstChild.tagName.toLowerCase(), 'div');
+    assert.equal(elm().firstChild.className, 'odd');
 
-    patch(vnode1, vnode2);
-    assert.equal(elm.firstChild.tagName, 'P');
-    assert.equal(elm.firstChild.className, 'even');
+    assert.equal(elm().firstChild.tagName.toLowerCase(), 'p');
+    assert.equal(elm().firstChild.className, 'even');
   });
   it('can be replaced and removed', function() {
       function numberInSpan(n) {
@@ -111,12 +119,12 @@ describe('thunk', function() {
       var vnode2 = h('div', [thunk('oddEven', oddEven, 4)]);
 
       patch(vnode0, vnode1);
-      assert.equal(elm.firstChild.tagName, 'SPAN');
-      assert.equal(elm.firstChild.className, 'numberInSpan');
+      assert.equal(elm().firstChild.tagName.toLowerCase(), 'span');
+      assert.equal(elm().firstChild.className, 'numberInSpan');
 
       patch(vnode1, vnode2);
-      assert.equal(elm.firstChild.tagName, 'DIV');
-      assert.equal(elm.firstChild.className, 'even');
+      assert.equal(elm().firstChild.tagName.toLowerCase(), 'div');
+      assert.equal(elm().firstChild.className, 'even');
   });
   it('can be replaced and removed when root', function() {
       function numberInSpan(n) {
@@ -130,11 +138,11 @@ describe('thunk', function() {
         var vnode2 = thunk('oddEven', oddEven, 4);
 
         patch(vnode0, vnode1);
-        assert.equal(elm.firstChild.tagName, 'SPAN');
-        assert.equal(elm.firstChild.className, 'numberInSpan');
+        assert.equal(elm().tagName.toLowerCase(), 'span');
+        assert.equal(elm().className, 'numberInSpan');
 
         patch(vnode1, vnode2);
-        assert.equal(elm.firstChild.tagName, 'DIV');
-        assert.equal(elm.firstChild.className, 'even');
+        assert.equal(elm().tagName.toLowerCase(), 'div');
+        assert.equal(elm().className, 'even');
   });
 });
