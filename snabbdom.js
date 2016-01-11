@@ -27,9 +27,10 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
   return map;
 }
 
-function createRmCb(child, listeners) {
-  var elm;
-  while (isUndef(elm = child.elm)) child = child.data.vnode;
+function createRmCb(vnode, listeners) {
+  var i, elm;
+  if (isDef(i = vnode.data) && isDef(i = i.vnode)) vnode = i;
+  elm = vnode.elm;
   return function() {
     if (--listeners === 0) {
         elm.parentElement.removeChild(elm);
