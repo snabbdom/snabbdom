@@ -103,6 +103,10 @@ describe('snabbdom', function() {
       assert.equal(elm.childNodes[0].tagName, 'SPAN');
       assert.equal(elm.childNodes[1].textContent, 'I am a string');
     });
+    it('can create elements with props', function() {
+      patch(vnode0, h('a', {props: {src: 'http://localhost/'}}));
+      assert.equal(elm.src, 'http://localhost/');
+    });
   });
   describe('pathing an element', function() {
     it('changes the elements classes', function() {
@@ -122,6 +126,29 @@ describe('snabbdom', function() {
       assert(elm.classList.contains('i'));
       assert(elm.classList.contains('am'));
       assert(!elm.classList.contains('horse'));
+    });
+    it('removes missing classes', function() {
+      var vnode1 = h('i', {class: {i: true, am: true, horse: true}});
+      var vnode2 = h('i', {class: {i: true, am: true}});
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+      assert(elm.classList.contains('i'));
+      assert(elm.classList.contains('am'));
+      assert(!elm.classList.contains('horse'));
+    });
+    it('changes an elements props', function() {
+      var vnode1 = h('a', {props: {src: 'http://other/'}});
+      var vnode2 = h('a', {props: {src: 'http://localhost/'}});
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+      assert.equal(elm.src, 'http://localhost/');
+    });
+    it('removes an elements props', function() {
+      var vnode1 = h('a', {props: {src: 'http://other/'}});
+      var vnode2 = h('a');
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+      assert.equal(elm.src, undefined);
     });
     describe('updating children with keys', function() {
       function spanNum(n) {
