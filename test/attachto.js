@@ -76,9 +76,6 @@ describe('attachTo', function() {
   });
   it('remove hook recieves real element', function() {
     function rm(vnode, cb) {
-      console.log(vnode);
-      console.log(vnode.elm);
-      console.log(vnode.elm.parentElement);
       assert.equal(vnode.elm.tagName, 'DIV');
       assert.equal(vnode.elm.innerHTML, 'First text');
       cb();
