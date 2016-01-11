@@ -9,7 +9,7 @@ function prepatch(oldThunk, thunk) {
   var i, old = oldThunk.data, cur = thunk.data;
   var oldArgs = old.args, args = cur.args;
   cur.vnode = old.vnode;
-  if (oldArgs.length !== args.length) {
+  if (old.fn !== cur.fn || oldArgs.length !== args.length) {
     cur.vnode = cur.fn.apply(undefined, args);
     return;
   }

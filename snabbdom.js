@@ -213,8 +213,7 @@ function init(modules) {
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
     if (oldVnode instanceof Element) {
       if (oldVnode.parentElement !== null) {
-        createElm(vnode, insertedVnodeQueue);
-        oldVnode.parentElement.replaceChild(vnode.elm, oldVnode);
+        oldVnode.parentElement.replaceChild(createElm(vnode, insertedVnodeQueue), oldVnode);
       } else {
         oldVnode = emptyNodeAt(oldVnode);
         patchVnode(oldVnode, vnode, insertedVnodeQueue);
