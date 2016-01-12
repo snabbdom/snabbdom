@@ -65,6 +65,46 @@ describe('thunk', function() {
     assert.equal(elm.firstChild.innerHTML, 'Number is 2');
     assert.equal(called, 2);
   });
+  it('renders correctly child thunk', function() {
+      function oddEven(n) {
+        var oddEvenSel = (n % 2) ? 'span.odd' : 'span.even';
+        return h(oddEvenSel, n);
+      }
+      function numberInSpan(n) {
+          return h('span.number', ['Number is ', thunk('oddeven', oddEven, n)]);
+      }
+      var vnode1 = thunk('num', numberInSpan, 1);
+      var vnode2 = thunk('num', numberInSpan, 2);
+      elm = patch(vnode0, vnode1).elm;
+      assert.equal(elm.tagName.toLowerCase(), 'span');
+      assert.equal(elm.className, 'number');
+      assert.equal(elm.childNodes[1].tagName.toLowerCase(), 'span');
+      assert.equal(elm.childNodes[1].className, 'odd');
+      elm = patch(vnode1, vnode2).elm;
+      assert.equal(elm.tagName.toLowerCase(), 'span');
+      assert.equal(elm.className, 'number');
+      assert.equal(elm.childNodes[1].tagName.toLowerCase(), 'span');
+      assert.equal(elm.childNodes[1].className, 'even');
+  });
+  /* NOT WORKING YET
+  it('renders correctly nested thunk', function() {
+      function oddEven(n) {
+        var oddEvenSel = (n % 2) ? 'span.odd' : 'span.even';
+        return h(oddEvenSel, n);
+      }
+      function nested(n) {
+          return thunk('oddeven', oddEven, n);
+      }
+      var vnode1 = thunk('num', nested, 1);
+      var vnode2 = thunk('num', nested, 2);
+      elm = patch(vnode0, vnode1).elm;
+      assert.equal(elm.tagName.toLowerCase(), 'span');
+      assert.equal(elm.className, 'odd');
+      elm = patch(vnode1, vnode2).elm;
+      assert.equal(elm.tagName.toLowerCase(), 'span');
+      assert.equal(elm.className, 'even');
+  });
+  */
   it('renders correctly when root', function() {
     var called = 0;
     function numberInSpan(n) {
