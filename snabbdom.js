@@ -237,7 +237,12 @@ function init(modules) {
 
     if (noParent = (oldVnode.elm.parentElement === null)) dummyParent.appendChild(oldVnode.elm);
 
-    patchVnode(oldVnode, vnode, insertedVnodeQueue);
+    if (sameVnode(oldVnode, vnode)) {
+      patchVnode(oldVnode, vnode, insertedVnodeQueue);
+    } else {
+      createElm(vnode, insertedVnodeQueue);
+      oldVnode.elm.parentElement.replaceChild(vnode.elm, oldVnode.elm);
+    }
 
     if (noParent) dummyParent.removeChild(vnode.elm);
 

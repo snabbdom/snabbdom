@@ -564,6 +564,23 @@ describe('snabbdom', function() {
         patch(vnode1, vnode2);
         assert.equal(1, result.length);
       });
+      it('calls `init` and `prepatch` listeners on root', function() {
+          var count = 0;
+          function init(vnode) {
+            assert.strictEqual(vnode, vnode2);
+            count += 1;
+          }
+          function prepatch(oldVnode, vnode) {
+            assert.strictEqual(vnode, vnode1);
+            count += 1;
+          }
+          var vnode1 = h('div', {hook: {init: init, prepatch: prepatch}});
+          patch(vnode0, vnode1);
+          assert.equal(1, count);
+          var vnode2 = h('span', {hook: {init: init, prepatch: prepatch}});
+          patch(vnode1, vnode2);
+          assert.equal(2, count);
+      });
       it('removes element when all remove listeners are done', function() {
         var rm1, rm2, rm3;
         var patch = snabbdom.init([
