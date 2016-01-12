@@ -7,15 +7,10 @@ var h = require('../h');
 var thunk = require('../thunk');
 
 describe('thunk', function() {
-  var parent, vnode0;
+  var elm, vnode0;
   beforeEach(function() {
-    parent = document.createElement('div');
-    vnode0 = document.createElement('div');
-    parent.appendChild(vnode0);
+    elm = vnode0 = document.createElement('div');
   });
-  function elm() {
-      return parent.firstChild;
-  }
   it('returns vnode with data and render function', function() {
     function numberInSpan(n) {
       return h('span', 'Number is ' + n);
@@ -59,15 +54,15 @@ describe('thunk', function() {
     var vnode3 = h('div', [
       thunk('num', numberInSpan, 2)
     ]);
-    patch(vnode0, vnode1);
-    assert.equal(elm().firstChild.tagName.toLowerCase(), 'span');
-    assert.equal(elm().firstChild.innerHTML, 'Number is 1');
-    patch(vnode1, vnode2);
-    assert.equal(elm().firstChild.tagName.toLowerCase(), 'span');
-    assert.equal(elm().firstChild.innerHTML, 'Number is 1');
-    patch(vnode2, vnode3);
-    assert.equal(elm().firstChild.tagName.toLowerCase(), 'span');
-    assert.equal(elm().firstChild.innerHTML, 'Number is 2');
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.firstChild.tagName.toLowerCase(), 'span');
+    assert.equal(elm.firstChild.innerHTML, 'Number is 1');
+    elm = patch(vnode1, vnode2).elm;
+    assert.equal(elm.firstChild.tagName.toLowerCase(), 'span');
+    assert.equal(elm.firstChild.innerHTML, 'Number is 1');
+    elm = patch(vnode2, vnode3).elm;
+    assert.equal(elm.firstChild.tagName.toLowerCase(), 'span');
+    assert.equal(elm.firstChild.innerHTML, 'Number is 2');
     assert.equal(called, 2);
   });
   it('renders correctly when root', function() {
@@ -80,17 +75,17 @@ describe('thunk', function() {
     var vnode2 = thunk('num', numberInSpan, 1);
     var vnode3 = thunk('num', numberInSpan, 2);
 
-    patch(vnode0, vnode1);
-    assert.equal(elm().tagName.toLowerCase(), 'span');
-    assert.equal(elm().innerHTML, 'Number is 1');
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.tagName.toLowerCase(), 'span');
+    assert.equal(elm.innerHTML, 'Number is 1');
 
-    patch(vnode1, vnode2);
-    assert.equal(elm().tagName.toLowerCase(), 'span');
-    assert.equal(elm().innerHTML, 'Number is 1');
+    elm = patch(vnode1, vnode2).elm;
+    assert.equal(elm.tagName.toLowerCase(), 'span');
+    assert.equal(elm.innerHTML, 'Number is 1');
 
-    patch(vnode2, vnode3);
-    assert.equal(elm().tagName.toLowerCase(), 'span');
-    assert.equal(elm().innerHTML, 'Number is 2');
+    elm = patch(vnode2, vnode3).elm;
+    assert.equal(elm.tagName.toLowerCase(), 'span');
+    assert.equal(elm.innerHTML, 'Number is 2');
     assert.equal(called, 2);
   });
   it('can mutate its root tag', function() {
@@ -101,13 +96,13 @@ describe('thunk', function() {
     var vnode1 = h('div', [thunk('oddEven', oddEven, 1)]);
     var vnode2 = h('div', [thunk('oddEven', oddEven, 4)]);
 
-    patch(vnode0, vnode1);
-    assert.equal(elm().firstChild.tagName.toLowerCase(), 'div');
-    assert.equal(elm().firstChild.className, 'odd');
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.firstChild.tagName.toLowerCase(), 'div');
+    assert.equal(elm.firstChild.className, 'odd');
 
-    patch(vnode1, vnode2);
-    assert.equal(elm().firstChild.tagName.toLowerCase(), 'p');
-    assert.equal(elm().firstChild.className, 'even');
+    elm = patch(vnode1, vnode2).elm;
+    assert.equal(elm.firstChild.tagName.toLowerCase(), 'p');
+    assert.equal(elm.firstChild.className, 'even');
   });
   it('can be replaced and removed', function() {
     function numberInSpan(n) {
@@ -120,13 +115,13 @@ describe('thunk', function() {
     var vnode1 = h('div', [thunk('num', numberInSpan, 1)]);
     var vnode2 = h('div', [thunk('oddEven', oddEven, 4)]);
 
-    patch(vnode0, vnode1);
-    assert.equal(elm().firstChild.tagName.toLowerCase(), 'span');
-    assert.equal(elm().firstChild.className, 'numberInSpan');
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.firstChild.tagName.toLowerCase(), 'span');
+    assert.equal(elm.firstChild.className, 'numberInSpan');
 
-    patch(vnode1, vnode2);
-    assert.equal(elm().firstChild.tagName.toLowerCase(), 'div');
-    assert.equal(elm().firstChild.className, 'even');
+    elm = patch(vnode1, vnode2).elm;
+    assert.equal(elm.firstChild.tagName.toLowerCase(), 'div');
+    assert.equal(elm.firstChild.className, 'even');
   });
   it('can be replaced and removed when root', function() {
     function numberInSpan(n) {
@@ -139,12 +134,12 @@ describe('thunk', function() {
     var vnode1 = thunk('num', numberInSpan, 1);
     var vnode2 = thunk('oddEven', oddEven, 4);
 
-    patch(vnode0, vnode1);
-    assert.equal(elm().tagName.toLowerCase(), 'span');
-    assert.equal(elm().className, 'numberInSpan');
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.tagName.toLowerCase(), 'span');
+    assert.equal(elm.className, 'numberInSpan');
 
-    patch(vnode1, vnode2);
-    assert.equal(elm().tagName.toLowerCase(), 'div');
-    assert.equal(elm().className, 'even');
+    elm = patch(vnode1, vnode2).elm;
+    assert.equal(elm.tagName.toLowerCase(), 'div');
+    assert.equal(elm.className, 'even');
   });
 });
