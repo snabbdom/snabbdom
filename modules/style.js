@@ -10,6 +10,11 @@ function updateStyle(oldVnode, vnode) {
       oldStyle = oldVnode.data.style || {},
       style = vnode.data.style || {},
       oldHasDel = 'delayed' in oldStyle;
+  for (name in oldStyle) {
+    if (!style[name]) {
+      elm.style[name] = '';
+    }
+  }
   for (name in style) {
     cur = style[name];
     if (name === 'delayed') {
