@@ -10,8 +10,10 @@
   "dependencies": {},
   "devDependencies": {
     "benchmark": "^1.0.0",
+    "browserify": "^13.0.0",
     "fake-raf": "0.0.1",
-    "knuth-shuffle": "^1.0.1"
+    "knuth-shuffle": "^1.0.1",
+    "testem": "^1.0.2"
   },
   "scripts": {
     "test": "testem"
