@@ -152,6 +152,7 @@ desired points in the life of a virtual node.
 | Name        | Triggered when                                     | Arguments to callback   |
 | ----------- | --------------                                     | ----------------------- |
 | `pre`       | the patch process begins                           | none                    |
+| `init`      | a vnode has been added                             | vnode                   |
 | `create`    | a DOM element has been created based on a VNode    | `emptyVNode, vnode`     |
 | `insert`    | an element has been inserted into the DOM          | `vnode`                 |
 | `prepatch`  | an element is about to be patched                  | `oldVnode, vnode`       |
@@ -165,7 +166,7 @@ The following hooks are available for modules: `pre`, `create`,
 `update`, `destroy`, `remove`, `post`.
 
 The following hooks are available in the `hook` property of individual
-elements: `create`, `insert`, `prepatch`, `update`, `postpatch`,
+elements: `init`, `create`, `insert`, `prepatch`, `update`, `postpatch`,
 `destroy`, `remove`.
 
 #### Usage
@@ -181,6 +182,15 @@ h('div.row', {
   }
 });
 ```
+
+#### The `init` hook
+
+This hook is invoked during the patch process when a new virtual node has been
+found. The hook is called before Snabbdom has processed the node in any way.
+I.e. before at has created a DOM node based on the vnode.
+
+If the hook handler sets the `vnode` property on the vnode when Snabbdom will
+use the vnode at `vnode` instead of the actual vnode.
 
 #### The `insert` hook
 
@@ -276,15 +286,15 @@ Same as props but set attributes instead of properties on DOM elements
 h('a', {attrs: {href: '/foo'}}, 'Go to Foo');
 ```
 
-Attributes are added and updated using `setAttribute`. In case of an attribute 
-that has been previously added/set is no longer present in the `attrs` object, 
-it is removed from the DOM element's attribute list using `removeAttribute`. 
+Attributes are added and updated using `setAttribute`. In case of an attribute
+that has been previously added/set is no longer present in the `attrs` object,
+it is removed from the DOM element's attribute list using `removeAttribute`.
 
-In the case of boolean attributes (.e.g. `disabled`, `hidden`, `selected` ...). 
+In the case of boolean attributes (.e.g. `disabled`, `hidden`, `selected` ...).
 The meaning doesn't depend on the attribute value (`true` or `false`) but depends
-instead on the presence/absence of the attribute itself in the DOM element. Those 
-attributes are handled differently by the module : if a boolean attribute is set 
-to a [falsy value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean) (`0`, `-0`, `null`, `false`,`NaN`, `undefined`, or the empty 
+instead on the presence/absence of the attribute itself in the DOM element. Those
+attributes are handled differently by the module : if a boolean attribute is set
+to a [falsy value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean) (`0`, `-0`, `null`, `false`,`NaN`, `undefined`, or the empty
 string (`""`)) then the attribute will be removed from the attribute list of the
 DOM element.
 
@@ -399,11 +409,11 @@ var sharedHandler = {
   change: function(e){ console.log('you chose: ' + e.target.value); }
 };
 h('div', [
-  h('input', {props: {type: 'radio', name: 'test', value: '0'}, 
+  h('input', {props: {type: 'radio', name: 'test', value: '0'},
               on: sharedHandler}),
-  h('input', {props: {type: 'radio', name: 'test', value: '1'}, 
+  h('input', {props: {type: 'radio', name: 'test', value: '1'},
               on: sharedHandler}),
-  h('input', {props: {type: 'radio', name: 'test', value: '2'}, 
+  h('input', {props: {type: 'radio', name: 'test', value: '2'},
               on: sharedHandler})
 ]);
 ```
@@ -415,11 +425,11 @@ Alternatively, simply make sure each node is passed unique `on` values:
 // Works
 var sharedHandler = function(e){ console.log('you chose: ' + e.target.value); };
 h('div', [
-  h('input', {props: {type: 'radio', name: 'test', value: '0'}, 
+  h('input', {props: {type: 'radio', name: 'test', value: '0'},
               on: {change: sharedHandler}}),
-  h('input', {props: {type: 'radio', name: 'test', value: '1'}, 
+  h('input', {props: {type: 'radio', name: 'test', value: '1'},
               on: {change: sharedHandler}}),
-  h('input', {props: {type: 'radio', name: 'test', value: '2'}, 
+  h('input', {props: {type: 'radio', name: 'test', value: '2'},
               on: {change: sharedHandler}})
 ]);
 ```
