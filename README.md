@@ -214,8 +214,7 @@ hook.
 
 #### The `destroy` hook
 
-This hook is invoked whenever an element removed from the DOM or from the child
-to an element that is being removed.
+This hook is invoked on a virtual node when its DOM element is removed from the DOM or if its parent is being removed from the DOM.
 
 To see the difference between this hook and the `remove` hook, consider an
 example.
@@ -289,7 +288,7 @@ Attributes are added and updated using `setAttribute`. In case of an attribute
 that has been previously added/set and is no longer present in the `attrs` object,
 it is removed from the DOM element's attribute list using `removeAttribute`.
 
-In the case of boolean attributes (.e.g. `disabled`, `hidden`, `selected` ...),
+In the case of boolean attributes (e.g. `disabled`, `hidden`, `selected` ...),
 the meaning doesn't depend on the attribute value (`true` or `false`) but depends
 instead on the presence/absence of the attribute itself in the DOM element. Those
 attributes are handled differently by the module: if a boolean attribute is set
