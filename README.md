@@ -26,7 +26,7 @@ needed.
 
 Snabbdom consists of an extremely simple, performant and extensible core that
 is only ≈ 200 SLOC. It offers a modular architecture with rich functionality
-for extensions through custom modules. To keep the core simple all non-essential
+for extensions through custom modules. To keep the core simple, all non-essential
 functionality is delegated to modules.
 
 You can mold Snabbdom into whatever you desire! Pick, choose and customize the
@@ -37,14 +37,14 @@ features listed below.
 ## Features
 
 * Core features
-  * About 200 SLOC – you could easily read through the entire core and fully.
+  * About 200 SLOC – you could easily read through the entire core and fully
     understand how it works.
   * Extendable through modules.
-  * A rich set of hooks available both per vnode and globally for modules.
+  * A rich set of hooks available both per vnode and globally for modules,
     so they can hook into any part of the diff and patch process.
-  * Splendid performance. Snabbdom is among the fastest virtual DOM libraries.
+  * Splendid performance. Snabbdom is among the fastest virtual DOM libraries
     in the [Virtual DOM Benchmark](http://vdom-benchmark.github.io/vdom-benchmark/).
-  * Patch function with a function signature equivelant to a reduce/scan.
+  * Patch function with a function signature equivelant to a reduce/scan
     function. Allows for easier integration with a FRP library.
 * Features in modules
   * `h` function for easily creating virtual DOM nodes.
@@ -96,7 +96,7 @@ designed to be as simple as possible while still being fast and extendable.
 
 ### `snabbdom.init`
 
-The core exposes only one single function `snabbdom.init`. `init` takes a list of
+The core exposes only one single function `snabbdom.init`. This `init` takes a list of
 modules and returns a `patch` function that uses the specified set of modules.
 
 ```javascript
@@ -112,9 +112,9 @@ The `patch` function returned by `init` takes two arguments. The first is a DOM
 element or a vnode representing the current view. The second is a vnode
 representing the new updated view.
 
-If a DOM element with a parent is passed `newVnode` will be turned into a DOM
-node and the passed element will be replaced by the created DOM node. If an old
-vnode is passed Snabbdom will effeciently modify to match the description in
+If a DOM element with a parent is passed, `newVnode` will be turned into a DOM
+node, and the passed element will be replaced by the created DOM node. If an old
+vnode is passed, Snabbdom will effeciently modify it to match the description in
 the new vnode.
 
 Any old vnode passed must be the resulting vnode from a previous call to
@@ -144,7 +144,7 @@ var vnode = h('div', {style: {color: '#000'}}, [
 
 Hooks are a way to hook into the lifecycle of DOM nodes. Snabbdom
 offers a rich selection of hooks. Hooks are used both by modules to
-extend Snabbdom and in normal code for executing arbitrary code at
+extend Snabbdom, and in normal code for executing arbitrary code at
 desired points in the life of a virtual node.
 
 #### Overview
@@ -158,7 +158,7 @@ desired points in the life of a virtual node.
 | `prepatch`  | an element is about to be patched                  | `oldVnode, vnode`       |
 | `update`    | an element is being updated                        | `oldVnode, vnode`       |
 | `postpatch` | an element has been patched                        | `oldVnode, vnode`       |
-| `destroy`   | an element is directly or indirectly begin removed | `vnode`                 |
+| `destroy`   | an element is directly or indirectly being removed | `vnode`                 |
 | `remove`    | an element is directly being removed from the DOM  | `vnode, removeCallback` |
 | `post`      | the patch process is done                          | none                    |
 
@@ -189,7 +189,7 @@ This hook is invoked during the patch process when a new virtual node has been
 found. The hook is called before Snabbdom has processed the node in any way.
 I.e. before at has created a DOM node based on the vnode.
 
-If the hook handler sets the `vnode` property on the vnode when Snabbdom will
+If the hook handler sets the `vnode` property on the vnode, then Snabbdom will
 use the vnode at `vnode` instead of the actual vnode.
 
 #### The `insert` hook
@@ -203,22 +203,21 @@ could affect the position of the inserted elements.
 #### The `remove` hook
 
 Allows you to hook into the removal of an element. The hook is called once a
-vnode is to be removed from the DOM. The handling function recieves both the
+vnode is to be removed from the DOM. The handling function receives both the
 vnode and a callback. You can control and delay the removal with the callback.
-It should be invoked once the hook is done doing its business and the element
+It should be invoked once the hook is done doing its business, and the element
 will only be removed once all `remove` hooks have invoked their callback.
 
-The hook is only triggered when and element is to be removed from its parent –
-not if it is the child of an element that is removed. For that see the destroy
+The hook is only triggered when an element is to be removed from its parent –
+not if it is the child of an element that is removed. For that, see the destroy
 hook.
 
 #### The `destroy` hook
 
-This hook is invoked whenever an element removed from the DOM or the child
+This hook is invoked whenever an element removed from the DOM or from the child
 to an element that is being removed.
 
-
-To see the difference between this hook and the `remove` hook consider an
+To see the difference between this hook and the `remove` hook, consider an
 example.
 
 ```js
@@ -234,7 +233,7 @@ element because it is the only element being detached from its parent.
 
 You can for instance use `remove` to trigger an animation when an element is
 being removed and use the `destroy` hook to additionally animate the
-disappearance of the removed elements children.
+disappearance of the removed element's children.
 
 ### Creating modules
 
@@ -252,7 +251,7 @@ var myModule = {
 ```
 
 With this mechanism you can easily augument the behaviour of
-Snabbdom. For demonstration take a look at the implementations of the
+Snabbdom. For demonstration, take a look at the implementations of the
 default modules.
 
 ## Modules documentation
@@ -280,22 +279,22 @@ h('a', {props: {href: '/foo'}}, 'Go to Foo');
 
 ### The attributes module
 
-Same as props but set attributes instead of properties on DOM elements
+Same as props, but set attributes instead of properties on DOM elements.
 
 ```javascript
 h('a', {attrs: {href: '/foo'}}, 'Go to Foo');
 ```
 
 Attributes are added and updated using `setAttribute`. In case of an attribute
-that has been previously added/set is no longer present in the `attrs` object,
+that has been previously added/set and is no longer present in the `attrs` object,
 it is removed from the DOM element's attribute list using `removeAttribute`.
 
-In the case of boolean attributes (.e.g. `disabled`, `hidden`, `selected` ...).
-The meaning doesn't depend on the attribute value (`true` or `false`) but depends
+In the case of boolean attributes (.e.g. `disabled`, `hidden`, `selected` ...),
+the meaning doesn't depend on the attribute value (`true` or `false`) but depends
 instead on the presence/absence of the attribute itself in the DOM element. Those
-attributes are handled differently by the module : if a boolean attribute is set
+attributes are handled differently by the module: if a boolean attribute is set
 to a [falsy value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean) (`0`, `-0`, `null`, `false`,`NaN`, `undefined`, or the empty
-string (`""`)) then the attribute will be removed from the attribute list of the
+string (`""`)), then the attribute will be removed from the attribute list of the
 DOM element.
 
 ### The style module
@@ -310,7 +309,7 @@ h('span', {
 ```
 
 Note that the style module does not remove style attributes if they are removed
-as properties from the style object. To remove a style you should instead set
+as properties from the style object. To remove a style, you should instead set
 it to the empty string.
 
 ```javascript
@@ -321,7 +320,7 @@ h('div', {
 
 #### Delayed properties
 
-You can specify properties as being delayed. Whenever these properties change
+You can specify properties as being delayed. Whenever these properties change,
 the change is not applied until after the next frame.
 
 ```javascript
@@ -335,8 +334,8 @@ This makes it easy to declaratively animate the entry of elements.
 #### Set properties on `remove`
 
 Styles set in the `remove` property will take effect once the element is about
-to be moved from the DOM. The applied styles should be animated with CSS
-transitions. Only once all the styles is done animating will the element be
+to be removed from the DOM. The applied styles should be animated with CSS
+transitions. Only once all the styles is done animating, will the element be
 removed from the DOM.
 
 ```javascript
@@ -372,13 +371,13 @@ function clickHandler(ev) { console.log('got clicked'); }
 h('div', {on: {click: clickHandler}});
 ```
 
-Very often however you're not really interested in the event object itself.
+Very often, however, you're not really interested in the event object itself.
 Often you have some data associated with the element that triggers an event
 and you want that data passed along instead.
 
 Consider a counter application with three buttons, one to increment the counter
 by 1, one to increment the counter by 2 and one to increment the counter by 3.
-You're don't really care exactly which button was pressed. Instead you're
+You don't really care exactly which button was pressed. Instead you're
 interested in what number was associated with the clicked button. The event listeners
 module allows one to express that by supplying an array at the named event property.
 The first element in the array should be a function that will be invoked with
@@ -455,7 +454,7 @@ See also the [SVG example](./examples/svg).
 ### Thunks
 
 The `thunk` function takes a name for identifying a thunk, a function that
-returns a vnode and a variable amount of state parameters. If invoked the
+returns a vnode and a variable amount of state parameters. If invoked, the
 render function will recieve the state parameters.
 
 `thunk(uniqueName, renderFn, [stateAguments])`
@@ -471,7 +470,7 @@ function numberView(n) {
 }
 ```
 
-The view depends only on `n`. This means that if `n` is unchanged then
+The view depends only on `n`. This means that if `n` is unchanged, then
 creating the virtual DOM node and patching it against the old vnode is
 wasteful. To avoid the overhead we can use the `thunk` helper function.
 
@@ -483,7 +482,7 @@ function render(state) {
 
 Instead of actually invoking the `numberView` function this will only place
 a dummy vnode in the virtual tree. When Snabbdom patches this dummy vnode
-against a previous vnode it will compare the value of `n`. If `n` is unchanged
+against a previous vnode, it will compare the value of `n`. If `n` is unchanged
 it will simply reuse the old vnode. This avoids recreating the number view and
 the diff process altogether.
 
