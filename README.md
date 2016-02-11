@@ -497,8 +497,8 @@ regards to how you should structure your application.
 
 Here are some approaches to building applications with Snabbdom.
 
-* [functional-frontend-architecture](https://github.com/paldepind/functional-frontend-architecture)
-  - a repository containing several example applications that
+* [functional-frontend-architecture](https://github.com/paldepind/functional-frontend-architecture) –
+  a repository containing several example applications that
   demonstrates an architecture that uses Snabbdom.
 * [Motorcycle.js](https://github.com/motorcyclejs/core) –
   is a variant of the functional and reactive Javascript framework
