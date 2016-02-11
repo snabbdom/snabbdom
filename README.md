@@ -14,6 +14,7 @@ and performance.
 * [Core documentation](#core-documentation)
 * [Modules documentation](#modules-documentation)
 * [Helpers](#helpers)
+* [Structuring applications](#structuring-applications)
 
 ## Why
 
@@ -489,3 +490,19 @@ The view function here is only an example. In practice thunks are only
 relevant if you are rendering a complicated view that takes a significant
 computation time to generate.
 
+## Structuring applications
+
+Snabbdom is a low-level virtual DOM library. It is unopinionated with
+regards to how you should structure your application.
+
+Here are some approaches to building applications with Snabbdom.
+
+* [functional-frontend-architecture](https://github.com/paldepind/functional-frontend-architecture)
+  - a repository containing several example applications that
+  demonstrates an architecture that uses Snabbdom.
+* [Motorcycle.js](https://github.com/motorcyclejs/core) –
+  is a variant of the functional and reactive Javascript framework
+  [Cycle.js](http://cycle.js.org/) that uses Snabbdom.
+
+Be sure to share it if you're building an application in another way
+using Snabbdom.
