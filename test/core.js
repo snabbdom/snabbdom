@@ -107,6 +107,22 @@ describe('snabbdom', function() {
       patch(vnode0, h('a', {props: {src: 'http://localhost/'}}));
       assert.equal(elm.src, 'http://localhost/');
     });
+    it('can create an element created inside an iframe', function(done) {
+      // Only run if srcdoc is supported.
+      var frame = document.createElement('iframe');
+      if (typeof frame.srcdoc !== 'undefined') {
+        frame.srcdoc = "<div>Thing 1</div>";
+        frame.onload = function() {
+          patch(frame.contentDocument.body.querySelector('div'), h('div', 'Thing 2'));
+          assert.equal(frame.contentDocument.body.querySelector('div').textContent, 'Thing 2');
+          frame.remove();
+          done();
+        };
+        document.body.appendChild(frame);
+      } else {
+        done();
+      }
+    });
   });
   describe('pathing an element', function() {
     it('changes the elements classes', function() {

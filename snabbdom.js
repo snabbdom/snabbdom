@@ -211,7 +211,7 @@ function init(modules) {
     var i;
     var insertedVnodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
-    if (oldVnode instanceof Element) {
+    if (oldVnode.nodeType === Element.ELEMENT_NODE) {
       if (oldVnode.parentElement !== null) {
         createElm(vnode, insertedVnodeQueue);
         oldVnode.parentElement.replaceChild(vnode.elm, oldVnode);
