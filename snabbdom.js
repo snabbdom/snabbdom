@@ -1,5 +1,5 @@
 // jshint newcap: false
-/* global require, module, document, Element */
+/* global require, module, document, Node */
 'use strict';
 
 var VNode = require('./vnode');
@@ -211,7 +211,7 @@ function init(modules) {
     var i;
     var insertedVnodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
-    if (oldVnode.nodeType === Element.ELEMENT_NODE) {
+    if (oldVnode.nodeType === Node.ELEMENT_NODE) {
       if (oldVnode.parentElement !== null) {
         createElm(vnode, insertedVnodeQueue);
         oldVnode.parentElement.replaceChild(vnode.elm, oldVnode);
