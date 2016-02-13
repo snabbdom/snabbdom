@@ -456,6 +456,15 @@ describe('snabbdom', function() {
         patch(vnode1, vnode2);
         assert.equal(elm.textContent, '');
       });
+      it('removes a single text node when children are updated', function() {
+        var vnode1 = h('div', 'One');
+        var vnode2 = h('div', [ h('div', 'Two'), h('span', 'Three') ]);
+        patch(vnode0, vnode1);
+        assert.equal(elm.textContent, 'One');
+        patch(vnode1, vnode2);
+        console.log(elm.childNodes);
+        assert.deepEqual(map(prop('textContent'), elm.childNodes), ['Two', 'Three']);
+      });
       it('removes a text node among other elements', function() {
         var vnode1 = h('div', [ 'One', h('span', 'Two') ]);
         var vnode2 = h('div', [ h('div', 'Three')]);
