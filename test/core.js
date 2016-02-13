@@ -448,6 +448,24 @@ describe('snabbdom', function() {
         patch(vnode1, vnode2);
         assert.deepEqual(map(inner, elm.children), ['One', 'Three']);
       });
+      it('removes a single text node', function() {
+        var vnode1 = h('div', 'One');
+        var vnode2 = h('div');
+        patch(vnode0, vnode1);
+        assert.equal(elm.textContent, 'One');
+        patch(vnode1, vnode2);
+        assert.equal(elm.textContent, '');
+      });
+      it('removes a text node among other elements', function() {
+        var vnode1 = h('div', [ 'One', h('span', 'Two') ]);
+        var vnode2 = h('div', [ h('div', 'Three')]);
+        patch(vnode0, vnode1);
+        assert.deepEqual(map(prop('textContent'), elm.childNodes), ['One', 'Two']);
+        patch(vnode1, vnode2);
+        assert.equal(elm.childNodes.length, 1);
+        assert.equal(elm.childNodes[0].tagName, 'DIV');
+        assert.equal(elm.childNodes[0].textContent, 'Three');
+      });
       it('reorders elements', function() {
         var vnode1 = h('div', [h('span', 'One'), h('div', 'Two'), h('b', 'Three')]);
         var vnode2 = h('div', [h('b', 'Three'), h('span', 'One'), h('div', 'Two')]);
