@@ -1,3 +1,7 @@
+This carousel example uses `style transform` and `transition` to rotate a group of SVG triangles.
+
+Also, the color of each triangle changes when you hover or click/tap it.
+
 I built the build.js using npm and browserify. 
 
 In my local copy of the snabbdom project root I did these preparations:
