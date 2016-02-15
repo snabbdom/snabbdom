@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta charset="utf-8">
+	<title>Carousel</title>
+	<script type="text/javascript" src="build.js"></script>
+	<style type="text/css">
+div.view {
+	margin: 10px;
+}
+h1 {
+	font-size: 24px;
+	color: #505000;
+}
+svg {
+	display: block;
+	margin-bottom: 10px;
+	border: 1px solid gray;
+}
+g#carousel {
+	-webkit-transition: -webkit-transform 1s ease;
+	transition: transform 1s ease;
+}
+polygon {
+	stroke: #808000;
+	transition: fill 0.5s linear;
+}
+polygon#yellow {
+	fill: rgba(255,255,0,0.4);
+}
+polygon#yellow:hover, polygon#yellow:active {
+	fill: yellow;
+}
+polygon#green {
+	fill: rgba(0,128,0,0.4);
+}
+polygon#green:hover, polygon#green:active {
+	fill: green;
+}
+polygon#magenta {
+	fill: rgba(255,0,255,0.4);
+}
+polygon#magenta:hover, polygon#magenta:active {
+	fill: magenta;
+}
+polygon#red {
+	fill: rgba(255,0,0,0.4);
+}
+polygon#red:hover, polygon#red:active {
+	fill: red;
+}
+polygon#cyan {
+	fill: rgba(0,255,255,0.4);
+}
+polygon#cyan:hover, polygon#cyan:active {
+	fill: cyan;
+}
+polygon#blue {
+	fill: rgba(0,0,255,0.4);
+}
+polygon#blue:hover, polygon#blue:active {
+	fill: blue;
+}
+button {
+	font-size: 15px;
+	margin: 0 0.7em 0.7em 0;
+}
+	</style>
+</head>
+<body>
+	<div id="container"></div>
+</body>
+</html>
