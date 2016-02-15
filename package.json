@@ -13,10 +13,14 @@
     "browserify": "^13.0.0",
     "fake-raf": "0.0.1",
     "knuth-shuffle": "^1.0.1",
-    "testem": "^1.0.2"
+    "testem": "^1.0.2",
+    "xyz": "0.5.x"
   },
   "scripts": {
-    "test": "testem"
+    "test": "testem",
+    "release-major": "xyz --repo git@github.com:paldepind/snabbdom.git --increment major",
+    "release-minor": "xyz --repo git@github.com:paldepind/snabbdom.git --increment minor",
+    "release-patch": "xyz --repo git@github.com:paldepind/snabbdom.git --increment patch"
   },
   "repository": {
     "type": "git",
