@@ -29,7 +29,7 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
 
 function createRmCb(childElm, listeners) {
   return function() {
-    if (--listeners === 0) childElm.parentElement.removeChild(childElm);
+    if (--listeners === 0) dom('removeChild', childElm.parentElement, childElm);
   };
 }
 
@@ -84,10 +84,10 @@ function init(modules) {
       if (dotIdx > 0) elm.className = sel.slice(dot+1).replace(/\./g, ' ');
       if (is.array(children)) {
         for (i = 0; i < children.length; ++i) {
-          elm.appendChild(createElm(children[i], insertedVnodeQueue));
+          dom('appendChild', elm, createElm(children[i], insertedVnodeQueue));
         }
       } else if (is.primitive(vnode.text)) {
-        elm.appendChild(document.createTextNode(vnode.text));
+        dom('appendChild', elm, document.createTextNode(vnode.text));
       }
       for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
       i = vnode.data.hook; // Reuse variable
@@ -103,7 +103,7 @@ function init(modules) {
 
   function addVnodes(parentElm, before, vnodes, startIdx, endIdx, insertedVnodeQueue) {
     for (; startIdx <= endIdx; ++startIdx) {
-      parentElm.insertBefore(createElm(vnodes[startIdx], insertedVnodeQueue), before);
+      dom('insertBefore', parentElm, createElm(vnodes[startIdx], insertedVnodeQueue), before);
     }
   }
 
@@ -135,7 +135,7 @@ function init(modules) {
             rm();
           }
         } else { // Text node
-          parentElm.removeChild(ch.elm);
+          dom('removeChild', parentElm, ch.elm);
         }
       }
     }
@@ -166,25 +166,25 @@ function init(modules) {
         newEndVnode = newCh[--newEndIdx];
       } else if (sameVnode(oldStartVnode, newEndVnode)) { // Vnode moved right
         patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue);
-        parentElm.insertBefore(oldStartVnode.elm, oldEndVnode.elm.nextSibling);
+        dom('insertBefore', parentElm, oldStartVnode.elm, oldEndVnode.elm.nextSibling);
         oldStartVnode = oldCh[++oldStartIdx];
         newEndVnode = newCh[--newEndIdx];
       } else if (sameVnode(oldEndVnode, newStartVnode)) { // Vnode moved left
         patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue);
-        parentElm.insertBefore(oldEndVnode.elm, oldStartVnode.elm);
+        dom('insertBefore', parentElm, oldEndVnode.elm, oldStartVnode.elm);
         oldEndVnode = oldCh[--oldEndIdx];
         newStartVnode = newCh[++newStartIdx];
       } else {
         if (isUndef(oldKeyToIdx)) oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
         idxInOld = oldKeyToIdx[newStartVnode.key];
         if (isUndef(idxInOld)) { // New element
-          parentElm.insertBefore(createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm);
+          dom('insertBefore', parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm);
           newStartVnode = newCh[++newStartIdx];
         } else {
           elmToMove = oldCh[idxInOld];
           patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);
           oldCh[idxInOld] = undefined;
-          parentElm.insertBefore(elmToMove.elm, oldStartVnode.elm);
+          dom('insertBefore', parentElm, elmToMove.elm, oldStartVnode.elm);
           newStartVnode = newCh[++newStartIdx];
         }
       }
@@ -215,15 +215,15 @@ function init(modules) {
       if (isDef(oldCh) && isDef(ch)) {
         if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue);
       } else if (isDef(ch)) {
-        if (isDef(oldVnode.text)) elm.textContent = '';
+        if (isDef(oldVnode.text)) dom('textContent', elm, '');
         addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue);
       } else if (isDef(oldCh)) {
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
       } else if (isDef(oldVnode.text)) {
-        elm.textContent = '';
+        dom(elm, 'textContent', '');
       }
     } else if (oldVnode.text !== vnode.text) {
-      elm.textContent = vnode.text;
+      dom('textContent', elm, vnode.text);
     }
     if (isDef(hook) && isDef(i = hook.postpatch)) {
       i(oldVnode, vnode);
