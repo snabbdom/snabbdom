@@ -33,6 +33,26 @@ function createRmCb(childElm, listeners) {
   };
 }
 
+// Perform DOM operations differently for iframes.
+function dom(op, elm, first, second) {
+  if (elm.tagName !== 'IFRAME') {
+    if (op === 'textContent') {
+      elm.textContent = first;
+    } else {
+      elm[op](first, second);
+    }
+  } else {
+    // Make sure the iframe is loaded (i.e. we have contentDocument) before
+    // performing operations on the body.
+    var f = function() { dom(op, elm.contentDocument.body, first, second); }
+    if (elm.contentDocument && elm.contentDocument.readyState === 'complete') {
+      f();
+    } else {
+      elm.addEventListener('load', f);
+    }
+  }
+}
+
 var hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
 function init(modules) {
