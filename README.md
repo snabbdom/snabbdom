@@ -89,6 +89,7 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 
 * [Animated reordering of elements](http://paldepind.github.io/snabbdom/examples/reorder-animation/)
 * [Hero transitions](http://paldepind.github.io/snabbdom/examples/hero/)
+* [SVG Carousel](http://paldepind.github.io/snabbdom/examples/carousel-svg/)
 
 ## Core documentation
 
@@ -449,7 +450,7 @@ var vnode = h('div', [
 ]);
 ```
 
-See also the [SVG example](./examples/svg).
+See also the [SVG example](./examples/svg) and the [SVG Carousel example](./examples/carousel-svg/).
 
 ### Thunks
 
