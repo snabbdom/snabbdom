@@ -220,7 +220,7 @@ function init(modules) {
       } else if (isDef(oldCh)) {
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
       } else if (isDef(oldVnode.text)) {
-        dom(elm, 'textContent', '');
+        dom('textContent', elm, '');
       }
     } else if (oldVnode.text !== vnode.text) {
       dom('textContent', elm, vnode.text);
