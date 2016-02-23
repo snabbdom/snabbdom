@@ -235,15 +235,25 @@ function init(modules) {
     // not sure if it's a valid use case...
     if (vnode instanceof Element) vnode = emptyNodeAt(vnode);
 
-    if (noParent = (oldVnode.elm.parentElement === null)) dummyParent.appendChild(oldVnode.elm);
-
+    var elm = oldVnode.elm;
+    var parent = elm.parentElement;
+    if (noParent = (parent === null)) {
+      dummyParent.appendChild(elm);
+      parent = dummyParent;
+    }
+    
     if (sameVnode(oldVnode, vnode)) {
       patchVnode(oldVnode, vnode, insertedVnodeQueue);
-    } else {
-      createElm(vnode, insertedVnodeQueue);
-      oldVnode.elm.parentElement.replaceChild(vnode.elm, oldVnode.elm);
     }
+    else {
+      var next = elm.nextSibling;
+      createElm(vnode, insertedVnodeQueue);
 
+      if (next) parent.insertBefore(vnode.elm, next);
+      else parent.appendChild(vnode.elm);
+      removeVnodes(parent, [oldVnode], 0, 0);
+    }
+    
     if (noParent) dummyParent.removeChild(vnode.elm);
 
     for (i = 0; i < insertedVnodeQueue.length; ++i) {
