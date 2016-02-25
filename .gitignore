@@ -28,3 +28,5 @@ node_modules
 
 # Vim
 *.swp
+
+test/browserified.js

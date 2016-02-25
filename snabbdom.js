@@ -8,8 +8,9 @@ var is = require('./is');
 function isUndef(s) { return s === undefined; }
 function isDef(s) { return s !== undefined; }
 
+// deal with case sensivity better than that
 function emptyNodeAt(elm) {
-  return VNode(elm.tagName, {}, [], undefined, elm);
+  return VNode(elm.tagName.toLowerCase(), {}, [], undefined, elm);
 }
 
 var emptyNode = VNode('', {}, [], undefined, undefined);
@@ -45,10 +46,13 @@ function init(modules) {
   }
 
   function createElm(vnode, insertedVnodeQueue) {
-    var i, data = vnode.data;
+    var i, thunk, data = vnode.data;
     if (isDef(data)) {
       if (isDef(i = data.hook) && isDef(i = i.init)) i(vnode);
-      if (isDef(i = data.vnode)) vnode = i;
+      if (isDef(i = data.vnode)) {
+          thunk = vnode;
+          vnode = i;
+      }
     }
     var elm, children = vnode.children, sel = vnode.sel;
     if (isDef(sel)) {
@@ -78,6 +82,7 @@ function init(modules) {
     } else {
       elm = vnode.elm = document.createTextNode(vnode.text);
     }
+    if (isDef(thunk)) thunk.elm = vnode.elm;
     return vnode.elm;
   }
 
@@ -88,15 +93,16 @@ function init(modules) {
   }
 
   function invokeDestroyHook(vnode) {
-    var i = vnode.data, j;
-    if (isDef(i)) {
-      if (isDef(i = i.hook) && isDef(i = i.destroy)) i(vnode);
+    var i, j, data = vnode.data;
+    if (isDef(data)) {
+      if (isDef(i = data.hook) && isDef(i = i.destroy)) i(vnode);
       for (i = 0; i < cbs.destroy.length; ++i) cbs.destroy[i](vnode);
       if (isDef(i = vnode.children)) {
         for (j = 0; j < vnode.children.length; ++j) {
           invokeDestroyHook(vnode.children[j]);
         }
       }
+      if (isDef(i = data.vnode)) invokeDestroyHook(i);
     }
   }
 
@@ -183,9 +189,20 @@ function init(modules) {
       i(oldVnode, vnode);
     }
     if (isDef(i = oldVnode.data) && isDef(i = i.vnode)) oldVnode = i;
-    if (isDef(i = vnode.data) && isDef(i = i.vnode)) vnode = i;
+    if (isDef(i = vnode.data) && isDef(i = i.vnode)) {
+      patchVnode(oldVnode, i, insertedVnodeQueue);
+      vnode.elm = i.elm;
+      return;
+    }
     var elm = vnode.elm = oldVnode.elm, oldCh = oldVnode.children, ch = vnode.children;
     if (oldVnode === vnode) return;
+    if (!sameVnode(oldVnode, vnode)) {
+      var parentElm = oldVnode.elm.parentElement;
+      elm = createElm(vnode, insertedVnodeQueue);
+      parentElm.insertBefore(elm, oldVnode.elm);
+      removeVnodes(parentElm, [oldVnode], 0, 0);
+      return;
+    }
     if (isDef(vnode.data)) {
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);
       i = vnode.data.hook;
@@ -210,21 +227,37 @@ function init(modules) {
     }
   }
 
+  var dummyParent = document.createElement('div');
+
   return function(oldVnode, vnode) {
-    var i;
+    var i, noParent;
     var insertedVnodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
+
     if (oldVnode.nodeType === Node.ELEMENT_NODE) {
-      if (oldVnode.parentElement !== null) {
-        createElm(vnode, insertedVnodeQueue);
-        oldVnode.parentElement.replaceChild(vnode.elm, oldVnode);
-      } else {
-        oldVnode = emptyNodeAt(oldVnode);
-        patchVnode(oldVnode, vnode, insertedVnodeQueue);
-      }
-    } else {
-      patchVnode(oldVnode, vnode, insertedVnodeQueue);
+      oldVnode = emptyNodeAt(oldVnode);
     }
+
+    var elm = oldVnode.elm;
+    var parent = elm.parentElement;
+    if (noParent = (parent === null)) {
+      dummyParent.appendChild(elm);
+      parent = dummyParent;
+    }
+
+    if (sameVnode(oldVnode, vnode)) {
+      patchVnode(oldVnode, vnode, insertedVnodeQueue);
+    } else {
+      var next = elm.nextSibling;
+      createElm(vnode, insertedVnodeQueue);
+
+      if (next) parent.insertBefore(vnode.elm, next);
+      else parent.appendChild(vnode.elm);
+      removeVnodes(parent, [oldVnode], 0, 0);
+    }
+
+    if (noParent) dummyParent.removeChild(vnode.elm);
+
     for (i = 0; i < insertedVnodeQueue.length; ++i) {
       insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);
     }
