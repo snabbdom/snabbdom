@@ -227,10 +227,8 @@ function init(modules) {
     }
   }
 
-  var dummyParent = document.createElement('div');
-
   return function(oldVnode, vnode) {
-    var i, noParent;
+    var i, elm, parent;
     var insertedVnodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
 
@@ -238,13 +236,14 @@ function init(modules) {
       oldVnode = emptyNodeAt(oldVnode);
     }
 
-    var elm = oldVnode.elm;
-    var parent = elm.parentElement;
-
     if (sameVnode(oldVnode, vnode)) {
       patchVnode(oldVnode, vnode, insertedVnodeQueue);
     } else {
+      elm = oldVnode.elm;
+      parent = elm.parentElement;
+
       createElm(vnode, insertedVnodeQueue);
+
       if (parent !== null) {
         parent.insertBefore(vnode.elm, elm.nextSibling);
         removeVnodes(parent, [oldVnode], 0, 0);
