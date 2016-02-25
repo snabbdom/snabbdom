@@ -240,23 +240,16 @@ function init(modules) {
 
     var elm = oldVnode.elm;
     var parent = elm.parentElement;
-    if (noParent = (parent === null)) {
-      dummyParent.appendChild(elm);
-      parent = dummyParent;
-    }
 
     if (sameVnode(oldVnode, vnode)) {
       patchVnode(oldVnode, vnode, insertedVnodeQueue);
     } else {
-      var next = elm.nextSibling;
       createElm(vnode, insertedVnodeQueue);
-
-      if (next) parent.insertBefore(vnode.elm, next);
-      else parent.appendChild(vnode.elm);
-      removeVnodes(parent, [oldVnode], 0, 0);
+      if (parent !== null) {
+        parent.insertBefore(vnode.elm, elm.nextSibling);
+        removeVnodes(parent, [oldVnode], 0, 0);
+      }
     }
-
-    if (noParent) dummyParent.removeChild(vnode.elm);
 
     for (i = 0; i < insertedVnodeQueue.length; ++i) {
       insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);

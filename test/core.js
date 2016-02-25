@@ -669,6 +669,27 @@ describe('snabbdom', function() {
         rm2();
         assert.equal(elm.children.length, 0);
       });
+      it('invokes remove hook on replaced root', function() {
+        var result = [];
+        var parent = document.createElement('div');
+        var vnode0 = document.createElement('div');
+	parent.appendChild(vnode0);
+        function cb(vnode, rm) {
+          result.push(vnode);
+          rm();
+        }
+        var vnode1 = h('div', {hook: {remove: cb}}, [
+          h('b', 'Child 1'),
+          h('i', 'Child 2'),
+        ]);
+        var vnode2 = h('span', [
+          h('b', 'Child 1'),
+          h('i', 'Child 2'),
+        ]);
+        patch(vnode0, vnode1);
+        patch(vnode1, vnode2);
+        assert.equal(1, result.length);
+      });
     });
     describe('module hooks', function() {
       it('invokes `pre` and `post` hook', function() {
@@ -691,8 +712,9 @@ describe('snabbdom', function() {
             h('span', 'Child 2'),
           ]),
         ]);
+	var vnode2 = h('div');
         patch(vnode0, vnode1);
-        patch(vnode1, vnode0);
+        patch(vnode1, vnode2);
         assert.equal(result.length, 1);
       });
       it('handles text vnodes with `undefined` `data` property', function() {
