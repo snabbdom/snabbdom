@@ -18,7 +18,7 @@ describe('event listeners', function() {
     var vnode = h('div', {on: {click: clicked}}, [
       h('a', 'Click my parent'),
     ]);
-    patch(vnode0, vnode);
+    elm = patch(vnode0, vnode).elm;
     elm.click();
     assert.equal(1, result.length);
   });
@@ -31,9 +31,9 @@ describe('event listeners', function() {
     var vnode2 = h('div', {on: {click: function(ev) { result.push(2); }}}, [
       h('a', 'Click my parent'),
     ]);
-    patch(vnode0, vnode1);
+    elm = patch(vnode0, vnode1).elm;
     elm.click();
-    patch(vnode1, vnode2);
+    elm = patch(vnode1, vnode2).elm;
     elm.click();
     assert.deepEqual(result, [1, 2]);
   });
@@ -43,7 +43,7 @@ describe('event listeners', function() {
     var vnode = h('div', {on: {click: [clicked, 1]}}, [
       h('a', 'Click my parent'),
     ]);
-    patch(vnode0, vnode);
+    elm = patch(vnode0, vnode).elm;
     elm.click();
     assert.deepEqual(result, [1]);
   });
@@ -59,11 +59,11 @@ describe('event listeners', function() {
     var vnode3 = h('div', {on: {click: [clicked, 3]}}, [
       h('a', 'Click my parent'),
     ]);
-    patch(vnode0, vnode1);
+    elm = patch(vnode0, vnode1).elm;
     elm.click();
-    patch(vnode1, vnode2);
+    elm = patch(vnode1, vnode2).elm;
     elm.click();
-    patch(vnode2, vnode3);
+    elm = patch(vnode2, vnode3).elm;
     elm.click();
     assert.deepEqual(result, [1, 2, 3]);
   });
@@ -79,11 +79,11 @@ describe('event listeners', function() {
     var vnode3 = h('div', {on: {click: [clicked, 2, 3]}}, [
       h('a', 'Click my parent'),
     ]);
-    patch(vnode0, vnode1);
+    elm = patch(vnode0, vnode1).elm;
     elm.click();
-    patch(vnode1, vnode2);
+    elm = patch(vnode1, vnode2).elm;
     elm.click();
-    patch(vnode2, vnode3);
+    elm = patch(vnode2, vnode3).elm;
     elm.click();
     assert.deepEqual(result, [[1, 2, 3], [1, 2], [2, 3]]);
   });
