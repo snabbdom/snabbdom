@@ -4,15 +4,10 @@
 
 var VNode = require('./vnode');
 var is = require('./is');
-var api = require('./htmldomapi.js');
+var domApi = require('./htmldomapi.js');
 
 function isUndef(s) { return s === undefined; }
 function isDef(s) { return s !== undefined; }
-
-// deal with case sensivity better than that
-function emptyNodeAt(elm) {
-  return VNode(api.tagName(elm).toLowerCase(), {}, [], undefined, elm);
-}
 
 var emptyNode = VNode('', {}, [], undefined, undefined);
 
@@ -29,25 +24,31 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
   return map;
 }
 
-function createRmCb(childElm, listeners) {
-  return function() {
-    if (--listeners === 0) {
-      var parent = api.parentNode(childElm);
-      api.removeChild(parent, childElm);
-    }
-  };
-}
-
 var hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
-function init(modules, domApi) {
+function init(modules, api) {
   var i, j, cbs = {};
-  api = domApi || api;
+
+  if (isUndef(api)) api = domApi;
+
   for (i = 0; i < hooks.length; ++i) {
     cbs[hooks[i]] = [];
     for (j = 0; j < modules.length; ++j) {
       if (modules[j][hooks[i]] !== undefined) cbs[hooks[i]].push(modules[j][hooks[i]]);
     }
+  }
+
+  function emptyNodeAt(elm) {
+    return VNode(api.tagName(elm).toLowerCase(), {}, [], undefined, elm);
+  }
+
+  function createRmCb(childElm, listeners) {
+    return function() {
+      if (--listeners === 0) {
+        var parent = api.parentNode(childElm);
+        api.removeChild(parent, childElm);
+      }
+    };
   }
 
   function createElm(vnode, insertedVnodeQueue) {
