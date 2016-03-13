@@ -1,4 +1,4 @@
-var raf = (window && window.requestAnimationFrame) || setTimeout;
+var raf = (typeof window !== `undefined` && window.requestAnimationFrame) || setTimeout;
 var nextFrame = function(fn) { raf(function() { raf(fn); }); };
 
 function setNextFrame(obj, prop, val) {
