@@ -494,12 +494,12 @@ computation time to generate.
 
 ## Virtual Node
 **Properties**
- - [sel](#sel)
- - [data](#data)
- - [children](#children)
- - [text](#text)
- - [elm](#elm)
- - [key](#key)
+ - [sel](#sel--string)
+ - [data](#data--object)
+ - [children](#children--array)
+ - [text](#text--string)
+ - [elm](#elm--element)
+ - [key](#key--string--number)
 
 #### sel : String
 The `.sel` property of a virtual node is the CSS selector passed to `h()` during creation.
