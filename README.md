@@ -502,13 +502,13 @@ computation time to generate.
  - [key](#key--string--number)
 
 #### sel : String
-The `.sel` property of a virtual node is the CSS selector passed to `h()` during creation.
+The `.sel` property of a virtual node is the CSS selector passed to [`h()`](#snabbdom-h) during creation.
 For example: `h('div#container, {}, [...])` will create a a virtual node which has `div#container` as it's `.sel` property.
 
 #### data : Object
-The `.data` property of a virtual node is the place to add information for [modules](https://github.com/paldepind/snabbdom#modules-documentation) to access and manipulate the real DOM element when it is created; Add styles, CSS classes, attributes, etc.
+The `.data` property of a virtual node is the place to add information for [modules](#modules-documentation) to access and manipulate the real DOM element when it is created; Add styles, CSS classes, attributes, etc.
 
-The data object is the (optional) second parameter to `h()`
+The data object is the (optional) second parameter to [`h()`](#snabbdom-h)
 
 For example `h('div', {props: {className: 'container'}, [...]}` will produce a virtual node with
 ```js
@@ -521,7 +521,7 @@ For example `h('div', {props: {className: 'container'}, [...]}` will produce a v
 as it's `.data` object.
 
 #### children : Array<VNode>
-The `.children` property of a virtual node is the third (optional) parameter to `h()` during creation.
+The `.children` property of a virtual node is the third (optional) parameter to [`h()`](#snabbdom-h) during creation.
 `.children` is simply and Array of virtual nodes that should be added as children of the parent DOM node upon creation.
 
 For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will create a virtual node with
@@ -546,11 +546,11 @@ For example: `h('h1', {}, 'Hello')` will create a virtual node with `Hello` as i
 
 #### elm : Element
 
-The `.elm` property of a virtual node is a pointer to the real DOM node created by snabbdom. This property is very useful to do calculations in [hooks](insert link to hooks) as well as [modules](https://github.com/paldepind/snabbdom#modules-documentation).
+The `.elm` property of a virtual node is a pointer to the real DOM node created by snabbdom. This property is very useful to do calculations in [hooks](#hooks) as well as [modules](#modules-documentation).
 
 #### key : string | number
 
-The `.key` property is created when a key is provided inside of your [`.data`](#data) object. The `.key` property is used to keep pointers to DOM nodes that existed previously to avoid recreating them if it is unnecessary. This is very useful for things like list reordering. A key much be either a string or a number to allow for proper lookup as it is stored internally as a key value pair inside of an object, where `.key` is the key and the value is the [`.elm`](#elm) property created.
+The `.key` property is created when a key is provided inside of your [`.data`](#data--object) object. The `.key` property is used to keep pointers to DOM nodes that existed previously to avoid recreating them if it is unnecessary. This is very useful for things like list reordering. A key much be either a string or a number to allow for proper lookup as it is stored internally as a key value pair inside of an object, where `.key` is the key and the value is the [`.elm`](#elm--element) property created.
 
 For example: `h('div', {key: 1}, [])` will create a virtual node object with a `.key` property with the value of `1`.
 
