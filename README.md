@@ -502,13 +502,13 @@ computation time to generate.
  - [key](#key--string--number)
 
 #### sel : String
-The `.sel` property of a virtual node is the CSS selector passed to [`h()`](#snabbdom-h) during creation.
+The `.sel` property of a virtual node is the CSS selector passed to [`h()`](#snabbdomh) during creation.
 For example: `h('div#container, {}, [...])` will create a a virtual node which has `div#container` as it's `.sel` property.
 
 #### data : Object
 The `.data` property of a virtual node is the place to add information for [modules](#modules-documentation) to access and manipulate the real DOM element when it is created; Add styles, CSS classes, attributes, etc.
 
-The data object is the (optional) second parameter to [`h()`](#snabbdom-h)
+The data object is the (optional) second parameter to [`h()`](#snabbdomh)
 
 For example `h('div', {props: {className: 'container'}, [...]}` will produce a virtual node with
 ```js
@@ -521,7 +521,7 @@ For example `h('div', {props: {className: 'container'}, [...]}` will produce a v
 as it's `.data` object.
 
 #### children : Array<VNode>
-The `.children` property of a virtual node is the third (optional) parameter to [`h()`](#snabbdom-h) during creation.
+The `.children` property of a virtual node is the third (optional) parameter to [`h()`](#snabbdomh) during creation.
 `.children` is simply and Array of virtual nodes that should be added as children of the parent DOM node upon creation.
 
 For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will create a virtual node with
