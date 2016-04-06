@@ -550,7 +550,7 @@ The `.elm` property of a virtual node is a pointer to the real DOM node created 
 
 #### key : string | number
 
-The `.key` property is created when a key is provided inside of your [`.data`](#data--object) object. The `.key` property is used to keep pointers to DOM nodes that existed previously to avoid recreating them if it is unnecessary. This is very useful for things like list reordering. A key much be either a string or a number to allow for proper lookup as it is stored internally as a key value pair inside of an object, where `.key` is the key and the value is the [`.elm`](#elm--element) property created.
+The `.key` property is created when a key is provided inside of your [`.data`](#data--object) object. The `.key` property is used to keep pointers to DOM nodes that existed previously to avoid recreating them if it is unnecessary. This is very useful for things like list reordering. A key must be either a string or a number to allow for proper lookup as it is stored internally as a key value pair inside of an object, where `.key` is the key and the value is the [`.elm`](#elm--element) property created.
 
 For example: `h('div', {key: 1}, [])` will create a virtual node object with a `.key` property with the value of `1`.
 
