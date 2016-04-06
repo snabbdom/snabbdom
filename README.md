@@ -503,14 +503,14 @@ computation time to generate.
 
 #### sel : String
 The `.sel` property of a virtual node is the CSS selector passed to [`h()`](#snabbdomh) during creation.
-For example: `h('div#container, {}, [...])` will create a a virtual node which has `div#container` as it's `.sel` property.
+For example: `h('div#container', {}, [...])` will create a a virtual node which has `div#container` as it's `.sel` property.
 
 #### data : Object
 The `.data` property of a virtual node is the place to add information for [modules](#modules-documentation) to access and manipulate the real DOM element when it is created; Add styles, CSS classes, attributes, etc.
 
 The data object is the (optional) second parameter to [`h()`](#snabbdomh)
 
-For example `h('div', {props: {className: 'container'}, [...]}` will produce a virtual node with
+For example `h('div', {props: {className: 'container'}}, [...])` will produce a virtual node with
 ```js
 {
   "props": {
@@ -518,11 +518,11 @@ For example `h('div', {props: {className: 'container'}, [...]}` will produce a v
   }
 }
 ```
-as it's `.data` object.
+as its `.data` object.
 
 #### children : Array<VNode>
 The `.children` property of a virtual node is the third (optional) parameter to [`h()`](#snabbdomh) during creation.
-`.children` is simply and Array of virtual nodes that should be added as children of the parent DOM node upon creation.
+`.children` is simply an Array of virtual nodes that should be added as children of the parent DOM node upon creation.
 
 For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will create a virtual node with
 ```js
@@ -537,12 +537,12 @@ For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will create a virtua
  }
 ]
 ```
-as it's `.children` property.
+as its `.children` property.
 
 #### text : string
-The `.text` property is created when the a virtual node is created with only a single child that possesses text and only requires `document.createTextNode()` to be used.
+The `.text` property is created when a virtual node is created with only a single child that possesses text and only requires `document.createTextNode()` to be used.
 
-For example: `h('h1', {}, 'Hello')` will create a virtual node with `Hello` as it's `.text` property.
+For example: `h('h1', {}, 'Hello')` will create a virtual node with `Hello` as its `.text` property.
 
 #### elm : Element
 
