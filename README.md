@@ -503,7 +503,7 @@ computation time to generate.
 
 #### sel : String
 The `.sel` property of a virtual node is the CSS selector passed to [`h()`](#snabbdomh) during creation.
-For example: `h('div#container', {}, [...])` will create a a virtual node which has `div#container` as it's `.sel` property.
+For example: `h('div#container', {}, [...])` will create a a virtual node which has `div#container` as its `.sel` property.
 
 #### data : Object
 The `.data` property of a virtual node is the place to add information for [modules](#modules-documentation) to access and manipulate the real DOM element when it is created; Add styles, CSS classes, attributes, etc.
