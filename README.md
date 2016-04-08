@@ -14,6 +14,7 @@ and performance.
 * [Core documentation](#core-documentation)
 * [Modules documentation](#modules-documentation)
 * [Helpers](#helpers)
+* [Virtual Node documentation](#virtual-node)
 * [Structuring applications](#structuring-applications)
 
 ## Why
@@ -490,6 +491,69 @@ the diff process altogether.
 The view function here is only an example. In practice thunks are only
 relevant if you are rendering a complicated view that takes a significant
 computation time to generate.
+
+## Virtual Node
+**Properties**
+ - [sel](#sel--string)
+ - [data](#data--object)
+ - [children](#children--array)
+ - [text](#text--string)
+ - [elm](#elm--element)
+ - [key](#key--string--number)
+
+#### sel : String
+The `.sel` property of a virtual node is the CSS selector passed to [`h()`](#snabbdomh) during creation.
+For example: `h('div#container', {}, [...])` will create a a virtual node which has `div#container` as its `.sel` property.
+
+#### data : Object
+The `.data` property of a virtual node is the place to add information for [modules](#modules-documentation) to access and manipulate the real DOM element when it is created; Add styles, CSS classes, attributes, etc.
+
+The data object is the (optional) second parameter to [`h()`](#snabbdomh)
+
+For example `h('div', {props: {className: 'container'}}, [...])` will produce a virtual node with
+```js
+{
+  "props": {
+    className: "container"
+  }
+}
+```
+as its `.data` object.
+
+#### children : Array<VNode>
+The `.children` property of a virtual node is the third (optional) parameter to [`h()`](#snabbdomh) during creation.
+`.children` is simply an Array of virtual nodes that should be added as children of the parent DOM node upon creation.
+
+For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will create a virtual node with
+```js
+[
+ {
+   sel: 'h1',
+   data: {},
+   children: undefined,
+   text: 'Hello, World',
+   elm: Element,
+   key: undefined,
+ }
+]
+```
+as its `.children` property.
+
+#### text : string
+The `.text` property is created when a virtual node is created with only a single child that possesses text and only requires `document.createTextNode()` to be used.
+
+For example: `h('h1', {}, 'Hello')` will create a virtual node with `Hello` as its `.text` property.
+
+#### elm : Element
+
+The `.elm` property of a virtual node is a pointer to the real DOM node created by snabbdom. This property is very useful to do calculations in [hooks](#hooks) as well as [modules](#modules-documentation).
+
+#### key : string | number
+
+The `.key` property is created when a key is provided inside of your [`.data`](#data--object) object. The `.key` property is used to keep pointers to DOM nodes that existed previously to avoid recreating them if it is unnecessary. This is very useful for things like list reordering. A key must be either a string or a number to allow for proper lookup as it is stored internally as a key value pair inside of an object, where `.key` is the key and the value is the [`.elm`](#elm--element) property created.
+
+For example: `h('div', {key: 1}, [])` will create a virtual node object with a `.key` property with the value of `1`.
+
 
 ## Structuring applications
 
