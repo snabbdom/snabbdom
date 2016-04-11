@@ -4,7 +4,7 @@
 
 var VNode = require('./vnode');
 var is = require('./is');
-var domApi = require('./htmldomapi.js');
+var domApi = require('./htmldomapi');
 
 function isUndef(s) { return s === undefined; }
 function isDef(s) { return s !== undefined; }
