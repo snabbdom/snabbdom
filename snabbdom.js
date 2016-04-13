@@ -52,12 +52,11 @@ function init(modules, api) {
   }
 
   function createElm(vnode, insertedVnodeQueue) {
-    var i, thunk, data = vnode.data;
+    var i, data = vnode.data;
     if (isDef(data)) {
-      if (isDef(i = data.hook) && isDef(i = i.init)) i(vnode);
-      if (isDef(i = data.vnode)) {
-          thunk = vnode;
-          vnode = i;
+      if (isDef(i = data.hook) && isDef(i = i.init)) {
+        i(vnode);
+        data = vnode.data;
       }
     }
     var elm, children = vnode.children, sel = vnode.sel;
@@ -88,7 +87,6 @@ function init(modules, api) {
     } else {
       elm = vnode.elm = api.createTextNode(vnode.text);
     }
-    if (isDef(thunk)) thunk.elm = vnode.elm;
     return vnode.elm;
   }
 
@@ -108,7 +106,6 @@ function init(modules, api) {
           invokeDestroyHook(vnode.children[j]);
         }
       }
-      if (isDef(i = data.vnode)) invokeDestroyHook(i);
     }
   }
 
@@ -193,12 +190,6 @@ function init(modules, api) {
     var i, hook;
     if (isDef(i = vnode.data) && isDef(hook = i.hook) && isDef(i = hook.prepatch)) {
       i(oldVnode, vnode);
-    }
-    if (isDef(i = oldVnode.data) && isDef(i = i.vnode)) oldVnode = i;
-    if (isDef(i = vnode.data) && isDef(i = i.vnode)) {
-      patchVnode(oldVnode, i, insertedVnodeQueue);
-      vnode.elm = i.elm;
-      return;
     }
     var elm = vnode.elm = oldVnode.elm, oldCh = oldVnode.children, ch = vnode.children;
     if (oldVnode === vnode) return;
