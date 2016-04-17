@@ -1,7 +1,7 @@
 var h = require('./h');
 
 function init(thunk) {
-  var i, cur = thunk.data;
+  var cur = thunk.data;
   cur.vnode = cur.fn.apply(undefined, cur.args);
 }
 
