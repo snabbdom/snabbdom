@@ -12,11 +12,11 @@ function addNS(data, children) {
 
 module.exports = function h(sel, b, c) {
   var data = {}, children, text, i;
-  if (arguments.length === 3) {
+  if (c !== undefined) {
     data = b;
     if (is.array(c)) { children = c; }
     else if (is.primitive(c)) { text = c; }
-  } else if (arguments.length === 2) {
+  } else if (b !== undefined) {
     if (is.array(b)) { children = b; }
     else if (is.primitive(b)) { text = b; }
     else { data = b; }
