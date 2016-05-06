@@ -2,13 +2,17 @@ var is = require('../is');
 
 function arrInvoker(arr) {
   return function() {
+    if (!arr.length) return;
     // Special case when length is two, for performance
     arr.length === 2 ? arr[0](arr[1]) : arr[0].apply(undefined, arr.slice(1));
   };
 }
 
 function fnInvoker(o) {
-  return function(ev) { o.fn(ev); };
+  return function(ev) { 
+    if (o.fn === null) return;
+    o.fn(ev); 
+  };
 }
 
 function updateEventListeners(oldVnode, vnode) {
@@ -36,6 +40,19 @@ function updateEventListeners(oldVnode, vnode) {
       on[name] = old;
     }
   }
+  if (oldOn) {
+		for (name in oldOn) {
+			if (on[name] === undefined) {
+				var old = oldOn[name];
+				if (is.array(old)) {
+					old.length = 0;
+				}
+				else {
+					old.fn = null;
+				}
+			}
+		}
+	}
 }
 
 module.exports = {create: updateEventListeners, update: updateEventListeners};
