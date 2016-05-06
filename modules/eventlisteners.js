@@ -41,18 +41,18 @@ function updateEventListeners(oldVnode, vnode) {
     }
   }
   if (oldOn) {
-		for (name in oldOn) {
-			if (on[name] === undefined) {
-				var old = oldOn[name];
-				if (is.array(old)) {
-					old.length = 0;
-				}
-				else {
-					old.fn = null;
-				}
-			}
-		}
-	}
+    for (name in oldOn) {
+      if (on[name] === undefined) {
+        var old = oldOn[name];
+        if (is.array(old)) {
+          old.length = 0;
+        }
+        else {
+          old.fn = null;
+        }
+      }
+    }
+  }
 }
 
 module.exports = {create: updateEventListeners, update: updateEventListeners};
