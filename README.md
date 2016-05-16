@@ -457,11 +457,16 @@ See also the [SVG example](./examples/svg) and the [SVG Carousel example](./exam
 
 ### Thunks
 
-The `thunk` function takes a name for identifying a thunk, a function that
-returns a vnode and a variable amount of state parameters. If invoked, the
-render function will recieve the state parameters.
+The `thunk` function takes a selector, a key for identifying a thunk,
+a function that returns a vnode and a variable amount of state
+parameters. If invoked, the render function will recieve the state
+arguments.
 
-`thunk(uniqueName, renderFn, [stateAguments])`
+`thunk(selector, key, renderFn, [stateArguments])`
+
+The `key` is optional. It should be supplied when the `selector` is
+not unique among the thunks siblings. This ensures that the thunk is
+always matched correctly when diffing.
 
 Thunks are an optimization strategy that can be used when one is dealing with
 immutable data.
