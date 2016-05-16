@@ -31,10 +31,11 @@ function prepatch(oldVnode, thunk) {
   copyToThunk(oldVnode, thunk);
 }
 
-module.exports = function(sel, key, fn /* args */) {
-  var i, args = [];
-  for (i = 3; i < arguments.length; ++i) {
-    args[i - 3] = arguments[i];
+module.exports = function(sel, key, fn, args) {
+  if (args === undefined) {
+    args = fn;
+    fn = key;
+    key = undefined;
   }
   return h(sel, {
     key: key,
