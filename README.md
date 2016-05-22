@@ -157,7 +157,7 @@ desired points in the life of a virtual node.
 | Name        | Triggered when                                     | Arguments to callback   |
 | ----------- | --------------                                     | ----------------------- |
 | `pre`       | the patch process begins                           | none                    |
-| `init`      | a vnode has been added                             | vnode                   |
+| `init`      | a vnode has been added                             | `vnode`                 |
 | `create`    | a DOM element has been created based on a vnode    | `emptyVnode, vnode`     |
 | `insert`    | an element has been inserted into the DOM          | `vnode`                 |
 | `prepatch`  | an element is about to be patched                  | `oldVnode, vnode`       |
