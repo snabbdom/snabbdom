@@ -61,16 +61,26 @@ function init(modules, api) {
     }
     var elm, children = vnode.children, sel = vnode.sel;
     if (isDef(sel)) {
+
       // Parse selector
-      var hashIdx = sel.indexOf('#');
-      var dotIdx = sel.indexOf('.', hashIdx);
-      var hash = hashIdx > 0 ? hashIdx : sel.length;
-      var dot = dotIdx > 0 ? dotIdx : sel.length;
-      var tag = hashIdx !== -1 || dotIdx !== -1 ? sel.slice(0, Math.min(hash, dot)) : sel;
+      var selectors = sel.split(/((\.|#).+)/);
+      var tag = selectors[0] || 'div';
+      selectors = selectors[1] || '';
+
       elm = vnode.elm = isDef(data) && isDef(i = data.ns) ? api.createElementNS(i, tag)
                                                           : api.createElement(tag);
-      if (hash < dot) elm.id = sel.slice(hash + 1, dot);
-      if (dotIdx > 0) elm.className = sel.slice(dot + 1).replace(/\./g, ' ');
+      var hashparts = selectors.split('#');
+      var id,
+        classes = hashparts.shift().split('.').slice(1);
+
+      for (i = 0; i < hashparts.length; i++) {
+        var dotparts = hashparts[i].split('.');
+        id = dotparts.shift() || undefined;
+        classes.push.apply(classes, dotparts);
+      }
+      if (id) elm.id = id;
+      if (classes.length) elm.className = classes.join(' ');
+
       if (is.array(children)) {
         for (i = 0; i < children.length; ++i) {
           api.appendChild(elm, createElm(children[i], insertedVnodeQueue));
