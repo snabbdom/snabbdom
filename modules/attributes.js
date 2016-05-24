@@ -19,11 +19,18 @@ function updateAttrs(oldVnode, vnode) {
     cur = attrs[key];
     old = oldAttrs[key];
     if (old !== cur) {
-      // TODO: add support to namespaced attributes (setAttributeNS)
-      if(!cur && booleanAttrsDict[key])
-        elm.removeAttribute(key);
-      else
-        elm.setAttribute(key, cur);
+      if ('class' === key) {
+        var clslst = cur.split(/ +/);
+        for (i = 0; i < clslst.length; i++) {
+          elm.classList.add(clslst[i]);
+        }
+      } else {
+        // TODO: add support to namespaced attributes (setAttributeNS)
+        if(!cur && booleanAttrsDict[key])
+          elm.removeAttribute(key);
+        else
+          elm.setAttribute(key, cur);
+      }
     }
   }
   //remove removed attributes
