@@ -70,7 +70,7 @@ function init(modules, api) {
       elm = vnode.elm = isDef(data) && isDef(i = data.ns) ? api.createElementNS(i, tag)
                                                           : api.createElement(tag);
       if (hash < dot) elm.id = sel.slice(hash + 1, dot);
-      if (dotIdx > 0) elm.className = sel.slice(dot+1).replace(/\./g, ' ');
+      if (dotIdx > 0) elm.className = sel.slice(dot + 1).replace(/\./g, ' ');
       if (is.array(children)) {
         for (i = 0; i < children.length; ++i) {
           api.appendChild(elm, createElm(children[i], insertedVnodeQueue));
