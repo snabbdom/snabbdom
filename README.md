@@ -198,9 +198,6 @@ has been found. The hook is called before Snabbdom has processed the
 node in any way. I.e., before it has created a DOM node based on the
 vnode.
 
-If the hook handler sets the `vnode` property on the vnode, then
-Snabbdom will use the vnode at `vnode` instead of the actual vnode.
-
 #### The `insert` hook
 
 This hook is invoked once the DOM element for a vnode has been
