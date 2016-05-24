@@ -19,22 +19,22 @@ and performance.
 
 ## Why
 
-Virtual DOM is awesome. It allows us to express our application's view as a
-function of its state. But existing solutions were way way too bloated, too
-slow, lacked features, had an API biased towards OOP and/or lacked features I
-needed.
+Virtual DOM is awesome. It allows us to express our application's view
+as a function of its state. But existing solutions were way way too
+bloated, too slow, lacked features, had an API biased towards OOP
+and/or lacked features I needed.
 
 ## Introduction
 
-Snabbdom consists of an extremely simple, performant and extensible core that
-is only ≈ 200 SLOC. It offers a modular architecture with rich functionality
-for extensions through custom modules. To keep the core simple, all non-essential
-functionality is delegated to modules.
+Snabbdom consists of an extremely simple, performant and extensible
+core that is only ≈ 200 SLOC. It offers a modular architecture with
+rich functionality for extensions through custom modules. To keep the
+core simple, all non-essential functionality is delegated to modules.
 
-You can mold Snabbdom into whatever you desire! Pick, choose and customize the
-functionality you want. Alternatively you can just use the default extensions
-and get a virtual DOM library with high performance, small size and all the
-features listed below.
+You can mold Snabbdom into whatever you desire! Pick, choose and
+customize the functionality you want. Alternatively you can just use
+the default extensions and get a virtual DOM library with high
+performance, small size and all the features listed below.
 
 ## Features
 
@@ -96,13 +96,15 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 
 ## Core documentation
 
-The core of Snabbdom provides only the most essential functionality. It is
-designed to be as simple as possible while still being fast and extendable.
+The core of Snabbdom provides only the most essential functionality.
+It is designed to be as simple as possible while still being fast and
+extendable.
 
 ### `snabbdom.init`
 
-The core exposes only one single function `snabbdom.init`. This `init` takes a list of
-modules and returns a `patch` function that uses the specified set of modules.
+The core exposes only one single function `snabbdom.init`. This `init`
+takes a list of modules and returns a `patch` function that uses the
+specified set of modules.
 
 ```javascript
 var patch = snabbdom.init([
@@ -113,19 +115,20 @@ var patch = snabbdom.init([
 
 ### `patch`
 
-The `patch` function returned by `init` takes two arguments. The first is a DOM
-element or a vnode representing the current view. The second is a vnode
-representing the new, updated view.
+The `patch` function returned by `init` takes two arguments. The first
+is a DOM element or a vnode representing the current view. The second
+is a vnode representing the new, updated view.
 
-If a DOM element with a parent is passed, `newVnode` will be turned into a DOM
-node, and the passed element will be replaced by the created DOM node. If an old
-vnode is passed, Snabbdom will effeciently modify it to match the description in
-the new vnode.
+If a DOM element with a parent is passed, `newVnode` will be turned
+into a DOM node, and the passed element will be replaced by the
+created DOM node. If an old vnode is passed, Snabbdom will effeciently
+modify it to match the description in the new vnode.
 
-Any old vnode passed must be the resulting vnode from a previous call to
-`patch`. This is necessary since Snabbdom stores information in the vnode.
-This makes it possible to implement a simpler and more performant architecture.
-This also avoids the creation of a new old vnode tree.
+Any old vnode passed must be the resulting vnode from a previous call
+to `patch`. This is necessary since Snabbdom stores information in the
+vnode. This makes it possible to implement a simpler and more
+performant architecture. This also avoids the creation of a new old
+vnode tree.
 
 ```javascript
 patch(oldVnode, newVnode);
@@ -171,13 +174,13 @@ The following hooks are available for modules: `pre`, `create`,
 `update`, `destroy`, `remove`, `post`.
 
 The following hooks are available in the `hook` property of individual
-elements: `init`, `create`, `insert`, `prepatch`, `update`, `postpatch`,
-`destroy`, `remove`.
+elements: `init`, `create`, `insert`, `prepatch`, `update`,
+`postpatch`, `destroy`, `remove`.
 
 #### Usage
 
-To use hooks, pass them as an object to `hook` field of the data object
-argument.
+To use hooks, pass them as an object to `hook` field of the data
+object argument.
 
 ```javascript
 h('div.row', {
@@ -190,39 +193,43 @@ h('div.row', {
 
 #### The `init` hook
 
-This hook is invoked during the patch process when a new virtual node has been
-found. The hook is called before Snabbdom has processed the node in any way.
-I.e., before it has created a DOM node based on the vnode.
+This hook is invoked during the patch process when a new virtual node
+has been found. The hook is called before Snabbdom has processed the
+node in any way. I.e., before it has created a DOM node based on the
+vnode.
 
-If the hook handler sets the `vnode` property on the vnode, then Snabbdom will
-use the vnode at `vnode` instead of the actual vnode.
+If the hook handler sets the `vnode` property on the vnode, then
+Snabbdom will use the vnode at `vnode` instead of the actual vnode.
 
 #### The `insert` hook
 
-This hook is invoked once the DOM element for a vnode has been inserted into the
-document _and_ the rest of the patch cycle is done. This means that you can do
-DOM measurements (like using [getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
-in this hook safely, knowing that no elements will be changed afterwards that
-could affect the position of the inserted elements.
+This hook is invoked once the DOM element for a vnode has been
+inserted into the document _and_ the rest of the patch cycle is done.
+This means that you can do DOM measurements (like using
+[getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
+in this hook safely, knowing that no elements will be changed
+afterwards that could affect the position of the inserted elements.
 
 #### The `remove` hook
 
-Allows you to hook into the removal of an element. The hook is called once a
-vnode is to be removed from the DOM. The handling function receives both the
-vnode and a callback. You can control and delay the removal with the callback.
-The callback should be invoked once the hook is done doing its business, and the element
-will only be removed once all `remove` hooks have invoked their callback.
+Allows you to hook into the removal of an element. The hook is called
+once a vnode is to be removed from the DOM. The handling function
+receives both the vnode and a callback. You can control and delay the
+removal with the callback. The callback should be invoked once the
+hook is done doing its business, and the element will only be removed
+once all `remove` hooks have invoked their callback.
 
-The hook is only triggered when an element is to be removed from its parent –
-not if it is the child of an element that is removed. For that, see the `destroy`
-hook.
+The hook is only triggered when an element is to be removed from its
+parent – not if it is the child of an element that is removed. For
+that, see the `destroy` hook.
 
 #### The `destroy` hook
 
-This hook is invoked on a virtual node when its DOM element is removed from the DOM or if its parent is being removed from the DOM.
+This hook is invoked on a virtual node when its DOM element is removed
+from the DOM or if its parent is being removed from the DOM.
 
-To see the difference between this hook and the `remove` hook, consider an
-example.
+To see the difference between this hook and the `remove` hook,
+consider an example.
 
 ```js
 var vnode1 = h('div', [h('div', [h('span', 'Hello')])]);
@@ -231,13 +238,14 @@ patch(container, vnode1);
 patch(vnode1, vnode2);
 ```
 
-Here `destroy` is triggered for both the inner `div` element _and_ the `span`
-element it contains. `remove`, on the other hand, is only triggered on the `div`
-element because it is the only element being detached from its parent.
+Here `destroy` is triggered for both the inner `div` element _and_ the
+`span` element it contains. `remove`, on the other hand, is only
+triggered on the `div` element because it is the only element being
+detached from its parent.
 
-You can, for instance, use `remove` to trigger an animation when an element is
-being removed and use the `destroy` hook to additionally animate the
-disappearance of the removed element's children.
+You can, for instance, use `remove` to trigger an animation when an
+element is being removed and use the `destroy` hook to additionally
+animate the disappearance of the removed element's children.
 
 ### Creating modules
 
@@ -254,9 +262,9 @@ var myModule = {
 };
 ```
 
-With this mechanism you can easily augument the behaviour of
-Snabbdom. For demonstration, take a look at the implementations of the
-default modules.
+With this mechanism you can easily augument the behaviour of Snabbdom.
+For demonstration, take a look at the implementations of the default
+modules.
 
 ## Modules documentation
 
@@ -265,9 +273,9 @@ This describes the core modules. All modules are optional.
 ### The class module
 
 The class module provides an easy way to dynamically toggle classes on
-elements. It expects an object in the `class` data property. The object should
-map class names to booleans that indicates whether or not the class should stay
-or go on the vnode.
+elements. It expects an object in the `class` data property. The
+object should map class names to booleans that indicates whether or
+not the class should stay or go on the vnode.
 
 ```javascript
 h('a', {class: {active: true, selected: false}}, 'Toggle');
@@ -289,17 +297,20 @@ Same as props, but set attributes instead of properties on DOM elements.
 h('a', {attrs: {href: '/foo'}}, 'Go to Foo');
 ```
 
-Attributes are added and updated using `setAttribute`. In case of an attribute
-that had been previously added/set and is no longer present in the `attrs` object,
-it is removed from the DOM element's attribute list using `removeAttribute`.
+Attributes are added and updated using `setAttribute`. In case of an
+attribute that had been previously added/set and is no longer present
+in the `attrs` object, it is removed from the DOM element's attribute
+list using `removeAttribute`.
 
-In the case of boolean attributes (e.g. `disabled`, `hidden`, `selected` ...),
-the meaning doesn't depend on the attribute value (`true` or `false`) but depends
-instead on the presence/absence of the attribute itself in the DOM element. Those
-attributes are handled differently by the module: if a boolean attribute is set
-to a [falsy value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean) (`0`, `-0`, `null`, `false`,`NaN`, `undefined`, or the empty
-string (`""`)), then the attribute will be removed from the attribute list of the
-DOM element.
+In the case of boolean attributes (e.g. `disabled`, `hidden`,
+`selected` ...), the meaning doesn't depend on the attribute value
+(`true` or `false`) but depends instead on the presence/absence of the
+attribute itself in the DOM element. Those attributes are handled
+differently by the module: if a boolean attribute is set to a
+[falsy value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
+(`0`, `-0`, `null`, `false`,`NaN`, `undefined`, or the empty string
+(`""`)), then the attribute will be removed from the attribute list of
+the DOM element.
 
 ### The style module
 
@@ -312,9 +323,9 @@ h('span', {
 }, 'Say my name, and every colour illuminates');
 ```
 
-Note that the style module does not remove style attributes if they are removed
-as properties from the style object. To remove a style, you should instead set
-it to the empty string.
+Note that the style module does not remove style attributes if they
+are removed as properties from the style object. To remove a style,
+you should instead set it to the empty string.
 
 ```javascript
 h('div', {
@@ -324,8 +335,8 @@ h('div', {
 
 #### Delayed properties
 
-You can specify properties as being delayed. Whenever these properties change,
-the change is not applied until after the next frame.
+You can specify properties as being delayed. Whenever these properties
+change, the change is not applied until after the next frame.
 
 ```javascript
 h('span', {
@@ -337,10 +348,10 @@ This makes it easy to declaratively animate the entry of elements.
 
 #### Set properties on `remove`
 
-Styles set in the `remove` property will take effect once the element is about
-to be removed from the DOM. The applied styles should be animated with CSS
-transitions. Only once all the styles are done animating will the element be
-removed from the DOM.
+Styles set in the `remove` property will take effect once the element
+is about to be removed from the DOM. The applied styles should be
+animated with CSS transitions. Only once all the styles are done
+animating will the element be removed from the DOM.
 
 ```javascript
 h('span', {
@@ -365,27 +376,28 @@ h('span', {
 The event listeners module gives powerful capabilities for attaching
 event listeners.
 
-You can attach a function to an event on a vnode by supplying an object at `on`
-with a property corresponding to the name of the event you want to listen to.
-The function will be called when the event happens and will be passed the event
-object that belongs to it.
+You can attach a function to an event on a vnode by supplying an
+object at `on` with a property corresponding to the name of the event
+you want to listen to. The function will be called when the event
+happens and will be passed the event object that belongs to it.
 
 ```javascript
 function clickHandler(ev) { console.log('got clicked'); }
 h('div', {on: {click: clickHandler}});
 ```
 
-Very often, however, you're not really interested in the event object itself.
-Often you have some data associated with the element that triggers an event
-and you want that data passed along instead.
+Very often, however, you're not really interested in the event object
+itself. Often you have some data associated with the element that
+triggers an event and you want that data passed along instead.
 
-Consider a counter application with three buttons, one to increment the counter
-by 1, one to increment the counter by 2 and one to increment the counter by 3.
-You don't really care exactly which button was pressed. Instead you're
-interested in what number was associated with the clicked button. The event listeners
-module allows one to express that by supplying an array at the named event property.
-The first element in the array should be a function that will be invoked with
-the value in the second element once the event occurs.
+Consider a counter application with three buttons, one to increment
+the counter by 1, one to increment the counter by 2 and one to
+increment the counter by 3. You don't really care exactly which button
+was pressed. Instead you're interested in what number was associated
+with the clicked button. The event listeners module allows one to
+express that by supplying an array at the named event property. The
+first element in the array should be a function that will be invoked
+with the value in the second element once the event occurs.
 
 ```javascript
 function clickHandler(number) { console.log('button ' + number + ' was clicked!'); }
@@ -399,10 +411,11 @@ h('div', [
 Snabbdom allows swapping event handlers between renders. This happens without
 actually touching the event handlers attached to the DOM.
 
-Note, however, that **you should be careful when sharing event handlers between
-vnodes**, because of the technique this module uses to avoid re-binding
-event handlers to the DOM. (And in general, sharing data between vnodes is
-not guaranteed to work, because modules are allowed to mutate the given data).
+Note, however, that **you should be careful when sharing event
+handlers between vnodes**, because of the technique this module uses
+to avoid re-binding event handlers to the DOM. (And in general,
+sharing data between vnodes is not guaranteed to work, because modules
+are allowed to mutate the given data).
 
 In particular, you should **not** do something like this:
 
@@ -468,8 +481,8 @@ The `key` is optional. It should be supplied when the `selector` is
 not unique among the thunks siblings. This ensures that the thunk is
 always matched correctly when diffing.
 
-Thunks are an optimization strategy that can be used when one is dealing with
-immutable data.
+Thunks are an optimization strategy that can be used when one is
+dealing with immutable data.
 
 Consider a simple function for creating a virtual node based on a number.
 
@@ -479,9 +492,10 @@ function numberView(n) {
 }
 ```
 
-The view depends only on `n`. This means that if `n` is unchanged, then
-creating the virtual DOM node and patching it against the old vnode is
-wasteful. To avoid the overhead we can use the `thunk` helper function.
+The view depends only on `n`. This means that if `n` is unchanged,
+then creating the virtual DOM node and patching it against the old
+vnode is wasteful. To avoid the overhead we can use the `thunk` helper
+function.
 
 ```js
 function render(state) {
@@ -489,15 +503,15 @@ function render(state) {
 }
 ```
 
-Instead of actually invoking the `numberView` function this will only place
-a dummy vnode in the virtual tree. When Snabbdom patches this dummy vnode
-against a previous vnode, it will compare the value of `n`. If `n` is unchanged
-it will simply reuse the old vnode. This avoids recreating the number view and
-the diff process altogether.
+Instead of actually invoking the `numberView` function this will only
+place a dummy vnode in the virtual tree. When Snabbdom patches this
+dummy vnode against a previous vnode, it will compare the value of
+`n`. If `n` is unchanged it will simply reuse the old vnode. This
+avoids recreating the number view and the diff process altogether.
 
 The view function here is only an example. In practice thunks are only
-relevant if you are rendering a complicated view that takes significant
-computational time to generate.
+relevant if you are rendering a complicated view that takes
+significant computational time to generate.
 
 ## Virtual Node
 **Properties**
@@ -509,11 +523,18 @@ computational time to generate.
  - [key](#key--string--number)
 
 #### sel : String
-The `.sel` property of a virtual node is the CSS selector passed to [`h()`](#snabbdomh) during creation.
-For example: `h('div#container', {}, [...])` will create a a virtual node which has `div#container` as its `.sel` property.
+
+The `.sel` property of a virtual node is the CSS selector passed to
+[`h()`](#snabbdomh) during creation. For example: `h('div#container',
+{}, [...])` will create a a virtual node which has `div#container` as
+its `.sel` property.
 
 #### data : Object
-The `.data` property of a virtual node is the place to add information for [modules](#modules-documentation) to access and manipulate the real DOM element when it is created; Add styles, CSS classes, attributes, etc.
+
+The `.data` property of a virtual node is the place to add information
+for [modules](#modules-documentation) to access and manipulate the
+real DOM element when it is created; Add styles, CSS classes,
+attributes, etc.
 
 The data object is the (optional) second parameter to [`h()`](#snabbdomh)
 
@@ -528,10 +549,15 @@ For example `h('div', {props: {className: 'container'}}, [...])` will produce a 
 as its `.data` object.
 
 #### children : Array<vnode>
-The `.children` property of a virtual node is the third (optional) parameter to [`h()`](#snabbdomh) during creation.
-`.children` is simply an Array of virtual nodes that should be added as children of the parent DOM node upon creation.
 
-For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will create a virtual node with
+The `.children` property of a virtual node is the third (optional)
+parameter to [`h()`](#snabbdomh) during creation. `.children` is
+simply an Array of virtual nodes that should be added as children of
+the parent DOM node upon creation.
+
+For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will
+create a virtual node with
+
 ```js
 [
  {
@@ -544,22 +570,36 @@ For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will create a virtua
  }
 ]
 ```
+
 as its `.children` property.
 
-#### text : string
-The `.text` property is created when a virtual node is created with only a single child that possesses text and only requires `document.createTextNode()` to be used.
+#### text : string The `.text` property is created when a virtual node
+is created with only a single child that possesses text and only
+requires `document.createTextNode()` to be used.
 
-For example: `h('h1', {}, 'Hello')` will create a virtual node with `Hello` as its `.text` property.
+For example: `h('h1', {}, 'Hello')` will create a virtual node with
+`Hello` as its `.text` property.
 
 #### elm : Element
 
-The `.elm` property of a virtual node is a pointer to the real DOM node created by snabbdom. This property is very useful to do calculations in [hooks](#hooks) as well as [modules](#modules-documentation).
+The `.elm` property of a virtual node is a pointer to the real DOM
+node created by snabbdom. This property is very useful to do
+calculations in [hooks](#hooks) as well as
+[modules](#modules-documentation).
 
 #### key : string | number
 
-The `.key` property is created when a key is provided inside of your [`.data`](#data--object) object. The `.key` property is used to keep pointers to DOM nodes that existed previously to avoid recreating them if it is unnecessary. This is very useful for things like list reordering. A key must be either a string or a number to allow for proper lookup as it is stored internally as a key/value pair inside of an object, where `.key` is the key and the value is the [`.elm`](#elm--element) property created.
+The `.key` property is created when a key is provided inside of your
+[`.data`](#data--object) object. The `.key` property is used to keep
+pointers to DOM nodes that existed previously to avoid recreating them
+if it is unnecessary. This is very useful for things like list
+reordering. A key must be either a string or a number to allow for
+proper lookup as it is stored internally as a key/value pair inside of
+an object, where `.key` is the key and the value is the
+[`.elm`](#elm--element) property created.
 
-For example: `h('div', {key: 1}, [])` will create a virtual node object with a `.key` property with the value of `1`.
+For example: `h('div', {key: 1}, [])` will create a virtual node
+object with a `.key` property with the value of `1`.
 
 
 ## Structuring applications
