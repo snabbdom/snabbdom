@@ -11,7 +11,7 @@ function copyToThunk(vnode, thunk) {
 }
 
 function init(thunk) {
-  var i, cur = thunk.data;
+  var cur = thunk.data;
   var vnode = cur.fn.apply(undefined, cur.args);
   copyToThunk(vnode, thunk);
 }
