@@ -13,7 +13,11 @@ function standalone(name, entry) {
 }
 
 gulp.task('bundle:snabbdom', function() {
-  return standalone('snabbdom', './snabbdom.js')
+  return standalone('snabbdom', './snabbdom.bundle.js')
+})
+
+gulp.task('bundle:snabbdom:init', function() {
+  return standalone('snabbdom_init', './snabbdom.js')
 })
 
 gulp.task('bundle:snabbdom:h', function() {
@@ -42,6 +46,7 @@ gulp.task('bundle:module:eventlisteners', function() {
 
 gulp.task('bundle', [
   'bundle:snabbdom',
+  'bundle:snabbdom:init',
   'bundle:snabbdom:h',
   'bundle:module:attributes',
   'bundle:module:class',
@@ -60,7 +65,7 @@ gulp.task('compress', ['bundle'], function() {
 })
 
 gulp.task('clean', function() { 
-	return gulp.src('dist/*.js', {read: false})
+	return gulp.src('dist/*.*', {read: false})
 		.pipe(clean())
 })
 
