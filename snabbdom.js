@@ -31,13 +31,6 @@ function init(modules, api) {
 
   if (isUndef(api)) api = domApi;
 
-  for (i = 0; i < hooks.length; ++i) {
-    cbs[hooks[i]] = [];
-    for (j = 0; j < modules.length; ++j) {
-      if (modules[j][hooks[i]] !== undefined) cbs[hooks[i]].push(modules[j][hooks[i]]);
-    }
-  }
-
   function emptyNodeAt(elm) {
     return VNode(api.tagName(elm).toLowerCase(), {}, [], undefined, elm);
   }
@@ -224,7 +217,7 @@ function init(modules, api) {
     }
   }
 
-  return function(oldVnode, vnode) {
+  var patch = function(oldVnode, vnode) {
     var i, elm, parent;
     var insertedVnodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
@@ -253,6 +246,21 @@ function init(modules, api) {
     for (i = 0; i < cbs.post.length; ++i) cbs.post[i]();
     return vnode;
   };
+
+  patch.extend = function (modules) {
+    if (!is.array(modules)) modules = [modules];
+
+    for (i = 0; i < hooks.length; ++i) {
+      if (!cbs[hooks[i]]) cbs[hooks[i]] = [];
+      for (j = 0; j < modules.length; ++j) {
+        if (modules[j][hooks[i]] !== undefined) cbs[hooks[i]].push(modules[j][hooks[i]]);
+      }
+    }
+  };
+
+  patch.extend(modules);
+
+  return patch;
 }
 
 module.exports = {init: init};
