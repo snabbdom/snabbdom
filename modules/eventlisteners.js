@@ -17,8 +17,12 @@ function fnInvoker(o) {
 
 function updateEventListeners(oldVnode, vnode) {
   var name, cur, old, elm = vnode.elm,
-      oldOn = oldVnode.data.on || {}, on = vnode.data.on;
-  if (!on) return;
+      oldOn = oldVnode.data.on, on = vnode.data.on;
+
+  if (!on && !oldOn) return;
+  on = on || {};
+  oldOn = oldOn || {};
+
   for (name in on) {
     cur = on[name];
     old = oldOn[name];
