@@ -80,7 +80,7 @@ var container = document.getElementById('container');
 // Patch into empty DOM element – this modifies the DOM as a side effect
 patch(container, vnode);
 var newVnode = h('div#container.two.classes', {on: {click: anotherEventHandler}}, [
-  h('span', {style: {fontWeight: 'normal', fontStyle: 'italics'}}, 'This is now italics'),
+  h('span', {style: {fontWeight: 'normal', fontStyle: 'italic'}}, 'This is now italic type'),
   ' and this is still just normal text',
   h('a', {props: {href: '/bar'}}, 'I\'ll take you places!')
 ]);
