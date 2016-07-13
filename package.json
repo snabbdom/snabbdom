@@ -3,7 +3,7 @@
   "version": "0.5.0",
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
   "main": "snabbdom.js",
-  "typgings": "type-definitions/snabbdom.d.ts",
+  "typings": "type-definitions/snabbdom.d.ts",
   "directories": {
     "example": "examples",
     "test": "test"
