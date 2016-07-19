@@ -73,8 +73,21 @@ describe('snabbdom', function() {
       assert.equal(elm.firstChild.id, 'unique');
     });
     it('has correct namespace', function() {
-      elm = patch(vnode0, h('div', [h('div', {ns: 'http://www.w3.org/2000/svg'})])).elm;
-      assert.equal(elm.firstChild.namespaceURI, 'http://www.w3.org/2000/svg');
+      var SVGNamespace = 'http://www.w3.org/2000/svg';
+      var XHTMLNamespace = 'http://www.w3.org/1999/xhtml';
+
+      elm = patch(vnode0, h('div', [h('div', {ns: SVGNamespace})])).elm;
+      assert.equal(elm.firstChild.namespaceURI, SVGNamespace);
+
+      elm = patch(vnode0, h('svg', [
+        h('foreignObject', [
+          h('div', ['I am HTML embedded in SVG'])
+        ])
+      ])).elm;
+
+      assert.equal(elm.namespaceURI, SVGNamespace);
+      assert.equal(elm.firstChild.namespaceURI, SVGNamespace);
+      assert.equal(elm.firstChild.firstChild.namespaceURI, XHTMLNamespace);
     });
     it('is recieves classes in selector', function() {
       elm = patch(vnode0, h('div', [h('i.am.a.class')])).elm;

@@ -1,11 +1,12 @@
 var VNode = require('./vnode');
 var is = require('./is');
 
-function addNS(data, children) {
+function addNS(data, children, sel) {
   data.ns = 'http://www.w3.org/2000/svg';
-  if (children !== undefined) {
+
+  if (sel !== 'foreignObject' && children !== undefined) {
     for (var i = 0; i < children.length; ++i) {
-      addNS(children[i].data, children[i].children);
+      addNS(children[i].data, children[i].children, children[i].sel);
     }
   }
 }
@@ -27,7 +28,7 @@ module.exports = function h(sel, b, c) {
     }
   }
   if (sel[0] === 's' && sel[1] === 'v' && sel[2] === 'g') {
-    addNS(data, children);
+    addNS(data, children, sel);
   }
   return VNode(sel, data, children, text, undefined);
 };
