@@ -570,9 +570,11 @@ create a virtual node with
 
 as its `.children` property.
 
-#### text : string The `.text` property is created when a virtual node
-is created with only a single child that possesses text and only
-requires `document.createTextNode()` to be used.
+#### text : string
+
+The `.text` property is created when a virtual node is created with
+only a single child that possesses text and only requires
+`document.createTextNode()` to be used.
 
 For example: `h('h1', {}, 'Hello')` will create a virtual node with
 `Hello` as its `.text` property.
