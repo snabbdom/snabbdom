@@ -6,14 +6,14 @@ var sourcemaps = require('gulp-sourcemaps')
 var browserify = require('browserify')
 var fs = require('fs')
 
-function standalone(name, entry) {
-  return browserify(entry, { debug: true, standalone: name })
+function standalone(name, entry, exportName) {
+  return browserify(entry, { debug: true, standalone: exportName || name })
     .bundle()
-    .pipe(fs.createWriteStream('./dist/'+ name +'.js'))
+    .pipe(fs.createWriteStream('./dist/'+ name.replace(/_/g, '-') +'.js'))
 }
 
 gulp.task('bundle:snabbdom', function() {
-  return standalone('snabbdom_patch', './snabbdom.bundle.js')
+  return standalone('snabbdom_patch', './snabbdom.bundle.js', 'snabbdom')
 })
 
 gulp.task('bundle:snabbdom:init', function() {
