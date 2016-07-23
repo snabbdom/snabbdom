@@ -13,11 +13,11 @@ function standalone(name, entry) {
 }
 
 gulp.task('bundle:snabbdom', function() {
-  return standalone('snabbdom', './snabbdom.bundle.js')
+  return standalone('snabbdom_patch', './snabbdom.bundle.js')
 })
 
 gulp.task('bundle:snabbdom:init', function() {
-  return standalone('snabbdom_init', './snabbdom.js')
+  return standalone('snabbdom', './snabbdom.js')
 })
 
 gulp.task('bundle:snabbdom:h', function() {
