@@ -465,6 +465,24 @@ var vnode = h('div', [
 
 See also the [SVG example](./examples/svg) and the [SVG Carousel example](./examples/carousel-svg/).
 
+#### Using Classes
+Due to a bug in certain browsers like IE 11 and below and UC Browser, SVG Objects in these browsers do not support classlist property. Hence, the classes module (which uses classlist property internally) will not work for these browsers.
+
+Also, using snabbdom/h to create an element by passing a className along with the element type will not work as className property is read-only for SVG elements.
+
+You can add classes to SVG elements for both of these cases by using the attributes module as shown below:-
+```javascript
+h('text', {
+    attrs: {
+      x: xPos,
+      y: yPos,
+      dy: "5",
+      class: 'text_class'
+    }}, 
+  text
+);
+```
+
 ### Thunks
 
 The `thunk` function takes a selector, a key for identifying a thunk,
