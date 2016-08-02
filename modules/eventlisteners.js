@@ -39,19 +39,29 @@ function updateEventListeners(oldVnode, vnode) {
       oldListener = oldVnode.listener,
       oldElm = oldVnode.elm,
       on = vnode && vnode.data.on,
-      elm = vnode && vnode.elm;
+      elm = vnode && vnode.elm,
+      elmChanged = oldElm !== elm,
+      name;
 
-  // improvement for immutable handlers
-  if (oldElm === elm && oldOn === on) {
+  // optimization for immutable handlers
+  if (!elmChanged && oldOn === on) {
     return;
   }
 
   // remove existing listeners which no longer used
   if (oldOn && oldListener) {
-    for (var _name in oldOn) {
-      // remove listener if element was changed or existing listener(s) removed
-      if (elm !== oldElm || !on || !on[_name]) {
-        oldElm.removeEventListener(_name, oldListener, false);
+    // if element changed or deleted we remove all existing listeners unconditionally
+    if (elmChanged || !on) {
+      for (name in oldOn) {
+        // remove listener if element was changed or existing listeners removed
+        oldElm.removeEventListener(name, oldListener, false);
+      }
+    } else {
+      for (name in oldOn) {
+        // remove listener if existing listener removed
+        if (!on[name]) {
+          oldElm.removeEventListener(name, oldListener, false);
+        }
       }
     }
   }
@@ -62,11 +72,19 @@ function updateEventListeners(oldVnode, vnode) {
     var listener = vnode.listener = oldVnode.listener || createListener();
     // update vnode for listener
     listener.vnode = vnode;
-    
-    for (var name in on) {
-      // add listener if element was changed or new listener(s) added
-      if (elm !== oldElm || !oldOn || !oldOn[name]) {
+
+    // if element changed or added we add all needed listeners unconditionally
+    if (elmChanged || !oldOn) {
+      for (name in on) {
+        // add listener if element was changed or new listeners added
         elm.addEventListener(name, listener, false);
+      }
+    } else {
+      for (name in on) {
+        // add listener if new listener added
+        if (!oldOn[name]) {
+          elm.addEventListener(name, listener, false);
+        }
       }
     }
   }
