@@ -69,7 +69,7 @@ describe('event listeners', function() {
   });
   it('handles changed several values in array', function() {
     var result = [];
-    function clicked() { result.push([].slice.call(arguments, 0, arguments.length-1)); }
+    function clicked() { result.push([].slice.call(arguments, 0, arguments.length-2)); }
     var vnode1 = h('div', {on: {click: [clicked, 1, 2, 3]}}, [
       h('a', 'Click my parent'),
     ]);
@@ -121,14 +121,39 @@ describe('event listeners', function() {
   });
   it('access to virtual node in event handler', function() {
     var result = [];
-    function clicked(ev) { result.push(this); }
+    function clicked(ev, vnode) { result.push(this); result.push(vnode); }
     var vnode1 = h('div', {on: {click: clicked }}, [
       h('a', 'Click my parent'),
     ]);
     elm = patch(vnode0, vnode1).elm;
     elm.click();
-    assert.equal(1, result.length);
+    assert.equal(2, result.length);
     assert.equal(vnode1, result[0]);
+    assert.equal(vnode1, result[1]);
+  }),
+  it('access to virtual node in event handler with argument', function() {
+    var result = [];
+    function clicked(arg, ev, vnode) { result.push(this); result.push(vnode); }
+    var vnode1 = h('div', {on: {click: [clicked, 1] }}, [
+      h('a', 'Click my parent'),
+    ]);
+    elm = patch(vnode0, vnode1).elm;
+    elm.click();
+    assert.equal(2, result.length);
+    assert.equal(vnode1, result[0]);
+    assert.equal(vnode1, result[1]);
+  }),
+  it('access to virtual node in event handler with arguments', function() {
+    var result = [];
+    function clicked(arg1, arg2, ev, vnode) { result.push(this); result.push(vnode); }
+    var vnode1 = h('div', {on: {click: [clicked, 1, "2"] }}, [
+      h('a', 'Click my parent'),
+    ]);
+    elm = patch(vnode0, vnode1).elm;
+    elm.click();
+    assert.equal(2, result.length);
+    assert.equal(vnode1, result[0]);
+    assert.equal(vnode1, result[1]);
   });
   it('shared handlers in parent and child nodes', function() {
     var result = [];
