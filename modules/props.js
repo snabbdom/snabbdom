@@ -1,3 +1,10 @@
+var attributeNameExceptions = {
+  acceptCharset: 'accept-charset',
+  className: 'class',
+  htmlFor: 'for',
+  httpEquiv: 'http-equiv'
+};
+
 function updateProps(oldVnode, vnode) {
   var key, cur, old, elm = vnode.elm,
       oldProps = oldVnode.data.props, props = vnode.data.props;
@@ -8,7 +15,7 @@ function updateProps(oldVnode, vnode) {
 
   for (key in oldProps) {
     if (!props[key]) {
-      delete elm[key];
+      elm.removeAttribute(attributeNameExceptions[key] || key.toLowerCase());
     }
   }
   for (key in props) {

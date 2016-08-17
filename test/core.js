@@ -172,12 +172,24 @@ describe('snabbdom', function() {
       elm = patch(vnode1, vnode2).elm;
       assert.equal(elm.src, 'http://localhost/');
     });
-    it('removes an elements props', function() {
-      var vnode1 = h('a', {props: {src: 'http://other/'}});
-      var vnode2 = h('a');
-      patch(vnode0, vnode1);
-      patch(vnode1, vnode2);
-      assert.equal(elm.src, undefined);
+    [
+      {nodeName: 'a', propName: 'href', attrName: 'href', value: 'http://other/'},
+      {nodeName: 'a', propName: 'className', attrName: 'class', value: 'test'},
+      {nodeName: 'button', propName: 'formAction', attrName: 'formaction', value: 'http://somewhere/'},
+      {nodeName: 'label', propName: 'htmlFor', attrName: 'for', value: 'foo'},
+      {nodeName: 'meta', propName: 'httpEquiv', attrName: 'http-equiv', value: 'refresh'},
+      {nodeName: 'form', propName: 'acceptCharset', attrName: 'accept-charset', value: 'UTF-8'}
+    ].forEach(function(testCase) {
+      it('removes an elements props (' + testCase.propName + ')', function() {
+        var props = {};
+        props[testCase.propName] = testCase.value;
+        var vnode1 = h(testCase.nodeName, {props: props});
+        var vnode2 = h(testCase.nodeName);
+        elm = patch(vnode0, vnode1).elm;
+        assert.equal(elm.getAttribute(testCase.attrName), testCase.value);
+        patch(vnode1, vnode2);
+        assert(!elm.hasAttribute(testCase.attrName));
+      });
     });
     describe('updating children with keys', function() {
       function spanNum(n) {
