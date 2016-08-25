@@ -40,18 +40,17 @@ function updateEventListeners(oldVnode, vnode) {
       oldElm = oldVnode.elm,
       on = vnode && vnode.data.on,
       elm = vnode && vnode.elm,
-      elmChanged = oldElm !== elm,
       name;
 
-  // optimization for immutable handlers
-  if (!elmChanged && oldOn === on) {
+  // optimization for reused immutable handlers
+  if (oldOn === on) {
     return;
   }
 
   // remove existing listeners which no longer used
   if (oldOn && oldListener) {
     // if element changed or deleted we remove all existing listeners unconditionally
-    if (elmChanged || !on) {
+    if (!on) {
       for (name in oldOn) {
         // remove listener if element was changed or existing listeners removed
         oldElm.removeEventListener(name, oldListener, false);
@@ -74,7 +73,7 @@ function updateEventListeners(oldVnode, vnode) {
     listener.vnode = vnode;
 
     // if element changed or added we add all needed listeners unconditionally
-    if (elmChanged || !oldOn) {
+    if (!oldOn) {
       for (name in on) {
         // add listener if element was changed or new listeners added
         elm.addEventListener(name, listener, false);
