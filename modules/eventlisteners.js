@@ -6,9 +6,14 @@ function invokeHandler(handler, vnode, event) {
     // call handler with arguments
     if (typeof handler[0] === "function") {
       // special case for single argument for performance
-      handler.length === 2 ?
-        handler[0].call(vnode, handler[1], event, vnode) :
-        handler[0].apply(vnode, handler.slice(1).concat(event, vnode));
+      if (handler.length === 2) {
+        handler[0].call(vnode, handler[1], event, vnode);
+      } else {
+        var args = handler.slice(1);
+        args.push(event);
+        args.push(vnode);
+        handler[0].apply(vnode, args);
+      }
     } else {
       // call multiple handlers
       for (var i = 0; i < handler.length; i++) {
