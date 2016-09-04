@@ -39,7 +39,9 @@ function init(modules, api) {
   }
 
   function emptyNodeAt(elm) {
-    return VNode(api.tagName(elm).toLowerCase(), {}, [], undefined, elm);
+    var id = elm.id ? '#' + elm.id : '';
+    var c = elm.className ? '.' + elm.className.split(' ').join('.') : '';
+    return VNode(api.tagName(elm).toLowerCase() + id + c, {}, [], undefined, elm);
   }
 
   function createRmCb(childElm, listeners) {
