@@ -4,3 +4,4 @@ require('./dataset');
 require('./eventlisteners');
 require('./attachto');
 require('./thunk');
+require('./attributes');
