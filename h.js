@@ -13,13 +13,13 @@ function addNS(data, children, sel) {
 
 module.exports = function h(sel, b, c) {
   var data = {}, children, text, i;
-  if (c !== undefined) {
+  if (c != null) {
     data = b;
     if (is.array(c)) { children = c; }
-    else if (is.primitive(c)) { text = c; }
-  } else if (b !== undefined) {
+    else if (is.primitive(c)) { text = String(c); }
+  } else if (b != null) {
     if (is.array(b)) { children = b; }
-    else if (is.primitive(b)) { text = b; }
+    else if (is.primitive(b)) { text = String(b); }
     else { data = b; }
   }
   if (is.array(children)) {

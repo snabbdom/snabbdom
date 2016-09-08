@@ -54,6 +54,34 @@ describe('snabbdom', function() {
       var vnode = h('a', {}, 'I am a string');
       assert.equal(vnode.text, 'I am a string');
     });
+    it('can create vnode with props and null text content', function() {
+      var vnode = h('a', {}, null);
+      assert.equal(vnode.text, null);
+    });
+    it('can create vnode with props and number text content', function() {
+      var vnode = h('a', {}, 0);
+      assert.equal(vnode.text, '0');
+    });
+    it('can create vnode with props and without text content', function() {
+      var vnode = h('a', {});
+      assert.strictEqual(vnode.text, undefined);
+    });
+    it('can create vnode with null text content', function() {
+      var vnode = h('a', null);
+      assert.equal(vnode.text, null);
+    });
+    it('can create vnode with number text content', function() {
+      var vnode = h('a', 0);
+      assert.equal(vnode.text, '0');
+    });
+    it('can create vnode with boolean text content', function() {
+      var vnode = h('a', false);
+      assert.equal(vnode.text, 'false');
+    });
+    it('can create vnode without text content', function() {
+      var vnode = h('a');
+      assert.equal(vnode.text, null);
+    });
   });
   describe('created element', function() {
     it('has tag', function() {
