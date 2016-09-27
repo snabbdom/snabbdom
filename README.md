@@ -90,9 +90,9 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 
 ## Examples
 
-* [Animated reordering of elements](http://paldepind.github.io/snabbdom/examples/reorder-animation/)
-* [Hero transitions](http://paldepind.github.io/snabbdom/examples/hero/)
-* [SVG Carousel](http://paldepind.github.io/snabbdom/examples/carousel-svg/)
+* [Animated reordering of elements](http://snabbdom.github.io/snabbdom/examples/reorder-animation/)
+* [Hero transitions](http://snabbdom.github.io/snabbdom/examples/hero/)
+* [SVG Carousel](http://snabbdom.github.io/snabbdom/examples/carousel-svg/)
 
 ## Core documentation
 
