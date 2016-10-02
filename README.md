@@ -46,7 +46,7 @@ performance, small size and all the features listed below.
     to hook into any part of the diff and patch process.
   * Splendid performance. Snabbdom is among the fastest virtual DOM libraries
     in the [Virtual DOM Benchmark](http://vdom-benchmark.github.io/vdom-benchmark/).
-  * Patch function with a function signature equivelant to a reduce/scan
+  * Patch function with a function signature equivalent to a reduce/scan
     function. Allows for easier integration with a FRP library.
 * Features in modules
   * `h` function for easily creating virtual DOM nodes.
@@ -64,7 +64,7 @@ performance, small size and all the features listed below.
 
 ```javascript
 var snabbdom = require('snabbdom');
-var patch = snabbdom.init([ // Init patch function with choosen modules
+var patch = snabbdom.init([ // Init patch function with chosen modules
   require('snabbdom/modules/class'), // makes it easy to toggle classes
   require('snabbdom/modules/props'), // for setting properties on DOM elements
   require('snabbdom/modules/style'), // handles styling on elements with support for animations
@@ -121,7 +121,7 @@ is a vnode representing the new, updated view.
 
 If a DOM element with a parent is passed, `newVnode` will be turned
 into a DOM node, and the passed element will be replaced by the
-created DOM node. If an old vnode is passed, Snabbdom will effeciently
+created DOM node. If an old vnode is passed, Snabbdom will efficiently
 modify it to match the description in the new vnode.
 
 Any old vnode passed must be the resulting vnode from a previous call
@@ -259,7 +259,7 @@ var myModule = {
 };
 ```
 
-With this mechanism you can easily augument the behaviour of Snabbdom.
+With this mechanism you can easily augment the behaviour of Snabbdom.
 For demonstration, take a look at the implementations of the default
 modules.
 
@@ -452,7 +452,7 @@ h('div', [
 ### SVG
 
 SVG just works when using the `h` function for creating virtual
-nodes. SVG elements are automatially created with the appropriate
+nodes. SVG elements are automatically created with the appropriate
 namespaces.
 
 ```javascript
@@ -487,7 +487,7 @@ h('text', {
 
 The `thunk` function takes a selector, a key for identifying a thunk,
 a function that returns a vnode and a variable amount of state
-parameters. If invoked, the render function will recieve the state
+parameters. If invoked, the render function will receive the state
 arguments.
 
 `thunk(selector, key, renderFn, [stateArguments])`

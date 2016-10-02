@@ -89,13 +89,13 @@ describe('snabbdom', function() {
       assert.equal(elm.firstChild.namespaceURI, SVGNamespace);
       assert.equal(elm.firstChild.firstChild.namespaceURI, XHTMLNamespace);
     });
-    it('is recieves classes in selector', function() {
+    it('is receives classes in selector', function() {
       elm = patch(vnode0, h('div', [h('i.am.a.class')])).elm;
       assert(elm.firstChild.classList.contains('am'));
       assert(elm.firstChild.classList.contains('a'));
       assert(elm.firstChild.classList.contains('class'));
     });
-    it('is recieves classes in class property', function() {
+    it('is receives classes in class property', function() {
       elm = patch(vnode0, h('i', {class: {am: true, a: true, class: true, not: false}})).elm;
       assert(elm.classList.contains('am'));
       assert(elm.classList.contains('a'));
