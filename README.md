@@ -514,7 +514,7 @@ function.
 
 ```js
 function render(state) {
-  return thunk('num', numberView, state.number);
+  return thunk('num', numberView, [state.number]);
 }
 ```
 
