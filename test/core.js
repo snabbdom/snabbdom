@@ -54,6 +54,12 @@ describe('snabbdom', function() {
       var vnode = h('a', {}, 'I am a string');
       assert.equal(vnode.text, 'I am a string');
     });
+    it('throws a type error when the child array has an undefined value', function() {
+      assert.throws(function() { h('div', [h('p'), undefined]) }, TypeError);
+    })
+    it('throws a type error when the child array has a null value', function() {
+      assert.throws(function() { h('div', [h('p'), null]) }, TypeError);
+    })
   });
   describe('created element', function() {
     it('has tag', function() {
@@ -250,6 +256,11 @@ describe('snabbdom', function() {
           elm = patch(vnode1, vnode2).elm;
           assert.equal(elm.children.length, 0);
         });
+        it('works on sparse arrays for children', function() {
+          var vnode1 = h('span', [,,,,1].map(spanNum));
+          elm = patch(vnode0, vnode1).elm;
+          assert.equal(elm.children.length, 1);
+        })
       });
       describe('removal of elements', function() {
         it('removes elements from the beginning', function() {
