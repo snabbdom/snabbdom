@@ -5,7 +5,7 @@ var booleanAttrs = ["allowfullscreen", "async", "autofocus", "autoplay", "checke
                 "required", "reversed", "scoped", "seamless", "selected", "sortable", "spellcheck", "translate",
                 "truespeed", "typemustmatch", "visible"];
 
-var booleanAttrsDict = {};
+var booleanAttrsDict = Object.create(null);
 for(var i=0, len = booleanAttrs.length; i < len; i++) {
   booleanAttrsDict[booleanAttrs[i]] = true;
 }
