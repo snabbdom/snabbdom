@@ -1,3 +1,7 @@
+var NamespaceURIs = {
+  "xlink": "http://www.w3.org/1999/xlink"
+};
+
 var booleanAttrs = ["allowfullscreen", "async", "autofocus", "autoplay", "checked", "compact", "controls", "declare",
                 "default", "defaultchecked", "defaultmuted", "defaultselected", "defer", "disabled", "draggable",
                 "enabled", "formnovalidate", "hidden", "indeterminate", "inert", "ismap", "itemscope", "loop", "multiple",
@@ -12,7 +16,7 @@ for(var i=0, len = booleanAttrs.length; i < len; i++) {
 
 function updateAttrs(oldVnode, vnode) {
   var key, cur, old, elm = vnode.elm,
-      oldAttrs = oldVnode.data.attrs, attrs = vnode.data.attrs;
+      oldAttrs = oldVnode.data.attrs, attrs = vnode.data.attrs, namespace;
 
   if (!oldAttrs && !attrs) return;
   oldAttrs = oldAttrs || {};
@@ -22,10 +26,12 @@ function updateAttrs(oldVnode, vnode) {
   for (key in attrs) {
     cur = attrs[key];
     old = oldAttrs[key];
+    namespace = key.split(":")[0];
     if (old !== cur) {
-      // TODO: add support to namespaced attributes (setAttributeNS)
       if(!cur && booleanAttrsDict[key])
         elm.removeAttribute(key);
+      else if(key.match(/:/) && NamespaceURIs.hasOwnProperty(namespace))
+        elm.setAttributeNS(NamespaceURIs[namespace], key, cur);
       else
         elm.setAttribute(key, cur);
     }
