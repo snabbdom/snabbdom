@@ -26,6 +26,11 @@ describe('attributes', function() {
     assert.strictEqual(elm.getAttribute('minlength'), '0');
     assert.strictEqual(elm.getAttribute('value'), 'false');
   });
+  it('are set correctly when namespaced', function() {
+    var vnode1 = h('div', {attrs: {'xlink:href': '#foo'}});
+    elm = patch(vnode0, vnode1).elm;
+    assert.strictEqual(elm.getAttributeNS('http://www.w3.org/1999/xlink', 'href'), '#foo');
+  });
   describe('boolean attribute', function() {
     it('is present if the value is truthy', function() {
       var vnode1 = h('div', {attrs: {required: true, readonly: 1, noresize: 'truthy'}});
