@@ -629,9 +629,9 @@ Here are some approaches to building applications with Snabbdom.
 * [functional-frontend-architecture](https://github.com/paldepind/functional-frontend-architecture) –
   a repository containing several example applications that
   demonstrates an architecture that uses Snabbdom.
-* [Motorcycle.js](https://github.com/motorcyclejs/core) –
-  is a variant of the functional and reactive Javascript framework
-  [Cycle.js](http://cycle.js.org/) that uses Snabbdom.
+* [Cycle.js](https://cycle.js.org/) –
+  "A functional and reactive JavaScript framework for cleaner code"
+  uses Snabbdom
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
