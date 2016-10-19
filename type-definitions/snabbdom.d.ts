@@ -81,7 +81,7 @@ export interface SnabbdomAPI<T> {
 
 declare module "snabbdom" {
   export interface PatchFunction {
-    (oldVNode: VNode, vnode: VNode): VNode;
+    (oldVNode: VNode | Element, vnode: VNode): VNode;
   }
 
   export function init(modules: Object, api?: SnabbdomAPI<any>): PatchFunction;
