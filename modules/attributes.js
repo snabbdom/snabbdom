@@ -16,7 +16,7 @@ for(var i=0, len = booleanAttrs.length; i < len; i++) {
 
 function updateAttrs(oldVnode, vnode) {
   var key, cur, old, elm = vnode.elm,
-      oldAttrs = oldVnode.data.attrs, attrs = vnode.data.attrs, namespace;
+      oldAttrs = oldVnode.data.attrs, attrs = vnode.data.attrs, namespaceSplit;
 
   if (!oldAttrs && !attrs) return;
   oldAttrs = oldAttrs || {};
@@ -26,14 +26,16 @@ function updateAttrs(oldVnode, vnode) {
   for (key in attrs) {
     cur = attrs[key];
     old = oldAttrs[key];
-    namespace = key.split(":")[0];
     if (old !== cur) {
       if(!cur && booleanAttrsDict[key])
         elm.removeAttribute(key);
-      else if(key.match(/:/) && NamespaceURIs.hasOwnProperty(namespace))
-        elm.setAttributeNS(NamespaceURIs[namespace], key, cur);
-      else
-        elm.setAttribute(key, cur);
+      else {
+        namespaceSplit = key.split(":");
+        if(namespaceSplit.length > 1 && NamespaceURIs.hasOwnProperty(namespaceSplit[0]))
+          elm.setAttributeNS(NamespaceURIs[namespaceSplit[0]], key, cur);
+        else
+          elm.setAttribute(key, cur);
+      }
     }
   }
   //remove removed attributes
