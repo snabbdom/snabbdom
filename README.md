@@ -635,6 +635,8 @@ Here are some approaches to building applications with Snabbdom.
 * [Vue.js](http://vuejs.org/) use a fork of snabbdom.
 * [scheme-todomvc](https://github.com/amirouche/scheme-todomvc/) build
   redux-like architecture on top of snabbdom bindings.
+* [kaiju](https://github.com/AlexGalays/kaiju) -
+  Stateful components and observables on top of snabbdom
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
