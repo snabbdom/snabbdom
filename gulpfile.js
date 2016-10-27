@@ -56,7 +56,7 @@ gulp.task('bundle', [
 ])
 
 gulp.task('compress', ['bundle'], function() {
-  return gulp.src('dist/*.js')
+  return gulp.src(['dist/*.js', '!dist/*.min.js'])
     .pipe(sourcemaps.init())    
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
