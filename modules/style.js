@@ -7,9 +7,14 @@ function setNextFrame(obj, prop, val) {
 
 function updateStyle(oldVnode, vnode) {
   var cur, name, elm = vnode.elm,
-      oldStyle = oldVnode.data.style || {},
-      style = vnode.data.style || {},
-      oldHasDel = 'delayed' in oldStyle;
+      oldStyle = oldVnode.data.style,
+      style = vnode.data.style;
+
+  if (!oldStyle && !style) return;
+  oldStyle = oldStyle || {};
+  style = style || {};
+  var oldHasDel = 'delayed' in oldStyle;
+
   for (name in oldStyle) {
     if (!style[name]) {
       elm.style[name] = '';

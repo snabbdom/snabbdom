@@ -1,58 +1,101 @@
-var is = require('../is');
-
-function arrInvoker(arr) {
-  return function() {
-    if (!arr.length) return;
-    // Special case when length is two, for performance
-    arr.length === 2 ? arr[0](arr[1]) : arr[0].apply(undefined, arr.slice(1));
-  };
+function invokeHandler(handler, vnode, event) {
+  if (typeof handler === "function") {
+    // call function handler
+    handler.call(vnode, event, vnode);
+  } else if (typeof handler === "object") {
+    // call handler with arguments
+    if (typeof handler[0] === "function") {
+      // special case for single argument for performance
+      if (handler.length === 2) {
+        handler[0].call(vnode, handler[1], event, vnode);
+      } else {
+        var args = handler.slice(1);
+        args.push(event);
+        args.push(vnode);
+        handler[0].apply(vnode, args);
+      }
+    } else {
+      // call multiple handlers
+      for (var i = 0; i < handler.length; i++) {
+        invokeHandler(handler[i]);
+      }
+    }
+  }
 }
 
-function fnInvoker(o) {
-  return function(ev) { 
-    if (o.fn === null) return;
-    o.fn(ev); 
-  };
+function handleEvent(event, vnode) {
+  var name = event.type,
+      on = vnode.data.on;
+
+  // call event handler(s) if exists
+  if (on && on[name]) {
+    invokeHandler(on[name], vnode, event);
+  }
+}
+
+function createListener() {
+  return function handler(event) {
+    handleEvent(event, handler.vnode);
+  }
 }
 
 function updateEventListeners(oldVnode, vnode) {
-  var name, cur, old, elm = vnode.elm,
-      oldOn = oldVnode.data.on || {}, on = vnode.data.on;
-  if (!on) return;
-  for (name in on) {
-    cur = on[name];
-    old = oldOn[name];
-    if (old === undefined) {
-      if (is.array(cur)) {
-        elm.addEventListener(name, arrInvoker(cur));
-      } else {
-        cur = {fn: cur};
-        on[name] = cur;
-        elm.addEventListener(name, fnInvoker(cur));
+  var oldOn = oldVnode.data.on,
+      oldListener = oldVnode.listener,
+      oldElm = oldVnode.elm,
+      on = vnode && vnode.data.on,
+      elm = vnode && vnode.elm,
+      name;
+
+  // optimization for reused immutable handlers
+  if (oldOn === on) {
+    return;
+  }
+
+  // remove existing listeners which no longer used
+  if (oldOn && oldListener) {
+    // if element changed or deleted we remove all existing listeners unconditionally
+    if (!on) {
+      for (name in oldOn) {
+        // remove listener if element was changed or existing listeners removed
+        oldElm.removeEventListener(name, oldListener, false);
       }
-    } else if (is.array(old)) {
-      // Deliberately modify old array since it's captured in closure created with `arrInvoker`
-      old.length = cur.length;
-      for (var i = 0; i < old.length; ++i) old[i] = cur[i];
-      on[name]  = old;
     } else {
-      old.fn = cur;
-      on[name] = old;
+      for (name in oldOn) {
+        // remove listener if existing listener removed
+        if (!on[name]) {
+          oldElm.removeEventListener(name, oldListener, false);
+        }
+      }
     }
   }
-  if (oldOn) {
-    for (name in oldOn) {
-      if (on[name] === undefined) {
-        var old = oldOn[name];
-        if (is.array(old)) {
-          old.length = 0;
-        }
-        else {
-          old.fn = null;
+
+  // add new listeners which has not already attached
+  if (on) {
+    // reuse existing listener or create new
+    var listener = vnode.listener = oldVnode.listener || createListener();
+    // update vnode for listener
+    listener.vnode = vnode;
+
+    // if element changed or added we add all needed listeners unconditionally
+    if (!oldOn) {
+      for (name in on) {
+        // add listener if element was changed or new listeners added
+        elm.addEventListener(name, listener, false);
+      }
+    } else {
+      for (name in on) {
+        // add listener if new listener added
+        if (!oldOn[name]) {
+          elm.addEventListener(name, listener, false);
         }
       }
     }
   }
 }
 
-module.exports = {create: updateEventListeners, update: updateEventListeners};
+module.exports = {
+  create: updateEventListeners,
+  update: updateEventListeners,
+  destroy: updateEventListeners
+};

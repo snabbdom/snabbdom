@@ -46,7 +46,7 @@ performance, small size and all the features listed below.
     to hook into any part of the diff and patch process.
   * Splendid performance. Snabbdom is among the fastest virtual DOM libraries
     in the [Virtual DOM Benchmark](http://vdom-benchmark.github.io/vdom-benchmark/).
-  * Patch function with a function signature equivelant to a reduce/scan
+  * Patch function with a function signature equivalent to a reduce/scan
     function. Allows for easier integration with a FRP library.
 * Features in modules
   * `h` function for easily creating virtual DOM nodes.
@@ -64,7 +64,7 @@ performance, small size and all the features listed below.
 
 ```javascript
 var snabbdom = require('snabbdom');
-var patch = snabbdom.init([ // Init patch function with choosen modules
+var patch = snabbdom.init([ // Init patch function with chosen modules
   require('snabbdom/modules/class'), // makes it easy to toggle classes
   require('snabbdom/modules/props'), // for setting properties on DOM elements
   require('snabbdom/modules/style'), // handles styling on elements with support for animations
@@ -80,7 +80,7 @@ var container = document.getElementById('container');
 // Patch into empty DOM element – this modifies the DOM as a side effect
 patch(container, vnode);
 var newVnode = h('div#container.two.classes', {on: {click: anotherEventHandler}}, [
-  h('span', {style: {fontWeight: 'normal', fontStyle: 'italics'}}, 'This is now italics'),
+  h('span', {style: {fontWeight: 'normal', fontStyle: 'italic'}}, 'This is now italic type'),
   ' and this is still just normal text',
   h('a', {props: {href: '/bar'}}, 'I\'ll take you places!')
 ]);
@@ -90,9 +90,9 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 
 ## Examples
 
-* [Animated reordering of elements](http://paldepind.github.io/snabbdom/examples/reorder-animation/)
-* [Hero transitions](http://paldepind.github.io/snabbdom/examples/hero/)
-* [SVG Carousel](http://paldepind.github.io/snabbdom/examples/carousel-svg/)
+* [Animated reordering of elements](http://snabbdom.github.io/snabbdom/examples/reorder-animation/)
+* [Hero transitions](http://snabbdom.github.io/snabbdom/examples/hero/)
+* [SVG Carousel](http://snabbdom.github.io/snabbdom/examples/carousel-svg/)
 
 ## Core documentation
 
@@ -121,7 +121,7 @@ is a vnode representing the new, updated view.
 
 If a DOM element with a parent is passed, `newVnode` will be turned
 into a DOM node, and the passed element will be replaced by the
-created DOM node. If an old vnode is passed, Snabbdom will effeciently
+created DOM node. If an old vnode is passed, Snabbdom will efficiently
 modify it to match the description in the new vnode.
 
 Any old vnode passed must be the resulting vnode from a previous call
@@ -259,7 +259,7 @@ var myModule = {
 };
 ```
 
-With this mechanism you can easily augument the behaviour of Snabbdom.
+With this mechanism you can easily augment the behaviour of Snabbdom.
 For demonstration, take a look at the implementations of the default
 modules.
 
@@ -452,7 +452,7 @@ h('div', [
 ### SVG
 
 SVG just works when using the `h` function for creating virtual
-nodes. SVG elements are automatially created with the appropriate
+nodes. SVG elements are automatically created with the appropriate
 namespaces.
 
 ```javascript
@@ -465,11 +465,29 @@ var vnode = h('div', [
 
 See also the [SVG example](./examples/svg) and the [SVG Carousel example](./examples/carousel-svg/).
 
+#### Using Classes
+Due to a bug in certain browsers like IE 11 and below and UC Browser, SVG Objects in these browsers do not support classlist property. Hence, the classes module (which uses classlist property internally) will not work for these browsers.
+
+Also, using snabbdom/h to create an element by passing a className along with the element type will not work as className property is read-only for SVG elements.
+
+You can add classes to SVG elements for both of these cases by using the attributes module as shown below:-
+```javascript
+h('text', {
+    attrs: {
+      x: xPos,
+      y: yPos,
+      dy: "5",
+      class: 'text_class'
+    }}, 
+  text
+);
+```
+
 ### Thunks
 
 The `thunk` function takes a selector, a key for identifying a thunk,
 a function that returns a vnode and a variable amount of state
-parameters. If invoked, the render function will recieve the state
+parameters. If invoked, the render function will receive the state
 arguments.
 
 `thunk(selector, key, renderFn, [stateArguments])`
@@ -570,9 +588,11 @@ create a virtual node with
 
 as its `.children` property.
 
-#### text : string The `.text` property is created when a virtual node
-is created with only a single child that possesses text and only
-requires `document.createTextNode()` to be used.
+#### text : string
+
+The `.text` property is created when a virtual node is created with
+only a single child that possesses text and only requires
+`document.createTextNode()` to be used.
 
 For example: `h('h1', {}, 'Hello')` will create a virtual node with
 `Hello` as its `.text` property.
@@ -609,9 +629,15 @@ Here are some approaches to building applications with Snabbdom.
 * [functional-frontend-architecture](https://github.com/paldepind/functional-frontend-architecture) –
   a repository containing several example applications that
   demonstrates an architecture that uses Snabbdom.
-* [Motorcycle.js](https://github.com/motorcyclejs/core) –
-  is a variant of the functional and reactive Javascript framework
-  [Cycle.js](http://cycle.js.org/) that uses Snabbdom.
+* [Cycle.js](https://cycle.js.org/) –
+  "A functional and reactive JavaScript framework for cleaner code"
+  uses Snabbdom
+* [Vue.js](http://vuejs.org/) use a fork of snabbdom.
+* [scheme-todomvc](https://github.com/amirouche/scheme-todomvc/) build
+  redux-like architecture on top of snabbdom bindings.
+* [kaiju](https://github.com/AlexGalays/kaiju) -
+  Stateful components and observables on top of snabbdom
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
+

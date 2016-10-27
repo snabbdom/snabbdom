@@ -73,16 +73,29 @@ describe('snabbdom', function() {
       assert.equal(elm.firstChild.id, 'unique');
     });
     it('has correct namespace', function() {
-      elm = patch(vnode0, h('div', [h('div', {ns: 'http://www.w3.org/2000/svg'})])).elm;
-      assert.equal(elm.firstChild.namespaceURI, 'http://www.w3.org/2000/svg');
+      var SVGNamespace = 'http://www.w3.org/2000/svg';
+      var XHTMLNamespace = 'http://www.w3.org/1999/xhtml';
+
+      elm = patch(vnode0, h('div', [h('div', {ns: SVGNamespace})])).elm;
+      assert.equal(elm.firstChild.namespaceURI, SVGNamespace);
+
+      elm = patch(vnode0, h('svg', [
+        h('foreignObject', [
+          h('div', ['I am HTML embedded in SVG'])
+        ])
+      ])).elm;
+
+      assert.equal(elm.namespaceURI, SVGNamespace);
+      assert.equal(elm.firstChild.namespaceURI, SVGNamespace);
+      assert.equal(elm.firstChild.firstChild.namespaceURI, XHTMLNamespace);
     });
-    it('is recieves classes in selector', function() {
+    it('is receives classes in selector', function() {
       elm = patch(vnode0, h('div', [h('i.am.a.class')])).elm;
       assert(elm.firstChild.classList.contains('am'));
       assert(elm.firstChild.classList.contains('a'));
       assert(elm.firstChild.classList.contains('class'));
     });
-    it('is recieves classes in class property', function() {
+    it('is receives classes in class property', function() {
       elm = patch(vnode0, h('i', {class: {am: true, a: true, class: true, not: false}})).elm;
       assert(elm.classList.contains('am'));
       assert(elm.classList.contains('a'));
@@ -122,6 +135,17 @@ describe('snabbdom', function() {
       } else {
         done();
       }
+    });
+    it('is a patch of the root element', function () {
+      var elmWithIdAndClass = document.createElement('div');
+      elmWithIdAndClass.id = 'id';
+      elmWithIdAndClass.className = 'class';
+      var vnode1 = h('div#id.class', [h('span', 'Hi')]);
+      elm = patch(elmWithIdAndClass, vnode1).elm;
+      assert.strictEqual(elm, elmWithIdAndClass);
+      assert.equal(elm.tagName, 'DIV');
+      assert.equal(elm.id, 'id');
+      assert.equal(elm.className, 'class');
     });
   });
   describe('pathing an element', function() {
@@ -657,7 +681,7 @@ describe('snabbdom', function() {
           {remove: function(_, rm) { rm2 = rm; }},
         ]);
         var vnode1 = h('div', [h('a', {hook: {remove: function(_, rm) { rm3 = rm; }}})]);
-	var vnode2 = h('div', []);
+        var vnode2 = h('div', []);
         elm = patch(vnode0, vnode1).elm;
         assert.equal(elm.children.length, 1);
         elm = patch(vnode1, vnode2).elm;
@@ -673,7 +697,7 @@ describe('snabbdom', function() {
         var result = [];
         var parent = document.createElement('div');
         var vnode0 = document.createElement('div');
-	parent.appendChild(vnode0);
+        parent.appendChild(vnode0);
         function cb(vnode, rm) {
           result.push(vnode);
           rm();
@@ -712,7 +736,7 @@ describe('snabbdom', function() {
             h('span', 'Child 2'),
           ]),
         ]);
-	var vnode2 = h('div');
+        var vnode2 = h('div');
         patch(vnode0, vnode1);
         patch(vnode1, vnode2);
         assert.equal(result.length, 1);
@@ -739,7 +763,7 @@ describe('snabbdom', function() {
             h('span', 'Child 2'),
           ]),
         ]);
-	var vnode2 = h('div');
+        var vnode2 = h('div');
         patch(vnode0, vnode1);
         patch(vnode1, vnode2);
         assert.equal(created, 4);
@@ -757,7 +781,7 @@ describe('snabbdom', function() {
           '',
           h('span', 'Third child'),
         ]);
-	var vnode2 = h('div');
+        var vnode2 = h('div');
         patch(vnode0, vnode1);
         patch(vnode1, vnode2);
         assert.equal(created, 2);
@@ -777,7 +801,7 @@ describe('snabbdom', function() {
             h('span', ['Text 1', 'Text 2']),
           ]),
         ]);
-	var vnode2 = h('div');
+        var vnode2 = h('div');
         patch(vnode0, vnode1);
         patch(vnode1, vnode2);
         assert.equal(created, 4);
