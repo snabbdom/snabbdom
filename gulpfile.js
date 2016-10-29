@@ -6,13 +6,17 @@ var sourcemaps = require('gulp-sourcemaps')
 var browserify = require('browserify')
 var fs = require('fs')
 
-function standalone(name, entry) {
-  return browserify(entry, { debug: true, standalone: name })
+function standalone(name, entry, exportName) {
+  return browserify(entry, { debug: true, standalone: exportName || name })
     .bundle()
-    .pipe(fs.createWriteStream('./dist/'+ name +'.js'))
+    .pipe(fs.createWriteStream('./dist/'+ name.replace(/_/g, '-') +'.js'))
 }
 
 gulp.task('bundle:snabbdom', function() {
+  return standalone('snabbdom_patch', './snabbdom.bundle.js', 'snabbdom')
+})
+
+gulp.task('bundle:snabbdom:init', function() {
   return standalone('snabbdom', './snabbdom.js')
 })
 
@@ -42,6 +46,7 @@ gulp.task('bundle:module:eventlisteners', function() {
 
 gulp.task('bundle', [
   'bundle:snabbdom',
+  'bundle:snabbdom:init',
   'bundle:snabbdom:h',
   'bundle:module:attributes',
   'bundle:module:class',
@@ -51,7 +56,7 @@ gulp.task('bundle', [
 ])
 
 gulp.task('compress', ['bundle'], function() {
-  return gulp.src('dist/*.js')
+  return gulp.src(['dist/*.js', '!dist/*.min.js'])
     .pipe(sourcemaps.init())    
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
@@ -60,7 +65,7 @@ gulp.task('compress', ['bundle'], function() {
 })
 
 gulp.task('clean', function() { 
-	return gulp.src('dist/*.js', {read: false})
+	return gulp.src('dist/*.*', {read: false})
 		.pipe(clean())
 })
 
