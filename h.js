@@ -2,8 +2,9 @@ var VNode = require('./vnode');
 var is = require('./is');
 
 function addNS(data, children, sel) {
-  data.ns = 'http://www.w3.org/2000/svg';
-
+  if (data !== undefined) {
+    data.ns = 'http://www.w3.org/2000/svg';
+  }
   if (sel !== 'foreignObject' && children !== undefined) {
     for (var i = 0; i < children.length; ++i) {
       addNS(children[i].data, children[i].children, children[i].sel);
