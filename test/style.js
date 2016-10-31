@@ -71,6 +71,13 @@ describe('style', function() {
     fakeRaf.step();
     assert.equal(elm.style.fontSize, '20px');
   });
+  it('handles falsy values gracefully', function() {
+    var vnode1 = h('i', {style: {top: 0}});
+    var vnode2 = h('i', {style: {top: 0}});
+    elm = patch(vnode0, vnode1).elm;
+    elm = patch(vnode1, vnode2).elm;
+    assert.equal(elm.style.top, '0px');
+  });
 });
 
 fakeRaf.restore();

@@ -16,7 +16,7 @@ function updateStyle(oldVnode, vnode) {
   var oldHasDel = 'delayed' in oldStyle;
 
   for (name in oldStyle) {
-    if (!style[name]) {
+    if (style[name] === undefined) {
       elm.style[name] = '';
     }
   }
