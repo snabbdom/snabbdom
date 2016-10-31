@@ -23,6 +23,10 @@ module.exports = function h(sel, b, c) {
     else { data = b; }
   }
   if (is.array(children)) {
+    children = children.filter(function() {return true}); // Eliminate possible sparse array
+    if(children.filter(function(c) { return !is.primitive(c) && typeof c !== 'object' || c === null}).length) {
+      throw new TypeError("VNode children array must contain Strings, Numbers, or other VNodes.")
+    }
     for (i = 0; i < children.length; ++i) {
       if (is.primitive(children[i])) children[i] = VNode(undefined, undefined, undefined, children[i]);
     }
