@@ -17,9 +17,11 @@ module.exports = function h(sel, b, c) {
     data = b;
     if (is.array(c)) { children = c; }
     else if (is.primitive(c)) { text = c; }
+    else if (c && c.sel) { children = [c]; }
   } else if (b !== undefined) {
     if (is.array(b)) { children = b; }
     else if (is.primitive(b)) { text = b; }
+    else if (b && b.sel) { children = [b]; }
     else { data = b; }
   }
   if (is.array(children)) {
