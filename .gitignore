@@ -29,5 +29,29 @@ node_modules
 # Vim
 *.swp
 
+# Generated JavaScript
 test/browserified.js
 browserified.js
+h.d.ts
+h.js
+h.js.map
+htmldomapi.d.ts
+htmldomapi.js
+htmldomapi.js.map
+is.d.ts
+is.js
+is.js.map
+snabbdom.bundle.d.ts
+snabbdom.bundle.js
+snabbdom.bundle.js.map
+snabbdom.d.ts
+snabbdom.js
+snabbdom.js.map
+thunk.d.ts
+thunk.js
+thunk.js.map
+vnode.d.ts
+vnode.js
+vnode.js.map
+/modules
+/helpers

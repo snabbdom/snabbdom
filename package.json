@@ -3,7 +3,7 @@
   "version": "0.5.4",
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
   "main": "snabbdom.js",
-  "typings": "type-definitions/snabbdom.d.ts",
+  "typings": "snabbdom.d.ts",
   "directories": {
     "example": "examples",
     "test": "test"
@@ -20,10 +20,14 @@
     "gulp-uglify": "^1.5.3",
     "knuth-shuffle": "^1.0.1",
     "testem": "^1.0.2",
+    "typescript": "^2.0.6",
     "xyz": "0.5.x"
   },
   "scripts": {
+    "pretest": "npm run compile",
     "test": "testem",
+    "compile": "tsc",
+    "prepublish": "npm run compile",
     "release-major": "xyz --repo git@github.com:paldepind/snabbdom.git --increment major",
     "release-minor": "xyz --repo git@github.com:paldepind/snabbdom.git --increment minor",
     "release-patch": "xyz --repo git@github.com:paldepind/snabbdom.git --increment patch"
