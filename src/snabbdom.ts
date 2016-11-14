@@ -1,8 +1,8 @@
 /* global require, module, document, Node */
-import {VNode, VNodeData, Hooks, DOMAPI} from './interfaces';
-import vnode = require('./vnode');
-import is = require('./is');
-import htmlDomApi = require('./htmldomapi');
+import {Hooks} from './hooks';
+import vnode, {VNode, VNodeData} from './vnode';
+import * as is from './is';
+import htmlDomApi, {DOMAPI} from './htmldomapi';
 
 function isUndef(s: any): boolean { return s === undefined; }
 function isDef(s: any): boolean { return s !== undefined; }
@@ -26,7 +26,10 @@ function createKeyToOldIdx(children: Array<VNode>, beginIdx: number, endIdx: num
 
 const hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
-function init(modules: Array<Hooks>, domApi?: DOMAPI) {
+export {h} from './h';
+export {thunk} from './thunk';
+
+export function init(modules: Array<Hooks>, domApi?: DOMAPI) {
   let i: number, j: number, cbs: any = {};
   let api: DOMAPI = domApi as DOMAPI;
 
@@ -268,5 +271,3 @@ function init(modules: Array<Hooks>, domApi?: DOMAPI) {
     return vnode;
   };
 }
-
-export = {init: init};

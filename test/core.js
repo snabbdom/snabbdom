@@ -3,11 +3,11 @@ var shuffle = require('knuth-shuffle').knuthShuffle;
 
 var snabbdom = require('../snabbdom');
 var patch = snabbdom.init([
-  require('../modules/class'),
-  require('../modules/props'),
-  require('../modules/eventlisteners'),
+  require('../modules/class').default,
+  require('../modules/props').default,
+  require('../modules/eventlisteners').default,
 ]);
-var h = require('../h');
+var h = require('../h').default;
 
 function prop(name) {
   return function(obj) {

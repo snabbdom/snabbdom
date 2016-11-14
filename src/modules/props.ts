@@ -1,4 +1,5 @@
-import {VNode, VNodeData, Module} from '../interfaces';
+import {VNode, VNodeData} from '../vnode';
+import {Module} from './module';
 
 function updateProps(oldVnode: VNode, vnode: VNode): void {
   var key: string, cur: any, old: any, elm = vnode.elm,
@@ -23,4 +24,5 @@ function updateProps(oldVnode: VNode, vnode: VNode): void {
   }
 }
 
-export = {create: updateProps, update: updateProps} as Module;
+export const propsModule = {create: updateProps, update: updateProps} as Module;
+export default propsModule;

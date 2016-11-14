@@ -1,4 +1,5 @@
-import {VNode, VNodeData, Module} from '../interfaces';
+import {VNode, VNodeData} from '../vnode';
+import {Module} from './module';
 
 function invokeHandler(handler: any, vnode?: VNode, event?: Event): void {
   if (typeof handler === "function") {
@@ -96,8 +97,9 @@ function updateEventListeners(oldVnode: VNode, vnode?: VNode): void {
   }
 }
 
-export = {
+export const eventListenersModule = {
   create: updateEventListeners,
   update: updateEventListeners,
   destroy: updateEventListeners
 } as Module;
+export default eventListenersModule;

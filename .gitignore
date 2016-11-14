@@ -35,6 +35,9 @@ browserified.js
 h.d.ts
 h.js
 h.js.map
+hooks.d.ts
+hooks.js
+hooks.js.map
 htmldomapi.d.ts
 htmldomapi.js
 htmldomapi.js.map

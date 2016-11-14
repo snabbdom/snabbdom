@@ -1,4 +1,5 @@
-import {VNode, VNodeData, Module} from '../interfaces';
+import {VNode, VNodeData} from '../vnode';
+import {Module} from './module';
 
 function updateClass(oldVnode: VNode, vnode: VNode): void {
   var cur: any, name: string, elm: Element = vnode.elm as Element,
@@ -22,4 +23,5 @@ function updateClass(oldVnode: VNode, vnode: VNode): void {
   }
 }
 
-export = {create: updateClass, update: updateClass} as Module;
+export const classModule = {create: updateClass, update: updateClass} as Module;
+export default classModule;

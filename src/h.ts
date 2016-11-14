@@ -1,6 +1,5 @@
-import {VNode} from './interfaces';
-import vnode = require('./vnode');
-import is = require('./is');
+import {vnode, VNode} from './vnode';
+import * as is from './is';
 
 function addNS(data: any, children: Array<VNode> | undefined, sel: string | undefined): void {
   data.ns = 'http://www.w3.org/2000/svg';
@@ -11,13 +10,13 @@ function addNS(data: any, children: Array<VNode> | undefined, sel: string | unde
   }
 }
 
-function h(sel: string): VNode;
-function h(sel: string, data: any): VNode;
-function h(sel: string, text: string): VNode;
-function h(sel: string, children: Array<VNode>): VNode;
-function h(sel: string, data: any, text: string): VNode;
-function h(sel: string, data: any, children: Array<VNode>): VNode;
-function h(sel: any, b?: any, c?: any): VNode {
+export function h(sel: string): VNode;
+export function h(sel: string, data: any): VNode;
+export function h(sel: string, text: string): VNode;
+export function h(sel: string, children: Array<VNode>): VNode;
+export function h(sel: string, data: any, text: string): VNode;
+export function h(sel: string, data: any, children: Array<VNode>): VNode;
+export function h(sel: any, b?: any, c?: any): VNode {
   var data = {}, children: any, text: any, i: number;
   if (c !== undefined) {
     data = b;
@@ -38,5 +37,4 @@ function h(sel: any, b?: any, c?: any): VNode {
   }
   return vnode(sel, data, children, text, undefined);
 };
-
-export = h;
+export default h;

@@ -1,4 +1,5 @@
-import {VNode, VNodeData, Module} from '../interfaces';
+import {VNode, VNodeData} from '../vnode';
+import {Module} from './module';
 
 const NamespaceURIs = {
   "xlink": "http://www.w3.org/1999/xlink"
@@ -51,4 +52,5 @@ function updateAttrs(oldVnode: VNode, vnode: VNode): void {
   }
 }
 
-export = {create: updateAttrs, update: updateAttrs} as Module;
+export const attributesModule = {create: updateAttrs, update: updateAttrs} as Module;
+export default attributesModule;

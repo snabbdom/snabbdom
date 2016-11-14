@@ -1,4 +1,4 @@
-import {VNode, VNodeData} from '../interfaces';
+import {VNode, VNodeData} from '../vnode';
 
 function pre(vnode: VNode, newVnode: VNode): void {
   var attachData = (vnode.data as VNodeData).attachData;
@@ -32,7 +32,7 @@ function create(_: any, vnode: VNode): void {
   attachData.placeholder = placeholder;
 }
 
-export = function attachTo(target: Element, vnode: VNode): VNode {
+export function attachTo(target: Element, vnode: VNode): VNode {
   if (vnode.data === undefined) vnode.data = {};
   if (vnode.data.hook === undefined) vnode.data.hook = {};
   var data = vnode.data;
@@ -44,3 +44,4 @@ export = function attachTo(target: Element, vnode: VNode): VNode {
   hook.destroy = destroy;
   return vnode;
 };
+export default attachTo;

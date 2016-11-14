@@ -1,8 +1,8 @@
 var snabbdom = require('../../snabbdom.js');
 var patch = snabbdom.init([
-  require('../../modules/attributes'),
+  require('../../modules/attributes').default,
 ]);
-var h = require('../../h.js');
+var h = require('../../h.js').default;
 
 var vnode;
 

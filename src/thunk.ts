@@ -1,5 +1,19 @@
-import {VNode, VNodeData, ThunkFn} from './interfaces';
-import h = require('./h');
+import {VNode, VNodeData} from './vnode';
+import {h} from './h';
+
+export interface ThunkData extends VNodeData {
+  fn: () => VNode;
+  args: Array<any>;
+}
+
+export interface Thunk extends VNode {
+  data: ThunkData;
+}
+
+export interface ThunkFn {
+  (sel: string, fn: Function, args: Array<any>): Thunk;
+  (sel: string, key: any, fn: Function, args: Array<any>): Thunk;
+}
 
 function copyToThunk(vnode: VNode, thunk: VNode): void {
   thunk.elm = vnode.elm;
@@ -32,7 +46,7 @@ function prepatch(oldVnode: VNode, thunk: VNode): void {
   copyToThunk(oldVnode, thunk);
 }
 
-function thunk(sel: string, key?: any, fn?: any, args?: any): VNode {
+export const thunk = function thunk(sel: string, key?: any, fn?: any, args?: any): VNode {
   if (args === undefined) {
     args = fn;
     fn = key;
@@ -44,6 +58,6 @@ function thunk(sel: string, key?: any, fn?: any, args?: any): VNode {
     fn: fn,
     args: args
   });
-};
+} as ThunkFn;
 
-export = thunk as ThunkFn;
+export default thunk;

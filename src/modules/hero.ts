@@ -1,4 +1,5 @@
-import {VNode, VNodeData, Module} from '../interfaces';
+import {VNode, VNodeData} from '../vnode';
+import {Module} from './module';
 
 var raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout;
 var nextFrame = function(fn: any) { raf(function() { raf(fn); }); };
@@ -158,4 +159,5 @@ function post() {
   removed = created = undefined;
 }
 
-export = {pre: pre, create: create, destroy: destroy, post: post} as Module;
+export const heroModule = {pre, create, destroy, post} as Module;
+export default heroModule;

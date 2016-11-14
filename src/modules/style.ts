@@ -1,4 +1,5 @@
-import {VNode, VNodeData, Module} from '../interfaces';
+import {VNode, VNodeData} from '../vnode';
+import {Module} from './module';
 
 var raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout;
 var nextFrame = function(fn: any) { raf(function() { raf(fn); }); };
@@ -68,9 +69,10 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   });
 }
 
-export = {
+export const styleModule = {
   create: updateStyle,
   update: updateStyle,
   destroy: applyDestroyStyle,
   remove: applyRemoveStyle
 } as Module;
+export default styleModule;

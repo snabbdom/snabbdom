@@ -1,12 +1,12 @@
 /* jshint esnext: true */
 var snabbdom = require('../../snabbdom.js');
 var patch = snabbdom.init([
-  require('../../modules/class'),
-  require('../../modules/hero'),
-  require('../../modules/style'),
-  require('../../modules/eventlisteners'),
+  require('../../modules/class').default,
+  require('../../modules/hero').default,
+  require('../../modules/style').default,
+  require('../../modules/eventlisteners').default,
 ]);
-var h = require('../../h.js');
+var h = require('../../h.js').default;
 
 var vnode;
 

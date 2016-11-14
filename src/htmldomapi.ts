@@ -1,4 +1,15 @@
-import {DOMAPI} from './interfaces';
+export interface DOMAPI {
+  createElement: (tagName: any) => HTMLElement;
+  createElementNS: (namespaceURI: string, qualifiedName: string) => Element;
+  createTextNode: (text: string) => Text;
+  insertBefore: (parentNode: Node, newNode: Node, referenceNode: Node | null) => void;
+  removeChild: (node: Node, child: Node) => void;
+  appendChild: (node: Node, child: Node) => void;
+  parentNode: (node: Node) => HTMLElement;
+  nextSibling: (node: Node) => Node;
+  tagName: (elm: Element) => string;
+  setTextContent: (node: Node, text: string | null) => void;
+}
 
 function createElement(tagName: any): HTMLElement {
   return document.createElement(tagName);
@@ -40,7 +51,7 @@ function setTextContent(node: Node, text: string | null): void {
   node.textContent = text;
 }
 
-export = {
+export const htmlDomApi = {
   createElement,
   createElementNS,
   createTextNode,
@@ -52,3 +63,4 @@ export = {
   tagName,
   setTextContent,
 } as DOMAPI;
+export default htmlDomApi;

@@ -1,4 +1,5 @@
-import {VNode, VNodeData, Module} from '../interfaces';
+import {VNode, VNodeData} from '../vnode';
+import {Module} from './module';
 
 function updateDataset(oldVnode: VNode, vnode: VNode): void {
   var elm: HTMLElement = vnode.elm as HTMLElement,
@@ -22,4 +23,5 @@ function updateDataset(oldVnode: VNode, vnode: VNode): void {
   }
 }
 
-export = {create: updateDataset, update: updateDataset} as Module;
+export const datasetModule = {create: updateDataset, update: updateDataset} as Module;
+export default datasetModule;
