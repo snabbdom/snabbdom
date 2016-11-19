@@ -54,6 +54,39 @@ describe('style', function() {
     patch(vnode2, vnode3);
     assert.equal(elm.firstChild.style.fontSize, '10px');
   });
+  it('updates css variables', function() {
+    var vnode1 = h('div', {style: {'--myVar': 1}});
+    var vnode2 = h('div', {style: {'--myVar': 2}});
+    var vnode3 = h('div', {style: {'--myVar': 3}});
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.style.getPropertyValue('--myVar'), 1);
+    elm = patch(vnode1, vnode2).elm;
+    assert.equal(elm.style.getPropertyValue('--myVar'), 2);
+    elm = patch(vnode2, vnode3).elm;
+    assert.equal(elm.style.getPropertyValue('--myVar'), 3);
+  });
+  it('explicialy removes css variables', function() {
+    var vnode1 = h('i', {style: {'--myVar': 1}});
+    var vnode2 = h('i', {style: {'--myVar': ''}});
+    var vnode3 = h('i', {style: {'--myVar': 2}});
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.style.getPropertyValue('--myVar'), 1);
+    patch(vnode1, vnode2);
+    assert.equal(elm.style.getPropertyValue('--myVar'), '');
+    patch(vnode2, vnode3);
+    assert.equal(elm.style.getPropertyValue('--myVar'), 2);
+  });
+  it('implicially removes css variables from element', function() {
+    var vnode1 = h('div', [h('i', {style: {'--myVar': 1}})]);
+    var vnode2 = h('div', [h('i')]);
+    var vnode3 = h('div', [h('i', {style: {'--myVar': 2}})]);
+    patch(vnode0, vnode1);
+    assert.equal(elm.firstChild.style.getPropertyValue('--myVar'), 1);
+    patch(vnode1, vnode2);
+    assert.equal(elm.firstChild.style.getPropertyValue('--myVar'), '');
+    patch(vnode2, vnode3);
+    assert.equal(elm.firstChild.style.getPropertyValue('--myVar'), 2);
+  });
   it('updates delayed styles in next frame', function() {
     var patch = snabbdom.init([
       require('../modules/style').default,

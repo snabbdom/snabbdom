@@ -333,6 +333,17 @@ h('div', {
 }, 'I, I follow, I follow you');
 ```
 
+#### Custom properties (CSS variables)
+
+CSS custom properties (aka CSS variables) are supported, they must be prefixed
+with `--`
+
+```javascript
+h('div', {
+  style: {'--warnColor': 'yellow'}
+}, 'Warning');
+```
+
 #### Delayed properties
 
 You can specify properties as being delayed. Whenever these properties

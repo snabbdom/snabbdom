@@ -11,7 +11,8 @@
         "noUnusedLocals": true,
         "lib": [
             "dom",
-            "es5"
+            "es5",
+            "es2015.core"
         ]
     },
     "files": [
