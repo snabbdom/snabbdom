@@ -15,7 +15,10 @@ function updateProps(oldVnode, vnode) {
     cur = props[key];
     old = oldProps[key];
     if (old !== cur && (key !== 'value' || elm[key] !== cur)) {
-      elm[key] = cur;
+      if (key !== 'type') elm[key] = cur;
+      else {
+        try { elm.type = cur; } catch (e) { delete elm.type; }
+      }
     }
   }
 }
