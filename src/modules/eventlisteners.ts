@@ -1,4 +1,7 @@
-function invokeHandler(handler, vnode, event) {
+import {VNode, VNodeData} from '../vnode';
+import {Module} from './module';
+
+function invokeHandler(handler: any, vnode?: VNode, event?: Event): void {
   if (typeof handler === "function") {
     // call function handler
     handler.call(vnode, event, vnode);
@@ -23,9 +26,9 @@ function invokeHandler(handler, vnode, event) {
   }
 }
 
-function handleEvent(event, vnode) {
+function handleEvent(event: Event, vnode: VNode) {
   var name = event.type,
-      on = vnode.data.on;
+      on = (vnode.data as VNodeData).on;
 
   // call event handler(s) if exists
   if (on && on[name]) {
@@ -34,18 +37,18 @@ function handleEvent(event, vnode) {
 }
 
 function createListener() {
-  return function handler(event) {
-    handleEvent(event, handler.vnode);
+  return function handler(event: Event) {
+    handleEvent(event, (handler as any).vnode);
   }
 }
 
-function updateEventListeners(oldVnode, vnode) {
-  var oldOn = oldVnode.data.on,
-      oldListener = oldVnode.listener,
-      oldElm = oldVnode.elm,
-      on = vnode && vnode.data.on,
-      elm = vnode && vnode.elm,
-      name;
+function updateEventListeners(oldVnode: VNode, vnode?: VNode): void {
+  var oldOn = (oldVnode.data as VNodeData).on,
+      oldListener = (oldVnode as any).listener,
+      oldElm: Element = oldVnode.elm as Element,
+      on = vnode && (vnode.data as VNodeData).on,
+      elm: Element = (vnode && vnode.elm) as Element,
+      name: string;
 
   // optimization for reused immutable handlers
   if (oldOn === on) {
@@ -73,7 +76,7 @@ function updateEventListeners(oldVnode, vnode) {
   // add new listeners which has not already attached
   if (on) {
     // reuse existing listener or create new
-    var listener = vnode.listener = oldVnode.listener || createListener();
+    var listener = (vnode as any).listener = (oldVnode as any).listener || createListener();
     // update vnode for listener
     listener.vnode = vnode;
 
@@ -94,8 +97,9 @@ function updateEventListeners(oldVnode, vnode) {
   }
 }
 
-module.exports = {
+export const eventListenersModule = {
   create: updateEventListeners,
   update: updateEventListeners,
   destroy: updateEventListeners
-};
+} as Module;
+export default eventListenersModule;

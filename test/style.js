@@ -4,9 +4,9 @@ var fakeRaf = require('fake-raf');
 var snabbdom = require('../snabbdom');
 fakeRaf.use();
 var patch = snabbdom.init([
-  require('../modules/style'),
+  require('../modules/style').default,
 ]);
-var h = require('../h');
+var h = require('../h').default;
 
 describe('style', function() {
   var elm, vnode0;
@@ -56,7 +56,7 @@ describe('style', function() {
   });
   it('updates delayed styles in next frame', function() {
     var patch = snabbdom.init([
-      require('../modules/style'),
+      require('../modules/style').default,
     ]);
     var vnode1 = h('i', {style: {fontSize: '14px', delayed: {fontSize: '16px'}}});
     var vnode2 = h('i', {style: {fontSize: '18px', delayed: {fontSize: '20px'}}});

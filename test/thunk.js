@@ -3,8 +3,8 @@ var assert = require('assert');
 var snabbdom = require('../snabbdom');
 var patch = snabbdom.init([
 ]);
-var h = require('../h');
-var thunk = require('../thunk');
+var h = require('../h').default;
+var thunk = require('../thunk').default;
 
 describe('thunk', function() {
   var elm, vnode0;

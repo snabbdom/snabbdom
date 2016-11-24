@@ -2,8 +2,8 @@ var assert = require('assert');
 var snabbdom = require('../snabbdom');
 
 var patch = snabbdom.init([]);
-var attachTo = require('../helpers/attachto');
-var h = require('../h');
+var attachTo = require('../helpers/attachto').default;
+var h = require('../h').default;
 
 describe('attachTo', function() {
   var elm, vnode0;
