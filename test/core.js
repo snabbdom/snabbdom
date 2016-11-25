@@ -42,6 +42,16 @@ describe('snabbdom', function() {
       assert.equal(vnode.children[0].sel, 'span#hello');
       assert.equal(vnode.children[1].sel, 'b.world');
     });
+    it('can create vnode with one child vnode', function() {
+      var vnode = h('div', h('span#hello'));
+      assert.equal(vnode.sel, 'div');
+      assert.equal(vnode.children[0].sel, 'span#hello');
+    });
+    it('can create vnode with props and one child vnode', function() {
+      var vnode = h('div', {}, h('span#hello'));
+      assert.equal(vnode.sel, 'div');
+      assert.equal(vnode.children[0].sel, 'span#hello');
+    });
     it('can create vnode with text content', function() {
       var vnode = h('a', ['I am a string']);
       assert.equal(vnode.children[0].text, 'I am a string');
