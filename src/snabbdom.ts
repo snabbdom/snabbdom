@@ -188,9 +188,13 @@ export function init(modules: Array<Hooks>, domApi?: DOMAPI) {
           newStartVnode = newCh[++newStartIdx];
         } else {
           elmToMove = oldCh[idxInOld];
-          patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);
-          oldCh[idxInOld] = undefined as any;
-          api.insertBefore(parentElm, elmToMove.elm, oldStartVnode.elm as Element);
+          if (elmToMove.sel !== newStartVnode.sel) {
+            api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm as Element);
+          } else {
+            patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);
+            oldCh[idxInOld] = undefined as any;
+            api.insertBefore(parentElm, elmToMove.elm, oldStartVnode.elm as Element);
+          }
           newStartVnode = newCh[++newStartIdx];
         }
       }
@@ -210,13 +214,6 @@ export function init(modules: Array<Hooks>, domApi?: DOMAPI) {
     }
     let elm = vnode.elm = oldVnode.elm, oldCh = oldVnode.children, ch = vnode.children;
     if (oldVnode === vnode) return;
-    if (!sameVnode(oldVnode, vnode)) {
-      const parentElm = api.parentNode(oldVnode.elm as Element);
-      elm = createElm(vnode, insertedVnodeQueue);
-      api.insertBefore(parentElm, elm, oldVnode.elm as Element);
-      removeVnodes(parentElm, [oldVnode], 0, 0);
-      return;
-    }
     if (isDef(vnode.data)) {
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);
       i = (vnode.data as VNodeData).hook;
