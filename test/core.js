@@ -260,6 +260,16 @@ describe('snabbdom', function() {
           elm = patch(vnode1, vnode2).elm;
           assert.equal(elm.children.length, 0);
         });
+        it('update one child with same key but different sel', function() {
+          var vnode1 = h('span', {key: 'span'}, [1, 2, 3].map(spanNum));
+          var vnode2 = h('span', {key: 'span'}, [spanNum(1), h('i', {key: 2}, '2'), spanNum(3)]);
+          elm = patch(vnode0, vnode1).elm;
+          assert.deepEqual(map(inner, elm.children), ['1', '2', '3']);
+          elm = patch(vnode1, vnode2).elm;
+          assert.deepEqual(map(inner, elm.children), ['1', '2', '3']);
+          assert.equal(elm.children.length, 3);
+          assert.equal(elm.children[1].tagName, 'I');
+        });
       });
       describe('removal of elements', function() {
         it('removes elements from the beginning', function() {
