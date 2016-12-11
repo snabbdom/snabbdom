@@ -1,12 +1,14 @@
 import {Hooks} from './hooks';
 
+export type Key = string | number | undefined;
+
 export interface VNode {
   sel: string | undefined;
   data: VNodeData | undefined;
   children: Array<VNode | string> | undefined;
-  elm: Element | Text | undefined;
+  elm: Node | undefined;
   text: string | undefined;
-  key: string | number | undefined;
+  key: Key;
 }
 
 export interface VNodeData {
