@@ -20,7 +20,11 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
 
   for (name in oldStyle) {
     if (!style[name]) {
-      (elm as any).style[name] = '';
+      if (name.startsWith('--')) {
+        (elm as any).style.removeProperty(name);
+      } else {
+        (elm as any).style[name] = '';
+      }
     }
   }
   for (name in style) {
@@ -33,7 +37,11 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
         }
       }
     } else if (name !== 'remove' && cur !== oldStyle[name]) {
-      (elm as any).style[name] = cur;
+      if (name.startsWith('--')) {
+        (elm as any).style.setProperty(name, cur);
+      } else {
+        (elm as any).style[name] = cur;
+      }
     }
   }
 }
