@@ -225,26 +225,28 @@ export function init(modules: Array<Hooks>, domApi?: DOMAPI) {
     if (isDef(i = vnode.data) && isDef(hook = i.hook) && isDef(i = hook.prepatch)) {
       i(oldVnode, vnode);
     }
-    let elm = vnode.elm = oldVnode.elm, oldCh = oldVnode.children, ch = vnode.children;
+    const elm = vnode.elm = (oldVnode.elm as Node);
+    let oldCh = oldVnode.children;
+    let ch = vnode.children;
     if (oldVnode === vnode) return;
-    if (isDef(vnode.data)) {
+    if (vnode.data !== undefined) {
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);
-      i = (vnode.data as VNodeData).hook;
+      i = vnode.data.hook;
       if (isDef(i) && isDef(i = i.update)) i(oldVnode, vnode);
     }
     if (isUndef(vnode.text)) {
       if (isDef(oldCh) && isDef(ch)) {
-        if (oldCh !== ch) updateChildren(elm as Node, oldCh as Array<VNode>, ch as Array<VNode>, insertedVnodeQueue);
+        if (oldCh !== ch) updateChildren(elm, oldCh as Array<VNode>, ch as Array<VNode>, insertedVnodeQueue);
       } else if (isDef(ch)) {
-        if (isDef(oldVnode.text)) api.setTextContent(elm as Node, '');
-        addVnodes(elm as Node, null, ch as Array<VNode>, 0, (ch as Array<VNode>).length - 1, insertedVnodeQueue);
+        if (isDef(oldVnode.text)) api.setTextContent(elm, '');
+        addVnodes(elm, null, ch as Array<VNode>, 0, (ch as Array<VNode>).length - 1, insertedVnodeQueue);
       } else if (isDef(oldCh)) {
-        removeVnodes(elm as Node, oldCh as Array<VNode>, 0, (oldCh as Array<VNode>).length - 1);
+        removeVnodes(elm, oldCh as Array<VNode>, 0, (oldCh as Array<VNode>).length - 1);
       } else if (isDef(oldVnode.text)) {
-        api.setTextContent(elm as Node, '');
+        api.setTextContent(elm, '');
       }
     } else if (oldVnode.text !== vnode.text) {
-      api.setTextContent(elm as Node, vnode.text as string);
+      api.setTextContent(elm, vnode.text as string);
     }
     if (isDef(hook) && isDef(i = hook.postpatch)) {
       i(oldVnode, vnode);
