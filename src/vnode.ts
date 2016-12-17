@@ -1,6 +1,6 @@
 import {Hooks} from './hooks';
 
-export type Key = string | number | undefined;
+export type Key = string | number;
 
 export interface VNode {
   sel: string | undefined;
@@ -21,13 +21,13 @@ export interface VNodeData {
   on?: any;
   hero?: any;
   attachData?: any;
-  [key: string]: any; // for any other 3rd party module
-  // end of modules
   hook?: Hooks;
-  key?: string | number;
+  key?: Key;
   ns?: string; // for SVGs
   fn?: () => VNode; // for thunks
   args?: Array<any>; // for thunks
+  [key: string]: any; // for any other 3rd party module
+  // end of modules
 }
 
 export function vnode(sel: string,

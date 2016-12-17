@@ -1,4 +1,5 @@
 /* global module, document, Node */
+import {Module} from './modules/module';
 import {Hooks} from './hooks';
 import vnode, {VNode, VNodeData, Key} from './vnode';
 import * as is from './is';
@@ -21,8 +22,14 @@ function isVnode(vnode: any): vnode is VNode {
 
 type KeyToIndexMap = {[key: string]: number};
 
+type ArraysOf<T> = {
+  [K in keyof T]: (T[K])[];
+}
+
+type ModuleHooks = ArraysOf<Module>;
+
 function createKeyToOldIdx(children: Array<VNode>, beginIdx: number, endIdx: number): KeyToIndexMap {
-  let i: number, map: {[s: string]: number} = {}, key: Key;
+  let i: number, map: KeyToIndexMap = {}, key: Key;
   for (i = beginIdx; i <= endIdx; ++i) {
     key = children[i].key;
     if (key !== undefined) map[key] = i;
@@ -30,20 +37,23 @@ function createKeyToOldIdx(children: Array<VNode>, beginIdx: number, endIdx: num
   return map;
 }
 
-const hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
+const hooks: (keyof Module)[] = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
 export {h} from './h';
 export {thunk} from './thunk';
 
-export function init(modules: Array<Hooks>, domApi?: DOMAPI) {
-  let i: number, j: number, cbs: any = {};
+export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
+  let i: number, j: number, cbs = ({} as ModuleHooks);
 
   const api: DOMAPI = domApi !== undefined ? domApi : htmlDomApi;
 
   for (i = 0; i < hooks.length; ++i) {
     cbs[hooks[i]] = [];
     for (j = 0; j < modules.length; ++j) {
-      if ((modules[j] as any)[hooks[i]] !== undefined) cbs[hooks[i]].push((modules[j] as any)[hooks[i]]);
+      const hook = modules[j][hooks[i]];
+      if (hook !== undefined) {
+        (cbs[hooks[i]] as Array<any>).push(hook);
+      }
     }
   }
 

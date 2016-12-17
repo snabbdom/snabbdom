@@ -20,7 +20,7 @@
     "gulp-uglify": "^1.5.3",
     "knuth-shuffle": "^1.0.1",
     "testem": "^1.0.2",
-    "typescript": "^2.0.6",
+    "typescript": "^2.1.0",
     "xyz": "0.5.x"
   },
   "scripts": {
