@@ -35,11 +35,11 @@ function appendChild(node: Node, child: Node): void {
   node.appendChild(child);
 }
 
-function parentNode(node: Node): HTMLElement {
+function parentNode(node: Node): HTMLElement | null {
   return node.parentElement;
 }
 
-function nextSibling(node: Node): Node {
+function nextSibling(node: Node): Node | null {
   return node.nextSibling;
 }
 
@@ -63,4 +63,5 @@ export const htmlDomApi = {
   tagName,
   setTextContent,
 } as DOMAPI;
+
 export default htmlDomApi;
