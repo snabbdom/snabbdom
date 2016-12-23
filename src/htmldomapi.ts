@@ -36,7 +36,7 @@ function appendChild(node: Node, child: Node): void {
 }
 
 function parentNode(node: Node): HTMLElement {
-  return node.parentElement;
+  return node.parentNode;
 }
 
 function nextSibling(node: Node): Node {
