@@ -89,15 +89,23 @@ describe('snabbdom', function() {
       elm = patch(vnode0, h('div', [h('div', {ns: SVGNamespace})])).elm;
       assert.equal(elm.firstChild.namespaceURI, SVGNamespace);
 
+      // verify that svg tag automatically gets svg namespace
       elm = patch(vnode0, h('svg', [
         h('foreignObject', [
           h('div', ['I am HTML embedded in SVG'])
         ])
       ])).elm;
-
       assert.equal(elm.namespaceURI, SVGNamespace);
       assert.equal(elm.firstChild.namespaceURI, SVGNamespace);
       assert.equal(elm.firstChild.firstChild.namespaceURI, XHTMLNamespace);
+
+      // verify that svg tag with extra selectors gets svg namespace
+      elm = patch(vnode0, h('svg#some-id')).elm;
+      assert.equal(elm.namespaceURI, SVGNamespace);
+
+      // verify that non-svg tag beginning with 'svg' does NOT get namespace
+      elm = patch(vnode0, h('svg-custom-el')).elm;
+      assert.notEqual(elm.namespaceURI, SVGNamespace);
     });
     it('is receives classes in selector', function() {
       elm = patch(vnode0, h('div', [h('i.am.a.class')])).elm;
