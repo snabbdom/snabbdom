@@ -5,7 +5,10 @@ function addNS(data: any, children: Array<VNode> | undefined, sel: string | unde
   data.ns = 'http://www.w3.org/2000/svg';
   if (sel !== 'foreignObject' && children !== undefined) {
     for (let i = 0; i < children.length; ++i) {
-      addNS(children[i].data, (children[i] as VNode).children as Array<VNode>, children[i].sel);
+      let childData = children[i].data;
+      if (childData !== undefined) {
+        addNS(childData, (children[i] as VNode).children as Array<VNode>, children[i].sel);
+      }
     }
   }
 }
