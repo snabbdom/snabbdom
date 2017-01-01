@@ -37,7 +37,10 @@ export function h(sel: any, b?: any, c?: any): VNode {
       if (is.primitive(children[i])) children[i] = (vnode as any)(undefined, undefined, undefined, children[i]);
     }
   }
-  if (sel[0] === 's' && sel[1] === 'v' && sel[2] === 'g') {
+  if (
+    sel[0] === 's' && sel[1] === 'v' && sel[2] === 'g' &&
+    (sel.length === 3 || sel[3] === '.' || sel[3] === '#')
+  ) {
     addNS(data, children, sel);
   }
   return vnode(sel, data, children, text, undefined);
