@@ -5,7 +5,7 @@ export interface DOMAPI {
   insertBefore: (parentNode: Node, newNode: Node, referenceNode: Node | null) => void;
   removeChild: (node: Node, child: Node) => void;
   appendChild: (node: Node, child: Node) => void;
-  parentNode: (node: Node) => HTMLElement;
+  parentNode: (node: Node) => Node;
   nextSibling: (node: Node) => Node;
   tagName: (elm: Element) => string;
   setTextContent: (node: Node, text: string | null) => void;
@@ -35,11 +35,11 @@ function appendChild(node: Node, child: Node): void {
   node.appendChild(child);
 }
 
-function parentNode(node: Node): HTMLElement {
+function parentNode(node: Node): Node | null {
   return node.parentNode;
 }
 
-function nextSibling(node: Node): Node {
+function nextSibling(node: Node): Node | null {
   return node.nextSibling;
 }
 
