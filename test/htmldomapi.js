@@ -10,7 +10,7 @@ describe('svg', function () {
    elm = document.createElement('svg');
    vnode0 = elm;
  });
- it('removes svg elements', function(){
+ it('removes child svg elements', function(){
    var a = h('svg', {}, [
     h('g'),
     h('g')
