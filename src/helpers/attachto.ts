@@ -16,7 +16,7 @@ function post(_: any, vnode: VNode): void {
 
 function destroy(vnode: VNode): void {
   // Remove placeholder
-  vnode.elm && vnode.elm.parentElement.removeChild(vnode.elm);
+  vnode.elm && vnode.elm.parentNode && vnode.elm.parentNode.removeChild(vnode.elm);
   // Remove real element from where it was inserted
   vnode.elm = (vnode.data as VNodeData).attachData.real;
 }

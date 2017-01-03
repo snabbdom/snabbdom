@@ -5,3 +5,4 @@ require('./eventlisteners');
 require('./attachto');
 require('./thunk');
 require('./attributes');
+require('./htmldomapi')
