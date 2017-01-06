@@ -5,7 +5,7 @@ function invokeHandler(handler: any, vnode?: VNode, event?: Event): void {
   if (typeof handler === "function") {
     // call function handler
     handler.call(vnode, event, vnode);
-  } else if (typeof handler === "object") {
+  } else if (Array.isArray(handler)) {
     // call handler with arguments
     if (typeof handler[0] === "function") {
       // special case for single argument for performance
@@ -23,6 +23,8 @@ function invokeHandler(handler: any, vnode?: VNode, event?: Event): void {
         invokeHandler(handler[i]);
       }
     }
+  } else if (typeof handler === "object") {
+      handler.handleEvent.call(handler, event, vnode);
   }
 }
 
