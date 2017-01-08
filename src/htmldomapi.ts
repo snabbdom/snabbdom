@@ -63,4 +63,5 @@ export const htmlDomApi = {
   tagName,
   setTextContent,
 } as DOMAPI;
+
 export default htmlDomApi;
