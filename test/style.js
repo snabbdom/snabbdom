@@ -18,6 +18,17 @@ describe('style', function() {
     elm = patch(vnode0, h('div', {style: {fontSize: '12px'}})).elm;
     assert.equal(elm.style.fontSize, '12px');
   });
+  it('can be memoized', function() {
+    var cachedStyles = {fontSize: '14px', display: 'inline'};
+    var vnode1 = h('i', {style: cachedStyles});
+    var vnode2 = h('i', {style: cachedStyles});
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.style.fontSize, '14px');
+    assert.equal(elm.style.display, 'inline');
+    elm = patch(vnode1, vnode2).elm;
+    assert.equal(elm.style.fontSize, '14px');
+    assert.equal(elm.style.display, 'inline');
+  });
   it('updates styles', function() {
     var vnode1 = h('i', {style: {fontSize: '14px', display: 'inline'}});
     var vnode2 = h('i', {style: {fontSize: '12px', display: 'block'}});

@@ -166,7 +166,7 @@ describe('snabbdom', function() {
       assert.equal(elm.className, 'class');
     });
   });
-  describe('pathing an element', function() {
+  describe('patching an element', function() {
     it('changes the elements classes', function() {
       var vnode1 = h('i', {class: {i: true, am: true, horse: true}});
       var vnode2 = h('i', {class: {i: true, am: true, horse: false}});
@@ -180,6 +180,19 @@ describe('snabbdom', function() {
       var vnode1 = h('i', {class: {i: true, am: true, horse: true}});
       var vnode2 = h('i', {class: {i: true, am: true, horse: false}});
       patch(vnode0, vnode1);
+      elm = patch(vnode1, vnode2).elm;
+      assert(elm.classList.contains('i'));
+      assert(elm.classList.contains('am'));
+      assert(!elm.classList.contains('horse'));
+    });
+    it('preserves memoized classes', function() {
+      var cachedClass = {i: true, am: true, horse: false};
+      var vnode1 = h('i', {class: cachedClass});
+      var vnode2 = h('i', {class: cachedClass});
+      elm = patch(vnode0, vnode1).elm;
+      assert(elm.classList.contains('i'));
+      assert(elm.classList.contains('am'));
+      assert(!elm.classList.contains('horse'));
       elm = patch(vnode1, vnode2).elm;
       assert(elm.classList.contains('i'));
       assert(elm.classList.contains('am'));
@@ -200,6 +213,15 @@ describe('snabbdom', function() {
       patch(vnode0, vnode1);
       elm = patch(vnode1, vnode2).elm;
       assert.equal(elm.src, 'http://localhost/');
+    });
+    it('preserves memoized props', function() {
+      var cachedProps = {src: 'http://other/'};
+      var vnode1 = h('a', {props: cachedProps});
+      var vnode2 = h('a', {props: cachedProps});
+      elm = patch(vnode0, vnode1).elm;
+      assert.equal(elm.src, 'http://other/');
+      elm = patch(vnode1, vnode2).elm;
+      assert.equal(elm.src, 'http://other/');
     });
     it('removes an elements props', function() {
       var vnode1 = h('a', {props: {src: 'http://other/'}});
