@@ -23,6 +23,7 @@ function updateAttrs(oldVnode: VNode, vnode: VNode): void {
       attrs = (vnode.data as VNodeData).attrs, namespaceSplit: Array<string>;
 
   if (!oldAttrs && !attrs) return;
+  if (oldAttrs === attrs) return;
   oldAttrs = oldAttrs || {};
   attrs = attrs || {};
 

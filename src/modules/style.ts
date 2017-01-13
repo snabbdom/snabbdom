@@ -14,6 +14,7 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
       style = (vnode.data as VNodeData).style;
 
   if (!oldStyle && !style) return;
+  if (oldStyle === style) return;
   oldStyle = oldStyle || {};
   style = style || {};
   var oldHasDel = 'delayed' in oldStyle;

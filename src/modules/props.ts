@@ -7,6 +7,7 @@ function updateProps(oldVnode: VNode, vnode: VNode): void {
       props = (vnode.data as VNodeData).props;
 
   if (!oldProps && !props) return;
+  if (oldProps === props) return;
   oldProps = oldProps || {};
   props = props || {};
 

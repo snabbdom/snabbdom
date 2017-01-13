@@ -8,6 +8,7 @@ function updateDataset(oldVnode: VNode, vnode: VNode): void {
     key: string;
 
   if (!oldDataset && !dataset) return;
+  if (oldDataset === dataset) return;
   oldDataset = oldDataset || {};
   dataset = dataset || {};
 

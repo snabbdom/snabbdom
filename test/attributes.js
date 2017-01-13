@@ -19,6 +19,19 @@ describe('attributes', function() {
     assert.strictEqual(elm.getAttribute('minlength'), '1');
     assert.strictEqual(elm.getAttribute('value'), 'true');
   });
+  it('can be memoized', function() {
+    var cachedAttrs = {href: '/foo', minlength: 1, value: true};
+    var vnode1 = h('div', {attrs: cachedAttrs});
+    var vnode2 = h('div', {attrs: cachedAttrs});
+    elm = patch(vnode0, vnode1).elm;
+    assert.strictEqual(elm.getAttribute('href'), '/foo');
+    assert.strictEqual(elm.getAttribute('minlength'), '1');
+    assert.strictEqual(elm.getAttribute('value'), 'true');
+    elm = patch(vnode1, vnode2).elm;
+    assert.strictEqual(elm.getAttribute('href'), '/foo');
+    assert.strictEqual(elm.getAttribute('minlength'), '1');
+    assert.strictEqual(elm.getAttribute('value'), 'true');
+  });
   it('are not omitted when falsy values are provided', function() {
     var vnode1 = h('div', {attrs: {href: null, minlength: 0, value: false}});
     elm = patch(vnode0, vnode1).elm;

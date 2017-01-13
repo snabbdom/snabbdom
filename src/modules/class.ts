@@ -7,6 +7,7 @@ function updateClass(oldVnode: VNode, vnode: VNode): void {
       klass = (vnode.data as VNodeData).class;
 
   if (!oldClass && !klass) return;
+  if (oldClass === klass) return;
   oldClass = oldClass || {};
   klass = klass || {};
 
