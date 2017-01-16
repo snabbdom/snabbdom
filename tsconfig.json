@@ -23,7 +23,7 @@
         "src/modules/eventlisteners.ts",
         "src/modules/hero.ts",
         "src/modules/props.ts",
-        "src/modules/module.d.ts",
+        "src/modules/module.ts",
         "src/modules/style.ts",
         "src/h.ts",
         "src/htmldomapi.ts",
