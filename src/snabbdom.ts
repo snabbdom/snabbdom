@@ -81,7 +81,12 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       }
     }
     let children = vnode.children, sel = vnode.sel;
-    if (sel !== undefined) {
+    if (sel === '!') {
+      if (isUndef(vnode.text)) {
+        vnode.text = '';
+      }
+      vnode.elm = api.createComment(vnode.text as string);
+    } else if (sel !== undefined) {
       // Parse selector
       const hashIdx = sel.indexOf('#');
       const dotIdx = sel.indexOf('.', hashIdx);

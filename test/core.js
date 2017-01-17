@@ -64,6 +64,11 @@ describe('snabbdom', function() {
       var vnode = h('a', {}, 'I am a string');
       assert.equal(vnode.text, 'I am a string');
     });
+    it('can create vnode for comment', function() {
+      var vnode = h('!', 'test');
+      assert.equal(vnode.sel, '!');
+      assert.equal(vnode.text, 'test');
+    });
   });
   describe('created element', function() {
     it('has tag', function() {
@@ -164,6 +169,11 @@ describe('snabbdom', function() {
       assert.equal(elm.tagName, 'DIV');
       assert.equal(elm.id, 'id');
       assert.equal(elm.className, 'class');
+    });
+    it('can create comments', function() {
+      elm = patch(vnode0, h('!', 'test')).elm;
+      assert.equal(elm.nodeType, document.COMMENT_NODE);
+      assert.equal(elm.textContent, 'test');
     });
   });
   describe('patching an element', function() {
@@ -496,6 +506,30 @@ describe('snabbdom', function() {
         assert.equal(elm.childNodes[0].textContent, 'Text');
         elm = patch(vnode1, vnode2).elm;
         assert.equal(elm.childNodes[0].textContent, 'Text2');
+      });
+      it('handles unmoved comment nodes', function() {
+        var vnode1 = h('div', [h('!', 'Text'), h('span', 'Span')]);
+        var vnode2 = h('div', [h('!', 'Text'), h('span', 'Span')]);
+        elm = patch(vnode0, vnode1).elm;
+        assert.equal(elm.childNodes[0].textContent, 'Text');
+        elm = patch(vnode1, vnode2).elm;
+        assert.equal(elm.childNodes[0].textContent, 'Text');
+      });
+      it('handles changing comment text', function() {
+        var vnode1 = h('div', [h('!', 'Text'), h('span', 'Span')]);
+        var vnode2 = h('div', [h('!', 'Text2'), h('span', 'Span')]);
+        elm = patch(vnode0, vnode1).elm;
+        assert.equal(elm.childNodes[0].textContent, 'Text');
+        elm = patch(vnode1, vnode2).elm;
+        assert.equal(elm.childNodes[0].textContent, 'Text2');
+      });
+      it('handles changing empty comment', function() {
+        var vnode1 = h('div', [h('!'), h('span', 'Span')]);
+        var vnode2 = h('div', [h('!', 'Test'), h('span', 'Span')]);
+        elm = patch(vnode0, vnode1).elm;
+        assert.equal(elm.childNodes[0].textContent, '');
+        elm = patch(vnode1, vnode2).elm;
+        assert.equal(elm.childNodes[0].textContent, 'Test');
       });
       it('prepends element', function() {
         var vnode1 = h('div', [h('span', 'World')]);
