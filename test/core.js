@@ -232,7 +232,9 @@ describe('snabbdom', function() {
     });
     describe('updating children with keys', function() {
       function spanNum(n) {
-        if (typeof n === 'string') {
+        if (n == null) {
+          return n;
+        } else if (typeof n === 'string') {
           return h('span', {}, n);
         } else {
           return h('span', {key: n}, n.toString());
@@ -471,6 +473,40 @@ describe('snabbdom', function() {
           }
         }
       });
+      it('supports null/undefined children', function() {
+        var vnode1 = h('i', [0, 1, 2, 3, 4, 5].map(spanNum));
+        var vnode2 = h('i', [null, 2, undefined, null, 1, 0, null, 5, 4, null, 3, undefined].map(spanNum));
+        elm = patch(vnode0, vnode1).elm;
+        assert.equal(elm.children.length, 6);
+        elm = patch(vnode1, vnode2).elm;
+        assert.deepEqual(map(inner, elm.children), ['2', '1', '0', '5', '4', '3']);
+      });
+      it('supports all null/undefined children', function() {
+        var vnode1 = h('i', [0, 1, 2, 3, 4, 5].map(spanNum));
+        var vnode2 = h('i', [null, null, undefined, null, null, undefined]);
+        var vnode3 = h('i', [5, 4, 3, 2, 1, 0].map(spanNum));
+        patch(vnode0, vnode1);
+        elm = patch(vnode1, vnode2).elm;
+        assert.equal(elm.children.length, 0);
+        elm = patch(vnode2, vnode3).elm;
+        assert.deepEqual(map(inner, elm.children), ['5', '4', '3', '2', '1', '0']);
+      });
+      it('handles random shuffles with null/undefined children', function() {
+        var i, j, r, len, arr, maxArrLen = 15, samples = 5, vnode1 = vnode0, vnode2;
+        for (i = 0; i < samples; ++i, vnode1 = vnode2) {
+          len = Math.floor(Math.random() * maxArrLen);
+          arr = [];
+          for (j = 0; j < len; ++j) {
+            if ((r = Math.random()) < 0.5) arr[j] = String(j);
+            else if (r < 0.75) arr[j] = null;
+            else arr[j] = undefined;
+          }
+          shuffle(arr);
+          vnode2 = h('div', arr.map(spanNum));
+          elm = patch(vnode1, vnode2).elm;
+          assert.deepEqual(map(inner, elm.children), arr.filter(function(x) {return x != null;}));
+        }
+      });
     });
     describe('updating children without keys', function() {
       it('appends elements', function() {
@@ -556,6 +592,27 @@ describe('snabbdom', function() {
         elm = patch(vnode1, vnode2).elm;
         assert.deepEqual(map(prop('tagName'), elm.children), ['B', 'SPAN', 'DIV']);
         assert.deepEqual(map(inner, elm.children), ['Three', 'One', 'Two']);
+      });
+      it('supports null/undefined children', function() {
+        var vnode1 = h('i', [null, h('i', '1'), h('i', '2'), null]);
+        var vnode2 = h('i', [h('i', '2'), undefined, undefined, h('i', '1'), undefined]);
+        var vnode3 = h('i', [null, h('i', '1'), undefined, null, h('i', '2'), undefined, null]);
+        elm = patch(vnode0, vnode1).elm;
+        assert.deepEqual(map(inner, elm.children), ['1', '2']);
+        elm = patch(vnode1, vnode2).elm;
+        assert.deepEqual(map(inner, elm.children), ['2', '1']);
+        elm = patch(vnode2, vnode3).elm;
+        assert.deepEqual(map(inner, elm.children), ['1', '2']);
+      });
+      it('supports all null/undefined children', function() {
+        var vnode1 = h('i', [h('i', '1'), h('i', '2')]);
+        var vnode2 = h('i', [null, undefined]);
+        var vnode3 = h('i', [h('i', '2'), h('i', '1')]);
+        patch(vnode0, vnode1);
+        elm = patch(vnode1, vnode2).elm;
+        assert.equal(elm.children.length, 0);
+        elm = patch(vnode2, vnode3).elm;
+        assert.deepEqual(map(inner, elm.children), ['2', '1']);
       });
     });
   });
