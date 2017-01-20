@@ -177,4 +177,42 @@ describe('thunk', function() {
     patch(vnode1, vnode2);
     assert.equal(called, 1);
   });
+
+  it('supports object parameter', function() {
+    function vnodeFn(s) {
+      return h('span.number', 'Hello ' + s);
+    }
+    var vnode1 = thunk('span.number', {
+      fn: vnodeFn,
+      args: ['World!']
+    });
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.innerText, 'Hello World!');
+  });
+
+  it('supports equality fn parameter', function() {
+    function vnodeFn(s) {
+      return h('span.number', s + ' World!');
+    }
+
+    function getNode(s) {
+      return thunk('span.number', {
+        fn: vnodeFn,
+        args: [s],
+        equalityFn: function(arg1, arg2) {
+          return true;
+        }
+      });
+    }
+
+    var vnode1 = getNode('Hello');
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.innerText, 'Hello World!');
+
+    var vnode2 = getNode('Goodbye');
+    elm = patch(vnode1, vnode2).elm;
+    assert.equal(elm.innerText, 'Hello World!');
+
+  });
 });
+
