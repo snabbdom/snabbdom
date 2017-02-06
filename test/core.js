@@ -8,6 +8,7 @@ var patch = snabbdom.init([
   require('../modules/eventlisteners').default,
 ]);
 var h = require('../h').default;
+var toVNode = require('../tovnode').default;
 
 function prop(name) {
   return function(obj) {
@@ -239,6 +240,46 @@ describe('snabbdom', function() {
       patch(vnode0, vnode1);
       patch(vnode1, vnode2);
       assert.equal(elm.src, undefined);
+    });
+    describe('using toVNode()', function () {
+      it('can remove previous children of the root element', function () {
+        var h2 = document.createElement('h2');
+        h2.textContent = 'Hello'
+        var prevElm = document.createElement('div');
+        prevElm.id = 'id';
+        prevElm.className = 'class';
+        prevElm.appendChild(h2);
+        var nextVNode = h('div#id.class', [h('span', 'Hi')]);
+        elm = patch(toVNode(prevElm), nextVNode).elm;
+        assert.strictEqual(elm, prevElm);
+        assert.equal(elm.tagName, 'DIV');
+        assert.equal(elm.id, 'id');
+        assert.equal(elm.className, 'class');
+        assert.strictEqual(elm.childNodes.length, 1);
+        assert.strictEqual(elm.childNodes[0].tagName, 'SPAN');
+        assert.strictEqual(elm.childNodes[0].textContent, 'Hi');
+      });
+      it('can remove some children of the root element', function () {
+        var h2 = document.createElement('h2');
+        h2.textContent = 'Hello'
+        var prevElm = document.createElement('div');
+        prevElm.id = 'id';
+        prevElm.className = 'class';
+        var text = new Text('Foobar');
+        text.testProperty = function () {}; // ensures we dont recreate the Text Node
+        prevElm.appendChild(text);
+        prevElm.appendChild(h2);
+        var nextVNode = h('div#id.class', ['Foobar']);
+        elm = patch(toVNode(prevElm), nextVNode).elm;
+        assert.strictEqual(elm, prevElm);
+        assert.equal(elm.tagName, 'DIV');
+        assert.equal(elm.id, 'id');
+        assert.equal(elm.className, 'class');
+        assert.strictEqual(elm.childNodes.length, 1);
+        assert.strictEqual(elm.childNodes[0].nodeType, 3);
+        assert.strictEqual(elm.childNodes[0].wholeText, 'Foobar');
+        assert.strictEqual(typeof elm.childNodes[0].testProperty, 'function');
+      });
     });
     describe('updating children with keys', function() {
       function spanNum(n) {

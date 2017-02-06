@@ -44,6 +44,18 @@ describe('attributes', function() {
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.getAttributeNS('http://www.w3.org/1999/xlink', 'href'), '#foo');
   });
+  it('should not touch class nor id fields', function() {
+    elm = document.createElement('div');
+    elm.id = 'myId';
+    elm.className = 'myClass';
+    vnode0 = elm;
+    var vnode1 = h('div#myId.myClass', {attrs: {}}, ['Hello']);
+    elm = patch(vnode0, vnode1).elm;
+    assert.strictEqual(elm.tagName, 'DIV');
+    assert.strictEqual(elm.id, 'myId');
+    assert.strictEqual(elm.className, 'myClass');
+    assert.strictEqual(elm.textContent, 'Hello');
+  });
   describe('boolean attribute', function() {
     it('is present if the value is truthy', function() {
       var vnode1 = h('div', {attrs: {required: true, readonly: 1, noresize: 'truthy'}});
@@ -62,16 +74,12 @@ describe('attributes', function() {
   });
   describe('Object.prototype property', function() {
     it('is not considered as a boolean attribute and shouldn\'t be omitted', function() {
-      var vnode1 = h('div', {attrs: {valueOf: true, toString: 1, constructor: 'truthy'}});
+      var vnode1 = h('div', {attrs: {constructor: true}});
       elm = patch(vnode0, vnode1).elm;
-      assert.strictEqual(elm.getAttribute('valueOf'), 'true');
-      assert.strictEqual(elm.getAttribute('toString'), '1');
-      assert.strictEqual(elm.getAttribute('constructor'), 'truthy');
-      var vnode2 = h('div', {attrs: {valueOf: false, toString: 0, constructor: null}});
+      assert.strictEqual(elm.getAttribute('constructor'), 'true');
+      var vnode2 = h('div', {attrs: {constructor: false}});
       elm = patch(vnode0, vnode2).elm;
-      assert.strictEqual(elm.getAttribute('valueOf'), 'false');
-      assert.strictEqual(elm.getAttribute('toString'), '0');
-      assert.strictEqual(elm.getAttribute('constructor'), 'null');
+      assert.strictEqual(elm.getAttribute('constructor'), 'false');
     })
   });
 });
