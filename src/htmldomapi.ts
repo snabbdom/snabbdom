@@ -2,6 +2,7 @@ export interface DOMAPI {
   createElement: (tagName: any) => HTMLElement;
   createElementNS: (namespaceURI: string, qualifiedName: string) => Element;
   createTextNode: (text: string) => Text;
+  createComment: (text: string) => Comment;
   insertBefore: (parentNode: Node, newNode: Node, referenceNode: Node | null) => void;
   removeChild: (node: Node, child: Node) => void;
   appendChild: (node: Node, child: Node) => void;
@@ -21,6 +22,10 @@ function createElementNS(namespaceURI: string, qualifiedName: string): Element {
 
 function createTextNode(text: string): Text {
   return document.createTextNode(text);
+}
+
+function createComment(text: string): Comment {
+  return document.createComment(text);
 }
 
 function insertBefore(parentNode: Node, newNode: Node, referenceNode: Node | null): void {
@@ -55,6 +60,7 @@ export const htmlDomApi = {
   createElement,
   createElementNS,
   createTextNode,
+  createComment,
   insertBefore,
   removeChild,
   appendChild,
