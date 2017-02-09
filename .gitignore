@@ -53,6 +53,9 @@ snabbdom.js.map
 thunk.d.ts
 thunk.js
 thunk.js.map
+tovnode.d.ts
+tovnode.js
+tovnode.js.map
 vnode.d.ts
 vnode.js
 vnode.js.map
