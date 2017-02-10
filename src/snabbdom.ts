@@ -100,6 +100,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
                                                                                : api.createElement(tag);
       if (hash < dot) elm.id = sel.slice(hash + 1, dot);
       if (dotIdx > 0) elm.className = sel.slice(dot + 1).replace(/\./g, ' ');
+      for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
       if (is.array(children)) {
         for (i = 0; i < children.length; ++i) {
           const ch = children[i];
@@ -110,7 +111,6 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       } else if (is.primitive(vnode.text)) {
         api.appendChild(elm, api.createTextNode(vnode.text));
       }
-      for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
       i = (vnode.data as VNodeData).hook; // Reuse variable
       if (isDef(i)) {
         if (i.create) i.create(emptyNode, vnode);
