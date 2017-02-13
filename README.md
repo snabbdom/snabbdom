@@ -652,6 +652,8 @@ Here are some approaches to building applications with Snabbdom.
   redux-like architecture on top of snabbdom bindings.
 * [kaiju](https://github.com/AlexGalays/kaiju) -
   Stateful components and observables on top of snabbdom
+* [Tweed](https://tweedjs.github.io) –
+  An Object Oriented approach to reactive interfaces.
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
