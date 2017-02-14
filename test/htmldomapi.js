@@ -1,7 +1,7 @@
 var assert = require('assert');
 
 var snabbdom = require('../snabbdom');
-var h = require('../h').default;
+var h = snabbdom.h;
 var patch = snabbdom.init([]);
 
 describe('svg', function () {

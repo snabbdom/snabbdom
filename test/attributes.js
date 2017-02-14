@@ -2,9 +2,9 @@ var assert = require('assert');
 
 var snabbdom = require('../snabbdom');
 var patch = snabbdom.init([
-  require('../modules/attributes').default,
+  snabbdom.attrs,
 ]);
-var h = require('../h').default;
+var h = snabbdom.h;
 
 describe('attributes', function() {
   var elm, vnode0;

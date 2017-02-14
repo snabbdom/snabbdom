@@ -4,9 +4,9 @@ var fakeRaf = require('fake-raf');
 var snabbdom = require('../snabbdom');
 fakeRaf.use();
 var patch = snabbdom.init([
-  require('../modules/dataset').default,
+  snabbdom.dataset,
 ]);
-var h = require('../h').default;
+var h = snabbdom.h;
 
 describe('dataset', function() {
   var elm, vnode0;
