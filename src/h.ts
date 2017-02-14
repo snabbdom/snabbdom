@@ -15,10 +15,12 @@ function addNS(data: any, children: Array<VNode> | undefined, sel: string | unde
 
 export function h(sel: string): VNode;
 export function h(sel: string, data: VNodeData): VNode;
+export function h(sel: string, child: VNode): VNode;
 export function h(sel: string, text: string): VNode;
-export function h(sel: string, children: Array<VNode | string>): VNode;
+export function h(sel: string, children: Array<VNode | string | undefined>): VNode;
+export function h(sel: string, data: VNodeData, child: VNode): VNode;
 export function h(sel: string, data: VNodeData, text: string): VNode;
-export function h(sel: string, data: VNodeData, children: Array<VNode | string>): VNode;
+export function h(sel: string, data: VNodeData, children: Array<VNode | string | undefined>): VNode;
 export function h(sel: any, b?: any, c?: any): VNode {
   var data: VNodeData = {}, children: any, text: any, i: number;
   if (c !== undefined) {
