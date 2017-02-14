@@ -93,5 +93,3 @@ export const htmlDomApi = {
   isText,
   isComment,
 } as DOMAPI;
-
-export default htmlDomApi;

@@ -102,4 +102,3 @@ export const eventListenersModule = {
   update: updateEventListeners,
   destroy: updateEventListeners
 } as Module;
-export default eventListenersModule;

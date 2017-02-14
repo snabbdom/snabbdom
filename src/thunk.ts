@@ -59,5 +59,3 @@ export const thunk = function thunk(sel: string, key?: any, fn?: any, args?: any
     args: args
   });
 } as ThunkFn;
-
-export default thunk;

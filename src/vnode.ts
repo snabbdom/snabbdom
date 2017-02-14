@@ -39,5 +39,3 @@ export function vnode(sel: string | undefined,
   return {sel: sel, data: data, children: children,
           text: text, elm: elm, key: key};
 }
-
-export default vnode;

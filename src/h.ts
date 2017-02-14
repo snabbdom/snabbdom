@@ -1,5 +1,5 @@
 import {vnode, VNode, VNodeData} from './vnode';
-import * as is from './is';
+import {array as isArray, primitive as isPrimitive} from './is';
 
 function addNS(data: any, children: Array<VNode> | undefined, sel: string | undefined): void {
   data.ns = 'http://www.w3.org/2000/svg';
@@ -23,18 +23,18 @@ export function h(sel: any, b?: any, c?: any): VNode {
   var data: VNodeData = {}, children: any, text: any, i: number;
   if (c !== undefined) {
     data = b;
-    if (is.array(c)) { children = c; }
-    else if (is.primitive(c)) { text = c; }
+    if (isArray(c)) { children = c; }
+    else if (isPrimitive(c)) { text = c; }
     else if (c && c.sel) { children = [c]; }
   } else if (b !== undefined) {
-    if (is.array(b)) { children = b; }
-    else if (is.primitive(b)) { text = b; }
+    if (isArray(b)) { children = b; }
+    else if (isPrimitive(b)) { text = b; }
     else if (b && b.sel) { children = [b]; }
     else { data = b; }
   }
-  if (is.array(children)) {
+  if (isArray(children)) {
     for (i = 0; i < children.length; ++i) {
-      if (is.primitive(children[i])) children[i] = (vnode as any)(undefined, undefined, undefined, children[i]);
+      if (isPrimitive(children[i])) children[i] = (vnode as any)(undefined, undefined, undefined, children[i]);
     }
   }
   if (
@@ -45,4 +45,3 @@ export function h(sel: any, b?: any, c?: any): VNode {
   }
   return vnode(sel, data, children, text, undefined);
 };
-export default h;

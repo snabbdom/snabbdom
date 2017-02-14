@@ -41,6 +41,9 @@ hooks.js.map
 htmldomapi.d.ts
 htmldomapi.js
 htmldomapi.js.map
+init.d.ts
+init.js
+init.js.map
 is.d.ts
 is.js
 is.js.map

@@ -1,5 +1,5 @@
-import vnode, {VNode} from './vnode';
-import htmlDomApi, {DOMAPI} from './htmldomapi';
+import {vnode, VNode} from './vnode';
+import {htmlDomApi, DOMAPI} from './htmldomapi';
 
 export function toVNode(node: Node, domApi?: DOMAPI): VNode {
   const api: DOMAPI = domApi !== undefined ? domApi : htmlDomApi;
@@ -35,5 +35,3 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
     return vnode('', {}, [], undefined, undefined);
   }
 }
-
-export default toVNode;
