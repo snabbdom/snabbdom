@@ -24,6 +24,10 @@ gulp.task('bundle:snabbdom:h', function() {
   return standalone('h', './h.js')
 })
 
+gulp.task('bundle:snabbdom:tovnode', function() {
+  return standalone('tovnode', './tovnode.js')
+})
+
 gulp.task('bundle:module:class', function() {
   return standalone('snabbdom_class', './modules/class.js')
 })
@@ -48,6 +52,7 @@ gulp.task('bundle', [
   'bundle:snabbdom',
   'bundle:snabbdom:init',
   'bundle:snabbdom:h',
+  'bundle:snabbdom:tovnode',
   'bundle:module:attributes',
   'bundle:module:class',
   'bundle:module:props',
@@ -57,16 +62,16 @@ gulp.task('bundle', [
 
 gulp.task('compress', ['bundle'], function() {
   return gulp.src(['dist/*.js', '!dist/*.min.js'])
-    .pipe(sourcemaps.init())    
+    .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist'))
 })
 
-gulp.task('clean', function() { 
-	return gulp.src('dist/*.*', {read: false})
-		.pipe(clean())
+gulp.task('clean', function() {
+  return gulp.src('dist/*.*', {read: false})
+    .pipe(clean())
 })
 
 gulp.task('default', ['bundle'])
