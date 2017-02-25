@@ -280,6 +280,25 @@ describe('snabbdom', function() {
         assert.strictEqual(elm.childNodes[0].wholeText, 'Foobar');
         assert.strictEqual(typeof elm.childNodes[0].testProperty, 'function');
       });
+      it('can remove text elements', function () {
+        var h2 = document.createElement('h2');
+        h2.textContent = 'Hello'
+        var prevElm = document.createElement('div');
+        prevElm.id = 'id';
+        prevElm.className = 'class';
+        var text = new Text('Foobar');
+        prevElm.appendChild(text);
+        prevElm.appendChild(h2);
+        var nextVNode = h('div#id.class', [h('h2', 'Hello')]);
+        elm = patch(toVNode(prevElm), nextVNode).elm;
+        assert.strictEqual(elm, prevElm);
+        assert.equal(elm.tagName, 'DIV');
+        assert.equal(elm.id, 'id');
+        assert.equal(elm.className, 'class');
+        assert.strictEqual(elm.childNodes.length, 1);
+        assert.strictEqual(elm.childNodes[0].nodeType, 1);
+        assert.strictEqual(elm.childNodes[0].textContent, 'Hello');
+      })
     });
     describe('updating children with keys', function() {
       function spanNum(n) {
