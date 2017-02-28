@@ -78,7 +78,7 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   });
 }
 
-export const styleModule = {
+export default {
   create: updateStyle,
   update: updateStyle,
   destroy: applyDestroyStyle,

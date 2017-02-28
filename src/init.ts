@@ -42,9 +42,6 @@ function createKeyToOldIdx(children: Array<VNode>, beginIdx: number, endIdx: num
 
 const hooks: (keyof Module)[] = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
-export {h} from './h';
-export {thunk} from './thunk';
-
 export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   let i: number, j: number, cbs = ({} as ModuleHooks);
 

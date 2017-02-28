@@ -35,4 +35,7 @@ function updateDataset(oldVnode: VNode, vnode: VNode): void {
   }
 }
 
-export const datasetModule = {create: updateDataset, update: updateDataset} as Module;
+export default {
+  create: updateDataset,
+  update: updateDataset
+} as Module;

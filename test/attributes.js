@@ -2,7 +2,7 @@ var assert = require('assert');
 
 var snabbdom = require('../snabbdom');
 var patch = snabbdom.init([
-  snabbdom.attrs,
+  require('../modules/attributes').default,
 ]);
 var h = snabbdom.h;
 

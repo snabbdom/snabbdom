@@ -24,4 +24,7 @@ function updateClass(oldVnode: VNode, vnode: VNode): void {
   }
 }
 
-export const classModule = {create: updateClass, update: updateClass} as Module;
+export default {
+  create: updateClass,
+  update: updateClass
+} as Module;

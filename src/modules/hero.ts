@@ -159,4 +159,9 @@ function post() {
   removed = created = undefined;
 }
 
-export const heroModule = {pre, create, destroy, post} as Module;
+export default {
+  pre,
+  create,
+  destroy,
+  post
+} as Module;

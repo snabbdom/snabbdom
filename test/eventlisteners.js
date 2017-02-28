@@ -2,7 +2,7 @@ var assert = require('assert');
 
 var snabbdom = require('../snabbdom');
 var patch = snabbdom.init([
-  snabbdom.events,
+  require('../modules/eventlisteners.js').default,
 ]);
 var h = snabbdom.h;
 
