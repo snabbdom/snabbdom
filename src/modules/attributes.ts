@@ -12,13 +12,14 @@ const booleanAttrs = ["allowfullscreen", "async", "autofocus", "autoplay", "chec
                 "required", "reversed", "scoped", "seamless", "selected", "sortable", "spellcheck", "translate",
                 "truespeed", "typemustmatch", "visible"];
 
-const booleanAttrsDict = Object.create(null);
+const booleanAttrsDict: {[attribute: string]: boolean} = Object.create(null);
+
 for (let i = 0, len = booleanAttrs.length; i < len; i++) {
   booleanAttrsDict[booleanAttrs[i]] = true;
 }
 
 function updateAttrs(oldVnode: VNode, vnode: VNode): void {
-  var key: string, cur: any, old: any, elm: Element = vnode.elm as Element,
+  var key: string, elm: Element = vnode.elm as Element,
       oldAttrs = (oldVnode.data as VNodeData).attrs,
       attrs = (vnode.data as VNodeData).attrs, namespaceSplit: Array<string>;
 
@@ -29,21 +30,26 @@ function updateAttrs(oldVnode: VNode, vnode: VNode): void {
 
   // update modified attributes, add new attributes
   for (key in attrs) {
-    cur = attrs[key];
-    old = oldAttrs[key];
+    const cur = attrs[key];
+    const old = oldAttrs[key];
     if (old !== cur) {
-      if (!cur && booleanAttrsDict[key])
-        elm.removeAttribute(key);
-      else {
+      if (booleanAttrsDict[key]) {
+        if (cur) {
+          elm.setAttribute(key, "");
+        } else {
+          elm.removeAttribute(key);
+        }
+      } else {
         namespaceSplit = key.split(":");
-        if (namespaceSplit.length > 1 && NamespaceURIs.hasOwnProperty(namespaceSplit[0]))
+        if (namespaceSplit.length > 1 && NamespaceURIs.hasOwnProperty(namespaceSplit[0])) {
           elm.setAttributeNS((NamespaceURIs as any)[namespaceSplit[0]], key, cur);
-        else
+        } else {
           elm.setAttribute(key, cur);
+        }
       }
     }
   }
-  //remove removed attributes
+  // remove removed attributes
   // use `in` operator since the previous `for` iteration uses it (.i.e. add even attributes with undefined value)
   // the other option is to remove all attributes with value == undefined
   for (key in oldAttrs) {
