@@ -57,12 +57,15 @@ describe('attributes', function() {
     assert.strictEqual(elm.textContent, 'Hello');
   });
   describe('boolean attribute', function() {
-    it('is present if the value is truthy', function() {
+    it('is present and empty string if the value is truthy', function() {
       var vnode1 = h('div', {attrs: {required: true, readonly: 1, noresize: 'truthy'}});
       elm = patch(vnode0, vnode1).elm;
-      assert.strictEqual(elm.getAttribute('required'), 'true');
-      assert.strictEqual(elm.getAttribute('readonly'), '1');
-      assert.strictEqual(elm.getAttribute('noresize'), 'truthy');
+      assert.strictEqual(elm.hasAttribute('required'), true);
+      assert.strictEqual(elm.getAttribute('required'), '');
+      assert.strictEqual(elm.hasAttribute('readonly'), true);
+      assert.strictEqual(elm.getAttribute('readonly'), '');
+      assert.strictEqual(elm.hasAttribute('noresize'), true);
+      assert.strictEqual(elm.getAttribute('noresize'), '');
     });
     it('is omitted if the value is falsy', function() {
       var vnode1 = h('div', {attrs: {required: false, readonly: 0, noresize: null}});
@@ -80,6 +83,6 @@ describe('attributes', function() {
       var vnode2 = h('div', {attrs: {constructor: false}});
       elm = patch(vnode0, vnode2).elm;
       assert.strictEqual(elm.getAttribute('constructor'), 'false');
-    })
+    });
   });
 });
