@@ -17,10 +17,11 @@ namespaces['xlink:href'] = xlinkNS;
 namespaces['xlink:arcrole'] = xlinkNS;
 namespaces['xlink:actuate'] = xlinkNS;
 namespaces['xlink:role'] = xlinkNS;
-namespaces['xlink:titlef'] = xlinkNS;
+namespaces['xlink:title'] = xlinkNS;
 namespaces['xlink:type'] = xlinkNS;
 namespaces['xml:base'] = xmlNS;
 namespaces['xml:lang'] = xmlNS;
+namespaces['xml:show'] = xmlNS;
 namespaces['xml:space'] = xmlNS;
 
 const booleanAttrsDict: {[attribute: string]: boolean} = Object.create(null);
