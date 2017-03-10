@@ -1,16 +1,27 @@
 import {VNode, VNodeData} from '../vnode';
 import {Module} from './module';
 
-const NamespaceURIs = {
-  "xlink": "http://www.w3.org/1999/xlink"
-};
-
 const booleanAttrs = ["allowfullscreen", "async", "autofocus", "autoplay", "checked", "compact", "controls", "declare",
                 "default", "defaultchecked", "defaultmuted", "defaultselected", "defer", "disabled", "draggable",
                 "enabled", "formnovalidate", "hidden", "indeterminate", "inert", "ismap", "itemscope", "loop", "multiple",
                 "muted", "nohref", "noresize", "noshade", "novalidate", "nowrap", "open", "pauseonexit", "readonly",
                 "required", "reversed", "scoped", "seamless", "selected", "sortable", "spellcheck", "translate",
                 "truespeed", "typemustmatch", "visible"];
+
+const xlinkNS = 'http://www.w3.org/1999/xlink';
+const xmlNS = 'http://www.w3.org/XML/1998/namespace';
+
+const namespaces = Object.create(null);
+
+namespaces['xlink:href'] = xlinkNS;
+namespaces['xlink:arcrole'] = xlinkNS;
+namespaces['xlink:actuate'] = xlinkNS;
+namespaces['xlink:role'] = xlinkNS;
+namespaces['xlink:titlef'] = xlinkNS;
+namespaces['xlink:type'] = xlinkNS;
+namespaces['xml:base'] = xmlNS;
+namespaces['xml:lang'] = xmlNS;
+namespaces['xml:space'] = xmlNS;
 
 const booleanAttrsDict: {[attribute: string]: boolean} = Object.create(null);
 
@@ -21,7 +32,7 @@ for (let i = 0, len = booleanAttrs.length; i < len; i++) {
 function updateAttrs(oldVnode: VNode, vnode: VNode): void {
   var key: string, elm: Element = vnode.elm as Element,
       oldAttrs = (oldVnode.data as VNodeData).attrs,
-      attrs = (vnode.data as VNodeData).attrs, namespaceSplit: Array<string>;
+      attrs = (vnode.data as VNodeData).attrs;
 
   if (!oldAttrs && !attrs) return;
   if (oldAttrs === attrs) return;
@@ -40,9 +51,9 @@ function updateAttrs(oldVnode: VNode, vnode: VNode): void {
           elm.removeAttribute(key);
         }
       } else {
-        namespaceSplit = key.split(":");
-        if (namespaceSplit.length > 1 && NamespaceURIs.hasOwnProperty(namespaceSplit[0])) {
-          elm.setAttributeNS((NamespaceURIs as any)[namespaceSplit[0]], key, cur);
+        const ns = namespaces[key];
+        if (ns) {
+          elm.setAttributeNS(ns, key, cur);
         } else {
           elm.setAttribute(key, cur);
         }
