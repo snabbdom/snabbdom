@@ -56,9 +56,8 @@ export function parseSelector(selector: string) {
   const idMatch = selector.match(/#([^.#]+?(?=\.|$))/);
   const id = (idMatch && idMatch[1]) || undefined; // prefer to return `undefined`
   const classNameMatch = selector.match(/\.([^.#]+?(?=[.#]|$))/g);
-  const className = (Array
-    .from(classNameMatch || [])
-    .map(match => match.substring(1).trim())
+  const className = (Array.prototype.slice.call(classNameMatch || [])
+    .map((match: string) => match.substring(1).trim())
     .join(' ')
   ) || undefined;
   return { tag, id, className };
