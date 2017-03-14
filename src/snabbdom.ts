@@ -45,6 +45,25 @@ const hooks: (keyof Module)[] = ['create', 'update', 'remove', 'destroy', 'pre',
 export {h} from './h';
 export {thunk} from './thunk';
 
+/**
+ * Robust selector parser.
+ * Parses a selector into a `tag`, `id`, and `className`.
+ * The `className` is a single string with all the classes of the selector seperated by spaces.
+ */
+export function parseSelector(selector: string) {
+  const tagMatch = selector.match(/^[^#.]+?(?=[#.]|$)/);
+  const tag = (tagMatch && tagMatch[0] && tagMatch[0].trim()) || undefined;
+  const idMatch = selector.match(/#([^.#]+?(?=\.|$))/);
+  const id = (idMatch && idMatch[1]) || undefined; // prefer to return `undefined`
+  const classNameMatch = selector.match(/\.([^.#]+?(?=[.#]|$))/g);
+  const className = (Array
+    .from(classNameMatch || [])
+    .map(match => match.substring(1).trim())
+    .join(' ')
+  ) || undefined;
+  return { tag, id, className };
+}
+
 export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   let i: number, j: number, cbs = ({} as ModuleHooks);
 
@@ -90,16 +109,14 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       }
       vnode.elm = api.createComment(vnode.text as string);
     } else if (sel !== undefined) {
-      // Parse selector
-      const hashIdx = sel.indexOf('#');
-      const dotIdx = sel.indexOf('.', hashIdx);
-      const hash = hashIdx > 0 ? hashIdx : sel.length;
-      const dot = dotIdx > 0 ? dotIdx : sel.length;
-      const tag = hashIdx !== -1 || dotIdx !== -1 ? sel.slice(0, Math.min(hash, dot)) : sel;
+      const parsedSel = parseSelector(sel);
+      const tag = parsedSel.tag || 'div';
+      const elmId = parsedSel.id;
+      const elmClassName = parsedSel.className;
       const elm = vnode.elm = isDef(data) && isDef(i = (data as VNodeData).ns) ? api.createElementNS(i, tag)
                                                                                : api.createElement(tag);
-      if (hash < dot) elm.id = sel.slice(hash + 1, dot);
-      if (dotIdx > 0) elm.className = sel.slice(dot + 1).replace(/\./g, ' ');
+      if (elmId) elm.id = elmId;
+      if (elmClassName) elm.className = elmClassName;
       for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
       if (is.array(children)) {
         for (i = 0; i < children.length; ++i) {

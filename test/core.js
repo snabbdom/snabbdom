@@ -9,6 +9,7 @@ var patch = snabbdom.init([
 ]);
 var h = require('../h').default;
 var toVNode = require('../tovnode').default;
+var parseSelector = require('../snabbdom').parseSelector;
 
 function prop(name) {
   return function(obj) {
@@ -31,6 +32,62 @@ describe('snabbdom', function() {
   beforeEach(function() {
     elm = document.createElement('div');
     vnode0 = elm;
+  });
+  describe('parseSelector', function () {
+    it('parses tag, id, and classes', function () {
+      var parsedSelector = parseSelector('div#my-id.some.classes.here')
+      assert.equal(parsedSelector.tag, 'div');
+      assert.equal(parsedSelector.id, 'my-id');
+      assert.equal(parsedSelector.className, 'some classes here');
+    });
+    it('parses tag only', function () {
+      var parsedSelector = parseSelector('span')
+      assert.equal(parsedSelector.tag, 'span');
+      assert.equal(parsedSelector.id, undefined);
+      assert.equal(parsedSelector.className, undefined);
+    });
+    it('parses id only', function () {
+      var parsedSelector = parseSelector('#my-id')
+      assert.equal(parsedSelector.tag, undefined);
+      assert.equal(parsedSelector.id, 'my-id');
+      assert.equal(parsedSelector.className, undefined);
+    });
+    it('parses one class only', function () {
+      var parsedSelector = parseSelector('.a-class')
+      assert.equal(parsedSelector.tag, undefined);
+      assert.equal(parsedSelector.id, undefined);
+      assert.equal(parsedSelector.className, 'a-class');
+    });
+    it('parses classes only', function () {
+      var parsedSelector = parseSelector('.a-class.some-other-class.yet-another')
+      assert.equal(parsedSelector.tag, undefined);
+      assert.equal(parsedSelector.id, undefined);
+      assert.equal(parsedSelector.className, 'a-class some-other-class yet-another');
+    });
+    it('parses classes and ids only', function () {
+      var parsedSelector = parseSelector('#myid.some-other-class.yet-another')
+      assert.equal(parsedSelector.tag, undefined);
+      assert.equal(parsedSelector.id, 'myid');
+      assert.equal(parsedSelector.className, 'some-other-class yet-another');
+    });
+    it('parses classes and ids in different orders', function () {
+      var parsedSelector = parseSelector('.some-other-class.yet-another#myid')
+      assert.equal(parsedSelector.tag, undefined);
+      assert.equal(parsedSelector.id, 'myid');
+      assert.equal(parsedSelector.className, 'some-other-class yet-another');
+    });
+    it('parses classes seperated by an id', function () {
+      var parsedSelector = parseSelector('img.a-class#id-in-between.some-other-class')
+      assert.equal(parsedSelector.tag, 'img');
+      assert.equal(parsedSelector.id, 'id-in-between');
+      assert.equal(parsedSelector.className, 'a-class some-other-class');
+    });
+    it('parses with whitespace in between', function () {
+      var parsedSelector = parseSelector('   img   .a-class  #id-in-between.some-other-class  ');
+      assert.equal(parsedSelector.tag, 'img');
+      assert.equal(parsedSelector.id, 'id-in-between');
+      assert.equal(parsedSelector.className, 'a-class some-other-class');
+    });
   });
   describe('hyperscript', function() {
     it('can create vnode with proper tag', function() {
