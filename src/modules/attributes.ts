@@ -10,20 +10,7 @@ const booleanAttrs = ["allowfullscreen", "async", "autofocus", "autoplay", "chec
 
 const xlinkNS = 'http://www.w3.org/1999/xlink';
 const xmlNS = 'http://www.w3.org/XML/1998/namespace';
-
-const namespaces = Object.create(null);
-
-namespaces['xlink:href'] = xlinkNS;
-namespaces['xlink:arcrole'] = xlinkNS;
-namespaces['xlink:actuate'] = xlinkNS;
-namespaces['xlink:role'] = xlinkNS;
-namespaces['xlink:title'] = xlinkNS;
-namespaces['xlink:show'] = xlinkNS;
-namespaces['xlink:type'] = xlinkNS;
-namespaces['xml:base'] = xmlNS;
-namespaces['xml:lang'] = xmlNS;
-namespaces['xml:space'] = xmlNS;
-
+const colonChar = 58;
 const booleanAttrsDict: {[attribute: string]: boolean} = Object.create(null);
 
 for (let i = 0, len = booleanAttrs.length; i < len; i++) {
@@ -52,9 +39,12 @@ function updateAttrs(oldVnode: VNode, vnode: VNode): void {
           elm.removeAttribute(key);
         }
       } else {
-        const ns = namespaces[key];
-        if (ns) {
-          elm.setAttributeNS(ns, key, cur);
+        if (key.charCodeAt(3) === colonChar) {
+          // Assume xml namespace
+          elm.setAttributeNS(xmlNS, key, cur);
+        } else if (key.charCodeAt(5) === colonChar) {
+          // Assume xlink namespace
+          elm.setAttributeNS(xlinkNS, key, cur);
         } else {
           elm.setAttribute(key, cur);
         }
