@@ -1,10 +1,6 @@
 import {VNode, VNodeData} from '../vnode';
 import {Module} from './module';
 
-const NamespaceURIs = {
-  "xlink": "http://www.w3.org/1999/xlink"
-};
-
 const booleanAttrs = ["allowfullscreen", "async", "autofocus", "autoplay", "checked", "compact", "controls", "declare",
                 "default", "defaultchecked", "defaultmuted", "defaultselected", "defer", "disabled", "draggable",
                 "enabled", "formnovalidate", "hidden", "indeterminate", "inert", "ismap", "itemscope", "loop", "multiple",
@@ -12,6 +8,10 @@ const booleanAttrs = ["allowfullscreen", "async", "autofocus", "autoplay", "chec
                 "required", "reversed", "scoped", "seamless", "selected", "sortable", "spellcheck", "translate",
                 "truespeed", "typemustmatch", "visible"];
 
+const xlinkNS = 'http://www.w3.org/1999/xlink';
+const xmlNS = 'http://www.w3.org/XML/1998/namespace';
+const colonChar = 58;
+const xChar = 120;
 const booleanAttrsDict: {[attribute: string]: boolean} = Object.create(null);
 
 for (let i = 0, len = booleanAttrs.length; i < len; i++) {
@@ -21,7 +21,7 @@ for (let i = 0, len = booleanAttrs.length; i < len; i++) {
 function updateAttrs(oldVnode: VNode, vnode: VNode): void {
   var key: string, elm: Element = vnode.elm as Element,
       oldAttrs = (oldVnode.data as VNodeData).attrs,
-      attrs = (vnode.data as VNodeData).attrs, namespaceSplit: Array<string>;
+      attrs = (vnode.data as VNodeData).attrs;
 
   if (!oldAttrs && !attrs) return;
   if (oldAttrs === attrs) return;
@@ -40,9 +40,14 @@ function updateAttrs(oldVnode: VNode, vnode: VNode): void {
           elm.removeAttribute(key);
         }
       } else {
-        namespaceSplit = key.split(":");
-        if (namespaceSplit.length > 1 && NamespaceURIs.hasOwnProperty(namespaceSplit[0])) {
-          elm.setAttributeNS((NamespaceURIs as any)[namespaceSplit[0]], key, cur);
+        if (key.charCodeAt(0) !== xChar) {
+          elm.setAttribute(key, cur);
+        } else if (key.charCodeAt(3) === colonChar) {
+          // Assume xml namespace
+          elm.setAttributeNS(xmlNS, key, cur);
+        } else if (key.charCodeAt(5) === colonChar) {
+          // Assume xlink namespace
+          elm.setAttributeNS(xlinkNS, key, cur);
         } else {
           elm.setAttribute(key, cur);
         }
