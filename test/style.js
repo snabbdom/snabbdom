@@ -7,6 +7,7 @@ var patch = snabbdom.init([
   require('../modules/style').default,
 ]);
 var h = require('../h').default;
+var toVNode = require('../tovnode').default;
 
 describe('style', function() {
   var elm, vnode0;
@@ -114,6 +115,20 @@ describe('style', function() {
     fakeRaf.step();
     fakeRaf.step();
     assert.equal(elm.style.fontSize, '20px');
+  });
+  describe('using toVNode()', function () {
+    it('handles (ignoring) comment nodes', function() {
+      var comment = document.createComment('yolo');
+      var prevElm = document.createElement('div');
+      prevElm.appendChild(comment);
+      var nextVNode = h('div', [h('span', 'Hi')]);
+      elm = patch(toVNode(prevElm), nextVNode).elm;
+      assert.strictEqual(elm, prevElm);
+      assert.equal(elm.tagName, 'DIV');
+      assert.strictEqual(elm.childNodes.length, 1);
+      assert.strictEqual(elm.childNodes[0].tagName, 'SPAN');
+      assert.strictEqual(elm.childNodes[0].textContent, 'Hi');
+    });
   });
 });
 
