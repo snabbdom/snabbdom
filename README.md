@@ -654,6 +654,9 @@ Here are some approaches to building applications with Snabbdom.
   Stateful components and observables on top of snabbdom
 * [Tweed](https://tweedjs.github.io) –
   An Object Oriented approach to reactive interfaces.
+* [Cyclow](http://cyclow.js.org) -
+  "A reactive frontend framework for JavaScript"
+  uses Snabbdom
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
