@@ -169,4 +169,18 @@ describe('event listeners', function() {
     elm.firstChild.click();
     assert.equal(3, result.length);
   });
+  it('Rewrite listener on the same node', function() {
+    var result = [];
+    function onClick(ev) {  };
+    function onClick2(ev) { result.push(ev) };
+    var obj = {on: {click: onClick }};
+    var vnode1 = h('div', obj, h('button', {}));
+    patch(vnode0, vnode1);
+    var vnode2 = h('div', obj, h('button', {}, 'Click'));
+    patch(vnode1, vnode2);
+    var vnode3 = h('div', {on: {click: onClick2 }}, h('button', {}, 'Click'));
+    elm = patch(vnode2, vnode3).elm;
+    elm.firstChild.click();
+    assert.equal(1, result.length);
+  });
 });
