@@ -1,4 +1,6 @@
 import {Hooks} from './hooks';
+import {AttachData} from './helpers/attachto'
+import {VNodeStyle} from './modules/style'
 
 export type Key = string | number;
 
@@ -12,22 +14,32 @@ export interface VNode {
 }
 
 export interface VNodeData {
-  // modules - use any because Object type is useless
-  props?: any;
-  attrs?: any;
-  class?: any;
-  style?: any;
-  dataset?: any;
-  on?: any;
-  hero?: any;
-  attachData?: any;
+  props?: {
+    [prop: string]: any
+  };
+  attrs?: {
+    [attr: string]: any
+  };
+  class?: {
+    [name: string]: boolean
+  };
+  style?: VNodeStyle;
+  dataset?: {
+    [name: string]: string
+  };
+  on?: {
+    [event: string]: EventListener | EventListener[]
+  };
+  hero?: {
+    id: string
+  };
+  attachData?: AttachData;
   hook?: Hooks;
   key?: Key;
   ns?: string; // for SVGs
   fn?: () => VNode; // for thunks
   args?: Array<any>; // for thunks
   [key: string]: any; // for any other 3rd party module
-  // end of modules
 }
 
 export function vnode(sel: string | undefined,
