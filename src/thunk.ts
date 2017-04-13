@@ -36,6 +36,7 @@ function prepatch(oldVnode: VNode, thunk: VNode): void {
   const oldArgs = old.args, args = cur.args;
   if (old.fn !== cur.fn || (oldArgs as any).length !== (args as any).length) {
     copyToThunk((cur.fn as any).apply(undefined, args), thunk);
+    return;
   }
   for (i = 0; i < (args as any).length; ++i) {
     if ((oldArgs as any)[i] !== (args as any)[i]) {
