@@ -314,7 +314,7 @@ the DOM element.
 
 ### The dataset module ###
 
-Allows you set set custom data attributes (`data-*`) on DOM elements. These can then be accessed with the [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) property.
+Allows you to set custom data attributes (`data-*`) on DOM elements. These can then be accessed with the [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) property.
 
 ```javascript
 h('button', {dataset: {action: 'reset'}}, 'Reset');
