@@ -312,7 +312,7 @@ differently by the module: if a boolean attribute is set to a
 (`""`)), then the attribute will be removed from the attribute list of
 the DOM element.
 
-### The dataset module ###
+### The dataset module
 
 Allows you to set custom data attributes (`data-*`) on DOM elements. These can then be accessed with the [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) property.
 
