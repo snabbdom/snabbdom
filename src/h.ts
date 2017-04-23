@@ -4,7 +4,7 @@ import * as is from './is';
 function addNS(data: any, children: Array<VNode> | undefined, sel: string | undefined): void {
   data.ns = 'http://www.w3.org/2000/svg';
   if (sel !== 'foreignObject' && children !== undefined) {
-    for (let i = 0; i < children.length; ++i) {
+    for (let i = 0, l = children.length; i < l; ++i) {
       let childData = children[i].data;
       if (childData !== undefined) {
         addNS(childData, (children[i] as VNode).children as Array<VNode>, children[i].sel);
