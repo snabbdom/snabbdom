@@ -312,6 +312,14 @@ differently by the module: if a boolean attribute is set to a
 (`""`)), then the attribute will be removed from the attribute list of
 the DOM element.
 
+### The dataset module
+
+Allows you to set custom data attributes (`data-*`) on DOM elements. These can then be accessed with the [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) property.
+
+```javascript
+h('button', {dataset: {action: 'reset'}}, 'Reset');
+```
+
 ### The style module
 
 The style module is for making your HTML look slick and animate smoothly. At
@@ -656,6 +664,8 @@ Here are some approaches to building applications with Snabbdom.
 * [Cyclow](http://cyclow.js.org) -
   "A reactive frontend framework for JavaScript"
   uses Snabbdom
+* [Tung](https://github.com/Reon90/tung) –
+  A javascript library for rendering html. Tung helps to divide html and javascript development.
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.

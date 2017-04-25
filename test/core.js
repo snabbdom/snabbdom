@@ -113,18 +113,39 @@ describe('snabbdom', function() {
       elm = patch(vnode0, h('svg-custom-el')).elm;
       assert.notEqual(elm.namespaceURI, SVGNamespace);
     });
-    it('is receives classes in selector', function() {
+    it('receives classes in selector', function() {
       elm = patch(vnode0, h('div', [h('i.am.a.class')])).elm;
       assert(elm.firstChild.classList.contains('am'));
       assert(elm.firstChild.classList.contains('a'));
       assert(elm.firstChild.classList.contains('class'));
     });
-    it('is receives classes in class property', function() {
+    it('receives classes in class property', function() {
       elm = patch(vnode0, h('i', {class: {am: true, a: true, class: true, not: false}})).elm;
       assert(elm.classList.contains('am'));
       assert(elm.classList.contains('a'));
       assert(elm.classList.contains('class'));
       assert(!elm.classList.contains('not'));
+    });
+    it('receives classes in selector when namespaced', function() {
+      elm = patch(vnode0,
+        h('svg', [
+          h('g.am.a.class.too')
+        ])
+      ).elm;
+      assert(elm.firstChild.classList.contains('am'));
+      assert(elm.firstChild.classList.contains('a'));
+      assert(elm.firstChild.classList.contains('class'));
+    });
+    it('receives classes in class property when namespaced', function() {
+      elm = patch(vnode0,
+        h('svg', [
+          h('g', {class: {am: true, a: true, class: true, not: false, too: true}})
+        ])
+      ).elm;
+      assert(elm.firstChild.classList.contains('am'));
+      assert(elm.firstChild.classList.contains('a'));
+      assert(elm.firstChild.classList.contains('class'));
+      assert(!elm.firstChild.classList.contains('not'));
     });
     it('handles classes from both selector and property', function() {
       elm = patch(vnode0, h('div', [h('i.has', {class: {classes: true}})])).elm;
