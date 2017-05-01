@@ -20,7 +20,7 @@ describe('thunk', function() {
     assert.deepEqual(vnode.data.key, 'num');
     assert.deepEqual(vnode.data.args, [22]);
   });
-  it('calls render function on data change', function() {
+  it('calls render function once on data change', function() {
     var called = 0;
     function numberInSpan(n) {
       called++;
@@ -54,7 +54,7 @@ describe('thunk', function() {
     patch(vnode1, vnode2);
     assert.equal(called, 1);
   });
-  it('calls render function on data-length change', function() {
+  it('calls render function once on data-length change', function() {
     var called = 0;
     function numberInSpan(n) {
       called++;
@@ -71,7 +71,7 @@ describe('thunk', function() {
     patch(vnode1, vnode2);
     assert.equal(called, 2);
   });
-  it('calls render function on function change', function() {
+  it('calls render function once on function change', function() {
     var called = 0;
     function numberInSpan(n) {
       called++;
