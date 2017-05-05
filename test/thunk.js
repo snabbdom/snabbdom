@@ -20,7 +20,24 @@ describe('thunk', function() {
     assert.deepEqual(vnode.data.key, 'num');
     assert.deepEqual(vnode.data.args, [22]);
   });
-  it('only calls render function on data change', function() {
+  it('calls render function once on data change', function() {
+    var called = 0;
+    function numberInSpan(n) {
+      called++;
+      return h('span', {key: 'num'}, 'Number is ' + n);
+    }
+    var vnode1 = h('div', [
+      thunk('span', 'num', numberInSpan, [1])
+    ]);
+    var vnode2 = h('div', [
+      thunk('span', 'num', numberInSpan, [2])
+    ]);
+    patch(vnode0, vnode1);
+    assert.equal(called, 1);
+    patch(vnode1, vnode2);
+    assert.equal(called, 2);
+  });
+  it('does not call render function on data unchanged', function() {
     var called = 0;
     function numberInSpan(n) {
       called++;
@@ -32,12 +49,47 @@ describe('thunk', function() {
     var vnode2 = h('div', [
       thunk('span', 'num', numberInSpan, [1])
     ]);
-    var vnode3 = h('div', [
-      thunk('span', 'num', numberInSpan, [2])
+    patch(vnode0, vnode1);
+    assert.equal(called, 1);
+    patch(vnode1, vnode2);
+    assert.equal(called, 1);
+  });
+  it('calls render function once on data-length change', function() {
+    var called = 0;
+    function numberInSpan(n) {
+      called++;
+      return h('span', {key: 'num'}, 'Number is ' + n);
+    }
+    var vnode1 = h('div', [
+      thunk('span', 'num', numberInSpan, [1])
+    ]);
+    var vnode2 = h('div', [
+      thunk('span', 'num', numberInSpan, [1, 2])
     ]);
     patch(vnode0, vnode1);
+    assert.equal(called, 1);
     patch(vnode1, vnode2);
-    patch(vnode2, vnode3);
+    assert.equal(called, 2);
+  });
+  it('calls render function once on function change', function() {
+    var called = 0;
+    function numberInSpan(n) {
+      called++;
+      return h('span', {key: 'num'}, 'Number is ' + n);
+    }
+    function numberInSpan2(n) {
+      called++;
+      return h('span', {key: 'num'}, 'Number really is ' + n);
+    }
+    var vnode1 = h('div', [
+      thunk('span', 'num', numberInSpan, [1])
+    ]);
+    var vnode2 = h('div', [
+      thunk('span', 'num', numberInSpan2, [1])
+    ]);
+    patch(vnode0, vnode1);
+    assert.equal(called, 1);
+    patch(vnode1, vnode2);
     assert.equal(called, 2);
   });
   it('renders correctly', function() {
