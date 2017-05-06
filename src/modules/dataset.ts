@@ -1,6 +1,8 @@
 import {VNode, VNodeData} from '../vnode';
 import {Module} from './module';
 
+export type Dataset = Record<string, string>;
+
 const CAPS_REGEX = /[A-Z]/g;
 
 function updateDataset(oldVnode: VNode, vnode: VNode): void {

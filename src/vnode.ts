@@ -1,4 +1,12 @@
 import {Hooks} from './hooks';
+import {AttachData} from './helpers/attachto'
+import {VNodeStyle} from './modules/style'
+import {On} from './modules/eventlisteners'
+import {Attrs} from './modules/attributes'
+import {Classes} from './modules/class'
+import {Props} from './modules/props'
+import {Dataset} from './modules/dataset'
+import {Hero} from './modules/hero'
 
 export type Key = string | number;
 
@@ -12,22 +20,20 @@ export interface VNode {
 }
 
 export interface VNodeData {
-  // modules - use any because Object type is useless
-  props?: any;
-  attrs?: any;
-  class?: any;
-  style?: any;
-  dataset?: any;
-  on?: any;
-  hero?: any;
-  attachData?: any;
+  props?: Props;
+  attrs?: Attrs;
+  class?: Classes;
+  style?: VNodeStyle;
+  dataset?: Dataset;
+  on?: On;
+  hero?: Hero;
+  attachData?: AttachData;
   hook?: Hooks;
   key?: Key;
   ns?: string; // for SVGs
   fn?: () => VNode; // for thunks
   args?: Array<any>; // for thunks
   [key: string]: any; // for any other 3rd party module
-  // end of modules
 }
 
 export function vnode(sel: string | undefined,

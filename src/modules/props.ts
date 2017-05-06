@@ -1,6 +1,8 @@
 import {VNode, VNodeData} from '../vnode';
 import {Module} from './module';
 
+export type Props = Record<string, any>;
+
 function updateProps(oldVnode: VNode, vnode: VNode): void {
   var key: string, cur: any, old: any, elm = vnode.elm,
       oldProps = (oldVnode.data as VNodeData).props,

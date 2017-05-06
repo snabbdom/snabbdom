@@ -1,6 +1,8 @@
 import {VNode, VNodeData} from '../vnode';
 import {Module} from './module';
 
+export type Attrs = Record<string, string | number | boolean>
+
 const booleanAttrs = ["allowfullscreen", "async", "autofocus", "autoplay", "checked", "compact", "controls", "declare",
                 "default", "defaultchecked", "defaultmuted", "defaultselected", "defer", "disabled", "draggable",
                 "enabled", "formnovalidate", "hidden", "indeterminate", "inert", "ismap", "itemscope", "loop", "multiple",
@@ -40,16 +42,19 @@ function updateAttrs(oldVnode: VNode, vnode: VNode): void {
           elm.removeAttribute(key);
         }
       } else {
+        // because those in TypeScript are too restrictive: https://github.com/Microsoft/TSJS-lib-generator/pull/237
+        type SetAttribute = (name: string, value: string | number | boolean) => void;
+        type SetAttributeNS = (namespaceURI: string, qualifiedName: string, value: string | number | boolean) => void;
         if (key.charCodeAt(0) !== xChar) {
-          elm.setAttribute(key, cur);
+          (elm.setAttribute as SetAttribute)(key, cur);
         } else if (key.charCodeAt(3) === colonChar) {
           // Assume xml namespace
-          elm.setAttributeNS(xmlNS, key, cur);
+          (elm.setAttributeNS as SetAttributeNS)(xmlNS, key, cur);
         } else if (key.charCodeAt(5) === colonChar) {
           // Assume xlink namespace
-          elm.setAttributeNS(xlinkNS, key, cur);
+          (elm.setAttributeNS as SetAttributeNS)(xlinkNS, key, cur);
         } else {
-          elm.setAttribute(key, cur);
+          (elm.setAttribute as SetAttribute)(key, cur);
         }
       }
     }

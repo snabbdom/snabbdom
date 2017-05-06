@@ -1,6 +1,11 @@
 import {VNode, VNodeData} from '../vnode';
 import {Module} from './module';
 
+export type VNodeStyle = Record<string, string> & {
+  delayed: Record<string, string>
+  remove: Record<string, string>
+}
+
 var raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout;
 var nextFrame = function(fn: any) { raf(function() { raf(fn); }); };
 
@@ -15,8 +20,8 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
 
   if (!oldStyle && !style) return;
   if (oldStyle === style) return;
-  oldStyle = oldStyle || {};
-  style = style || {};
+  oldStyle = oldStyle || {} as VNodeStyle;
+  style = style || {} as VNodeStyle;
   var oldHasDel = 'delayed' in oldStyle;
 
   for (name in oldStyle) {
