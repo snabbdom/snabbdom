@@ -29,7 +29,7 @@ type ArraysOf<T> = {
 type ModuleHooks = ArraysOf<Module>;
 
 function createKeyToOldIdx(children: Array<VNode>, beginIdx: number, endIdx: number): KeyToIndexMap {
-  let i: number, map: KeyToIndexMap = {}, key: Key, ch;
+  let i: number, map: KeyToIndexMap = {}, key: Key | undefined, ch;
   for (i = beginIdx; i <= endIdx; ++i) {
     ch = children[i];
     if (ch != null) {
