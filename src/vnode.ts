@@ -16,7 +16,7 @@ export interface VNode {
   children: Array<VNode | string> | undefined;
   elm: Node | undefined;
   text: string | undefined;
-  key: Key;
+  key: Key | undefined;
 }
 
 export interface VNodeData {
