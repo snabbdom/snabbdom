@@ -14,7 +14,7 @@ function updateProps(oldVnode: VNode, vnode: VNode): void {
   props = props || {};
 
   for (key in oldProps) {
-    if (!props[key]) {
+    if (typeof props[key] === 'undefined') {
       delete (elm as any)[key];
     }
   }
