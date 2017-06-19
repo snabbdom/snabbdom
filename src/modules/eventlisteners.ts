@@ -49,10 +49,10 @@ function createListener() {
 }
 
 function updateEventListeners(oldVnode: VNode, vnode?: VNode): void {
-  var oldOn = (oldVnode.data as VNodeData).on,
+  var oldOn = oldVnode.data && (oldVnode.data as VNodeData).on,
       oldListener = (oldVnode as any).listener,
       oldElm: Element = oldVnode.elm as Element,
-      on = vnode && (vnode.data as VNodeData).on,
+      on = vnode && vnode.data && (vnode.data as VNodeData).on,
       elm: Element = (vnode && vnode.elm) as Element,
       name: string;
 

@@ -169,4 +169,13 @@ describe('event listeners', function() {
     elm.firstChild.click();
     assert.equal(3, result.length);
   });
+  it('handle vnode with undefined data', function () {
+    assert.doesNotThrow(function() {
+        var elm1 = document.createElement('span');
+        var elm2 = document.createElement('div');
+        var vnode1 = {sel:'span', elm: elm1, data: undefined};
+        var vnode2 = {sel:'div', elm: elm2, data: undefined};
+        patch(vnode1, vnode2);
+      });
+  });
 });

@@ -5,8 +5,8 @@ export type Classes = Record<string, boolean>
 
 function updateClass(oldVnode: VNode, vnode: VNode): void {
   var cur: any, name: string, elm: Element = vnode.elm as Element,
-      oldClass = (oldVnode.data as VNodeData).class,
-      klass = (vnode.data as VNodeData).class;
+      oldClass = oldVnode.data && (oldVnode.data as VNodeData).class,
+      klass = vnode.data && (vnode.data as VNodeData).class;
 
   if (!oldClass && !klass) return;
   if (oldClass === klass) return;

@@ -111,7 +111,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       } else if (is.primitive(vnode.text)) {
         api.appendChild(elm, api.createTextNode(vnode.text));
       }
-      i = (vnode.data as VNodeData).hook; // Reuse variable
+      i = isDef(vnode.data) && (vnode.data as VNodeData).hook; // Reuse variable
       if (isDef(i)) {
         if (i.create) i.create(emptyNode, vnode);
         if (i.insert) insertedVnodeQueue.push(vnode);
