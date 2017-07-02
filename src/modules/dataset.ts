@@ -20,7 +20,9 @@ function updateDataset(oldVnode: VNode, vnode: VNode): void {
   for (key in oldDataset) {
     if (!dataset[key]) {
       if (d) {
-        delete d[key];
+        if (key in d) {
+          delete d[key];
+        }
       } else {
         elm.removeAttribute('data-' + key.replace(CAPS_REGEX, '-$&').toLowerCase());
       }
