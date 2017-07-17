@@ -32,7 +32,7 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
     text = api.getTextContent(node) as string;
     return vnode('!', {}, [], text, node as any);
   } else {
-    return vnode('', {}, [], undefined, undefined);
+    return vnode('', {}, [], undefined, node as any);
   }
 }
 
