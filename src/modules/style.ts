@@ -1,9 +1,13 @@
 import {VNode, VNodeData} from '../vnode';
 import {Module} from './module';
 
-export type VNodeStyle = Record<string, string> & {
-  delayed?: Record<string, string>
-  remove?: Record<string, string>
+export type VNodeStyle = {
+  delayed?: { [prop: string]: string };
+  remove?: { [prop: string]: string };
+  destroy?: { [prop: string]: string };
+  [prop: string]: string | {
+    [prop: string]: string
+  } | undefined
 }
 
 var raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout;
