@@ -3,6 +3,7 @@
   "version": "0.7.0",
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
   "main": "snabbdom.js",
+  "module": "es/snabbdom.js",
   "typings": "snabbdom.d.ts",
   "directories": {
     "example": "examples",
@@ -26,7 +27,9 @@
   "scripts": {
     "pretest": "npm run compile",
     "test": "testem",
-    "compile": "tsc",
+    "compile": "npm run compile-es && npm run compile-commonjs",
+    "compile-es": "tsc --outDir es --module es6 --moduleResolution node",
+    "compile-commonjs": "tsc --outDir ./",
     "prepublish": "npm run compile",
     "release-major": "xyz --repo git@github.com:paldepind/snabbdom.git --increment major",
     "release-minor": "xyz --repo git@github.com:paldepind/snabbdom.git --increment minor",
