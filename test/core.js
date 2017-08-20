@@ -344,8 +344,12 @@ describe('snabbdom', function() {
           return n;
         } else if (typeof n === 'string') {
           return h('span', {}, n);
-        } else {
+        } else if (typeof n === 'number') {
           return h('span', {key: n}, n.toString());
+        } else if (typeof n === 'symbol') {
+          return h('span', {key: n}, 'symbol');
+        } else {
+          throw new TypeError();
         }
       }
       describe('addition of elements', function() {
@@ -614,6 +618,16 @@ describe('snabbdom', function() {
           elm = patch(vnode1, vnode2).elm;
           assert.deepEqual(map(inner, elm.children), arr.filter(function(x) {return x != null;}));
         }
+      });
+      it('accepts symbol as key', function() {
+        var vnode1 = h('span', [Symbol()].map(spanNum));
+        var vnode2 = h('span', [Symbol('1'), Symbol('2'), Symbol('3')].map(spanNum));
+        elm = patch(vnode0, vnode1).elm;
+        assert.equal(elm.children.length, 1);
+        elm = patch(vnode1, vnode2).elm;
+        assert.equal(elm.children.length, 3);
+        assert.equal(elm.children[1].innerHTML, 'symbol');
+        assert.equal(elm.children[2].innerHTML, 'symbol');
       });
     });
     describe('updating children without keys', function() {
