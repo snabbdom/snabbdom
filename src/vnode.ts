@@ -12,7 +12,7 @@ export type Key = string | number;
 
 export interface VNode {
   sel: string | undefined;
-  data: VNodeData | undefined;
+  data: VNodeData;
   children: Array<VNode | string> | undefined;
   elm: Node | undefined;
   text: string | undefined;
@@ -37,7 +37,7 @@ export interface VNodeData {
 }
 
 export function vnode(sel: string | undefined,
-                      data: any | undefined,
+                      data: VNodeData,
                       children: Array<VNode | string> | undefined,
                       text: string | undefined,
                       elm: Element | Text | undefined): VNode {

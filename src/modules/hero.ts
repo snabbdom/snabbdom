@@ -1,4 +1,4 @@
-import {VNode, VNodeData} from '../vnode';
+import {VNode} from '../vnode';
 import {Module} from './module';
 
 export type Hero = { id: string }
@@ -63,7 +63,7 @@ function pre() {
 }
 
 function create(oldVnode: VNode, vnode: VNode): void {
-  var hero = (vnode.data as VNodeData).hero;
+  var hero = vnode.data.hero;
   if (hero && hero.id) {
     created.push(hero.id);
     created.push(vnode);
@@ -71,7 +71,7 @@ function create(oldVnode: VNode, vnode: VNode): void {
 }
 
 function destroy(vnode: VNode): void {
-  var hero = (vnode.data as VNodeData).hero;
+  var hero = vnode.data.hero;
   if (hero && hero.id) {
     var elm = vnode.elm;
     (vnode as any).isTextNode = isTextElement(elm as Element | Text); //is this a text node?

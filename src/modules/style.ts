@@ -1,4 +1,4 @@
-import {VNode, VNodeData} from '../vnode';
+import {VNode} from '../vnode';
 import {Module} from './module';
 
 export type VNodeStyle = Record<string, string> & {
@@ -15,8 +15,8 @@ function setNextFrame(obj: any, prop: string, val: any): void {
 
 function updateStyle(oldVnode: VNode, vnode: VNode): void {
   var cur: any, name: string, elm = vnode.elm,
-      oldStyle = (oldVnode.data as VNodeData).style,
-      style = (vnode.data as VNodeData).style;
+      oldStyle = oldVnode.data.style,
+      style = vnode.data.style;
 
   if (!oldStyle && !style) return;
   if (oldStyle === style) return;
@@ -53,7 +53,7 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
 }
 
 function applyDestroyStyle(vnode: VNode): void {
-  var style: any, name: string, elm = vnode.elm, s = (vnode.data as VNodeData).style;
+  var style: any, name: string, elm = vnode.elm, s = vnode.data.style;
   if (!s || !(style = s.destroy)) return;
   for (name in style) {
     (elm as any).style[name] = style[name];
@@ -61,7 +61,7 @@ function applyDestroyStyle(vnode: VNode): void {
 }
 
 function applyRemoveStyle(vnode: VNode, rm: () => void): void {
-  var s = (vnode.data as VNodeData).style;
+  var s = vnode.data.style;
   if (!s || !s.remove) {
     rm();
     return;

@@ -1,4 +1,4 @@
-import {VNode, VNodeData} from '../vnode';
+import {VNode} from '../vnode';
 import {Module} from './module';
 
 export type Attrs = Record<string, string | number | boolean>
@@ -22,8 +22,8 @@ for (let i = 0, len = booleanAttrs.length; i < len; i++) {
 
 function updateAttrs(oldVnode: VNode, vnode: VNode): void {
   var key: string, elm: Element = vnode.elm as Element,
-      oldAttrs = (oldVnode.data as VNodeData).attrs,
-      attrs = (vnode.data as VNodeData).attrs;
+      oldAttrs = oldVnode.data.attrs,
+      attrs = vnode.data.attrs;
 
   if (!oldAttrs && !attrs) return;
   if (oldAttrs === attrs) return;

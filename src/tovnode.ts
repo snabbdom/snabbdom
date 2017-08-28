@@ -27,7 +27,7 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
     return vnode(sel, {attrs}, children, undefined, node);
   } else if (api.isText(node)) {
     text = api.getTextContent(node) as string;
-    return vnode(undefined, undefined, undefined, text, node);
+    return vnode(undefined, Object.create(null), undefined, text, node);
   } else if (api.isComment(node)) {
     text = api.getTextContent(node) as string;
     return vnode('!', {}, [], text, node as any);

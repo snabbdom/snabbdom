@@ -34,7 +34,7 @@ export function h(sel: any, b?: any, c?: any): VNode {
   }
   if (is.array(children)) {
     for (i = 0; i < children.length; ++i) {
-      if (is.primitive(children[i])) children[i] = (vnode as any)(undefined, undefined, undefined, children[i]);
+      if (is.primitive(children[i])) children[i] = (vnode as any)(undefined, Object.create(null), undefined, children[i]);
     }
   }
   if (
