@@ -116,6 +116,15 @@ describe('style', function() {
     fakeRaf.step();
     assert.equal(elm.style.fontSize, '20px');
   });
+  it('handle vnode with undefined data', function() {
+    assert.doesNotThrow(function() {
+      var elm1 = document.createElement('span');
+      var elm2 = document.createElement('div');
+      var vnode1 = {sel:'span', elm: elm1, data: undefined};
+      var vnode2 = {sel:'div', elm: elm2, data: undefined};
+      patch(vnode1, vnode2);
+    });
+  });
   describe('using toVNode()', function () {
     it('handles (ignoring) comment nodes', function() {
       var comment = document.createComment('yolo');

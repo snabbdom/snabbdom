@@ -15,8 +15,8 @@ function setNextFrame(obj: any, prop: string, val: any): void {
 
 function updateStyle(oldVnode: VNode, vnode: VNode): void {
   var cur: any, name: string, elm = vnode.elm,
-      oldStyle = (oldVnode.data as VNodeData).style,
-      style = (vnode.data as VNodeData).style;
+      oldStyle = oldVnode.data && (oldVnode.data as VNodeData).style,
+      style = vnode.data && (vnode.data as VNodeData).style;
 
   if (!oldStyle && !style) return;
   if (oldStyle === style) return;
