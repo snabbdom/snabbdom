@@ -142,7 +142,9 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       if (vnode.children !== undefined) {
         for (j = 0; j < vnode.children.length; ++j) {
           i = vnode.children[j];
-          invokeDestroyHook(i);
+          if (typeof i !== "string") {
+            invokeDestroyHook(i);
+          }
         }
       }
     }
