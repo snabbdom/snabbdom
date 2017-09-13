@@ -1,6 +1,6 @@
 {
   "name": "snabbdom",
-  "version": "0.6.9",
+  "version": "0.7.0",
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
   "main": "snabbdom.js",
   "typings": "snabbdom.d.ts",
@@ -10,18 +10,18 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "benchmark": "^1.0.0",
-    "browserify": "^13.0.0",
-    "fake-raf": "0.0.1",
+    "benchmark": "^2.1.4",
+    "browserify": "^14.4.0",
+    "fake-raf": "1.0.1",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-uglify": "^1.5.3",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^3.0.0",
     "knuth-shuffle": "^1.0.1",
-    "testem": "^1.0.2",
-    "typescript": "^2.1.0",
-    "xyz": "0.5.x"
+    "testem": "^1.18.1",
+    "typescript": "^2.4.2",
+    "xyz": "2.1.0"
   },
   "scripts": {
     "pretest": "npm run compile",

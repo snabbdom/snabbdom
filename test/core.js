@@ -9,6 +9,7 @@ var patch = snabbdom.init([
 ]);
 var h = require('../h').default;
 var toVNode = require('../tovnode').default;
+var vnode = require('../vnode').default;
 
 function prop(name) {
   return function(obj) {
@@ -279,6 +280,22 @@ describe('snabbdom', function() {
         assert.strictEqual(elm.childNodes.length, 1);
         assert.strictEqual(elm.childNodes[0].tagName, 'SPAN');
         assert.strictEqual(elm.childNodes[0].textContent, 'Hi');
+      });
+      it('can support patching in a DocumentFragment', function () {
+        var prevElm = document.createDocumentFragment();
+        var nextVNode = vnode('', {}, [
+          h('div#id.class', [h('span', 'Hi')])
+        ], undefined, prevElm);
+        elm = patch(toVNode(prevElm), nextVNode).elm;
+        assert.strictEqual(elm, prevElm);
+        assert.equal(elm.nodeType, 11);
+        assert.equal(elm.childNodes.length, 1);
+        assert.equal(elm.childNodes[0].tagName, 'DIV');
+        assert.equal(elm.childNodes[0].id, 'id');
+        assert.equal(elm.childNodes[0].className, 'class');
+        assert.strictEqual(elm.childNodes[0].childNodes.length, 1);
+        assert.strictEqual(elm.childNodes[0].childNodes[0].tagName, 'SPAN');
+        assert.strictEqual(elm.childNodes[0].childNodes[0].textContent, 'Hi');
       });
       it('can remove some children of the root element', function () {
         var h2 = document.createElement('h2');
