@@ -155,7 +155,7 @@ var vnode = h('div', {style: {color: '#000'}}, [
 
 ### `snabbdom/tovnode`
 
-Converts a DOM node into a virtual node. Good for patching over an pre-existing, 
+Converts a DOM node into a virtual node. Especially good for patching over an pre-existing, 
 server-side generated content.
 
 ```javascript
@@ -174,7 +174,7 @@ var newNode = h('div', {style: {color: '#000'}}, [
   h('p', 'A paragraph'),
 ]);
 
-patch(document.querySelector('.container'), newVNode)
+patch(toVNode(document.querySelector('.container')), newVNode)
 
 ```
 
