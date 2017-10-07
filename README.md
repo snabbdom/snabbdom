@@ -681,7 +681,8 @@ Here are some approaches to building applications with Snabbdom.
 * [Cycle.js](https://cycle.js.org/) –
   "A functional and reactive JavaScript framework for cleaner code"
   uses Snabbdom
-* [Vue.js](http://vuejs.org/) use a fork of snabbdom.
+* [Vue.js](http://vuejs.org/) uses a fork of snabbdom.
+* [stencil](https://stenciljs.com/) uses a [fork](https://github.com/ionic-team/stencil/blob/6193e74c9cca2ed7038c7e5fdf1fd925f8eba831/src/core/renderer/patch.ts) of snabbdom.
 * [scheme-todomvc](https://github.com/amirouche/scheme-todomvc/) build
   redux-like architecture on top of snabbdom bindings.
 * [kaiju](https://github.com/AlexGalays/kaiju) -
