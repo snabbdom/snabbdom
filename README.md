@@ -153,6 +153,31 @@ var vnode = h('div', {style: {color: '#000'}}, [
 ]);
 ```
 
+### `snabbdom/tovnode`
+
+Converts a DOM node into a virtual node. Especially good for patching over an pre-existing, 
+server-side generated content.
+
+```javascript
+var snabbdom = require('snabbdom')
+var patch = snabbdom.init([ // Init patch function with chosen modules
+  require('snabbdom/modules/class').default, // makes it easy to toggle classes
+  require('snabbdom/modules/props').default, // for setting properties on DOM elements
+  require('snabbdom/modules/style').default, // handles styling on elements with support for animations
+  require('snabbdom/modules/eventlisteners').default, // attaches event listeners
+]);
+var h = require('snabbdom/h').default; // helper function for creating vnodes
+var toVNode = require('snabbdom/tovnode').default;
+
+var newNode = h('div', {style: {color: '#000'}}, [
+  h('h1', 'Headline'),
+  h('p', 'A paragraph'),
+]);
+
+patch(toVNode(document.querySelector('.container')), newVNode)
+
+```
+
 ### Hooks
 
 Hooks are a way to hook into the lifecycle of DOM nodes. Snabbdom
