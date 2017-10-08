@@ -1,6 +1,6 @@
 import {vnode, VNode, VNodeData} from './vnode';
 export type VNodes = Array<VNode>;
-export type VNodesSparse = Array<VNode | undefined | null>;
+export type VNodesSparse = VNode | Array<VNode | undefined | null>;
 import * as is from './is';
 
 function addNS(data: any, children: VNodes | undefined, sel: string | undefined): void {
