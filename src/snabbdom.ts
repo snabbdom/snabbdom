@@ -70,7 +70,9 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     return function rmCb() {
       if (--listeners === 0) {
         const parent = api.parentNode(childElm);
-        api.removeChild(parent, childElm);
+        if (parent) {
+          api.removeChild(parent, childElm);
+        }
       }
     };
   }
