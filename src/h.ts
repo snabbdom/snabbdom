@@ -1,13 +1,15 @@
 import {vnode, VNode, VNodeData} from './vnode';
+export type VNodes = Array<VNode>;
+export type VNodesSparse = VNode | Array<VNode | undefined | null>;
 import * as is from './is';
 
-function addNS(data: any, children: Array<VNode> | undefined, sel: string | undefined): void {
+function addNS(data: any, children: VNodes | undefined, sel: string | undefined): void {
   data.ns = 'http://www.w3.org/2000/svg';
   if (sel !== 'foreignObject' && children !== undefined) {
     for (let i = 0; i < children.length; ++i) {
       let childData = children[i].data;
       if (childData !== undefined) {
-        addNS(childData, (children[i] as VNode).children as Array<VNode>, children[i].sel);
+        addNS(childData, (children[i] as VNode).children as VNodes, children[i].sel);
       }
     }
   }
@@ -16,9 +18,9 @@ function addNS(data: any, children: Array<VNode> | undefined, sel: string | unde
 export function h(sel: string): VNode;
 export function h(sel: string, data: VNodeData): VNode;
 export function h(sel: string, text: string): VNode;
-export function h(sel: string, children: Array<VNode | undefined | null>): VNode;
+export function h(sel: string, children: VNodesSparse): VNode;
 export function h(sel: string, data: VNodeData, text: string): VNode;
-export function h(sel: string, data: VNodeData, children: Array<VNode | undefined | null>): VNode;
+export function h(sel: string, data: VNodeData, children: VNodesSparse): VNode;
 export function h(sel: any, b?: any, c?: any): VNode {
   var data: VNodeData = {}, children: any, text: any, i: number;
   if (c !== undefined) {
