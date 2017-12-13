@@ -22,7 +22,28 @@ function updateProps(oldVnode: VNode, vnode: VNode): void {
     cur = props[key];
     old = oldProps[key];
     if (old !== cur && (key !== 'value' || (elm as any)[key] !== cur)) {
-      (elm as any)[key] = cur;
+      if(key === 'className') {
+        var oldClasses = old ? old.split(' ').sort() : [];
+        var classes = cur ? cur.split(' ').sort() : [];
+        var i1 = 0, i2 = 0;
+        for(var i = 0; i < Math.max(oldClasses.length, classes.length); i++) {
+          var c1 = oldClasses[i1], c2 = classes[i2];
+          if(c1 !== c2) {
+            if(c1 < c2) {
+              (elm as any).classList.remove(c1);
+              i1++;
+            } else {
+              (elm as any).classList.add(c2);
+              i2++;
+            }
+          } else {
+            i1++;
+            i2++;
+          }
+        }
+      } else {
+        (elm as any)[key] = cur;
+      }
     }
   }
 }
