@@ -22,7 +22,7 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
       }
     }
     for (i = 0, n = elmChildren.length; i < n; i++) {
-      children.push(toVNode(elmChildren[i]));
+      children.push(toVNode(elmChildren[i], domApi));
     }
     return vnode(sel, {attrs}, children, undefined, node);
   } else if (api.isText(node)) {
