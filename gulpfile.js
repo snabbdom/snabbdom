@@ -32,6 +32,10 @@ gulp.task('bundle:module:class', function() {
   return standalone('snabbdom_class', './modules/class.js')
 })
 
+gulp.task('bundle:module:dataset', function() {
+  return standalone('snabbdom_dataset', './modules/dataset.js')
+})
+
 gulp.task('bundle:module:props', function() {
   return standalone('snabbdom_props', './modules/props.js')
 })
@@ -55,6 +59,7 @@ gulp.task('bundle', [
   'bundle:snabbdom:tovnode',
   'bundle:module:attributes',
   'bundle:module:class',
+  'bundle:module:dataset',
   'bundle:module:props',
   'bundle:module:style',
   'bundle:module:eventlisteners'
