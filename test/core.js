@@ -336,7 +336,25 @@ describe('snabbdom', function() {
         assert.strictEqual(elm.childNodes.length, 1);
         assert.strictEqual(elm.childNodes[0].nodeType, 1);
         assert.strictEqual(elm.childNodes[0].textContent, 'Hello');
-      })
+      });
+      it('can replace non-empty node with innerHTML prop', function() {
+        var h2 = document.createElement('h2');
+        h2.textContent = 'Hello'
+        var prevElm = document.createElement('div');
+        prevElm.id = 'id';
+        prevElm.className = 'class';
+        prevElm.appendChild(h2);
+        var html = '<span>Hi</span>';
+        var nextVNode = h('div#id.class', { props: { innerHTML: html } });
+        elm = patch(toVNode(prevElm), nextVNode).elm;
+        assert.strictEqual(elm, prevElm);
+        assert.equal(elm.tagName, 'DIV');
+        assert.equal(elm.id, 'id');
+        assert.equal(elm.className, 'class');
+        assert.strictEqual(elm.childNodes.length, 1);
+        assert.strictEqual(elm.childNodes[0].tagName, 'SPAN');
+        assert.strictEqual(elm.childNodes[0].textContent, 'Hi');
+      });
     });
     describe('updating children with keys', function() {
       function spanNum(n) {
