@@ -1,5 +1,4 @@
-import {VNode, VNodeData} from '../vnode';
-import {Module} from './module';
+import {VNode, Module} from '../types';
 
 export type VNodeStyle = Record<string, string> & {
   delayed?: Record<string, string>
@@ -14,9 +13,9 @@ function setNextFrame(obj: any, prop: string, val: any): void {
 }
 
 function updateStyle(oldVnode: VNode, vnode: VNode): void {
-  var cur: any, name: string, elm = vnode.elm,
-      oldStyle = (oldVnode.data as VNodeData).style,
-      style = (vnode.data as VNodeData).style;
+  var cur: any, name: string, elm = vnode.elm as HTMLElement,
+      oldStyle = oldVnode.data.style,
+      style = vnode.data.style;
 
   if (!oldStyle && !style) return;
   if (oldStyle === style) return;
@@ -27,7 +26,7 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
   for (name in oldStyle) {
     if (!style[name]) {
       if (name[0] === '-' && name[1] === '-') {
-        (elm as any).style.removeProperty(name);
+        elm.style.removeProperty(name);
       } else {
         (elm as any).style[name] = '';
       }
@@ -39,12 +38,12 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
       for (let name2 in style.delayed) {
         cur = style.delayed[name2];
         if (!oldHasDel || cur !== (oldStyle.delayed as any)[name2]) {
-          setNextFrame((elm as any).style, name2, cur);
+          setNextFrame(elm.style, name2, cur);
         }
       }
     } else if (name !== 'remove' && cur !== oldStyle[name]) {
       if (name[0] === '-' && name[1] === '-') {
-        (elm as any).style.setProperty(name, cur);
+        elm.style.setProperty(name, cur);
       } else {
         (elm as any).style[name] = cur;
       }
@@ -53,7 +52,7 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
 }
 
 function applyDestroyStyle(vnode: VNode): void {
-  var style: any, name: string, elm = vnode.elm, s = (vnode.data as VNodeData).style;
+  var style: any, name: string, elm = vnode.elm, s = vnode.data.style;
   if (!s || !(style = s.destroy)) return;
   for (name in style) {
     (elm as any).style[name] = style[name];
@@ -61,7 +60,7 @@ function applyDestroyStyle(vnode: VNode): void {
 }
 
 function applyRemoveStyle(vnode: VNode, rm: () => void): void {
-  var s = (vnode.data as VNodeData).style;
+  var s = vnode.data.style;
   if (!s || !s.remove) {
     rm();
     return;

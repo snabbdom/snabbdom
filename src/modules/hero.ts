@@ -1,5 +1,4 @@
-import {VNode, VNodeData} from '../vnode';
-import {Module} from './module';
+import {VNode, VNodeData, Module} from '../types';
 
 export type Hero = { id: string }
 
