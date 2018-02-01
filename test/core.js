@@ -264,7 +264,26 @@ describe('snabbdom', function() {
       patch(vnode1, vnode2);
       assert.equal(elm.src, undefined);
     });
-    it('can remove previous children of the root element (w/o toVNode)', function () {
+    it('skips patching a flagged element', function () {
+      var topdiv = document.createElement('div');
+      topdiv.textContent = 'top';
+      topdiv.id = 'top';
+      var botdiv = document.createElement('div');
+      botdiv.textContent = 'bottom';
+      botdiv.id = 'bot';
+      var prevElm = document.createElement('div');
+      prevElm.id = 'id';
+      prevElm.appendChild(topdiv);
+      prevElm.appendChild(botdiv);
+      var nextVNode = h('div#id', [
+        h('div#top', '1'),
+        h('div#bot', {hook:{skip:true}}, '2'),
+      ]);
+      elm = patch(prevElm, nextVNode).elm;
+      assert.strictEqual(elm.querySelector('#top').textContent, '1');
+      assert.strictEqual(elm.querySelector('#bot').textContent, 'bottom');
+    });
+    it('can remove previous children of the root element', function () {
       var h2 = document.createElement('h2');
       h2.textContent = 'Hello'
       var prevElm = document.createElement('div');
