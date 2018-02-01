@@ -62,7 +62,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
 
   function emptyNodeAt(elm: Element) {
     const id = elm.id ? '#' + elm.id : '';
-    const c = elm.className && 'string' === typeof elm.ClassName ? '.' + elm.className.split(' ').join('.') : '';
+    const c = elm.className && 'string' === typeof elm.className ? '.' + elm.className.split(' ').join('.') : '';
     const elmvnode = vnode(api.tagName(elm).toLowerCase() + id + c, {}, [], undefined, elm);
     for (let child: any = elm.firstChild, ii: number = 0; child !== null; child = child.nextSibling, ii++) {
       if ( 1 === child.nodeType && 'undefined' !== typeof elmvnode.children ) { elmvnode.children[ii] = emptyNodeAt(child) }
