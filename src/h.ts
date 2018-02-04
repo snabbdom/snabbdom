@@ -1,6 +1,8 @@
 import {vnode, VNode, VNodeData} from './vnode';
 export type VNodes = Array<VNode>;
-export type VNodesSparse = VNode | Array<VNode | undefined | null>;
+export type VNodeChildElement = VNode | string | number | undefined | null;
+export type ArrayOrElement<T> = T | T[];
+export type VNodeChildren = ArrayOrElement<VNodeChildElement>
 import * as is from './is';
 
 function addNS(data: any, children: VNodes | undefined, sel: string | undefined): void {
@@ -17,10 +19,8 @@ function addNS(data: any, children: VNodes | undefined, sel: string | undefined)
 
 export function h(sel: string): VNode;
 export function h(sel: string, data: VNodeData): VNode;
-export function h(sel: string, text: string): VNode;
-export function h(sel: string, children: VNodesSparse): VNode;
-export function h(sel: string, data: VNodeData, text: string): VNode;
-export function h(sel: string, data: VNodeData, children: VNodesSparse): VNode;
+export function h(sel: string, children: VNodeChildren): VNode;
+export function h(sel: string, data: VNodeData, children: VNodeChildren): VNode;
 export function h(sel: any, b?: any, c?: any): VNode {
   var data: VNodeData = {}, children: any, text: any, i: number;
   if (c !== undefined) {
