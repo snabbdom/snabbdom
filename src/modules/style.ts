@@ -75,12 +75,16 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   compStyle = getComputedStyle(elm as Element);
   var props = (compStyle as any)['transition-property'].split(', ');
   for (; i < props.length; ++i) {
-    if(applied.indexOf(props[i]) !== -1) amount++;
+    if(applied.indexOf(props[i]) !== -1 && elm.style[props[i]] !== compStyle[props[i]]) amount++;
   }
-  (elm as Element).addEventListener('transitionend', function (ev: TransitionEvent) {
-    if (ev.target === elm) --amount;
-    if (amount === 0) rm();
-  });
+  if (amount === 0) {
+    rm();
+  } else {
+    (elm as Element).addEventListener('transitionend', function (ev: TransitionEvent) {
+      if (ev.target === elm) --amount;
+      if (amount === 0) rm();
+    });
+  }
 }
 
 export const styleModule = {
