@@ -35,6 +35,9 @@ node_modules
 /h.d.ts
 /h.js
 /h.js.map
+/symbols.d.ts
+/symbols.js
+/symbols.js.map
 /hooks.d.ts
 /hooks.js
 /hooks.js.map

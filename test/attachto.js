@@ -95,4 +95,11 @@ describe('attachTo', function() {
     elm = patch(vnode0, vnode1).elm;
     elm = patch(vnode1, vnode2).elm;
   });
+  it('requires tags to be created using the *h* helper', function () {
+    var vnode1 = h('span', 'b');
+    var fakeVNode1 = JSON.parse(JSON.stringify(vnode1));
+    elm = patch(vnode0, fakeVNode1).elm;
+    assert.equal(elm.tagName, null);
+    assert.equal(elm.textContent, 'b');
+  });
 });

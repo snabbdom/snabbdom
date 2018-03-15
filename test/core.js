@@ -2,6 +2,7 @@ var assert = require('assert');
 var shuffle = require('knuth-shuffle').knuthShuffle;
 
 var snabbdom = require('../snabbdom');
+var SELECTOR_KEY = require('../symbols').SELECTOR_KEY;
 var patch = snabbdom.init([
   require('../modules/class').default,
   require('../modules/props').default,
@@ -36,24 +37,24 @@ describe('snabbdom', function() {
   });
   describe('hyperscript', function() {
     it('can create vnode with proper tag', function() {
-      assert.equal(h('div').sel, 'div');
-      assert.equal(h('a').sel, 'a');
+      assert.equal(h('div')[SELECTOR_KEY], 'div');
+      assert.equal(h('a')[SELECTOR_KEY], 'a');
     });
     it('can create vnode with children', function() {
       var vnode = h('div', [h('span#hello'), h('b.world')]);
-      assert.equal(vnode.sel, 'div');
-      assert.equal(vnode.children[0].sel, 'span#hello');
-      assert.equal(vnode.children[1].sel, 'b.world');
+      assert.equal(vnode[SELECTOR_KEY], 'div');
+      assert.equal(vnode.children[0][SELECTOR_KEY], 'span#hello');
+      assert.equal(vnode.children[1][SELECTOR_KEY], 'b.world');
     });
     it('can create vnode with one child vnode', function() {
-      var vnode = h('div', h('span#hello'));
-      assert.equal(vnode.sel, 'div');
-      assert.equal(vnode.children[0].sel, 'span#hello');
+      var vnode = h('div', h('span#hello', 'zxc'));
+      assert.equal(vnode[SELECTOR_KEY], 'div');
+      assert.equal(vnode.children[0][SELECTOR_KEY], 'span#hello');
     });
     it('can create vnode with props and one child vnode', function() {
       var vnode = h('div', {}, h('span#hello'));
-      assert.equal(vnode.sel, 'div');
-      assert.equal(vnode.children[0].sel, 'span#hello');
+      assert.equal(vnode[SELECTOR_KEY], 'div');
+      assert.equal(vnode.children[0][SELECTOR_KEY], 'span#hello');
     });
     it('can create vnode with text content', function() {
       var vnode = h('a', ['I am a string']);
@@ -69,7 +70,7 @@ describe('snabbdom', function() {
     });
     it('can create vnode for comment', function() {
       var vnode = h('!', 'test');
-      assert.equal(vnode.sel, '!');
+      assert.equal(vnode[SELECTOR_KEY], '!');
       assert.equal(vnode.text, 'test');
     });
   });
@@ -353,9 +354,9 @@ describe('snabbdom', function() {
         elm.appendChild(h2);
         elm.appendChild(text);
         var vnode = toVNode(elm, domApi);
-        assert.equal(vnode.sel, 'x-div#id.class.other');
+        assert.equal(vnode[SELECTOR_KEY], 'x-div#id.class.other');
         assert.deepEqual(vnode.data, {attrs: {'data': 'value'}});
-        assert.equal(vnode.children[0].sel, 'x-h2#hx');
+        assert.equal(vnode.children[0][SELECTOR_KEY], 'x-h2#hx');
         assert.deepEqual(vnode.children[0].data, {attrs: {'data-env': 'xyz'}});
         assert.equal(vnode.children[1].text, 'Foobar');
       });

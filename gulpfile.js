@@ -24,6 +24,10 @@ gulp.task('bundle:snabbdom:h', function() {
   return standalone('h', './h.js')
 })
 
+gulp.task('bundle:snabbdom:symbols', function() {
+  return standalone('symbols', './symbols.js')
+})
+
 gulp.task('bundle:snabbdom:tovnode', function() {
   return standalone('tovnode', './tovnode.js')
 })
@@ -56,6 +60,7 @@ gulp.task('bundle', [
   'bundle:snabbdom',
   'bundle:snabbdom:init',
   'bundle:snabbdom:h',
+  'bundle:snabbdom:symbols',
   'bundle:snabbdom:tovnode',
   'bundle:module:attributes',
   'bundle:module:class',
