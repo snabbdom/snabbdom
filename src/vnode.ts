@@ -7,17 +7,19 @@ import {Classes} from './modules/class'
 import {Props} from './modules/props'
 import {Dataset} from './modules/dataset'
 import {Hero} from './modules/hero'
-import {SELECTOR_KEY} from './symbols';
 
 export type Key = string | number;
 
-export interface VNode {
-  [SELECTOR_KEY]: string | undefined;
-  data: VNodeData | undefined;
-  children: Array<VNode | string> | undefined;
-  elm: Node | undefined;
-  text: string | undefined;
-  key: Key | undefined;
+export class VNode {
+  public safetyTag?: number = Infinity;
+  constructor(
+    public sel?: string,
+    public data?: VNodeData,
+    public children?: Array<VNode | string>,
+    public elm?: Node,
+    public text?: string,
+    public key?: Key,
+  ) {}
 }
 
 export interface VNodeData {
@@ -43,8 +45,7 @@ export function vnode(sel: string | undefined,
                       text: string | undefined,
                       elm: Element | Text | undefined): VNode {
   let key = data === undefined ? undefined : data.key;
-  return {[SELECTOR_KEY]: sel, data: data, children: children,
-          text: text, elm: elm, key: key};
+  return new VNode(sel, data, children, elm, text, key);
 }
 
 export default vnode;

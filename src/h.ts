@@ -4,7 +4,6 @@ export type VNodeChildElement = VNode | string | number | undefined | null;
 export type ArrayOrElement<T> = T | T[];
 export type VNodeChildren = ArrayOrElement<VNodeChildElement>
 import * as is from './is';
-import {SELECTOR_KEY} from './symbols';
 
 function addNS(data: any, children: VNodes | undefined, sel: string | undefined): void {
   data.ns = 'http://www.w3.org/2000/svg';
@@ -12,7 +11,7 @@ function addNS(data: any, children: VNodes | undefined, sel: string | undefined)
     for (let i = 0; i < children.length; ++i) {
       let childData = children[i].data;
       if (childData !== undefined) {
-        addNS(childData, (children[i] as VNode).children as VNodes, children[i][SELECTOR_KEY]);
+        addNS(childData, (children[i] as VNode).children as VNodes, children[i].sel);
       }
     }
   }
@@ -28,11 +27,11 @@ export function h(sel: any, b?: any, c?: any): VNode {
     data = b;
     if (is.array(c)) { children = c; }
     else if (is.primitive(c)) { text = c; }
-    else if (c && c[SELECTOR_KEY]) { children = [c]; }
+    else if (c && c.sel) { children = [c]; }
   } else if (b !== undefined) {
     if (is.array(b)) { children = b; }
     else if (is.primitive(b)) { text = b; }
-    else if (b && b[SELECTOR_KEY]) { children = [b]; }
+    else if (b && b.sel) { children = [b]; }
     else { data = b; }
   }
   if (is.array(children)) {

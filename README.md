@@ -178,6 +178,24 @@ patch(toVNode(document.querySelector('.container')), newVNode)
 
 ```
 
+### `snabbdom/trust`
+This function takes a VNode and returns its trusted version.
+It may be useful if for some reason the `safetyTag` attribute is missing,
+for example due to a limitation of some storage mechanism.
+
+```javascript
+var trust = require('snabbdom/trust').default; 
+var h = require('snabbdom/h').default;
+
+var originalVNode = h('div', {}, ['hello', h('span#world')]);
+// It's untrusted, because the `safetyTag` attribute doesn't survive JSON serialization.
+var untrustedVNode = JSON.parse(JSON.stringify(originalVNode));
+// All three nodes are trusted.
+var trustedVNode = trust(untrustedVNode);
+```
+
+In order to avoid security vulnerabilities, you should **never trust nodes coming from untrusted sources** (like the user input).
+
 ### Hooks
 
 Hooks are a way to hook into the lifecycle of DOM nodes. Snabbdom
@@ -591,6 +609,7 @@ significant computational time to generate.
  - [text](#text--string)
  - [elm](#elm--element)
  - [key](#key--string--number)
+ - [safetyTag](#safetyTag--number)
 
 #### sel : String
 
@@ -673,6 +692,11 @@ an object, where `.key` is the key and the value is the
 For example: `h('div', {key: 1}, [])` will create a virtual node
 object with a `.key` property with the value of `1`.
 
+#### safetyTag : number
+The `.safetyTag` property is created automatically by the `snabbdom/h` helper. 
+It holds the `Infinity` value. Its purpose is to distinguish 
+virtual nodes created by the programmer from structures which may 
+come from the user input.
 
 ## Structuring applications
 

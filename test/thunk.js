@@ -1,7 +1,6 @@
 var assert = require('assert');
 
 var snabbdom = require('../snabbdom');
-var SELECTOR_KEY = require('../symbols').SELECTOR_KEY;
 var patch = snabbdom.init([
 ]);
 var h = require('../h').default;
@@ -17,7 +16,7 @@ describe('thunk', function() {
       return h('span', 'Number is ' + n);
     }
     var vnode = thunk('span', 'num', numberInSpan, [22]);
-    assert.deepEqual(vnode[SELECTOR_KEY], 'span');
+    assert.deepEqual(vnode.sel, 'span');
     assert.deepEqual(vnode.data.key, 'num');
     assert.deepEqual(vnode.data.args, [22]);
   });

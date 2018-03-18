@@ -1,1 +1,0 @@
-export const SELECTOR_KEY:unique symbol = Symbol.for('snabbdom.selector');

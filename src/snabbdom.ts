@@ -4,7 +4,6 @@ import {Hooks} from './hooks';
 import vnode, {VNode, VNodeData, Key} from './vnode';
 import * as is from './is';
 import htmlDomApi, {DOMAPI} from './htmldomapi';
-import {SELECTOR_KEY} from './symbols';
 
 function isUndef(s: any): boolean { return s === undefined; }
 function isDef(s: any): boolean { return s !== undefined; }
@@ -14,11 +13,11 @@ type VNodeQueue = Array<VNode>;
 const emptyNode = vnode('', {}, [], undefined, undefined);
 
 function sameVnode(vnode1: VNode, vnode2: VNode): boolean {
-  return vnode1.key === vnode2.key && vnode1[SELECTOR_KEY] === vnode2[SELECTOR_KEY];
+  return vnode1.key === vnode2.key && vnode1.sel === vnode2.sel;
 }
 
 function isVnode(vnode: any): vnode is VNode {
-  return vnode[SELECTOR_KEY] !== undefined;
+  return vnode.sel !== undefined;
 }
 
 type KeyToIndexMap = {[key: string]: number};
@@ -44,6 +43,7 @@ function createKeyToOldIdx(children: Array<VNode>, beginIdx: number, endIdx: num
 const hooks: (keyof Module)[] = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
 export {h} from './h';
+export {trust} from './trust';
 export {thunk} from './thunk';
 
 export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
@@ -77,6 +77,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   }
 
   function createElm(vnode: VNode, insertedVnodeQueue: VNodeQueue): Node {
+    if (vnode.safetyTag !== Infinity) throw new Error('There is a VNode which is missing the safety tag (the Infinity value).');
     let i: any, data = vnode.data;
     if (data !== undefined) {
       if (isDef(i = data.hook) && isDef(i = i.init)) {
@@ -84,7 +85,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
         data = vnode.data;
       }
     }
-    let children = vnode.children, sel = vnode[SELECTOR_KEY];
+    let children = vnode.children, sel = vnode.sel;
     if (sel === '!') {
       if (isUndef(vnode.text)) {
         vnode.text = '';
@@ -160,7 +161,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     for (; startIdx <= endIdx; ++startIdx) {
       let i: any, listeners: number, rm: () => void, ch = vnodes[startIdx];
       if (ch != null) {
-        if (isDef(ch[SELECTOR_KEY])) {
+        if (isDef(ch.sel)) {
           invokeDestroyHook(ch);
           listeners = cbs.remove.length + 1;
           rm = createRmCb(ch.elm as Node, listeners);
@@ -230,7 +231,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
           newStartVnode = newCh[++newStartIdx];
         } else {
           elmToMove = oldCh[idxInOld];
-          if (elmToMove[SELECTOR_KEY] !== newStartVnode[SELECTOR_KEY]) {
+          if (elmToMove.sel !== newStartVnode.sel) {
             api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm as Node);
           } else {
             patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);

@@ -10,8 +10,7 @@
         "lib": [
             "dom",
             "es5",
-            "es2015.core",
-            "es2015.symbol"
+            "es2015.core"
         ]
     },
     "files": [
@@ -25,7 +24,6 @@
         "src/modules/module.ts",
         "src/modules/style.ts",
         "src/h.ts",
-        "src/symbols.ts",
         "src/htmldomapi.ts",
         "src/hooks.ts",
         "src/is.ts",
