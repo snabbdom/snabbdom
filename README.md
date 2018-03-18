@@ -169,7 +169,7 @@ var patch = snabbdom.init([ // Init patch function with chosen modules
 var h = require('snabbdom/h').default; // helper function for creating vnodes
 var toVNode = require('snabbdom/tovnode').default;
 
-var newNode = h('div', {style: {color: '#000'}}, [
+var newVNode = h('div', {style: {color: '#000'}}, [
   h('h1', 'Headline'),
   h('p', 'A paragraph'),
 ]);
