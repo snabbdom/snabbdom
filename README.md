@@ -609,7 +609,7 @@ significant computational time to generate.
  - [text](#text--string)
  - [elm](#elm--element)
  - [key](#key--string--number)
- - [safetyTag](#safetyTag--number)
+ - [safetyTag](#safetytag--number)
 
 #### sel : String
 
