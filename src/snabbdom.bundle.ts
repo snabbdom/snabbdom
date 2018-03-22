@@ -5,6 +5,7 @@ import {propsModule} from './modules/props'; // for setting properties on DOM el
 import {styleModule} from './modules/style'; // handles styling on elements with support for animations
 import {eventListenersModule} from './modules/eventlisteners'; // attaches event listeners
 import {h} from './h'; // helper function for creating vnodes
+import {trust} from './trust'; // helper function for turning untrusted nodes into trusted ones
 var patch = init([ // Init patch function with choosen modules
   attributesModule,
   classModule,
@@ -12,5 +13,5 @@ var patch = init([ // Init patch function with choosen modules
   styleModule,
   eventListenersModule
 ]) as (oldVNode: any, vnode: any) => any;
-export const snabbdomBundle = { patch, h: h as any };
+export const snabbdomBundle = { patch, h: h as any, trust: trust as any };
 export default snabbdomBundle;

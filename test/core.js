@@ -8,6 +8,7 @@ var patch = snabbdom.init([
   require('../modules/eventlisteners').default,
 ]);
 var h = require('../h').default;
+var trust = require('../trust').default;
 var toVNode = require('../tovnode').default;
 var vnode = require('../vnode').default;
 var htmlDomApi = require('../htmldomapi').htmlDomApi;
@@ -46,7 +47,7 @@ describe('snabbdom', function() {
       assert.equal(vnode.children[1].sel, 'b.world');
     });
     it('can create vnode with one child vnode', function() {
-      var vnode = h('div', h('span#hello'));
+      var vnode = h('div', h('span#hello', 'zxc'));
       assert.equal(vnode.sel, 'div');
       assert.equal(vnode.children[0].sel, 'span#hello');
     });
@@ -71,6 +72,14 @@ describe('snabbdom', function() {
       var vnode = h('!', 'test');
       assert.equal(vnode.sel, '!');
       assert.equal(vnode.text, 'test');
+    });
+    it('can make an untrusted node with children a trusted one', function() {
+      var originalVNode = h('div', {}, ['hello', h('span#world')]);
+      var untrustedVNode = JSON.parse(JSON.stringify(originalVNode));
+      var trustedVNode = trust(untrustedVNode);
+      assert.equal(trustedVNode.safetyTag, Infinity);
+      assert.equal(trustedVNode.children[0].safetyTag, Infinity);
+      assert.equal(trustedVNode.children[1].safetyTag, Infinity);
     });
   });
   describe('created element', function() {
@@ -767,6 +776,15 @@ describe('snabbdom', function() {
         assert.equal(elm.children.length, 0);
         elm = patch(vnode2, vnode3).elm;
         assert.deepEqual(map(inner, elm.children), ['2', '1']);
+      });
+    });
+    it('requires tags to be created using the *h* helper', function () {
+      var vnode1 = h('span', 'b');
+      var fakeVNode1 = JSON.parse(JSON.stringify(vnode1));
+      assert.throws(function () {
+        elm = patch(vnode0, fakeVNode1).elm;
+      }, function (err) {
+        return (err instanceof Error) && /missing the safety tag/.test(err);
       });
     });
   });

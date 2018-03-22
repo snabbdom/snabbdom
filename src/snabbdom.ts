@@ -43,6 +43,7 @@ function createKeyToOldIdx(children: Array<VNode>, beginIdx: number, endIdx: num
 const hooks: (keyof Module)[] = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
 export {h} from './h';
+export {trust} from './trust';
 export {thunk} from './thunk';
 
 export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
@@ -76,6 +77,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   }
 
   function createElm(vnode: VNode, insertedVnodeQueue: VNodeQueue): Node {
+    if (vnode.safetyTag !== Infinity) throw new Error('There is a VNode which is missing the safety tag (the Infinity value).');
     let i: any, data = vnode.data;
     if (data !== undefined) {
       if (isDef(i = data.hook) && isDef(i = i.init)) {
