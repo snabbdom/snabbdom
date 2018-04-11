@@ -700,6 +700,7 @@ Here are some approaches to building applications with Snabbdom.
 * [Tung](https://github.com/Reon90/tung) –
   A JavaScript library for rendering html. Tung helps to divide html and JavaScript development.
 * [sprotty](https://github.com/theia-ide/sprotty) - "A web-based diagramming framework" uses Snabbdom.
+* [Mark Text](https://github.com/marktext/marktext) - "Realtime preview Markdown Editor" build on Snabbdom.
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
