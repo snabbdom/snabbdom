@@ -26,7 +26,7 @@ function invokeHandler(handler: any, vnode?: VNode, event?: Event): void {
     } else {
       // call multiple handlers
       for (var i = 0; i < handler.length; i++) {
-        invokeHandler(handler[i]);
+        invokeHandler(handler[i], vnode, event);
       }
     }
   }
