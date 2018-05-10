@@ -197,10 +197,6 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
         oldStartVnode = oldCh[++oldStartIdx]; // Vnode might have been moved left
       } else if (oldEndVnode == null) {
         oldEndVnode = oldCh[--oldEndIdx];
-      } else if (newStartVnode == null) {
-        newStartVnode = newCh[++newStartIdx];
-      } else if (newEndVnode == null) {
-        newEndVnode = newCh[--newEndIdx];
       } else if (sameVnode(oldStartVnode, newStartVnode)) {
         patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue);
         oldStartVnode = oldCh[++oldStartIdx];
@@ -233,7 +229,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
             api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm as Node);
           } else {
             patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);
-            oldCh[idxInOld] = undefined as any;
+            oldCh[idxInOld] = null as any;
             api.insertBefore(parentElm, (elmToMove.elm as Node), oldStartVnode.elm as Node);
           }
           newStartVnode = newCh[++newStartIdx];
