@@ -1,5 +1,4 @@
-import {VNode, VNodeData} from '../vnode';
-import {Module} from './module';
+import {VNode, VNodeData, Module} from '../types';
 
 // because those in TypeScript are too restrictive: https://github.com/Microsoft/TSJS-lib-generator/pull/237
 declare global {

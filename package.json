@@ -1,6 +1,6 @@
 {
   "name": "snabbdom",
-  "version": "0.7.1",
+  "version": "1.0.0",
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
   "main": "snabbdom.js",
   "module": "es/snabbdom.js",
@@ -14,6 +14,7 @@
     "benchmark": "^2.1.4",
     "browserify": "^14.4.0",
     "fake-raf": "1.0.1",
+    "jest": "^21.2.1",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-rename": "^1.2.2",
@@ -21,6 +22,7 @@
     "gulp-uglify": "^3.0.0",
     "knuth-shuffle": "^1.0.1",
     "testem": "^1.18.1",
+    "ts-jest": "^21.0.1",
     "typescript": "^2.4.2",
     "xyz": "2.1.0"
   },

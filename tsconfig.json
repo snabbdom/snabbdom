@@ -15,6 +15,10 @@
     },
     "files": [
         "src/helpers/attachto.ts",
+        "src/helpers/h.ts",
+        "src/helpers/htmldomapi.ts",
+        "src/helpers/thunk.ts",
+        "src/helpers/tovnode.ts",
         "src/modules/attributes.ts",
         "src/modules/class.ts",
         "src/modules/dataset.ts",
@@ -23,14 +27,7 @@
         "src/modules/props.ts",
         "src/modules/module.ts",
         "src/modules/style.ts",
-        "src/h.ts",
-        "src/htmldomapi.ts",
-        "src/hooks.ts",
-        "src/is.ts",
-        "src/snabbdom.bundle.ts",
         "src/snabbdom.ts",
-        "src/thunk.ts",
-        "src/tovnode.ts",
-        "src/vnode.ts"
+        "src/types.ts"
     ]
 }

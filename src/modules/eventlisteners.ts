@@ -1,5 +1,4 @@
-import {VNode, VNodeData} from '../vnode';
-import {Module} from './module';
+import {VNode, Module} from '../types';
 
 export type On = {
   [N in keyof HTMLElementEventMap]?: (ev: HTMLElementEventMap[N]) => void
@@ -34,7 +33,7 @@ function invokeHandler(handler: any, vnode?: VNode, event?: Event): void {
 
 function handleEvent(event: Event, vnode: VNode) {
   var name = event.type,
-      on = (vnode.data as VNodeData).on;
+      on = vnode.data.on;
 
   // call event handler(s) if exists
   if (on && on[name]) {
@@ -49,10 +48,10 @@ function createListener() {
 }
 
 function updateEventListeners(oldVnode: VNode, vnode?: VNode): void {
-  var oldOn = (oldVnode.data as VNodeData).on,
+  var oldOn = oldVnode.data.on,
       oldListener = (oldVnode as any).listener,
       oldElm: Element = oldVnode.elm as Element,
-      on = vnode && (vnode.data as VNodeData).on,
+      on = vnode && vnode.data.on,
       elm: Element = (vnode && vnode.elm) as Element,
       name: string;
 

@@ -1,5 +1,5 @@
-import {VNode, VNodeData} from './vnode';
-import {h} from './h';
+import {VNode, VNodeData} from '../types';
+import h from './h';
 
 export interface ThunkData extends VNodeData {
   fn: () => VNode;
@@ -17,29 +17,29 @@ export interface ThunkFn {
 
 function copyToThunk(vnode: VNode, thunk: VNode): void {
   thunk.elm = vnode.elm;
-  (vnode.data as VNodeData).fn = (thunk.data as VNodeData).fn;
-  (vnode.data as VNodeData).args = (thunk.data as VNodeData).args;
+  vnode.data.fn = thunk.data.fn;
+  vnode.data.args = thunk.data.args;
   thunk.data = vnode.data;
   thunk.children = vnode.children;
   thunk.text = vnode.text;
   thunk.elm = vnode.elm;
 }
 
-function init(thunk: VNode): void {
-  const cur = thunk.data as VNodeData;
-  const vnode = (cur.fn as any).apply(undefined, cur.args);
+function init(thunk: Thunk) {
+  const cur = thunk.data;
+  const vnode = cur.fn.apply(undefined, cur.args);
   copyToThunk(vnode, thunk);
 }
 
-function prepatch(oldVnode: VNode, thunk: VNode): void {
-  let i: number, old = oldVnode.data as VNodeData, cur = thunk.data as VNodeData;
+function prepatch(oldVnode: VNode, thunk: Thunk) {
+  let i: number, old = oldVnode.data, cur = thunk.data;
   const oldArgs = old.args, args = cur.args;
-  if (old.fn !== cur.fn || (oldArgs as any).length !== (args as any).length) {
-    copyToThunk((cur.fn as any).apply(undefined, args), thunk);
+  if (old.fn !== cur.fn || (oldArgs as any).length !== args.length) {
+    copyToThunk((cur.fn).apply(undefined, args), thunk);
     return;
   }
-  for (i = 0; i < (args as any).length; ++i) {
-    if ((oldArgs as any)[i] !== (args as any)[i]) {
+  for (i = 0; i < args.length; ++i) {
+    if ((oldArgs as any)[i] !== args[i]) {
       copyToThunk((cur.fn as any).apply(undefined, args), thunk);
       return;
     }
@@ -47,7 +47,7 @@ function prepatch(oldVnode: VNode, thunk: VNode): void {
   copyToThunk(oldVnode, thunk);
 }
 
-export const thunk = function thunk(sel: string, key?: any, fn?: any, args?: any): VNode {
+const thunk = function thunk(sel: string, key?: any, fn?: any, args?: any): Thunk {
   if (args === undefined) {
     args = fn;
     fn = key;
@@ -58,7 +58,7 @@ export const thunk = function thunk(sel: string, key?: any, fn?: any, args?: any
     hook: {init: init, prepatch: prepatch},
     fn: fn,
     args: args
-  });
+  }) as Thunk;
 } as ThunkFn;
 
 export default thunk;
