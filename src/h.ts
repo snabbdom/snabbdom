@@ -34,7 +34,7 @@ export function h(sel: any, b?: any, c?: any): VNode {
     else if (b && b.sel) { children = [b]; }
     else { data = b; }
   }
-  if (is.array(children)) {
+  if (children !== undefined) {
     for (i = 0; i < children.length; ++i) {
       if (is.primitive(children[i])) children[i] = vnode(undefined, undefined, undefined, children[i], undefined);
     }
