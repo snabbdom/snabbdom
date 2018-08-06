@@ -17,6 +17,7 @@ export interface VNode {
   elm: Node | undefined;
   text: string | undefined;
   key: Key | undefined;
+  toJSON(): any;
 }
 
 export interface VNodeData {
