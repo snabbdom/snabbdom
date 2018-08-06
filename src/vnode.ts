@@ -17,7 +17,7 @@ export interface VNode {
   elm: Node | undefined;
   text: string | undefined;
   key: Key | undefined;
-  toJSON(): any;
+  toJSON(): Pick<VNode, Exclude<keyof VNode, "elm" | "toJSON">>;
 }
 
 export interface VNodeData {
