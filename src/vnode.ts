@@ -37,7 +37,7 @@ export interface VNodeData {
   [key: string]: any; // for any other 3rd party module
 }
 
-function toJSON(this: VNode):any {
+function toJSON(this: VNode): Pick<VNode, Exclude<keyof VNode, "elm" | "toJSON">> {
   return {
     sel: this.sel,
     data: this.data,
