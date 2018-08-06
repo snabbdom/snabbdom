@@ -9,6 +9,7 @@ import {Dataset} from './modules/dataset'
 import {Hero} from './modules/hero'
 
 export type Key = string | number;
+export type JsonVNode = Pick<VNode, Exclude<keyof VNode, "elm" | "toJSON">>;
 
 export interface VNode {
   sel: string | undefined;
@@ -17,7 +18,7 @@ export interface VNode {
   elm: Node | undefined;
   text: string | undefined;
   key: Key | undefined;
-  toJSON(): Pick<VNode, Exclude<keyof VNode, "elm" | "toJSON">>;
+  toJSON(): JsonVNode;
 }
 
 export interface VNodeData {
@@ -37,7 +38,7 @@ export interface VNodeData {
   [key: string]: any; // for any other 3rd party module
 }
 
-function toJSON(this: VNode): Pick<VNode, Exclude<keyof VNode, "elm" | "toJSON">> {
+function toJSON(this: VNode): JsonVNode {
   return {
     sel: this.sel,
     data: this.data,
