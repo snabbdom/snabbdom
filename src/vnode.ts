@@ -9,6 +9,7 @@ import {Dataset} from './modules/dataset'
 import {Hero} from './modules/hero'
 
 export type Key = string | number;
+export type JsonVNode = Pick<VNode, Exclude<keyof VNode, "elm" | "toJSON">>;
 
 export interface VNode {
   sel: string | undefined;
@@ -17,6 +18,7 @@ export interface VNode {
   elm: Node | undefined;
   text: string | undefined;
   key: Key | undefined;
+  toJSON(): JsonVNode;
 }
 
 export interface VNodeData {
@@ -36,6 +38,16 @@ export interface VNodeData {
   [key: string]: any; // for any other 3rd party module
 }
 
+function toJSON(this: VNode): JsonVNode {
+  return {
+    sel: this.sel,
+    data: this.data,
+    children: this.children,
+    text: this.text,
+    key: this.key,
+  };
+}
+
 export function vnode(sel: string | undefined,
                       data: any | undefined,
                       children: Array<VNode | string> | undefined,
@@ -43,7 +55,7 @@ export function vnode(sel: string | undefined,
                       elm: Element | Text | undefined): VNode {
   let key = data === undefined ? undefined : data.key;
   return {sel: sel, data: data, children: children,
-          text: text, elm: elm, key: key};
+          text: text, elm: elm, key: key, toJSON};
 }
 
 export default vnode;
