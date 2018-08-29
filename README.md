@@ -525,12 +525,10 @@ You can add dynamic classes to SVG elements for these cases by using the _attrib
 
 ```js
 h('svg', [
-  h('text.underline', { // 'underline' is a selector class, remain unchanged between renders.
+  h('text', {
       attrs: {
-        // 'active' and 'red' are dynamic classes, they can change between renders
-        // so we need to put them in the class attribute.
         // (Normally we'd use the classModule, but it doesn't work inside SVG)
-        class: [isActive && "active", isColored && "red"].filter(Boolean).join(" ")
+        class: ["underline", isActive && "active", isColored && "red"].filter(Boolean).join(" ")
       }
     },
     'Hello World'
