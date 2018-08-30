@@ -61,6 +61,7 @@ performance, small size and all the features listed below.
   * Server-side HTML output provided by [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html).
   * Compact virtual DOM creation with [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers).
   * Template string support using [snabby](https://github.com/jamen/snabby).
+  * Virtual DOM assertion with [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like)
 
 ## Inline example
 
