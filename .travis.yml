@@ -1,0 +1,17 @@
+sudo: false
+language: node_js
+node_js:
+  - '6.10.1'
+script:
+  - export IP_ADDR=$(ip addr | grep eth -A 4 | grep 'inet ' | awk '{ print $2 }' | sed 's/\/..//')
+  - npm test
+addons:
+  browserstack:
+    username:
+      secure: <TODO>
+    access_key:
+      secure: <TODO>
+env:
+  global:
+    - secure: <TODO>
+    - secure: <TODO>
