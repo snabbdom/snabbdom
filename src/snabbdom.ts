@@ -276,6 +276,9 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
         api.setTextContent(elm, '');
       }
     } else if (oldVnode.text !== vnode.text) {
+      if (isDef(oldCh)) {
+        removeVnodes(elm, oldCh as Array<VNode>, 0, (oldCh as Array<VNode>).length - 1);
+      }
       api.setTextContent(elm, vnode.text as string);
     }
     if (isDef(hook) && isDef(i = hook.postpatch)) {
