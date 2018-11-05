@@ -918,6 +918,21 @@ describe('snabbdom', function() {
         patch(vnode1, vnode2);
         assert.equal(1, result.length);
       });
+      it('calls `destroy` listener when patching text node over node with children', function() {
+        var calls = 0;
+        function cb(vnode) {
+          calls++;
+        }
+        var vnode1 = h('div', [
+          h('div', {hook: {destroy: cb}}, [
+            h('span', 'Child 1'),
+          ]),
+        ]);
+        var vnode2 = h('div', 'Text node')
+        patch(vnode0, vnode1);
+        patch(vnode1, vnode2);
+        assert.equal(calls, 1);
+      });
       it('calls `init` and `prepatch` listeners on root', function() {
           var count = 0;
           function init(vnode) {
