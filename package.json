@@ -31,7 +31,7 @@
   },
   "scripts": {
     "pretest": "npm run compile",
-    "test": "testem",
+    "test": "karma start",
     "compile": "npm run compile-es && npm run compile-commonjs",
     "compile-es": "tsc --outDir es --module es6 --moduleResolution node",
     "compile-commonjs": "tsc --outDir ./",
