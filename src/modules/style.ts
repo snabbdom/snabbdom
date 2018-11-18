@@ -6,7 +6,7 @@ export type VNodeStyle = Record<string, string> & {
   remove?: Record<string, string>
 }
 
-var raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout;
+var raf = (typeof window !== 'undefined' && (window.requestAnimationFrame).bind(window)) || setTimeout;
 var nextFrame = function(fn: any) { raf(function() { raf(fn); }); };
 var reflowForced = false;
 
