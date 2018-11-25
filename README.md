@@ -705,6 +705,7 @@ Here are some approaches to building applications with Snabbdom.
 * [puddles](https://github.com/flintinatux/puddles) - 
   "Tiny vdom app framework. Pure Redux. No boilerplate." - Built with :heart: on Snabbdom.
 * [Backbone.VDOMView](https://github.com/jcbrand/backbone.vdomview) - A [Backbone](http://backbonejs.org/) View with VirtualDOM capability via Snabbdom.
+* [pypyjs-todomvc](https://github.com/amirouche/pypyjs-todomvc) - todomvc-like application written in Python running in the browser
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
