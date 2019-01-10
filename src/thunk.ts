@@ -19,10 +19,10 @@ function copyToThunk(vnode: VNode, thunk: VNode): void {
   thunk.elm = vnode.elm;
   (vnode.data as VNodeData).fn = (thunk.data as VNodeData).fn;
   (vnode.data as VNodeData).args = (thunk.data as VNodeData).args;
+  (vnode.data as VNodeData).ns = (thunk.data as VNodeData).ns;
   thunk.data = vnode.data;
   thunk.children = vnode.children;
   thunk.text = vnode.text;
-  thunk.elm = vnode.elm;
 }
 
 function init(thunk: VNode): void {
