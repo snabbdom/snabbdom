@@ -258,7 +258,6 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     const elm = vnode.elm = (oldVnode.elm as Node);
     let oldCh = oldVnode.children;
     let ch = vnode.children;
-    if (oldVnode === vnode) return;
     if (vnode.data !== undefined) {
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);
       i = vnode.data.hook;
