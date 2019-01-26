@@ -15,6 +15,7 @@ function updateProps(oldVnode: VNode, vnode: VNode): void {
 
   for (key in oldProps) {
     if (!props[key]) {
+      (elm as any).removeAttribute(key)
       delete (elm as any)[key];
     }
   }
