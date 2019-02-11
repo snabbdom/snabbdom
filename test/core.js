@@ -263,6 +263,7 @@ describe('snabbdom', function() {
       patch(vnode0, vnode1);
       patch(vnode1, vnode2);
       assert.equal(elm.src, undefined);
+      assert.equal(elm.getAttribute('src'), undefined);
     });
     describe('using toVNode()', function () {
       it('can remove previous children of the root element', function () {
