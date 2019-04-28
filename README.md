@@ -1,4 +1,4 @@
-# Snabbdom
+<img src="logo.png" width="356px">
 
 A virtual DOM library with focus on simplicity, modularity, powerful features
 and performance.
