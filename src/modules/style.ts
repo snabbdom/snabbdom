@@ -65,7 +65,21 @@ function applyDestroyStyle(vnode: VNode): void {
 function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   var s = (vnode.data as VNodeData).style;
   if (!s || !s.remove) {
-    rm();
+    if (vnode.children)
+      vnode.children.reduce((acc, node) => {
+        if (node === null) {
+          return acc;
+        }
+        var preAcc = acc;
+        var crm = () => {
+          preAcc();
+        };
+        applyRemoveStyle(node, crm);
+        return crm;
+      }, rm);
+    else {
+      rm();
+    }
     return;
   }
   if(!reflowForced) {
