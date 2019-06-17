@@ -713,6 +713,7 @@ Here are some approaches to building applications with Snabbdom.
 * [puddles](https://github.com/flintinatux/puddles) - 
   "Tiny vdom app framework. Pure Redux. No boilerplate." - Built with :heart: on Snabbdom.
 * [Backbone.VDOMView](https://github.com/jcbrand/backbone.vdomview) - A [Backbone](http://backbonejs.org/) View with VirtualDOM capability via Snabbdom.
+* [Pureact](https://github.com/irony/pureact) - "65 lines implementation of React incl Redux and hooks with only one dependency - Snabbdom"
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
