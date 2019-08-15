@@ -44,6 +44,31 @@ describe('style', function() {
     assert.equal(elm.style.fontSize, '10px');
     assert.equal(elm.style.display, 'block');
   });
+  it('updates styles with shorthand', function() {
+    var vnode1 = h('i', {style: {padding: '10px 20px 40px'}});
+
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.style.paddingTop, '10px');
+    assert.equal(elm.style.paddingLeft, '20px');
+    assert.equal(elm.style.paddingRight, '20px');
+    assert.equal(elm.style.paddingBottom, '40px');
+  });
+  it('updates shorthand styles with overriding styles', function() {
+    var vnode1 = h('i', {style: {padding: '10px 20px 40px', paddingRight: '30px'}});
+    var vnode2 = h('i', {style: {padding: '10px 20px 40px'}});
+
+    elm = patch(vnode0, vnode1).elm;
+    assert.equal(elm.style.paddingTop, '10px');
+    assert.equal(elm.style.paddingLeft, '20px');
+    assert.equal(elm.style.paddingRight, '30px');
+    assert.equal(elm.style.paddingBottom, '40px');
+    
+    elm = patch(vnode1, vnode2).elm;
+    assert.equal(elm.style.paddingTop, '10px');
+    assert.equal(elm.style.paddingLeft, '20px');
+    assert.equal(elm.style.paddingRight, '20px');
+    assert.equal(elm.style.paddingBottom, '40px');
+  });
   it('explicialy removes styles', function() {
     var vnode1 = h('i', {style: {fontSize: '14px'}});
     var vnode2 = h('i', {style: {fontSize: ''}});
