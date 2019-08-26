@@ -14,8 +14,9 @@ var reflowForced = false;
 function setNextFrame(obj: any, prop: string, val: any): void {
   nextFrame(function() { obj[prop] = val; });
 }
-
+console.log("style.ts called");
 function updateStyle(oldVnode: VNode, vnode: VNode): void {
+  console.log("updateStyle called");
   var cur: any, name: string, elm = vnode.elm,
       oldStyle = (oldVnode.data as VNodeData).style,
       style = (vnode.data as VNodeData).style;

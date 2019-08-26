@@ -46,6 +46,8 @@ export {h} from './h';
 export {thunk} from './thunk';
 
 export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
+  console.log("init called");
+
   let i: number, j: number, cbs = ({} as ModuleHooks);
 
   const api: DOMAPI = domApi !== undefined ? domApi : htmlDomApi;
@@ -287,6 +289,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   }
 
   return function patch(oldVnode: VNode | Element, vnode: VNode): VNode {
+    console.log("patch");
     let i: number, elm: Node, parent: Node;
     const insertedVnodeQueue: VNodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
@@ -296,8 +299,10 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     }
 
     if (sameVnode(oldVnode, vnode)) {
+      console.log("sameVnode");
       patchVnode(oldVnode, vnode, insertedVnodeQueue);
     } else {
+      console.log("else sameVnode")
       elm = oldVnode.elm as Node;
       parent = api.parentNode(elm);
 

@@ -53,7 +53,7 @@ describe('style', function() {
     assert.equal(elm.style.paddingRight, '20px');
     assert.equal(elm.style.paddingBottom, '40px');
   });
-  it('updates shorthand styles with overriding styles', function() {
+  it.only('updates shorthand styles with overriding styles', function() {
     var vnode1 = h('i', {style: {padding: '10px 20px 40px', paddingRight: '30px'}});
     var vnode2 = h('i', {style: {padding: '10px 20px 40px'}});
 
