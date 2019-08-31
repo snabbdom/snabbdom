@@ -55,7 +55,7 @@ export const thunk = function thunk(sel: string, key?: any, fn?: any, args?: any
   }
   return h(sel, {
     key: key,
-    hook: {init: init, prepatch: prepatch},
+    hook: {init, prepatch},
     fn: fn,
     args: args
   });
