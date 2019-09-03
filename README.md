@@ -92,6 +92,9 @@ var newVnode = h('div#container.two.classes', {on: {click: anotherEventHandler}}
 ]);
 // Second `patch` invocation
 patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new state
+
+// to unmount from the DOM and clean up, simply pass null
+patch(newVnode, null)
 ```
 
 ## Examples
@@ -176,7 +179,6 @@ var newVNode = h('div', {style: {color: '#000'}}, [
 ]);
 
 patch(toVNode(document.querySelector('.container')), newVNode)
-
 ```
 
 ### Hooks
