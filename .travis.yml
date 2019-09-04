@@ -3,13 +3,7 @@ language: node_js
 node_js:
   - '6.10.1'
 script:
-  - export IP_ADDR=$(ip addr | grep eth -A 4 | grep 'inet ' | awk '{ print $2 }' | sed 's/\/..//')
   - npm test
-addons:
-  browserstack:
-    username: "snabbdombot1"
-    access_key:
-      secure: "RmxpeS5H8vufpVaPtLyRLQYwyeDHbZDpQGYaD2A4NKly4BdDI2tk1IhYWv2Tg23VhctISLr8UE6mzFp4du8YH7r72PQAyLacq7PGpFOvKycMMbyJG/r5wR1QniqPNQsANTuXUuCE9tpaF9Fu9twBf5n7FgX2uQPZ3gOt5SljMnb58otRB5uP9Wlboz9mRMnTWxFazSiLMRV8RLwEo7oVVU6Wz1Ld7T7LKrQhTqW+Nyz4uYvrh5kxghkQpdX55j1/hrQRdgsprR6XXt9wSu/8zFOU6Q8Cw+wzj8GkyGTcKO1LoKnCHQ6r/1oBADZtxJ3Cx/UTuBVi0Ydagbpuxd/iWx8SQeaC1r9wMhpFMJtmNLkO6QVQz5S+Kb1p118NsMV+grU0SZWJGwReACSey2AkGEgiO6pA5UIujFjFugzChJSLYJnGnC/0bso51PA8VdNBB/jDiuOUOJQspNAKor3jhXJ2l7FYJHiJpirETQgIRJdG83w1SRF3ExRt4RWPX4bh3RwnnBALYYKnzZCLdJjMjSGe4O1TvnQNPCwYbmAkgFOo+bQiyt/bpQ02zfSFxGVJvgTdRabwV/f+6Y0uljcCQ1Udy74ZC34sHW6oBskXxpTS71qTesrFf4TGuqmziRwzyUxFUpUnMDrQdT7/EWstR+yEpz8iuH/XLbxwQ6NgRSc="
 env:
   global:
     - BROWSER_STACK_USERNAME='snabbdombot1'
