@@ -118,7 +118,7 @@ describe('style', function() {
   });
   it('applies tranform as transition on remove', function(done) {
     var btn = h('button', { style: {
-        transition: 'transform 0.5s',
+        transition: 'transform 0.1s',
         remove: { transform: 'translateY(100%)' }
     }}, ['A button']);
     var vnode1 = h('div.parent', {}, [btn]);
@@ -126,11 +126,12 @@ describe('style', function() {
     document.body.appendChild(vnode0);
     patch(vnode0, vnode1);
     patch(vnode1, vnode2);
-    assert.strictEqual(document.querySelectorAll('button').length, 1);
-    setTimeout(function () {
-        assert.strictEqual(document.querySelectorAll('button').length, 0);
-        done();
-    }, 700);
+    const button = document.querySelector('button');
+    assert.notStrictEqual(button, null);
+    button.addEventListener('transitionend', function() {
+      assert.strictEqual(document.querySelector('button'), null);
+      done();
+    });
   });
   describe('using toVNode()', function () {
     it('handles (ignoring) comment nodes', function() {
