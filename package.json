@@ -59,8 +59,8 @@
   },
   "homepage": "https://github.com/paldepind/snabbdom#readme",
   "husky": {
-      "hooks": {
-        "pre-commit": "npm test"
-      }
+    "hooks": {
+      "pre-commit": "npm test"
     }
+  }
 }
