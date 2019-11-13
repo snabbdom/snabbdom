@@ -69,7 +69,7 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
     return;
   }
   if(!reflowForced) {
-    getComputedStyle(document.body).transform;
+    (vnode.elm as any).offsetLeft;
     reflowForced = true;
   }
   var name: string, elm = vnode.elm, i = 0, compStyle: CSSStyleDeclaration,
