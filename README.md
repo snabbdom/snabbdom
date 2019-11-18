@@ -765,3 +765,19 @@ var vnode1 = h('div', [
   h('div', {}, [sharedNode()]),
 ]);
 ```
+
+## Maintenance policy
+
+### Pull requests
+
+| PR scope | Policy |
+| -------- | ------ |
+| Maintenance, documentation, configuration, linting, dependencies, bug fixes, etc. | Requires approval from 2 maintainers. In lieu of such within one week, @paldepind or @mightyiam may merge. |
+| More substantial changes | Both @paldepind & @mightyiam must approve. |
+
+### Releases
+
+| Patch level | Authorized maintainers |
+| ----------- | ---------------------- |
+| Patch and minor | @paldepind, @mightyiam |
+| Major | @paldepind |
