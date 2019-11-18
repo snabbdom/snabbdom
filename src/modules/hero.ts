@@ -22,9 +22,11 @@ function getTextNodeRect(textNode: Text): ClientRect | undefined {
   return rect;
 }
 
-function calcTransformOrigin(isTextNode: boolean,
-                             textRect: ClientRect | undefined,
-                             boundingRect: ClientRect): string {
+function calcTransformOrigin(
+  isTextNode: boolean,
+  textRect: ClientRect | undefined,
+  boundingRect: ClientRect
+): string {
   if (isTextNode) {
     if (textRect) {
       //calculate pixels to center of text from left edge of bounding box
@@ -36,15 +38,19 @@ function calcTransformOrigin(isTextNode: boolean,
   return '0 0'; //top left
 }
 
-function getTextDx(oldTextRect: ClientRect | undefined,
-                   newTextRect: ClientRect | undefined): number {
+function getTextDx(
+  oldTextRect: ClientRect | undefined,
+  newTextRect: ClientRect | undefined
+): number {
   if (oldTextRect && newTextRect) {
     return ((oldTextRect.left + oldTextRect.width/2) - (newTextRect.left + newTextRect.width/2));
   }
   return 0;
 }
-function getTextDy(oldTextRect: ClientRect | undefined,
-                   newTextRect: ClientRect | undefined): number {
+function getTextDy(
+  oldTextRect: ClientRect | undefined,
+  newTextRect: ClientRect | undefined
+): number {
   if (oldTextRect && newTextRect) {
     return ((oldTextRect.top + oldTextRect.height/2) - (newTextRect.top + newTextRect.height/2));
   }
@@ -125,8 +131,9 @@ function post() {
       newStyle.transition = origTransition + 'transform 0s';
       newStyle.transformOrigin = calcTransformOrigin(isTextNode, newTextRect, newRect);
       newStyle.opacity = '0';
-      newStyle.transform = origTransform + 'translate('+dx+'px, '+dy+'px) ' +
-                               'scale('+1/wRatio+', '+1/hRatio+')';
+      newStyle.transform = origTransform +
+        'translate('+dx+'px, '+dy+'px) ' +
+        'scale('+1/wRatio+', '+1/hRatio+')';
       setNextFrame(newStyle, 'transition', origTransition);
       setNextFrame(newStyle, 'transform', origTransform);
       setNextFrame(newStyle, 'opacity', '1');

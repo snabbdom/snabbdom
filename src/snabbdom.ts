@@ -96,8 +96,9 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       const hash = hashIdx > 0 ? hashIdx : sel.length;
       const dot = dotIdx > 0 ? dotIdx : sel.length;
       const tag = hashIdx !== -1 || dotIdx !== -1 ? sel.slice(0, Math.min(hash, dot)) : sel;
-      const elm = vnode.elm = isDef(data) && isDef(i = (data as VNodeData).ns) ? api.createElementNS(i, tag)
-                                                                               : api.createElement(tag);
+      const elm = vnode.elm = isDef(data) && isDef(i = (data as VNodeData).ns)
+        ? api.createElementNS(i, tag)
+        : api.createElement(tag);
       if (hash < dot) elm.setAttribute('id', sel.slice(hash + 1, dot));
       if (dotIdx > 0) elm.setAttribute('class', sel.slice(dot + 1).replace(/\./g, ' '));
       for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
@@ -122,12 +123,14 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     return vnode.elm;
   }
 
-  function addVnodes(parentElm: Node,
-                     before: Node | null,
-                     vnodes: Array<VNode>,
-                     startIdx: number,
-                     endIdx: number,
-                     insertedVnodeQueue: VNodeQueue) {
+  function addVnodes(
+    parentElm: Node,
+    before: Node | null,
+    vnodes: Array<VNode>,
+    startIdx: number,
+    endIdx: number,
+    insertedVnodeQueue: VNodeQueue
+  ) {
     for (; startIdx <= endIdx; ++startIdx) {
       const ch = vnodes[startIdx];
       if (ch != null) {

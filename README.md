@@ -601,12 +601,12 @@ significant computational time to generate.
 
 ## Virtual Node
 **Properties**
- - [sel](#sel--string)
- - [data](#data--object)
- - [children](#children--array)
- - [text](#text--string)
- - [elm](#elm--element)
- - [key](#key--string--number)
+- [sel](#sel--string)
+- [data](#data--object)
+- [children](#children--array)
+- [text](#text--string)
+- [elm](#elm--element)
+- [key](#key--string--number)
 
 #### sel : String
 
@@ -646,14 +646,14 @@ create a virtual node with
 
 ```js
 [
- {
-   sel: 'h1',
-   data: {},
-   children: undefined,
-   text: 'Hello, World',
-   elm: Element,
-   key: undefined,
- }
+  {
+    sel: 'h1',
+    data: {},
+    children: undefined,
+    text: 'Hello, World',
+    elm: Element,
+    key: undefined,
+  }
 ]
 ```
 
