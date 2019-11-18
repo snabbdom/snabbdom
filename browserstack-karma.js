@@ -31,6 +31,7 @@ module.exports = {
   },
 
   // Older mainstream
+  /* https://github.com/snabbdom/snabbdom/issues/468
   BS_Chrome_49: {
     base: 'BrowserStack',
     browser: 'chrome',
@@ -38,6 +39,7 @@ module.exports = {
     os: 'Windows',
     os_version: '10',
   },
+  */
   BS_Firefox_52: {
     base: 'BrowserStack',
     browser: 'firefox',
@@ -45,6 +47,7 @@ module.exports = {
     os: 'Windows',
     os_version: '10',
   },
+  /* https://github.com/snabbdom/snabbdom/issues/469
   BS_Safari_9: {
     base: 'BrowserStack',
     browser: 'safari',
@@ -52,6 +55,7 @@ module.exports = {
     os: 'OS X',
     os_version: 'El Capitan',
   },
+  */
 
   // Misc
   BS_Android_4_4: {
@@ -62,6 +66,7 @@ module.exports = {
     os_version: '4.4',
     real_mobile: true,
   },
+  /* https://github.com/snabbdom/snabbdom/issues/470
   BS_iphone_10: {
     base: 'BrowserStack',
     browser: 'Mobile Safari',
@@ -71,6 +76,7 @@ module.exports = {
     os: 'ios',
     os_version: '10.3',
   },
+  */
   BS_MS_Edge: {
     base: 'BrowserStack',
     browser: 'edge',
@@ -78,6 +84,7 @@ module.exports = {
     os: 'Windows',
     os_version: '10',
   },
+  /* https://github.com/snabbdom/snabbdom/issues/471
   BS_IE_11: {
     base: 'BrowserStack',
     browser: 'ie',
@@ -85,6 +92,8 @@ module.exports = {
     os: 'Windows',
     os_version: '7',
   },
+  */
+  /* https://github.com/snabbdom/snabbdom/issues/472
   BS_IE_10: {
     base: 'BrowserStack',
     browser: 'ie',
@@ -92,4 +101,5 @@ module.exports = {
     os: 'Windows',
     os_version: '7',
   },
+  */
 };
