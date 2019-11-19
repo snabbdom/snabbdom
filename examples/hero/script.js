@@ -67,8 +67,13 @@ const detailView = (movie) =>
       h('div.desc', {
         style: {opacity: '0', transform: 'translateX(3em)',
                 delayed: {opacity: '1', transform: 'translate(0)'},
-                remove: {opacity: '0', position: 'absolute', top: '0', left: '0',
-                         transform: 'translateX(3em)'}
+                remove: {
+                  opacity: '0',
+                  position: 'absolute',
+                  top: '0',
+                  left: '0',
+                  transform: 'translateX(3em)'
+                }
         }
       }, [
         h('h2', 'Description:'),
