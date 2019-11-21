@@ -50,7 +50,6 @@ function create(_: any, vnode: VNodeWithAttachData): void {
 }
 
 export function attachTo(target: Element, vnode: VNode): VNode {
-  if (vnode.data === undefined) vnode.data = {};
   if (vnode.data.hook === undefined) vnode.data.hook = {};
   const data = vnode.data;
   const hook = vnode.data.hook;

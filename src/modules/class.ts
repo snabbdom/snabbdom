@@ -1,12 +1,12 @@
-import {VNode, VNodeData} from '../vnode';
+import {VNode} from '../vnode';
 import {Module} from './module';
 
 export type Classes = Record<string, boolean>
 
 function updateClass(oldVnode: VNode, vnode: VNode): void {
   var cur: any, name: string, elm: Element = vnode.elm as Element,
-      oldClass = (oldVnode.data as VNodeData).class,
-      klass = (vnode.data as VNodeData).class;
+      oldClass = oldVnode.data.class,
+      klass = vnode.data.class;
 
   if (!oldClass && !klass) return;
   if (oldClass === klass) return;
