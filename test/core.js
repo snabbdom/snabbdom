@@ -264,6 +264,186 @@ describe('snabbdom', function() {
       patch(vnode1, vnode2);
       assert.equal(elm.src, undefined);
     });
+    it('can remove previous children of the root element', function () {
+      var h2 = document.createElement('h2');
+      h2.textContent = 'Hello'
+      var prevElm = document.createElement('div');
+      prevElm.id = 'id';
+      prevElm.className = 'class';
+      prevElm.appendChild(h2);
+      var nextVNode = h('div#id.class', [h('span', 'Hi')]);
+      elm = patch(prevElm, nextVNode).elm;
+      assert.strictEqual(elm, prevElm);
+      assert.equal(elm.tagName, 'DIV');
+      assert.equal(elm.id, 'id');
+      assert.equal(elm.className, 'class');
+      assert.strictEqual(elm.childNodes.length, 1);
+      assert.strictEqual(elm.childNodes[0].tagName, 'SPAN');
+      assert.strictEqual(elm.childNodes[0].textContent, 'Hi');
+    });
+    describe('using skip element flag', function () {
+      it('skips patching a flagged element', function () {
+        var topdiv = document.createElement('div');
+        topdiv.textContent = 'top';
+        topdiv.id = 'top';
+        var botdiv = document.createElement('div');
+        botdiv.textContent = 'bottom';
+        botdiv.id = 'bot';
+        var prevElm = document.createElement('div');
+        prevElm.id = 'id';
+        prevElm.appendChild(topdiv);
+        prevElm.appendChild(botdiv);
+        var nextVNode = h('div#id', [
+          h('div#top', '1'),
+          h('div#bot', {hook:{skip:true}}, '2'),
+        ]);
+        elm = patch(prevElm, nextVNode).elm;
+        assert.strictEqual(elm.childNodes[0].textContent, '1');
+        assert.strictEqual(elm.childNodes[1].textContent, 'bottom');
+      });
+      it('maintains child order', function () {
+        var firstdiv = document.createElement('div');
+        firstdiv.textContent = 'first';
+        var seconddiv = document.createElement('div');
+        seconddiv.textContent = 'second';
+        seconddiv.id = 'skipme';
+        var thirddiv = document.createElement('div');
+        thirddiv.textContent = 'third';
+        var fourthdiv = document.createElement('div');
+        fourthdiv.textContent = 'fourth';
+        var prevElm = document.createElement('div');
+        prevElm.id = 'id';
+        prevElm.appendChild(firstdiv);
+        prevElm.appendChild(seconddiv);
+        prevElm.appendChild(thirddiv);
+        prevElm.appendChild(fourthdiv);
+        var nextVNode = h('div#id', [
+          h('div', '1'),
+          h('div#skipme', {hook:{skip:true}}, '2'),
+          h('div', '3'),
+          h('div', '4')
+        ]);
+        elm = patch(prevElm, nextVNode).elm;
+        assert.strictEqual(elm.childNodes.length, 4);
+        assert.strictEqual(elm.childNodes[0].textContent, '1');
+        assert.strictEqual(elm.childNodes[1].textContent, 'second');
+        assert.strictEqual(elm.childNodes[2].textContent, '3');
+        assert.strictEqual(elm.childNodes[3].textContent, '4');
+      });
+      it('allows child reorder', function () {
+        var firstdiv = document.createElement('div');
+        firstdiv.textContent = 'first';
+        var seconddiv = document.createElement('div');
+        seconddiv.textContent = 'second';
+        seconddiv.id = 'skipme';
+        var thirddiv = document.createElement('div');
+        thirddiv.textContent = 'third';
+        var fourthdiv = document.createElement('div');
+        fourthdiv.textContent = 'fourth';
+        var prevElm = document.createElement('div');
+        prevElm.id = 'id';
+        prevElm.appendChild(firstdiv);
+        prevElm.appendChild(seconddiv);
+        prevElm.appendChild(thirddiv);
+        prevElm.appendChild(fourthdiv);
+        var nextVNode = h('div#id', [
+          h('div', '1'),
+          h('div', '2'),
+          h('div#skipme', {hook:{skip:true}}, '3'),
+          h('div', '4')
+        ]);
+        elm = patch(prevElm, nextVNode).elm;
+        assert.strictEqual(elm.childNodes.length, 4);
+        assert.strictEqual(elm.childNodes[0].textContent, '1');
+        assert.strictEqual(elm.childNodes[1].textContent, '2');
+        assert.strictEqual(elm.childNodes[2].textContent, 'second');
+        assert.strictEqual(elm.childNodes[3].textContent, '4');
+      });
+      it('allows child with id reorder', function () {
+        var topdiv = document.createElement('div');
+        topdiv.textContent = 'top';
+        topdiv.id = 'top';
+        var middiv = document.createElement('div');
+        middiv.textContent = 'middle';
+        middiv.id = 'mid';
+        var botdiv = document.createElement('div');
+        botdiv.textContent = 'bottom';
+        botdiv.id = 'bot';
+        var prevElm = document.createElement('div');
+        prevElm.id = 'id';
+        prevElm.appendChild(topdiv);
+        prevElm.appendChild(middiv);
+        prevElm.appendChild(botdiv);
+        var nextVNode = h('div#id', [
+          h('div#top', '1'),
+          h('div#mid', {hook:{skip:true}}, '2'),
+          h('div#bot', '3')
+        ]);
+        var newelm = patch(prevElm, nextVNode);
+        elm = newelm.elm;
+        assert.strictEqual(elm.childNodes[0].textContent, '1');
+        assert.strictEqual(elm.childNodes[1].textContent, 'middle');
+        assert.strictEqual(elm.childNodes[2].textContent, '3');
+        nextVNode = h('div#id', [
+          h('div#mid', {hook:{skip:true}}, '1'),
+          h('div#top', '2'),
+          h('div#bot', '3'),
+        ]);
+        elm = patch(newelm, nextVNode).elm;
+        assert.strictEqual(elm.childNodes[0].id, 'mid');
+        assert.strictEqual(elm.childNodes[1].id, 'top');
+        assert.strictEqual(elm.childNodes[2].id, 'bot');
+        assert.strictEqual(elm.childNodes[0].textContent, 'middle');
+        assert.strictEqual(elm.childNodes[1].textContent, '2');
+        assert.strictEqual(elm.childNodes[2].textContent, '3');
+      });
+      it('allows allows add node after', function () {
+        var topdiv = document.createElement('div');
+        topdiv.textContent = 'top';
+        topdiv.id = 'top';
+        var middiv = document.createElement('div');
+        middiv.textContent = 'middle';
+        middiv.id = 'mid';
+        var prevElm = document.createElement('div');
+        prevElm.id = 'id';
+        prevElm.appendChild(topdiv);
+        prevElm.appendChild(middiv);
+        var nextVNode = h('div#id', [
+          h('div#top', '1'),
+          h('div#mid', {hook:{skip:true}}, '2'),
+          h('div#bot', '3')
+        ]);
+        elm = patch(prevElm, nextVNode).elm;
+        assert.strictEqual(elm.childNodes[0].textContent, '1');
+        assert.strictEqual(elm.childNodes[1].id, 'mid');
+        assert.strictEqual(elm.childNodes[1].textContent, 'middle');
+        assert.strictEqual(elm.childNodes[2].id, 'bot');
+        assert.strictEqual(elm.childNodes[2].textContent, '3');
+      });
+      it('allows allows add node before', function () {
+        var middiv = document.createElement('div');
+        middiv.textContent = 'middle';
+        middiv.id = 'mid';
+        var botdiv = document.createElement('div');
+        botdiv.textContent = 'bottom';
+        botdiv.id = 'bot';
+        var prevElm = document.createElement('div');
+        prevElm.id = 'id';
+        prevElm.appendChild(middiv);
+        prevElm.appendChild(botdiv);
+        var nextVNode = h('div#id', [
+          h('div#top', '1'),
+          h('div#mid', {hook:{skip:true}}, '2'),
+          h('div#bot', '3')
+        ]);
+        elm = patch(prevElm, nextVNode).elm;
+        assert.strictEqual(elm.childNodes[0].id, 'top');
+        assert.strictEqual(elm.childNodes[0].textContent, '1');
+        assert.strictEqual(elm.childNodes[1].id, 'mid');
+        assert.strictEqual(elm.childNodes[1].textContent, 'middle');
+        assert.strictEqual(elm.childNodes[2].textContent, '3');
+      });
+    });
     describe('using toVNode()', function () {
       it('can remove previous children of the root element', function () {
         var h2 = document.createElement('h2');

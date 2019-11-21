@@ -7,13 +7,20 @@ import htmlDomApi, {DOMAPI} from './htmldomapi';
 
 function isUndef(s: any): boolean { return s === undefined; }
 function isDef(s: any): boolean { return s !== undefined; }
+function hasSkip(s: any): boolean { return isDef(s = s.hook) && isDef(s = s.skip) && s === true; }
 
 type VNodeQueue = Array<VNode>;
 
 const emptyNode = vnode('', {}, [], undefined, undefined);
 
+function sameVnodeId(vnode1Sel: string, vnode2Sel: string): boolean {
+  return vnode1Sel.indexOf('#') > -1 && vnode1Sel.split('.')[0] === vnode2Sel.split('.')[0];
+ }
 function sameVnode(vnode1: VNode, vnode2: VNode): boolean {
-  return vnode1.key === vnode2.key && vnode1.sel === vnode2.sel;
+  return ((vnode1.key === vnode2.key && vnode1.sel === vnode2.sel)
+         || ('undefined' !== typeof vnode2.data && hasSkip(vnode2.data)
+            && 'undefined' !== typeof vnode1.sel && 'undefined' !== typeof vnode2.sel
+            && sameVnodeId(vnode1.sel, vnode2.sel)));
 }
 
 function isVnode(vnode: any): vnode is VNode {
@@ -62,8 +69,12 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
 
   function emptyNodeAt(elm: Element) {
     const id = elm.id ? '#' + elm.id : '';
-    const c = elm.className ? '.' + elm.className.split(' ').join('.') : '';
-    return vnode(api.tagName(elm).toLowerCase() + id + c, {}, [], undefined, elm);
+    const c = elm.className && 'string' === typeof elm.className ? '.' + elm.className.split(' ').join('.') : '';
+    const elmvnode = vnode(api.tagName(elm).toLowerCase() + id + c, {}, [], undefined, elm);
+    for (let child: any = elm.firstChild, ii: number = 0; child !== null; child = child.nextSibling, ii++) {
+      if ( 1 === child.nodeType && 'undefined' !== typeof elmvnode.children ) { elmvnode.children[ii] = emptyNodeAt(child) }
+    }
+    return elmvnode
   }
 
   function createRmCb(childElm: Node, listeners: number) {
@@ -261,7 +272,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     const elm = vnode.elm = (oldVnode.elm as Node);
     let oldCh = oldVnode.children;
     let ch = vnode.children;
-    if (oldVnode === vnode) return;
+    if (oldVnode === vnode || ('undefined' !== typeof vnode.data && hasSkip(vnode.data))) return;
     if (vnode.data !== undefined) {
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);
       i = vnode.data.hook;
