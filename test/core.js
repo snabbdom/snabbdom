@@ -67,6 +67,12 @@ describe('snabbdom', function() {
       var vnode = h('a', {}, 'I am a string');
       assert.equal(vnode.text, 'I am a string');
     });
+    it('can create vnode with null props', function() {
+      var vnode = h('a', null);
+      assert.deepStrictEqual(vnode.data, {});
+      vnode = h('a', null, ['I am a string']);
+      assert.equal(vnode.children[0].text, 'I am a string');
+    });
     it('can create vnode for comment', function() {
       var vnode = h('!', 'test');
       assert.equal(vnode.sel, '!');

@@ -10,6 +10,8 @@
     "test": "test"
   },
   "devDependencies": {
+    "@types/assert": "^1.4.3",
+    "@types/mocha": "^5.2.7",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "benchmark": "^2.1.4",
     "browserify": "^14.4.0",
