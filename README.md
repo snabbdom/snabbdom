@@ -768,6 +768,10 @@ var vnode1 = h('div', [
 
 ## Maintenance policy
 
+### Contributing
+
+The project in general would like to refrain from adding more API surface or magic defaults. Additional features generally seem more appropriate as third party modules. In any case, please open an issue to discuss any changes you are thinking of.
+
 ### Pull requests
 
 | PR scope | Policy |
