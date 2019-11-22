@@ -8,7 +8,7 @@ import htmlDomApi, {DOMAPI} from './htmldomapi';
 function isUndef(s: any): boolean { return s === undefined; }
 function isDef(s: any): boolean { return s !== undefined; }
 
-type VNodeQueue = Array<VNode>;
+type VNodeQueue = VNode[];
 
 const emptyNode = vnode('', {}, [], undefined, undefined);
 
@@ -23,12 +23,12 @@ function isVnode(vnode: any): vnode is VNode {
 type KeyToIndexMap = {[key: string]: number};
 
 type ArraysOf<T> = {
-  [K in keyof T]: (T[K])[];
+  [K in keyof T]: Array<T[K]>;
 }
 
 type ModuleHooks = ArraysOf<Module>;
 
-function createKeyToOldIdx(children: Array<VNode>, beginIdx: number, endIdx: number): KeyToIndexMap {
+function createKeyToOldIdx(children: VNode[], beginIdx: number, endIdx: number): KeyToIndexMap {
   let i: number, map: KeyToIndexMap = {}, key: Key | undefined, ch;
   for (i = beginIdx; i <= endIdx; ++i) {
     ch = children[i];
@@ -40,7 +40,7 @@ function createKeyToOldIdx(children: Array<VNode>, beginIdx: number, endIdx: num
   return map;
 }
 
-const hooks: (keyof Module)[] = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
+const hooks: Array<keyof Module> = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
 export {h} from './h';
 export {thunk} from './thunk';
@@ -55,7 +55,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     for (j = 0; j < modules.length; ++j) {
       const hook = modules[j][hooks[i]];
       if (hook !== undefined) {
-        (cbs[hooks[i]] as Array<any>).push(hook);
+        (cbs[hooks[i]] as any[]).push(hook);
       }
     }
   }
@@ -126,7 +126,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   function addVnodes(
     parentElm: Node,
     before: Node | null,
-    vnodes: Array<VNode>,
+    vnodes: VNode[],
     startIdx: number,
     endIdx: number,
     insertedVnodeQueue: VNodeQueue
@@ -156,7 +156,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   }
 
   function removeVnodes(parentElm: Node,
-                        vnodes: Array<VNode>,
+                        vnodes: VNode[],
                         startIdx: number,
                         endIdx: number): void {
     for (; startIdx <= endIdx; ++startIdx) {
@@ -180,8 +180,8 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   }
 
   function updateChildren(parentElm: Node,
-                          oldCh: Array<VNode>,
-                          newCh: Array<VNode>,
+                          oldCh: VNode[],
+                          newCh: VNode[],
                           insertedVnodeQueue: VNodeQueue) {
     let oldStartIdx = 0, newStartIdx = 0;
     let oldEndIdx = oldCh.length - 1;
@@ -269,18 +269,18 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     }
     if (isUndef(vnode.text)) {
       if (isDef(oldCh) && isDef(ch)) {
-        if (oldCh !== ch) updateChildren(elm, oldCh as Array<VNode>, ch as Array<VNode>, insertedVnodeQueue);
+        if (oldCh !== ch) updateChildren(elm, oldCh as VNode[], ch as VNode[], insertedVnodeQueue);
       } else if (isDef(ch)) {
         if (isDef(oldVnode.text)) api.setTextContent(elm, '');
-        addVnodes(elm, null, ch as Array<VNode>, 0, (ch as Array<VNode>).length - 1, insertedVnodeQueue);
+        addVnodes(elm, null, ch as VNode[], 0, (ch as VNode[]).length - 1, insertedVnodeQueue);
       } else if (isDef(oldCh)) {
-        removeVnodes(elm, oldCh as Array<VNode>, 0, (oldCh as Array<VNode>).length - 1);
+        removeVnodes(elm, oldCh as VNode[], 0, (oldCh as VNode[]).length - 1);
       } else if (isDef(oldVnode.text)) {
         api.setTextContent(elm, '');
       }
     } else if (oldVnode.text !== vnode.text) {
       if (isDef(oldCh)) {
-        removeVnodes(elm, oldCh as Array<VNode>, 0, (oldCh as Array<VNode>).length - 1);
+        removeVnodes(elm, oldCh as VNode[], 0, (oldCh as VNode[]).length - 1);
       }
       api.setTextContent(elm, vnode.text as string);
     }

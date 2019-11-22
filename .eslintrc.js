@@ -2,7 +2,6 @@ module.exports = {
   extends: 'standard-with-typescript',
   parserOptions: { project: [ './tsconfig.json', ] },
   rules: {
-    '@typescript-eslint/array-type': 'off',
     '@typescript-eslint/brace-style': 'off',
     '@typescript-eslint/consistent-type-assertions': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
