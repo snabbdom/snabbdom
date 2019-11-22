@@ -10,5 +10,6 @@
       "language": "typescriptreact",
       "autoFix": true
     }
-  ]
+  ],
+  "eslint.options.ignorePath": ".gitignore"
 }
