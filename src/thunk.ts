@@ -3,7 +3,7 @@ import {h} from './h';
 
 export interface ThunkData extends VNodeData {
   fn: () => VNode;
-  args: Array<any>;
+  args: any[];
 }
 
 export interface Thunk extends VNode {
@@ -11,8 +11,8 @@ export interface Thunk extends VNode {
 }
 
 export interface ThunkFn {
-  (sel: string, fn: Function, args: Array<any>): Thunk;
-  (sel: string, key: any, fn: Function, args: Array<any>): Thunk;
+  (sel: string, fn: Function, args: any[]): Thunk;
+  (sel: string, key: any, fn: Function, args: any[]): Thunk;
 }
 
 function copyToThunk(vnode: VNode, thunk: VNode): void {
