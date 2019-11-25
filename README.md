@@ -51,8 +51,7 @@ performance, small size and all the features listed below.
   * Extendable through modules.
   * A rich set of hooks available, both per vnode and globally for modules,
     to hook into any part of the diff and patch process.
-  * Splendid performance. Snabbdom is among the fastest virtual DOM libraries
-    in the [Virtual DOM Benchmark](http://vdom-benchmark.github.io/vdom-benchmark/).
+  * Splendid performance. Snabbdom is among the fastest virtual DOM libraries.
   * Patch function with a function signature equivalent to a reduce/scan
     function. Allows for easier integration with a FRP library.
 * Features in modules
