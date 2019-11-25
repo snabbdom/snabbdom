@@ -532,26 +532,8 @@ See also the [SVG example](./examples/svg) and the [SVG Carousel example](./exam
 #### Using Classes in SVG Elements
 
 Certain browsers (like IE <=11) [do not support `classList` property in SVG elements](http://caniuse.com/#feat=classlist).
-Hence, the _class_ module (which uses `classList` property internally) will not work for these browsers.
-
-The classes in selectors for SVG elements work fine from version 0.6.7.
-
-You can add dynamic classes to SVG elements for these cases by using the _attributes_ module and an Array as shown below:
-
-```js
-h('svg', [
-  h('text.underline', { // 'underline' is a selector class, remain unchanged between renders.
-      attrs: {
-        // 'active' and 'red' are dynamic classes, they can change between renders
-        // so we need to put them in the class attribute.
-        // (Normally we'd use the classModule, but it doesn't work inside SVG)
-        class: [isActive && "active", isColored && "red"].filter(Boolean).join(" ")
-      }
-    },
-    'Hello World'
-  )
-])
-```
+Because the _class_ module internally uses `classList`, it will not work in this case unless you use a [classList polyfill](https://www.npmjs.com/package/classlist-polyfill).
+(If you don't want to use a polyfill, you can use the `class` attribute with the _attributes_ module).
 
 ### Thunks
 
