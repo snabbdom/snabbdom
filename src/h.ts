@@ -1,6 +1,6 @@
 import {vnode, VNode, VNodeData} from './vnode';
 export type VNodes = VNode[];
-export type VNodeChildElement = VNode | string | number | boolean | undefined | null;
+export type VNodeChildElement = VNode | string | number | undefined | null;
 export type ArrayOrElement<T> = T | T[];
 export type VNodeChildren = ArrayOrElement<VNodeChildElement>
 import * as is from './is';
