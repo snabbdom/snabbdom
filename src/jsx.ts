@@ -1,7 +1,7 @@
 import {vnode, VNode, VNodeData} from './vnode';
 import {h, ArrayOrElement} from './h';
 
-// for conditional rendering we support boolean child element for falsey filtering
+// for conditional rendering we support boolean child element e.g cond && <tag />
 export type JsxVNodeChild = VNode | string | number | boolean | undefined | null;
 export type JsxVNodeChildren = ArrayOrElement<JsxVNodeChild>
 
