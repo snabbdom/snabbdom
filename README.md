@@ -1,7 +1,9 @@
-<img src="logo.png" width="356px">
+<img alt="Snabbdom" src="logo.png" width="356px">
 
 A virtual DOM library with focus on simplicity, modularity, powerful features
 and performance.
+
+* * *
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/snabbdom/snabbdom.svg?branch=master)](https://travis-ci.org/snabbdom/snabbdom)
@@ -12,26 +14,12 @@ and performance.
 Thanks to [Browserstack](https://www.browserstack.com/) for providing access to
 their great cross-browser testing tools.
 
-## Table of contents
-
-* [Introduction](#introduction)
-* [Features](#features)
-* [Inline example](#inline-example)
-* [Examples](#examples)
-* [Core documentation](#core-documentation)
-* [Modules documentation](#modules-documentation)
-* [Helpers](#helpers)
-* [Virtual Node documentation](#virtual-node)
-* [Structuring applications](#structuring-applications)
-
-## Why
+## Introduction
 
 Virtual DOM is awesome. It allows us to express our application's view
 as a function of its state. But existing solutions were way way too
 bloated, too slow, lacked features, had an API biased towards OOP
 and/or lacked features I needed.
-
-## Introduction
 
 Snabbdom consists of an extremely simple, performant and extensible
 core that is only ≈ 200 SLOC. It offers a modular architecture with
@@ -53,7 +41,7 @@ performance, small size and all the features listed below.
     to hook into any part of the diff and patch process.
   * Splendid performance. Snabbdom is among the fastest virtual DOM libraries.
   * Patch function with a function signature equivalent to a reduce/scan
-    function. Allows for easier integration with a FRP library.
+          function. Allows for easier integration with a FRP library.
 * Features in modules
   * `h` function for easily creating virtual DOM nodes.
   * [SVG _just works_ with the `h` helper](#svg).
@@ -67,7 +55,7 @@ performance, small size and all the features listed below.
   * Template string support using [snabby](https://github.com/jamen/snabby).
   * Virtual DOM assertion with [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like)
 
-## Inline example
+## Example
 
 ```javascript
 var snabbdom = require('snabbdom');
@@ -101,11 +89,55 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 patch(newVnode, null)
 ```
 
-## Examples
+## More examples
 
 * [Animated reordering of elements](http://snabbdom.github.io/snabbdom/examples/reorder-animation/)
 * [Hero transitions](http://snabbdom.github.io/snabbdom/examples/hero/)
 * [SVG Carousel](http://snabbdom.github.io/snabbdom/examples/carousel-svg/)
+
+* * *
+
+## Table of contents
+
+* [Core documentation](#core-documentation)
+  * [`snabbdom.init`](#snabbdominit)
+  * [`patch`](#patch)
+  * [`snabbdom/h`](#snabbdomh)
+  * [`snabbdom/tovnode`](#snabbdomtovnode)
+  * [Hooks](#hooks)
+    * [Overview](#overview)
+    * [Usage](#usage)
+    * [The `init` hook](#the-init-hook)
+    * [The `insert` hook](#the-insert-hook)
+    * [The `remove` hook](#the-remove-hook)
+    * [The `destroy` hook](#the-destroy-hook)
+  * [Creating modules](#creating-modules)
+* [Modules documentation](#modules-documentation)
+  * [The class module](#the-class-module)
+  * [The props module](#the-props-module)
+  * [The attributes module](#the-attributes-module)
+  * [The dataset module](#the-dataset-module)
+  * [The style module](#the-style-module)
+    * [Custom properties (CSS variables)](#custom-properties-css-variables)
+    * [Delayed properties](#delayed-properties)
+    * [Set properties on `remove`](#set-properties-on-remove)
+    * [Set properties on `destroy`](#set-properties-on-destroy)
+  * [Eventlisteners module](#eventlisteners-module)
+* [SVG](#svg)
+  * [Classes in SVG Elements](#classes-in-svg-elements)
+* [Thunks](#thunks)
+* [Virtual Node](#virtual-node)
+  * [sel : String](#sel--string)
+  * [data : Object](#data--object)
+  * [children : Array<vnode>](#children--arrayvnode)
+  * [text : string](#text--string)
+  * [elm : Element](#elm--element)
+  * [key : string | number](#key--string--number)
+* [Structuring applications](#structuring-applications)
+* [Common errors](#common-errors)
+* [Maintenance policy](#maintenance-policy)
+  * [Pull requests](#pull-requests)
+  * [Releases](#releases)
 
 ## Core documentation
 
@@ -194,18 +226,18 @@ desired points in the life of a virtual node.
 
 #### Overview
 
-| Name        | Triggered when                                     | Arguments to callback   |
-| ----------- | --------------                                     | ----------------------- |
-| `pre`       | the patch process begins                           | none                    |
-| `init`      | a vnode has been added                             | `vnode`                 |
-| `create`    | a DOM element has been created based on a vnode    | `emptyVnode, vnode`     |
-| `insert`    | an element has been inserted into the DOM          | `vnode`                 |
-| `prepatch`  | an element is about to be patched                  | `oldVnode, vnode`       |
-| `update`    | an element is being updated                        | `oldVnode, vnode`       |
-| `postpatch` | an element has been patched                        | `oldVnode, vnode`       |
-| `destroy`   | an element is directly or indirectly being removed | `vnode`                 |
-| `remove`    | an element is directly being removed from the DOM  | `vnode, removeCallback` |
-| `post`      | the patch process is done                          | none                    |
+| Name | Triggered when | Arguments to callback |
+| ---- | -------------- | --------------------- |
+| `pre` | the patch process begins | none |
+| `init` | a vnode has been added | `vnode` |
+| `create` | a DOM element has been created based on a vnode | `emptyVnode, vnode` |
+| `insert` | an element has been inserted into the DOM | `vnode` |
+| `prepatch` | an element is about to be patched | `oldVnode, vnode` |
+| `update` | an element is being updated | `oldVnode, vnode` |
+| `postpatch` | an element has been patched | `oldVnode, vnode` |
+| `destroy` | an element is directly or indirectly being removed | `vnode` |
+| `remove` | an element is directly being removed from the DOM | `vnode, removeCallback` |
+| `post` | the patch process is done | none |
 
 The following hooks are available for modules: `pre`, `create`,
 `update`, `destroy`, `remove`, `post`.
@@ -462,6 +494,7 @@ h('div', [
 ```
 
 Each handler is called not only with the given arguments but also with the current event and vnode appended to the argument list. It also supports using multiple listeners per event by specifying an array of handlers:
+
 ```javascript
 stopPropagation = function(ev) { ev.stopPropagation() }
 sendValue = function(func, ev, vnode) { func(vnode.elm.value) }
@@ -511,9 +544,7 @@ h('div', [
 ]);
 ```
 
-## Helpers
-
-### SVG
+## SVG
 
 SVG just works when using the `h` function for creating virtual
 nodes. SVG elements are automatically created with the appropriate
@@ -529,13 +560,13 @@ var vnode = h('div', [
 
 See also the [SVG example](./examples/svg) and the [SVG Carousel example](./examples/carousel-svg/).
 
-#### Using Classes in SVG Elements
+### Classes in SVG Elements
 
-Certain browsers (like IE <=11) [do not support `classList` property in SVG elements](http://caniuse.com/#feat=classlist).
+Certain browsers (like IE &lt;=11) [do not support `classList` property in SVG elements](http://caniuse.com/#feat=classlist).
 Because the _class_ module internally uses `classList`, it will not work in this case unless you use a [classList polyfill](https://www.npmjs.com/package/classlist-polyfill).
 (If you don't want to use a polyfill, you can use the `class` attribute with the _attributes_ module).
 
-### Thunks
+## Thunks
 
 The `thunk` function takes a selector, a key for identifying a thunk,
 a function that returns a vnode and a variable amount of state
@@ -581,22 +612,24 @@ relevant if you are rendering a complicated view that takes
 significant computational time to generate.
 
 ## Virtual Node
-**Properties**
-- [sel](#sel--string)
-- [data](#data--object)
-- [children](#children--array)
-- [text](#text--string)
-- [elm](#elm--element)
-- [key](#key--string--number)
 
-#### sel : String
+**Properties**
+
+* [sel](#sel--string)
+* [data](#data--object)
+* [children](#children--array)
+* [text](#text--string)
+* [elm](#elm--element)
+* [key](#key--string--number)
+
+### sel : String
 
 The `.sel` property of a virtual node is the CSS selector passed to
 [`h()`](#snabbdomh) during creation. For example: `h('div#container',
 {}, [...])` will create a a virtual node which has `div#container` as
 its `.sel` property.
 
-#### data : Object
+### data : Object
 
 The `.data` property of a virtual node is the place to add information
 for [modules](#modules-documentation) to access and manipulate the
@@ -606,6 +639,7 @@ attributes, etc.
 The data object is the (optional) second parameter to [`h()`](#snabbdomh)
 
 For example `h('div', {props: {className: 'container'}}, [...])` will produce a virtual node with
+
 ```js
 {
   "props": {
@@ -613,9 +647,10 @@ For example `h('div', {props: {className: 'container'}}, [...])` will produce a 
   }
 }
 ```
+
 as its `.data` object.
 
-#### children : Array<vnode>
+### children : Array<vnode>
 
 The `.children` property of a virtual node is the third (optional)
 parameter to [`h()`](#snabbdomh) during creation. `.children` is
@@ -640,7 +675,7 @@ create a virtual node with
 
 as its `.children` property.
 
-#### text : string
+### text : string
 
 The `.text` property is created when a virtual node is created with
 only a single child that possesses text and only requires
@@ -649,14 +684,14 @@ only a single child that possesses text and only requires
 For example: `h('h1', {}, 'Hello')` will create a virtual node with
 `Hello` as its `.text` property.
 
-#### elm : Element
+### elm : Element
 
 The `.elm` property of a virtual node is a pointer to the real DOM
 node created by snabbdom. This property is very useful to do
 calculations in [hooks](#hooks) as well as
 [modules](#modules-documentation).
 
-#### key : string | number
+### key : string | number
 
 The `.key` property is created when a key is provided inside of your
 [`.data`](#data--object) object. The `.key` property is used to keep
@@ -670,7 +705,6 @@ an object, where `.key` is the key and the value is the
 For example: `h('div', {key: 1}, [])` will create a virtual node
 object with a `.key` property with the value of `1`.
 
-
 ## Structuring applications
 
 Snabbdom is a low-level virtual DOM library. It is unopinionated with
@@ -682,11 +716,11 @@ Here are some approaches to building applications with Snabbdom.
   a repository containing several example applications that
   demonstrates an architecture that uses Snabbdom.
 * [Cycle.js](https://cycle.js.org/) –
-  "A functional and reactive JavaScript framework for cleaner code"
-  uses Snabbdom
+    "A functional and reactive JavaScript framework for cleaner code"
+    uses Snabbdom
 * [Vue.js](http://vuejs.org/) use a fork of snabbdom.
 * [scheme-todomvc](https://github.com/amirouche/scheme-todomvc/) build
-  redux-like architecture on top of snabbdom bindings.
+    redux-like architecture on top of snabbdom bindings.
 * [kaiju](https://github.com/AlexGalays/kaiju) -
   Stateful components and observables on top of snabbdom
 * [Tweed](https://tweedjs.github.io) –
@@ -709,11 +743,13 @@ using Snabbdom.
 
 ## Common errors
 
-```
+```text
 Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node':
     The node before which the new node is to be inserted is not a child of this node.
 ```
+
 The reason for this error is reusing of vnodes between patches (see code example), snabbdom stores actual dom nodes inside the virtual dom nodes passed to it as performance improvement, so reusing nodes between patches is not supported.
+
 ```js
 var sharedNode = h('div', {}, 'Selected');
 var vnode1 = h('div', [
@@ -729,7 +765,9 @@ var vnode2 = h('div', [
 patch(container, vnode1);
 patch(vnode1, vnode2);
 ```
+
 You can fix this issue by creating a shallow copy of the object (here with object spread syntax):
+
 ```js
 var vnode2 = h('div', [
   h('div', {}, ['One']),
@@ -737,7 +775,9 @@ var vnode2 = h('div', [
   h('div', {}, ['Three']),
 ]);
 ```
+
 Another solution would be to wrap shared vnodes in a factory function:
+
 ```js
 var sharedNode = () => h('div', {}, 'Selected');
 var vnode1 = h('div', [
