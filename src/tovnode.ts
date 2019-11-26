@@ -10,7 +10,7 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
     const c = cn ? '.' + cn.split(' ').join('.') : '';
     const sel = api.tagName(node).toLowerCase() + id + c;
     const attrs: any = {};
-    const children: Array<VNode> = [];
+    const children: VNode[] = [];
     let name: string;
     let i: number, n: number;
     const elmAttrs = node.attributes;

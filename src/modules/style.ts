@@ -73,7 +73,7 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
     reflowForced = true;
   }
   var name: string, elm = vnode.elm, i = 0, compStyle: CSSStyleDeclaration,
-      style = s.remove, amount = 0, applied: Array<string> = [];
+      style = s.remove, amount = 0, applied: string[] = [];
   for (name in style) {
     applied.push(name);
     (elm as any).style[name] = style[name];
