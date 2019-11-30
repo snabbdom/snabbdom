@@ -1,7 +1,7 @@
 import {VNode, VNodeData} from '../vnode';
 import {Module} from './module';
 
-export declare type HandlerFunc = (...args:any[]) => void;
+export declare type HandlerFunc = (...args: any[]) => void;
 export declare type Handler = HandlerFunc | [HandlerFunc, ...any[]] | Handler[];
 export declare type On = {
     [event: string]: Handler;
