@@ -1,10 +1,10 @@
 import {VNode, VNodeData} from '../vnode';
 import {Module} from './module';
 
-export type On = {
-  [N in keyof HTMLElementEventMap]?: (ev: HTMLElementEventMap[N]) => void
-} & {
-  [event: string]: EventListener
+export declare type HandlerFunc = (...args:any[]) => void;
+export declare type Handler = HandlerFunc | [HandlerFunc, ...any[]] | Handler[];
+export declare type On = {
+    [event: string]: Handler;
 };
 
 function invokeHandler(handler: any, vnode?: VNode, event?: Event): void {
