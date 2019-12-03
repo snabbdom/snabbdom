@@ -30,11 +30,14 @@ module.exports = function(config) {
     hostname: ci ? ip : 'localhost',
     preprocessors: {
       'src/**/*.ts': ['karma-typescript'],
-      'test/**/*.js': ['karma-typescript'],
+      'test/**/*.{js,ts,tsx}': ['karma-typescript'],
     },
     browserStack: {
       name: 'Snabbdom',
       retryLimit: 3,
+    },
+    client: {
+      captureConsole: true,
     },
     browserNoActivityTimeout: 1000000,
     customLaunchers: browserstack,

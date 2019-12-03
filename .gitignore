@@ -45,6 +45,9 @@ node_modules
 /es/is.d.ts
 /es/is.js
 /es/is.js.map
+/es/jsx.d.ts
+/es/jsx.js
+/es/jsx.js.map
 /es/snabbdom.bundle.d.ts
 /es/snabbdom.bundle.js
 /es/snabbdom.bundle.js.map
@@ -101,6 +104,10 @@ node_modules
 /is.d.ts
 /is.js
 /is.js.map
+/jsx.d.ts
+/jsx-global.d.ts
+/jsx.js
+/jsx.js.map
 /snabbdom.bundle.d.ts
 /snabbdom.bundle.js
 /snabbdom.bundle.js.map
