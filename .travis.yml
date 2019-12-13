@@ -1,0 +1,10 @@
+sudo: false
+language: node_js
+node_js:
+  - v12.10.0
+script:
+  - npm test
+env:
+  global:
+    - BROWSER_STACK_USERNAME='snabbdombot1'
+    - BROWSER_STACK_ACCESS_KEY='Wx2FUSehQLBf3haqHphd'

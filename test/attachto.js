@@ -13,10 +13,10 @@ describe('attachTo', function() {
   });
   it('adds element to target', function() {
     var vnode1 = h('div', [
-       h('div#wrapper', [
-         h('div', 'Some element'),
-         attachTo(elm, h('div#attached', 'Test')),
-       ]),
+      h('div#wrapper', [
+        h('div', 'Some element'),
+        attachTo(elm, h('div#attached', 'Test')),
+      ]),
     ]);
     elm = patch(vnode0, vnode1).elm;
     assert.equal(elm.children.length, 2);

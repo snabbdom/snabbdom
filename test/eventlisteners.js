@@ -104,20 +104,26 @@ describe('event listeners', function() {
     assert.equal(1, result.length);
   });
   it('multiple event handlers for same event on same element', function() {
-    var result = [];
-    function clicked(ev) { result.push(ev); }
+    var called = 0;
+    function clicked(ev, vnode) {
+      ++called;
+      // Check that the first argument is an event
+      assert.equal(true, 'target' in ev);
+      // Check that the second argument was a vnode
+      assert.equal(vnode.sel, 'div');
+    }
     var vnode1 = h('div', {on: {click: [[clicked], [clicked], [clicked]]}}, [
       h('a', 'Click my parent'),
     ]);
     elm = patch(vnode0, vnode1).elm;
     elm.click();
-    assert.equal(3, result.length);
+    assert.equal(3, called);
     var vnode2 = h('div', {on: {click: [[clicked], [clicked]]}}, [
       h('a', 'Click my parent'),
     ]);
     elm = patch(vnode1, vnode2).elm;
     elm.click();
-    assert.equal(5, result.length);
+    assert.equal(5, called);
   });
   it('access to virtual node in event handler', function() {
     var result = [];

@@ -7,6 +7,8 @@
         "declaration": true,
         "removeComments": false,
         "noUnusedLocals": true,
+        "jsx": "react",
+        "jsxFactory": "jsx",
         "lib": [
             "dom",
             "es5",
@@ -27,6 +29,8 @@
         "src/htmldomapi.ts",
         "src/hooks.ts",
         "src/is.ts",
+        "src/jsx-global.d.ts",
+        "src/jsx.ts",
         "src/snabbdom.bundle.ts",
         "src/snabbdom.ts",
         "src/thunk.ts",

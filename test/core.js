@@ -67,6 +67,12 @@ describe('snabbdom', function() {
       var vnode = h('a', {}, 'I am a string');
       assert.equal(vnode.text, 'I am a string');
     });
+    it('can create vnode with null props', function() {
+      var vnode = h('a', null);
+      assert.deepStrictEqual(vnode.data, {});
+      vnode = h('a', null, ['I am a string']);
+      assert.equal(vnode.children[0].text, 'I am a string');
+    });
     it('can create vnode for comment', function() {
       var vnode = h('!', 'test');
       assert.equal(vnode.sel, '!');
@@ -925,6 +931,21 @@ describe('snabbdom', function() {
         patch(vnode0, vnode1);
         patch(vnode1, vnode2);
         assert.equal(1, result.length);
+      });
+      it('calls `destroy` listener when patching text node over node with children', function() {
+        var calls = 0;
+        function cb(vnode) {
+          calls++;
+        }
+        var vnode1 = h('div', [
+          h('div', {hook: {destroy: cb}}, [
+            h('span', 'Child 1'),
+          ]),
+        ]);
+        var vnode2 = h('div', 'Text node')
+        patch(vnode0, vnode1);
+        patch(vnode1, vnode2);
+        assert.equal(calls, 1);
       });
       it('calls `init` and `prepatch` listeners on root', function() {
           var count = 0;

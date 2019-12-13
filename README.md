@@ -1,11 +1,16 @@
-# Snabbdom
+<img src="logo.png" width="356px">
 
 A virtual DOM library with focus on simplicity, modularity, powerful features
 and performance.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![npm version](https://badge.fury.io/js/snabbdom.svg)](https://badge.fury.io/js/snabbdom) [![npm downloads](https://img.shields.io/npm/dm/snabbdom.svg)](https://www.npmjs.com/package/snabbdom)
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/snabbdom/snabbdom.svg?branch=master)](https://travis-ci.org/snabbdom/snabbdom)
+[![npm version](https://badge.fury.io/js/snabbdom.svg)](https://badge.fury.io/js/snabbdom)
+[![npm downloads](https://img.shields.io/npm/dm/snabbdom.svg)](https://www.npmjs.com/package/snabbdom)
 [![Join the chat at https://gitter.im/paldepind/snabbdom](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/paldepind/snabbdom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+Thanks to [Browserstack](https://www.browserstack.com/) for providing access to
+their great cross-browser testing tools.
 
 ## Table of contents
 
@@ -46,8 +51,7 @@ performance, small size and all the features listed below.
   * Extendable through modules.
   * A rich set of hooks available, both per vnode and globally for modules,
     to hook into any part of the diff and patch process.
-  * Splendid performance. Snabbdom is among the fastest virtual DOM libraries
-    in the [Virtual DOM Benchmark](http://vdom-benchmark.github.io/vdom-benchmark/).
+  * Splendid performance. Snabbdom is among the fastest virtual DOM libraries.
   * Patch function with a function signature equivalent to a reduce/scan
     function. Allows for easier integration with a FRP library.
 * Features in modules
@@ -61,6 +65,7 @@ performance, small size and all the features listed below.
   * Server-side HTML output provided by [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html).
   * Compact virtual DOM creation with [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers).
   * Template string support using [snabby](https://github.com/jamen/snabby).
+  * Virtual DOM assertion with [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like)
 
 ## Inline example
 
@@ -91,6 +96,9 @@ var newVnode = h('div#container.two.classes', {on: {click: anotherEventHandler}}
 ]);
 // Second `patch` invocation
 patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new state
+
+// to unmount from the DOM and clean up, simply pass null
+patch(newVnode, null)
 ```
 
 ## Examples
@@ -175,7 +183,6 @@ var newVNode = h('div', {style: {color: '#000'}}, [
 ]);
 
 patch(toVNode(document.querySelector('.container')), newVNode)
-
 ```
 
 ### Hooks
@@ -525,26 +532,8 @@ See also the [SVG example](./examples/svg) and the [SVG Carousel example](./exam
 #### Using Classes in SVG Elements
 
 Certain browsers (like IE <=11) [do not support `classList` property in SVG elements](http://caniuse.com/#feat=classlist).
-Hence, the _class_ module (which uses `classList` property internally) will not work for these browsers.
-
-The classes in selectors for SVG elements work fine from version 0.6.7.
-
-You can add dynamic classes to SVG elements for these cases by using the _attributes_ module and an Array as shown below:
-
-```js
-h('svg', [
-  h('text.underline', { // 'underline' is a selector class, remain unchanged between renders.
-      attrs: {
-        // 'active' and 'red' are dynamic classes, they can change between renders
-        // so we need to put them in the class attribute.
-        // (Normally we'd use the classModule, but it doesn't work inside SVG)
-        class: [isActive && "active", isColored && "red"].filter(Boolean).join(" ")
-      }
-    },
-    'Hello World'
-  )
-])
-```
+Because the _class_ module internally uses `classList`, it will not work in this case unless you use a [classList polyfill](https://www.npmjs.com/package/classlist-polyfill).
+(If you don't want to use a polyfill, you can use the `class` attribute with the _attributes_ module).
 
 ### Thunks
 
@@ -593,12 +582,12 @@ significant computational time to generate.
 
 ## Virtual Node
 **Properties**
- - [sel](#sel--string)
- - [data](#data--object)
- - [children](#children--array)
- - [text](#text--string)
- - [elm](#elm--element)
- - [key](#key--string--number)
+- [sel](#sel--string)
+- [data](#data--object)
+- [children](#children--array)
+- [text](#text--string)
+- [elm](#elm--element)
+- [key](#key--string--number)
 
 #### sel : String
 
@@ -638,14 +627,14 @@ create a virtual node with
 
 ```js
 [
- {
-   sel: 'h1',
-   data: {},
-   children: undefined,
-   text: 'Hello, World',
-   elm: Element,
-   key: undefined,
- }
+  {
+    sel: 'h1',
+    data: {},
+    children: undefined,
+    text: 'Hello, World',
+    elm: Element,
+    key: undefined,
+  }
 ]
 ```
 
@@ -709,6 +698,68 @@ Here are some approaches to building applications with Snabbdom.
   A JavaScript library for rendering html. Tung helps to divide html and JavaScript development.
 * [sprotty](https://github.com/theia-ide/sprotty) - "A web-based diagramming framework" uses Snabbdom.
 * [Mark Text](https://github.com/marktext/marktext) - "Realtime preview Markdown Editor" build on Snabbdom.
+* [puddles](https://github.com/flintinatux/puddles) - 
+  "Tiny vdom app framework. Pure Redux. No boilerplate." - Built with :heart: on Snabbdom.
+* [Backbone.VDOMView](https://github.com/jcbrand/backbone.vdomview) - A [Backbone](http://backbonejs.org/) View with VirtualDOM capability via Snabbdom.
+* [Rosmaro Snabbdom starter](https://github.com/lukaszmakuch/rosmaro-snabbdom-starter) - Building user interfaces with state machines and Snabbdom.
+* [Pureact](https://github.com/irony/pureact) - "65 lines implementation of React incl Redux and hooks with only one dependency - Snabbdom"
+* [Snabberb](https://github.com/tobymao/snabberb) - A minimalistic Ruby framework using [Opal](https://github.com/opal/opal) and Snabbdom for building reactive views.  
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
+
+## Common errors
+
+```
+Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node':
+    The node before which the new node is to be inserted is not a child of this node.
+```
+The reason for this error is reusing of vnodes between patches (see code example), snabbdom stores actual dom nodes inside the virtual dom nodes passed to it as performance improvement, so reusing nodes between patches is not supported.
+```js
+var sharedNode = h('div', {}, 'Selected');
+var vnode1 = h('div', [
+  h('div', {}, ['One']),
+  h('div', {}, ['Two']),
+  h('div', {}, [sharedNode]),
+]);
+var vnode2 = h('div', [
+  h('div', {}, ['One']),
+  h('div', {}, [sharedNode]),
+  h('div', {}, ['Three']),
+]);
+patch(container, vnode1);
+patch(vnode1, vnode2);
+```
+You can fix this issue by creating a shallow copy of the object (here with object spread syntax):
+```js
+var vnode2 = h('div', [
+  h('div', {}, ['One']),
+  h('div', {}, [{ ...sharedNode }]),
+  h('div', {}, ['Three']),
+]);
+```
+Another solution would be to wrap shared vnodes in a factory function:
+```js
+var sharedNode = () => h('div', {}, 'Selected');
+var vnode1 = h('div', [
+  h('div', {}, ['One']),
+  h('div', {}, ['Two']),
+  h('div', {}, [sharedNode()]),
+]);
+```
+
+## Maintenance policy
+
+### Pull requests
+
+| PR scope | Policy |
+| -------- | ------ |
+| Maintenance, documentation, configuration, linting, dependencies, bug fixes, etc. | Requires approval from 2 maintainers. In lieu of such within one week, @paldepind or @mightyiam may merge. |
+| More substantial changes | Both @paldepind & @mightyiam must approve. |
+
+### Releases
+
+| Patch level | Authorized maintainers |
+| ----------- | ---------------------- |
+| Patch and minor | @paldepind, @mightyiam |
+| Major | @paldepind |
