@@ -1,4 +1,4 @@
-import {VNode, VNodeData} from './vnode';
+import { VNode, VNodeData } from './vnode';
 
 declare global {
   /**

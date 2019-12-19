@@ -1,12 +1,12 @@
-import {Hooks} from './hooks';
-import {AttachData} from './helpers/attachto'
-import {VNodeStyle} from './modules/style'
-import {On} from './modules/eventlisteners'
-import {Attrs} from './modules/attributes'
-import {Classes} from './modules/class'
-import {Props} from './modules/props'
-import {Dataset} from './modules/dataset'
-import {Hero} from './modules/hero'
+import { Hooks } from './hooks';
+import { AttachData } from './helpers/attachto'
+import { VNodeStyle } from './modules/style'
+import { On } from './modules/eventlisteners'
+import { Attrs } from './modules/attributes'
+import { Classes } from './modules/class'
+import { Props } from './modules/props'
+import { Dataset } from './modules/dataset'
+import { Hero } from './modules/hero'
 
 export type Key = string | number;
 
@@ -36,13 +36,13 @@ export interface VNodeData {
   [key: string]: any; // for any other 3rd party module
 }
 
-export function vnode(sel: string | undefined,
-                      data: any | undefined,
-                      children: Array<VNode | string> | undefined,
-                      text: string | undefined,
-                      elm: Element | Text | undefined): VNode {
+export function vnode (sel: string | undefined,
+  data: any | undefined,
+  children: Array<VNode | string> | undefined,
+  text: string | undefined,
+  elm: Element | Text | undefined): VNode {
   let key = data === undefined ? undefined : data.key;
-  return {sel, data, children, text, elm, key};
+  return { sel, data, children, text, elm, key };
 }
 
 export default vnode;

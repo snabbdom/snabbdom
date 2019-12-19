@@ -1,4 +1,4 @@
-import {VNode, VNodeData} from '../vnode';
+import { VNode, VNodeData } from '../vnode';
 
 export interface AttachData {
   [key: string]: any
@@ -15,7 +15,7 @@ interface VNodeWithAttachData extends VNode {
   data: VNodeDataWithAttach
 }
 
-function pre(vnode: VNodeWithAttachData, newVnode: VNodeWithAttachData): void {
+function pre (vnode: VNodeWithAttachData, newVnode: VNodeWithAttachData): void {
   const attachData = vnode.data.attachData;
   // Copy created placeholder and real element from old vnode
   newVnode.data.attachData.placeholder = attachData.placeholder;
@@ -24,12 +24,12 @@ function pre(vnode: VNodeWithAttachData, newVnode: VNodeWithAttachData): void {
   vnode.elm = vnode.data.attachData.real;
 }
 
-function post(_: any, vnode: VNodeWithAttachData): void {
+function post (_: any, vnode: VNodeWithAttachData): void {
   // Mount dummy placeholder in vnode so potential reorders use it
   vnode.elm = vnode.data.attachData.placeholder;
 }
 
-function destroy(vnode: VNodeWithAttachData): void {
+function destroy (vnode: VNodeWithAttachData): void {
   // Remove placeholder
   if (vnode.elm !== undefined) {
     (vnode.elm.parentNode as HTMLElement).removeChild(vnode.elm);
@@ -38,7 +38,7 @@ function destroy(vnode: VNodeWithAttachData): void {
   vnode.elm = vnode.data.attachData.real;
 }
 
-function create(_: any, vnode: VNodeWithAttachData): void {
+function create (_: any, vnode: VNodeWithAttachData): void {
   const real = vnode.elm, attachData = vnode.data.attachData;
   const placeholder = document.createElement('span');
   // Replace actual element with dummy placeholder
@@ -49,12 +49,12 @@ function create(_: any, vnode: VNodeWithAttachData): void {
   attachData.placeholder = placeholder;
 }
 
-export function attachTo(target: Element, vnode: VNode): VNode {
+export function attachTo (target: Element, vnode: VNode): VNode {
   if (vnode.data === undefined) vnode.data = {};
   if (vnode.data.hook === undefined) vnode.data.hook = {};
   const data = vnode.data;
   const hook = vnode.data.hook;
-  data.attachData = {target: target, placeholder: undefined, real: undefined};
+  data.attachData = { target: target, placeholder: undefined, real: undefined };
   hook.create = create;
   hook.prepatch = pre;
   hook.postpatch = post;

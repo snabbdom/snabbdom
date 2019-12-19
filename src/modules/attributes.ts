@@ -1,5 +1,5 @@
-import {VNode, VNodeData} from '../vnode';
-import {Module} from './module';
+import { VNode, VNodeData } from '../vnode';
+import { Module } from './module';
 
 // because those in TypeScript are too restrictive: https://github.com/Microsoft/TSJS-lib-generator/pull/237
 declare global {
@@ -16,10 +16,10 @@ const xmlNS = 'http://www.w3.org/XML/1998/namespace';
 const colonChar = 58;
 const xChar = 120;
 
-function updateAttrs(oldVnode: VNode, vnode: VNode): void {
+function updateAttrs (oldVnode: VNode, vnode: VNode): void {
   var key: string, elm: Element = vnode.elm as Element,
-      oldAttrs = (oldVnode.data as VNodeData).attrs,
-      attrs = (vnode.data as VNodeData).attrs;
+    oldAttrs = (oldVnode.data as VNodeData).attrs,
+    attrs = (vnode.data as VNodeData).attrs;
 
   if (!oldAttrs && !attrs) return;
   if (oldAttrs === attrs) return;
@@ -60,5 +60,5 @@ function updateAttrs(oldVnode: VNode, vnode: VNode): void {
   }
 }
 
-export const attributesModule = {create: updateAttrs, update: updateAttrs} as Module;
+export const attributesModule = { create: updateAttrs, update: updateAttrs } as Module;
 export default attributesModule;

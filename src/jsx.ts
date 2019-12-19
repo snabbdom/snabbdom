@@ -1,5 +1,5 @@
-import {vnode, VNode, VNodeData} from './vnode';
-import {h, ArrayOrElement} from './h';
+import { vnode, VNode, VNodeData } from './vnode';
+import { h, ArrayOrElement } from './h';
 
 // for conditional rendering we support boolean child element e.g cond && <tag />
 export type JsxVNodeChild = VNode | string | number | boolean | undefined | null;
@@ -7,15 +7,15 @@ export type JsxVNodeChildren = ArrayOrElement<JsxVNodeChild>
 
 export type FunctionComponent = (props: {[prop: string]: any} | null, children?: VNode[]) => VNode;
 
-function flattenAndFilter(children: JsxVNodeChildren[], flattened: VNode[]): VNode[] {
+function flattenAndFilter (children: JsxVNodeChildren[], flattened: VNode[]): VNode[] {
   for (const child of children) {
     // filter out falsey children, except 0 since zero can be a valid value e.g inside a chart
-    if (child !== undefined && child !== null && child !== false &&  child !== '') {
+    if (child !== undefined && child !== null && child !== false && child !== '') {
       if (Array.isArray(child)) {
         flattenAndFilter(child, flattened);
       } else if (typeof child === 'string' || typeof child === 'number' || typeof child === 'boolean') {
         flattened.push(vnode(undefined, undefined, undefined, String(child), undefined));
-      } else{
+      } else {
         flattened.push(child);
       }
     }
@@ -27,7 +27,7 @@ function flattenAndFilter(children: JsxVNodeChildren[], flattened: VNode[]): VNo
  * jsx/tsx compatible factory function
  * see: https://www.typescriptlang.org/docs/handbook/jsx.html#factory-functions
  */
-export function jsx(tag: string | FunctionComponent, data: VNodeData | null, ...children: JsxVNodeChildren[]): VNode {
+export function jsx (tag: string | FunctionComponent, data: VNodeData | null, ...children: JsxVNodeChildren[]): VNode {
   const flatChildren = flattenAndFilter(children, []);
   if (typeof tag === 'function') {
     // tag is a function component

@@ -1,5 +1,5 @@
-import {VNode, VNodeData} from '../vnode';
-import {Module} from './module';
+import { VNode, VNodeData } from '../vnode';
+import { Module } from './module';
 
 export type On = {
   [N in keyof HTMLElementEventMap]?: (ev: HTMLElementEventMap[N]) => void
@@ -7,7 +7,7 @@ export type On = {
   [event: string]: EventListener
 };
 
-function invokeHandler(handler: any, vnode?: VNode, event?: Event): void {
+function invokeHandler (handler: any, vnode?: VNode, event?: Event): void {
   if (typeof handler === "function") {
     // call function handler
     handler.call(vnode, event, vnode);
@@ -32,9 +32,9 @@ function invokeHandler(handler: any, vnode?: VNode, event?: Event): void {
   }
 }
 
-function handleEvent(event: Event, vnode: VNode) {
+function handleEvent (event: Event, vnode: VNode) {
   var name = event.type,
-      on = (vnode.data as VNodeData).on;
+    on = (vnode.data as VNodeData).on;
 
   // call event handler(s) if exists
   if (on && on[name]) {
@@ -42,19 +42,19 @@ function handleEvent(event: Event, vnode: VNode) {
   }
 }
 
-function createListener() {
-  return function handler(event: Event) {
+function createListener () {
+  return function handler (event: Event) {
     handleEvent(event, (handler as any).vnode);
   }
 }
 
-function updateEventListeners(oldVnode: VNode, vnode?: VNode): void {
+function updateEventListeners (oldVnode: VNode, vnode?: VNode): void {
   var oldOn = (oldVnode.data as VNodeData).on,
-      oldListener = (oldVnode as any).listener,
-      oldElm: Element = oldVnode.elm as Element,
-      on = vnode && (vnode.data as VNodeData).on,
-      elm: Element = (vnode && vnode.elm) as Element,
-      name: string;
+    oldListener = (oldVnode as any).listener,
+    oldElm: Element = oldVnode.elm as Element,
+    on = vnode && (vnode.data as VNodeData).on,
+    elm: Element = (vnode && vnode.elm) as Element,
+    name: string;
 
   // optimization for reused immutable handlers
   if (oldOn === on) {

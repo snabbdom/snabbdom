@@ -6,13 +6,13 @@ var patch = init([]);
 import attachTo from '../helpers/attachto'
 import h from '../h'
 
-describe('attachTo', function() {
+describe('attachTo', function () {
   var elm: any, vnode0: any;
-  beforeEach(function() {
+  beforeEach(function () {
     elm = document.createElement('div');
     vnode0 = elm;
   });
-  it('adds element to target', function() {
+  it('adds element to target', function () {
     var vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
@@ -22,7 +22,7 @@ describe('attachTo', function() {
     elm = patch(vnode0, vnode1).elm;
     assert.equal(elm.children.length, 2);
   });
-  it('updates element at target', function() {
+  it('updates element at target', function () {
     var vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
@@ -40,7 +40,7 @@ describe('attachTo', function() {
     elm = patch(vnode1, vnode2).elm;
     assert.equal(elm.children[0].innerHTML, 'New text');
   });
-  it('element can be inserted before modal', function() {
+  it('element can be inserted before modal', function () {
     var vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
@@ -59,7 +59,7 @@ describe('attachTo', function() {
     elm = patch(vnode1, vnode2).elm;
     assert.equal(elm.children[0].innerHTML, 'Text');
   });
-  it('removes element at target', function() {
+  it('removes element at target', function () {
     var vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
@@ -76,7 +76,7 @@ describe('attachTo', function() {
     elm = patch(vnode1, vnode2).elm;
     assert.equal(elm.children.length, 1);
   });
-  it('remove hook receives real element', function() {
+  it('remove hook receives real element', function () {
     const rm: RemoveHook = (vnode, cb) => {
       const elm = vnode.elm as HTMLDivElement;
       assert.equal(elm.tagName, 'DIV');
@@ -86,7 +86,7 @@ describe('attachTo', function() {
     var vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
-        attachTo(elm, h('div#attached', {hook: {remove: rm}}, 'First text')),
+        attachTo(elm, h('div#attached', { hook: { remove: rm } }, 'First text')),
       ]),
     ]);
     var vnode2 = h('div', [
