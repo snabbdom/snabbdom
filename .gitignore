@@ -33,6 +33,7 @@
 /es/modules/style.d.ts
 /es/modules/style.js
 /es/modules/style.js.map
+/es/test/
 /es/h.d.ts
 /es/h.js
 /es/h.js.map
@@ -92,6 +93,7 @@
 /modules/style.d.ts
 /modules/style.js
 /modules/style.js.map
+/test/
 /h.d.ts
 /h.js
 /h.js.map

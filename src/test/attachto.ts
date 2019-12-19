@@ -1,12 +1,13 @@
-var assert = require('assert');
-var snabbdom = require('../snabbdom');
+import assert from 'assert'
+import { init } from '../snabbdom'
+import { RemoveHook } from '../hooks';
 
-var patch = snabbdom.init([]);
-var attachTo = require('../helpers/attachto').default;
-var h = require('../h').default;
+var patch = init([]);
+import attachTo from '../helpers/attachto'
+import h from '../h'
 
 describe('attachTo', function() {
-  var elm, vnode0;
+  var elm: any, vnode0: any;
   beforeEach(function() {
     elm = document.createElement('div');
     vnode0 = elm;
@@ -76,9 +77,10 @@ describe('attachTo', function() {
     assert.equal(elm.children.length, 1);
   });
   it('remove hook receives real element', function() {
-    function rm(vnode, cb) {
-      assert.equal(vnode.elm.tagName, 'DIV');
-      assert.equal(vnode.elm.innerHTML, 'First text');
+    const rm: RemoveHook = (vnode, cb) => {
+      const elm = vnode.elm as HTMLDivElement;
+      assert.equal(elm.tagName, 'DIV');
+      assert.equal(elm.innerHTML, 'First text');
       cb();
     }
     var vnode1 = h('div', [

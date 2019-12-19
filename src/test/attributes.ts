@@ -1,13 +1,13 @@
-var assert = require('assert');
-
-var snabbdom = require('../snabbdom');
-var patch = snabbdom.init([
-  require('../modules/attributes').default,
+import assert from 'assert'
+import { init } from '../snabbdom'
+import attributesModule from '../modules/attributes'
+var patch = init([
+  attributesModule
 ]);
-var h = require('../h').default;
+import h from '../h'
 
 describe('attributes', function() {
-  var elm, vnode0;
+  var elm: any, vnode0: any;
   beforeEach(function() {
     elm = document.createElement('div');
     vnode0 = elm;
@@ -35,7 +35,7 @@ describe('attributes', function() {
     assert.strictEqual(elm.getAttribute('selected'), '');
   });
   it('are not omitted when falsy values are provided', function() {
-    var vnode1 = h('div', {attrs: {href: null, minlength: 0, value: '', title:'undefined'}});
+    var vnode1 = h('div', {attrs: {href: null as any, minlength: 0, value: '', title:'undefined'}});
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.getAttribute('href'), 'null');
     assert.strictEqual(elm.getAttribute('minlength'), '0');
@@ -77,7 +77,7 @@ describe('attributes', function() {
       assert.strictEqual(elm.getAttribute('required'), null);
     });
     it('is not omitted if the value is falsy but casted to string', function() {
-      var vnode1 = h('div', {attrs: {readonly: 0, noresize: null}});
+      var vnode1 = h('div', {attrs: {readonly: 0, noresize: null as any}});
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.getAttribute('readonly'), '0');
       assert.strictEqual(elm.getAttribute('noresize'), 'null');

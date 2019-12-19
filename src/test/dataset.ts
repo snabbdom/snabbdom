@@ -1,15 +1,14 @@
-var assert = require('assert');
-var fakeRaf = require('fake-raf');
+import assert from 'assert'
 
-var snabbdom = require('../snabbdom');
-fakeRaf.use();
-var patch = snabbdom.init([
-  require('../modules/dataset').default,
+import datasetModule from '../modules/dataset'
+import { init } from '../snabbdom'
+var patch = init([
+  datasetModule
 ]);
-var h = require('../h').default;
+import h from '../h'
 
 describe('dataset', function() {
-  var elm, vnode0;
+  var elm: any, vnode0: any;
   beforeEach(function() {
     elm = document.createElement('div');
     vnode0 = elm;
@@ -40,7 +39,7 @@ describe('dataset', function() {
     assert.equal(elm.dataset.bar, 'bar');
   });
   it('handles string conversions', function() {
-    var vnode1 = h('i', {dataset: {empty: '', dash: '-', dashed:'foo-bar', camel: 'fooBar', integer:0, float:0.1}});
+    var vnode1 = h('i', {dataset: {empty: '', dash: '-', dashed:'foo-bar', camel: 'fooBar', integer:0 as any, float:0.1 as any}});
     elm = patch(vnode0, vnode1).elm;
 
     assert.equal(elm.dataset.empty, '');
@@ -52,5 +51,3 @@ describe('dataset', function() {
   });
 
 });
-
-fakeRaf.restore();

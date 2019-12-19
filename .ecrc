@@ -6,6 +6,7 @@
     "^es/",
     "^helpers/",
     "^modules/",
+    "^test/",
     "^h.d.ts",
     "^h.js",
     "^h.js.map",

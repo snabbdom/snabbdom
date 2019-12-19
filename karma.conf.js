@@ -19,7 +19,7 @@ module.exports = function(config) {
     basePath: '.',
     frameworks: ['mocha', 'karma-typescript'],
     // list of files / patterns to load in the browser
-    files: [{pattern: 'src/**/*.ts'}, {pattern: 'test/**/*'}],
+    files: [{pattern: 'src/**/*.ts'}],
     plugins: [
       'karma-mocha',
       'karma-chrome-launcher',
@@ -29,8 +29,7 @@ module.exports = function(config) {
     ],
     hostname: ci ? ip : 'localhost',
     preprocessors: {
-      'src/**/*.ts': ['karma-typescript'],
-      'test/**/*.{js,ts,tsx}': ['karma-typescript'],
+      'src/**/*.{ts,tsx}': ['karma-typescript']
     },
     browserStack: {
       name: 'Snabbdom',
@@ -43,16 +42,12 @@ module.exports = function(config) {
     customLaunchers: browserstack,
     karmaTypescriptConfig: {
       coverageOptions: {
-        exclude: /test\//,
-      },
-      compilerOptions: {
-        allowJs: true,
-        declaration: false
+        exclude: /^src{\/|\\}test{\/|\\}/,
       },
       tsconfig: './tsconfig.json',
       include: {
         mode: 'merge',
-        values: ['test/**/*'],
+        values: ['src/test/**/*'],
       },
     },
     reporters: ['dots', 'karma-typescript', 'BrowserStack'],
