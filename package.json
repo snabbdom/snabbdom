@@ -38,10 +38,14 @@
     "knuth-shuffle": "^1.0.1",
     "mocha": "^5.2.0",
     "npm-run-all": "^4.1.5",
+    "remark-cli": "^7.0.1",
+    "remark-toc": "^6.0.0",
     "typescript": "^3.7.2",
     "xyz": "2.1.0"
   },
   "scripts": {
+    "docs": "remark . --output",
+    "check-clean": "git diff --exit-code",
     "lint:js": "eslint --ignore-path .gitignore --ignore-pattern /dist --ext .js,.ts .",
     "lint:editorconfig": "editorconfig-checker",
     "lint": "run-s lint:editorconfig lint:js",
@@ -71,10 +75,25 @@
   "bugs": {
     "url": "https://github.com/paldepind/snabbdom/issues"
   },
+  "remarkConfig": {
+    "plugins": [
+      [
+        "toc",
+        {
+          "tight": true
+        }
+      ]
+    ],
+    "settings": {
+      "listItemIndent": "1",
+      "bullet": "*",
+      "paddedTable": false
+    }
+  },
   "homepage": "https://github.com/paldepind/snabbdom#readme",
   "husky": {
     "hooks": {
-      "pre-commit": "npm test"
+      "pre-commit": "run-s docs check-clean test"
     }
   },
   "files": [
