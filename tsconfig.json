@@ -1,15 +1,12 @@
 {
+    "extends": "tsconfigs/browser-module",
     "compilerOptions": {
+        "strictFunctionTypes": false,
+        "strictBindCallApply": false,
+        "noImplicitThis": false,
         "target": "ES5",
-        "noImplicitAny": true,
-        "sourceMap": true,
-        "strictNullChecks": true,
-        "declaration": true,
-        "removeComments": false,
-        "noUnusedLocals": true,
         "jsx": "react",
         "jsxFactory": "jsx",
-        "esModuleInterop": true,
         "lib": [
             "dom",
             "es5",
