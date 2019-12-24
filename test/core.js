@@ -270,6 +270,14 @@ describe('snabbdom', function() {
       patch(vnode1, vnode2);
       assert.equal(elm.src, undefined);
     });
+    it('changes an elements value-prop it was changed in the dom', function() {
+      var vnode1 = h('input', {props: {value: 'original'}});
+      patch(vnode0, vnode1);
+      vnode1.elm.value = 'changed';
+      var vnode2 = h('input', {props: {value: 'original'}});
+      elm = patch(vnode1, vnode2).elm;
+      assert.equal(elm.value, 'original');
+    });
     describe('using toVNode()', function () {
       it('can remove previous children of the root element', function () {
         var h2 = document.createElement('h2');
