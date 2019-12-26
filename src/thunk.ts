@@ -1,5 +1,5 @@
-import {VNode, VNodeData} from './vnode';
-import {h} from './h';
+import { VNode, VNodeData } from './vnode';
+import { h } from './h';
 
 export interface ThunkData extends VNodeData {
   fn: () => VNode;
@@ -15,7 +15,7 @@ export interface ThunkFn {
   (sel: string, key: any, fn: Function, args: any[]): Thunk;
 }
 
-function copyToThunk(vnode: VNode, thunk: VNode): void {
+function copyToThunk (vnode: VNode, thunk: VNode): void {
   thunk.elm = vnode.elm;
   (vnode.data as VNodeData).fn = (thunk.data as VNodeData).fn;
   (vnode.data as VNodeData).args = (thunk.data as VNodeData).args;
@@ -25,13 +25,13 @@ function copyToThunk(vnode: VNode, thunk: VNode): void {
   thunk.elm = vnode.elm;
 }
 
-function init(thunk: VNode): void {
+function init (thunk: VNode): void {
   const cur = thunk.data as VNodeData;
   const vnode = (cur.fn as any).apply(undefined, cur.args);
   copyToThunk(vnode, thunk);
 }
 
-function prepatch(oldVnode: VNode, thunk: VNode): void {
+function prepatch (oldVnode: VNode, thunk: VNode): void {
   let i: number, old = oldVnode.data as VNodeData, cur = thunk.data as VNodeData;
   const oldArgs = old.args, args = cur.args;
   if (old.fn !== cur.fn || (oldArgs as any).length !== (args as any).length) {
@@ -47,7 +47,7 @@ function prepatch(oldVnode: VNode, thunk: VNode): void {
   copyToThunk(oldVnode, thunk);
 }
 
-export const thunk = function thunk(sel: string, key?: any, fn?: any, args?: any): VNode {
+export const thunk = function thunk (sel: string, key?: any, fn?: any, args?: any): VNode {
   if (args === undefined) {
     args = fn;
     fn = key;
@@ -55,7 +55,7 @@ export const thunk = function thunk(sel: string, key?: any, fn?: any, args?: any
   }
   return h(sel, {
     key: key,
-    hook: {init, prepatch},
+    hook: { init, prepatch },
     fn: fn,
     args: args
   });

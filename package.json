@@ -17,7 +17,7 @@
     "benchmark": "^2.1.4",
     "browserify": "^14.4.0",
     "editorconfig-checker": "^3.0.3",
-    "eslint": "^6.6.0",
+    "eslint": "^6.7.2",
     "eslint-config-standard-with-typescript": "^11.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
@@ -46,7 +46,7 @@
   "scripts": {
     "docs": "remark . --output",
     "check-clean": "git diff --exit-code",
-    "lint:js": "eslint --ignore-path .gitignore --ignore-pattern /dist --ext .js,.ts .",
+    "lint:js": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "lint:editorconfig": "editorconfig-checker",
     "lint": "run-s lint:editorconfig lint:js",
     "unit": "karma start",

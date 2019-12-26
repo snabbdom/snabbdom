@@ -1,4 +1,4 @@
-import {PreHook, CreateHook, UpdateHook, DestroyHook, RemoveHook, PostHook} from '../hooks';
+import { PreHook, CreateHook, UpdateHook, DestroyHook, RemoveHook, PostHook } from '../hooks';
 
 export interface Module {
   pre: PreHook;

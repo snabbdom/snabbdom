@@ -1,5 +1,5 @@
-import {VNode, VNodeData} from '../vnode';
-import {Module} from './module';
+import { VNode, VNodeData } from '../vnode';
+import { Module } from './module';
 
 export type VNodeStyle = Record<string, string> & {
   delayed?: Record<string, string>
@@ -8,17 +8,17 @@ export type VNodeStyle = Record<string, string> & {
 
 // Bindig `requestAnimationFrame` like this fixes a bug in IE/Edge. See #360 and #409.
 var raf = (typeof window !== 'undefined' && (window.requestAnimationFrame).bind(window)) || setTimeout;
-var nextFrame = function(fn: any) { raf(function() { raf(fn); }); };
+var nextFrame = function (fn: any) { raf(function () { raf(fn); }); };
 var reflowForced = false;
 
-function setNextFrame(obj: any, prop: string, val: any): void {
-  nextFrame(function() { obj[prop] = val; });
+function setNextFrame (obj: any, prop: string, val: any): void {
+  nextFrame(function () { obj[prop] = val; });
 }
 
-function updateStyle(oldVnode: VNode, vnode: VNode): void {
+function updateStyle (oldVnode: VNode, vnode: VNode): void {
   var cur: any, name: string, elm = vnode.elm,
-      oldStyle = (oldVnode.data as VNodeData).style,
-      style = (vnode.data as VNodeData).style;
+    oldStyle = (oldVnode.data as VNodeData).style,
+    style = (vnode.data as VNodeData).style;
 
   if (!oldStyle && !style) return;
   if (oldStyle === style) return;
@@ -54,7 +54,7 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
   }
 }
 
-function applyDestroyStyle(vnode: VNode): void {
+function applyDestroyStyle (vnode: VNode): void {
   var style: any, name: string, elm = vnode.elm, s = (vnode.data as VNodeData).style;
   if (!s || !(style = s.destroy)) return;
   for (name in style) {
@@ -62,18 +62,18 @@ function applyDestroyStyle(vnode: VNode): void {
   }
 }
 
-function applyRemoveStyle(vnode: VNode, rm: () => void): void {
+function applyRemoveStyle (vnode: VNode, rm: () => void): void {
   var s = (vnode.data as VNodeData).style;
   if (!s || !s.remove) {
     rm();
     return;
   }
-  if(!reflowForced) {
+  if (!reflowForced) {
     (vnode.elm as any).offsetLeft;
     reflowForced = true;
   }
   var name: string, elm = vnode.elm, i = 0, compStyle: CSSStyleDeclaration,
-      style = s.remove, amount = 0, applied: string[] = [];
+    style = s.remove, amount = 0, applied: string[] = [];
   for (name in style) {
     applied.push(name);
     (elm as any).style[name] = style[name];
@@ -81,7 +81,7 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   compStyle = getComputedStyle(elm as Element);
   var props = (compStyle as any)['transition-property'].split(', ');
   for (; i < props.length; ++i) {
-    if(applied.indexOf(props[i]) !== -1) amount++;
+    if (applied.indexOf(props[i]) !== -1) amount++;
   }
   (elm as Element).addEventListener('transitionend', function (ev: TransitionEvent) {
     if (ev.target === elm) --amount;
@@ -89,7 +89,7 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   });
 }
 
-function forceReflow() {
+function forceReflow () {
   reflowForced = false;
 }
 
