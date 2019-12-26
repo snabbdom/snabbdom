@@ -1,13 +1,14 @@
-var assert = require('assert');
+import assert from 'assert'
 
-var snabbdom = require('../snabbdom');
-var h = require('../h').default;
-var patch = snabbdom.init([
-  require('../modules/attributes').default
+import { init } from '../snabbdom'
+import h from '../h'
+import attributesModule from '../modules/attributes'
+var patch = init([
+  attributesModule
 ]);
 
 describe('svg', function () {
-  var elm, vnode0;
+  var elm: any, vnode0: any;
   beforeEach(function() {
     elm = document.createElement('svg');
     vnode0 = elm;
@@ -21,7 +22,7 @@ describe('svg', function () {
     var b = h('svg', {}, [
     h('g')
     ]);
-    var result = patch(patch(vnode0, a), b).elm;
+    var result = patch(patch(vnode0, a), b).elm as SVGElement;
     assert.equal(result.childNodes.length, 1); 
   });
 
@@ -34,10 +35,11 @@ describe('svg', function () {
       }, [])
     ]);
 
-    var result = patch(vnode0, a).elm;
+    var result = patch(vnode0, a).elm as SVGElement;
     assert.equal(result.childNodes.length, 1);
-    assert.equal(result.childNodes[0].getAttribute('xlink:href'), testUrl); 
-    assert.equal(result.childNodes[0].getAttributeNS(xlinkNS,'href'), testUrl);
+    const child = result.childNodes[0] as SVGUseElement;
+    assert.equal(child.getAttribute('xlink:href'), testUrl); 
+    assert.equal(child.getAttributeNS(xlinkNS,'href'), testUrl);
 
   });
 
@@ -46,7 +48,7 @@ describe('svg', function () {
     var testAttrValue = 'und';
     var a = h('svg', { attrs: { 'xml:lang': testAttrValue } }, []);
 
-    var result = patch(vnode0, a).elm;
+    var result = patch(vnode0, a).elm as SVGElement;
     assert.equal(result.getAttributeNS(xmlNS, 'lang'), testAttrValue);
     assert.equal(result.getAttribute('xml:lang'), testAttrValue); 
   });

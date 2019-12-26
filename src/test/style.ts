@@ -1,16 +1,15 @@
-var assert = require('assert');
-var fakeRaf = require('fake-raf');
+import assert from 'assert'
 
-var snabbdom = require('../snabbdom');
-fakeRaf.use();
-var patch = snabbdom.init([
-  require('../modules/style').default,
+import { init } from '../snabbdom'
+import styleModule from '../modules/style'
+var patch = init([
+  styleModule
 ]);
-var h = require('../h').default;
-var toVNode = require('../tovnode').default;
+import h from '../h'
+import toVNode from '../tovnode'
 
 describe('style', function() {
-  var elm, vnode0;
+  var elm: any, vnode0: any;
   beforeEach(function() {
     elm = document.createElement('div');
     vnode0 = elm;
@@ -67,9 +66,9 @@ describe('style', function() {
     assert.equal(elm.firstChild.style.fontSize, '10px');
   });
   it('updates css variables', function() {
-    var vnode1 = h('div', {style: {'--myVar': 1}});
-    var vnode2 = h('div', {style: {'--myVar': 2}});
-    var vnode3 = h('div', {style: {'--myVar': 3}});
+    var vnode1 = h('div', {style: {'--myVar': 1 as any}});
+    var vnode2 = h('div', {style: {'--myVar': 2 as any}});
+    var vnode3 = h('div', {style: {'--myVar': 3 as any}});
     elm = patch(vnode0, vnode1).elm;
     assert.equal(elm.style.getPropertyValue('--myVar'), 1);
     elm = patch(vnode1, vnode2).elm;
@@ -78,9 +77,9 @@ describe('style', function() {
     assert.equal(elm.style.getPropertyValue('--myVar'), 3);
   });
   it('explicialy removes css variables', function() {
-    var vnode1 = h('i', {style: {'--myVar': 1}});
+    var vnode1 = h('i', {style: {'--myVar': 1 as any}});
     var vnode2 = h('i', {style: {'--myVar': ''}});
-    var vnode3 = h('i', {style: {'--myVar': 2}});
+    var vnode3 = h('i', {style: {'--myVar': 2 as any}});
     elm = patch(vnode0, vnode1).elm;
     assert.equal(elm.style.getPropertyValue('--myVar'), 1);
     patch(vnode1, vnode2);
@@ -89,9 +88,9 @@ describe('style', function() {
     assert.equal(elm.style.getPropertyValue('--myVar'), 2);
   });
   it('implicially removes css variables from element', function() {
-    var vnode1 = h('div', [h('i', {style: {'--myVar': 1}})]);
+    var vnode1 = h('div', [h('i', {style: {'--myVar': 1 as any}})]);
     var vnode2 = h('div', [h('i')]);
-    var vnode3 = h('div', [h('i', {style: {'--myVar': 2}})]);
+    var vnode3 = h('div', [h('i', {style: {'--myVar': 2 as any}})]);
     patch(vnode0, vnode1);
     assert.equal(elm.firstChild.style.getPropertyValue('--myVar'), 1);
     patch(vnode1, vnode2);
@@ -99,34 +98,36 @@ describe('style', function() {
     patch(vnode2, vnode3);
     assert.equal(elm.firstChild.style.getPropertyValue('--myVar'), 2);
   });
-  it('updates delayed styles in next frame', function() {
-    var patch = snabbdom.init([
-      require('../modules/style').default,
-    ]);
-    var vnode1 = h('i', {style: {fontSize: '14px', delayed: {fontSize: '16px'}}});
-    var vnode2 = h('i', {style: {fontSize: '18px', delayed: {fontSize: '20px'}}});
+  it('updates delayed styles in next frame', function(done) {
+    var vnode1 = h('i', {style: {fontSize: '14px', delayed: {fontSize: '16px'} as any}});
+    var vnode2 = h('i', {style: {fontSize: '18px', delayed: {fontSize: '20px'} as any}});
     elm = patch(vnode0, vnode1).elm;
     assert.equal(elm.style.fontSize, '14px');
-    fakeRaf.step();
-    fakeRaf.step();
-    assert.equal(elm.style.fontSize, '16px');
-    elm = patch(vnode1, vnode2).elm;
-    assert.equal(elm.style.fontSize, '18px');
-    fakeRaf.step();
-    fakeRaf.step();
-    assert.equal(elm.style.fontSize, '20px');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        assert.equal(elm.style.fontSize, '16px');
+        elm = patch(vnode1, vnode2).elm;
+        assert.equal(elm.style.fontSize, '18px');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            assert.equal(elm.style.fontSize, '20px');
+            done()
+          })
+        })
+      })
+    })
   });
   it('applies tranform as transition on remove', function(done) {
     var btn = h('button', { style: {
         transition: 'transform 0.1s',
-        remove: { transform: 'translateY(100%)' }
+        remove: { transform: 'translateY(100%)' } as any
     }}, ['A button']);
     var vnode1 = h('div.parent', {}, [btn]);
     var vnode2 = h('div.parent', {}, [null]);
     document.body.appendChild(vnode0);
     patch(vnode0, vnode1);
     patch(vnode1, vnode2);
-    const button = document.querySelector('button');
+    const button = document.querySelector('button') as HTMLButtonElement;
     assert.notStrictEqual(button, null);
     button.addEventListener('transitionend', function() {
       assert.strictEqual(document.querySelector('button'), null);
@@ -148,5 +149,3 @@ describe('style', function() {
     });
   });
 });
-
-fakeRaf.restore();

@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import {jsx} from '../src/jsx';
+import {jsx} from '../jsx';
 
 describe('snabbdom', function() {
   describe('jsx', function() {
