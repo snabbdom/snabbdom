@@ -3,6 +3,7 @@ language: node_js
 node_js:
   - v12.10.0
 script:
+  - commitlint-travis
   - run-s test docs check-clean
 env:
   global:
