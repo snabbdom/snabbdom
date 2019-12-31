@@ -42,7 +42,10 @@ module.exports = function (config) {
     customLaunchers: browserstack,
     karmaTypescriptConfig: {
       coverageOptions: {
-        exclude: /^src{\/|\\}test{\/|\\}/,
+        exclude: /test\//,
+      },
+      compilerOptions: {
+        module: 'commonjs'
       },
       tsconfig: './tsconfig.json',
       include: {
