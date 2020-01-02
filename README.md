@@ -49,7 +49,6 @@ performance, small size and all the features listed below.
   * Powerful event listener functionality.
   * [Thunks](#thunks) to optimize the diff and patch process even further.
 * Third party features
-  * JSX support thanks to [snabbdom-pragma](https://github.com/Swizz/snabbdom-pragma).
   * Server-side HTML output provided by [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html).
   * Compact virtual DOM creation with [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers).
   * Template string support using [snabby](https://github.com/jamen/snabby).
@@ -94,6 +93,7 @@ patch(newVnode, null)
 * [Animated reordering of elements](http://snabbdom.github.io/snabbdom/examples/reorder-animation/)
 * [Hero transitions](http://snabbdom.github.io/snabbdom/examples/hero/)
 * [SVG Carousel](http://snabbdom.github.io/snabbdom/examples/carousel-svg/)
+* [TSX Clock](http://snabbdom.github.io/snabbdom/examples/tsx-clock/)
 
 * * *
 
@@ -126,6 +126,11 @@ patch(newVnode, null)
 * [SVG](#svg)
   * [Classes in SVG Elements](#classes-in-svg-elements)
 * [Thunks](#thunks)
+* [JSX](#jsx)
+  * [JSX with Typescript](#jsx-with-typescript)
+  * [JSX with Babel](#jsx-with-babel)
+  * [JSX examples](#jsx-examples)
+  * [Third party JSX modules](#third-party-jsx-modules)
 * [Virtual Node](#virtual-node)
   * [sel : String](#sel--string)
   * [data : Object](#data--object)
@@ -610,6 +615,82 @@ avoids recreating the number view and the diff process altogether.
 The view function here is only an example. In practice thunks are only
 relevant if you are rendering a complicated view that takes
 significant computational time to generate.
+
+## JSX
+
+[JSX](https://facebook.github.io/jsx/) is an XML-like syntax extension to JavaScript (ECMAScript).
+Instead of using `h(tag, props, children)` to define the virtual tree,
+Snabbdom supports using JSX with transpilers such as Babel and Typescript.
+
+Built-in `jsx` function is a very thin and performant layer on top of `h`.
+Top level props are the initialized [modules](#modules-documentation) such as `class`, `attrs`, `props`, `on`, `style`.
+
+### JSX with Typescript
+
+tsconfig.json
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "jsx",
+  }
+}
+```
+
+profile.tsx
+
+```tsx
+import {jsx} from 'snabbdom/jsx';
+
+const profile = (
+  <div>
+    <img sel='.profile' attrs={{src: 'avatar.png'}} />
+    <h3>{[user.firstName, user.lastName].join(' ')}</h3>
+  </div>
+);
+```
+
+### JSX with Babel
+
+Install plugin-transform-react-jsx: `npm install --save-dev @babel/plugin-transform-react-jsx`
+
+.babelrc
+
+```json
+{
+  "plugins": [
+    ["@babel/plugin-transform-react-jsx", {
+      "pragma": "jsx",
+    }]
+  ]
+}
+```
+
+profile.jsx
+
+```jsx
+import {jsx} from 'snabbdom/jsx';
+
+const profile = (
+  <div>
+    <img sel='.profile' attrs={{src: 'avatar.png'}} />
+    <h3>{[user.firstName, user.lastName].join(' ')}</h3>
+  </div>
+);
+```
+
+### JSX examples
+
+* [TSX Clock](http://snabbdom.github.io/snabbdom/examples/tsx-clock/)
+* [TSX Clock source](examples/tsx-clock/)
+
+### Third party JSX modules
+
+These notable third party modules support an optional flattened flavor of jsx.
+
+* [snabbdom-pragma](https://github.com/Swizz/snabbdom-pragma)
+* [snabbdom-jsx](https://github.com/snabbdom-jsx/snabbdom-jsx)
 
 ## Virtual Node
 
