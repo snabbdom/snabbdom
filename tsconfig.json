@@ -36,7 +36,7 @@
         "src/htmldomapi.ts",
         "src/hooks.ts",
         "src/is.ts",
-        "src/jsx-global.d.ts",
+        "src/jsx-global.ts",
         "src/jsx.ts",
         "src/snabbdom.bundle.ts",
         "src/snabbdom.ts",
