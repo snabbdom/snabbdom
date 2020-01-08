@@ -150,7 +150,7 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       if (vnode.children !== undefined) {
         for (let j = 0; j < vnode.children.length; ++j) {
           const child = vnode.children[j];
-          if (child != null && typeof child !== "string") {
+          if (child != null && typeof child !== 'string') {
             invokeDestroyHook(child);
           }
         }

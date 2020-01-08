@@ -32,7 +32,7 @@ function updateAttrs (oldVnode: VNode, vnode: VNode): void {
     const old = oldAttrs[key];
     if (old !== cur) {
       if (cur === true) {
-        elm.setAttribute(key, "");
+        elm.setAttribute(key, '');
       } else if (cur === false) {
         elm.removeAttribute(key);
       } else {
