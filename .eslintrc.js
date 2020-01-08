@@ -19,16 +19,13 @@ module.exports = {
     'dot-notation': 'off',
     'import/first': 'off',
     'no-mixed-operators': 'off',
-    'no-sequences': 'off',
     'no-undef': 'off',
     'no-unneeded-ternary': 'off',
     'no-unused-expressions': 'off',
     'no-unused-vars': 'off',
-    'no-void': 'off',
     'node/no-deprecated-api': 'off',
     'one-var': 'off',
     'prefer-const': 'off',
-    'quote-props': 'off',
     eqeqeq: 'off',
     semi: 'off'
   }

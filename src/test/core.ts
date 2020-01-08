@@ -372,7 +372,7 @@ describe('snabbdom', function () {
         elm.appendChild(text);
         var vnode = toVNode(elm, domApi);
         assert.equal(vnode.sel, 'x-div#id.class.other');
-        assert.deepEqual(vnode.data, { attrs: { 'data': 'value' } });
+        assert.deepEqual(vnode.data, { attrs: { data: 'value' } });
         const children = vnode.children as [VNode, VNode]
         assert.equal(children[0].sel, 'x-h2#hx');
         assert.deepEqual(children[0].data, { attrs: { 'data-env': 'xyz' } });
