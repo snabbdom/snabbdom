@@ -23,7 +23,6 @@ module.exports = {
     'no-unneeded-ternary': 'off',
     'no-unused-expressions': 'off',
     'no-unused-vars': 'off',
-    'node/no-deprecated-api': 'off',
     'one-var': 'off',
     'prefer-const': 'off',
     eqeqeq: 'off',

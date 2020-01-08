@@ -20,7 +20,7 @@ describe('attachTo', function () {
       ]),
     ]);
     elm = patch(vnode0, vnode1).elm;
-    assert.equal(elm.children.length, 2);
+    assert.strictEqual(elm.children.length, 2);
   });
   it('updates element at target', function () {
     var vnode1 = h('div', [
@@ -36,9 +36,9 @@ describe('attachTo', function () {
       ]),
     ]);
     elm = patch(vnode0, vnode1).elm;
-    assert.equal(elm.children[0].innerHTML, 'First text');
+    assert.strictEqual(elm.children[0].innerHTML, 'First text');
     elm = patch(vnode1, vnode2).elm;
-    assert.equal(elm.children[0].innerHTML, 'New text');
+    assert.strictEqual(elm.children[0].innerHTML, 'New text');
   });
   it('element can be inserted before modal', function () {
     var vnode1 = h('div', [
@@ -55,9 +55,9 @@ describe('attachTo', function () {
       ]),
     ]);
     elm = patch(vnode0, vnode1).elm;
-    assert.equal(elm.children[0].innerHTML, 'Text');
+    assert.strictEqual(elm.children[0].innerHTML, 'Text');
     elm = patch(vnode1, vnode2).elm;
-    assert.equal(elm.children[0].innerHTML, 'Text');
+    assert.strictEqual(elm.children[0].innerHTML, 'Text');
   });
   it('removes element at target', function () {
     var vnode1 = h('div', [
@@ -72,15 +72,15 @@ describe('attachTo', function () {
       ]),
     ]);
     elm = patch(vnode0, vnode1).elm;
-    assert.equal(elm.children[0].innerHTML, 'First text');
+    assert.strictEqual(elm.children[0].innerHTML, 'First text');
     elm = patch(vnode1, vnode2).elm;
-    assert.equal(elm.children.length, 1);
+    assert.strictEqual(elm.children.length, 1);
   });
   it('remove hook receives real element', function () {
     const rm: RemoveHook = (vnode, cb) => {
       const elm = vnode.elm as HTMLDivElement;
-      assert.equal(elm.tagName, 'DIV');
-      assert.equal(elm.innerHTML, 'First text');
+      assert.strictEqual(elm.tagName, 'DIV');
+      assert.strictEqual(elm.innerHTML, 'First text');
       cb();
     }
     var vnode1 = h('div', [

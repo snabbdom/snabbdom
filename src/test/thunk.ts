@@ -17,9 +17,9 @@ describe('thunk', function () {
       return h('span', 'Number is ' + n);
     }
     var vnode = thunk('span', 'num', numberInSpan, [22]);
-    assert.deepEqual(vnode.sel, 'span');
-    assert.deepEqual(vnode.data.key, 'num');
-    assert.deepEqual(vnode.data.args, [22]);
+    assert.deepStrictEqual(vnode.sel, 'span');
+    assert.deepStrictEqual(vnode.data.key, 'num');
+    assert.deepStrictEqual(vnode.data.args, [22]);
   });
   it('calls render function once on data change', function () {
     var called = 0;
@@ -34,9 +34,9 @@ describe('thunk', function () {
       thunk('span', 'num', numberInSpan, [2])
     ]);
     patch(vnode0, vnode1);
-    assert.equal(called, 1);
+    assert.strictEqual(called, 1);
     patch(vnode1, vnode2);
-    assert.equal(called, 2);
+    assert.strictEqual(called, 2);
   });
   it('does not call render function on data unchanged', function () {
     var called = 0;
@@ -51,9 +51,9 @@ describe('thunk', function () {
       thunk('span', 'num', numberInSpan, [1])
     ]);
     patch(vnode0, vnode1);
-    assert.equal(called, 1);
+    assert.strictEqual(called, 1);
     patch(vnode1, vnode2);
-    assert.equal(called, 1);
+    assert.strictEqual(called, 1);
   });
   it('calls render function once on data-length change', function () {
     var called = 0;
@@ -68,9 +68,9 @@ describe('thunk', function () {
       thunk('span', 'num', numberInSpan, [1, 2])
     ]);
     patch(vnode0, vnode1);
-    assert.equal(called, 1);
+    assert.strictEqual(called, 1);
     patch(vnode1, vnode2);
-    assert.equal(called, 2);
+    assert.strictEqual(called, 2);
   });
   it('calls render function once on function change', function () {
     var called = 0;
@@ -89,9 +89,9 @@ describe('thunk', function () {
       thunk('span', 'num', numberInSpan2, [1])
     ]);
     patch(vnode0, vnode1);
-    assert.equal(called, 1);
+    assert.strictEqual(called, 1);
     patch(vnode1, vnode2);
-    assert.equal(called, 2);
+    assert.strictEqual(called, 2);
   });
   it('renders correctly', function () {
     var called = 0;
@@ -109,15 +109,15 @@ describe('thunk', function () {
       thunk('span', 'num', numberInSpan, [2])
     ]);
     elm = patch(vnode0, vnode1).elm;
-    assert.equal(elm.firstChild.tagName.toLowerCase(), 'span');
-    assert.equal(elm.firstChild.innerHTML, 'Number is 1');
+    assert.strictEqual(elm.firstChild.tagName.toLowerCase(), 'span');
+    assert.strictEqual(elm.firstChild.innerHTML, 'Number is 1');
     elm = patch(vnode1, vnode2).elm;
-    assert.equal(elm.firstChild.tagName.toLowerCase(), 'span');
-    assert.equal(elm.firstChild.innerHTML, 'Number is 1');
+    assert.strictEqual(elm.firstChild.tagName.toLowerCase(), 'span');
+    assert.strictEqual(elm.firstChild.innerHTML, 'Number is 1');
     elm = patch(vnode2, vnode3).elm;
-    assert.equal(elm.firstChild.tagName.toLowerCase(), 'span');
-    assert.equal(elm.firstChild.innerHTML, 'Number is 2');
-    assert.equal(called, 2);
+    assert.strictEqual(elm.firstChild.tagName.toLowerCase(), 'span');
+    assert.strictEqual(elm.firstChild.innerHTML, 'Number is 2');
+    assert.strictEqual(called, 2);
   });
   it('supports leaving out the `key` argument', function () {
     function vnodeFn (s: string) {
@@ -125,7 +125,7 @@ describe('thunk', function () {
     }
     var vnode1 = thunk('span.number', vnodeFn, ['World!']);
     elm = patch(vnode0, vnode1).elm;
-    assert.equal(elm.innerText, 'Hello World!');
+    assert.strictEqual(elm.innerText, 'Hello World!');
   });
   it('renders correctly when root', function () {
     var called = 0;
@@ -138,17 +138,17 @@ describe('thunk', function () {
     var vnode3 = thunk('span', 'num', numberInSpan, [2]);
 
     elm = patch(vnode0, vnode1).elm;
-    assert.equal(elm.tagName.toLowerCase(), 'span');
-    assert.equal(elm.innerHTML, 'Number is 1');
+    assert.strictEqual(elm.tagName.toLowerCase(), 'span');
+    assert.strictEqual(elm.innerHTML, 'Number is 1');
 
     elm = patch(vnode1, vnode2).elm;
-    assert.equal(elm.tagName.toLowerCase(), 'span');
-    assert.equal(elm.innerHTML, 'Number is 1');
+    assert.strictEqual(elm.tagName.toLowerCase(), 'span');
+    assert.strictEqual(elm.innerHTML, 'Number is 1');
 
     elm = patch(vnode2, vnode3).elm;
-    assert.equal(elm.tagName.toLowerCase(), 'span');
-    assert.equal(elm.innerHTML, 'Number is 2');
-    assert.equal(called, 2);
+    assert.strictEqual(elm.tagName.toLowerCase(), 'span');
+    assert.strictEqual(elm.innerHTML, 'Number is 2');
+    assert.strictEqual(called, 2);
   });
   it('can be replaced and removed', function () {
     function numberInSpan (n: number) {
@@ -162,12 +162,12 @@ describe('thunk', function () {
     var vnode2 = h('div', [thunk('div', 'oddEven', oddEven, [4])]);
 
     elm = patch(vnode0, vnode1).elm;
-    assert.equal(elm.firstChild.tagName.toLowerCase(), 'span');
-    assert.equal(elm.firstChild.innerHTML, 'Number is 1');
+    assert.strictEqual(elm.firstChild.tagName.toLowerCase(), 'span');
+    assert.strictEqual(elm.firstChild.innerHTML, 'Number is 1');
 
     elm = patch(vnode1, vnode2).elm;
-    assert.equal(elm.firstChild.tagName.toLowerCase(), 'div');
-    assert.equal(elm.firstChild.innerHTML, 'Even: 4');
+    assert.strictEqual(elm.firstChild.tagName.toLowerCase(), 'div');
+    assert.strictEqual(elm.firstChild.innerHTML, 'Even: 4');
   });
   it('can be replaced and removed when root', function () {
     function numberInSpan (n: number) {
@@ -181,12 +181,12 @@ describe('thunk', function () {
     var vnode2 = thunk('div', 'oddEven', oddEven, [4]);
 
     elm = patch(vnode0, vnode1).elm;
-    assert.equal(elm.tagName.toLowerCase(), 'span');
-    assert.equal(elm.innerHTML, 'Number is 1');
+    assert.strictEqual(elm.tagName.toLowerCase(), 'span');
+    assert.strictEqual(elm.innerHTML, 'Number is 1');
 
     elm = patch(vnode1, vnode2).elm;
-    assert.equal(elm.tagName.toLowerCase(), 'div');
-    assert.equal(elm.innerHTML, 'Even: 4');
+    assert.strictEqual(elm.tagName.toLowerCase(), 'div');
+    assert.strictEqual(elm.innerHTML, 'Even: 4');
   });
   it('invokes destroy hook on thunks', function () {
     var called = 0;
@@ -207,7 +207,7 @@ describe('thunk', function () {
     ]);
     patch(vnode0, vnode1);
     patch(vnode1, vnode2);
-    assert.equal(called, 1);
+    assert.strictEqual(called, 1);
   });
   it('invokes remove hook on thunks', function () {
     var called = 0;
@@ -228,6 +228,6 @@ describe('thunk', function () {
     ]);
     patch(vnode0, vnode1);
     patch(vnode1, vnode2);
-    assert.equal(called, 1);
+    assert.strictEqual(called, 1);
   });
 });

@@ -6,7 +6,7 @@ describe('snabbdom', function () {
     it('can be used as a jsxFactory method', function () {
       const vnode = <div title="Hello World">Hello World</div>;
 
-      assert.equal(JSON.stringify(vnode), JSON.stringify({
+      assert.strictEqual(JSON.stringify(vnode), JSON.stringify({
         sel: 'div',
         data: { title: 'Hello World' },
         text: 'Hello World',
@@ -16,7 +16,7 @@ describe('snabbdom', function () {
     it('creates text property for text only child', function () {
       const vnode = <div>foo bar</div>;
 
-      assert.equal(JSON.stringify(vnode), JSON.stringify({
+      assert.strictEqual(JSON.stringify(vnode), JSON.stringify({
         sel: 'div',
         data: {},
         text: 'foo bar',
@@ -26,7 +26,7 @@ describe('snabbdom', function () {
     it('creates an array of children for multiple children', function () {
       const vnode = <div>{'foo'}{'bar'}</div>;
 
-      assert.equal(JSON.stringify(vnode), JSON.stringify({
+      assert.strictEqual(JSON.stringify(vnode), JSON.stringify({
         sel: 'div',
         data: {},
         children: [
@@ -45,7 +45,7 @@ describe('snabbdom', function () {
         </section>
       );
 
-      assert.equal(JSON.stringify(vnode), JSON.stringify({
+      assert.strictEqual(JSON.stringify(vnode), JSON.stringify({
         sel: 'section',
         data: {},
         children: [
@@ -76,7 +76,7 @@ describe('snabbdom', function () {
         </div>
       );
 
-      assert.equal(JSON.stringify(vnode), JSON.stringify({
+      assert.strictEqual(JSON.stringify(vnode), JSON.stringify({
         sel: 'div',
         data: {},
         children: [
@@ -100,7 +100,7 @@ describe('snabbdom', function () {
         </div>
       );
 
-      assert.equal(JSON.stringify(vnode), JSON.stringify({
+      assert.strictEqual(JSON.stringify(vnode), JSON.stringify({
         sel: 'div',
         data: {},
         children: [
