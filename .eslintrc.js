@@ -13,7 +13,6 @@ module.exports = {
     '@typescript-eslint/member-delimiter-style': 'off',
     '@typescript-eslint/no-unnecessary-type-assertion': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
-    '@typescript-eslint/quotes': 'off',
     '@typescript-eslint/restrict-plus-operands': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     'comma-dangle': 'off',
@@ -31,7 +30,6 @@ module.exports = {
     'prefer-const': 'off',
     'quote-props': 'off',
     eqeqeq: 'off',
-    quotes: 'off',
     semi: 'off'
   }
 }

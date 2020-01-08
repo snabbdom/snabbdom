@@ -154,7 +154,7 @@ describe('event listeners', function () {
   it('access to virtual node in event handler with arguments', function () {
     var result: Array<VNode | Event> = [];
     function clicked (arg1: number, arg2: string, ev: Event, vnode: VNode) { result.push(this); result.push(vnode); }
-    var vnode1 = h('div', { on: { click: [clicked, 1, "2"] as any } }, [
+    var vnode1 = h('div', { on: { click: [clicked, 1, '2'] as any } }, [
       h('a', 'Click my parent'),
     ]);
     elm = patch(vnode0, vnode1).elm;

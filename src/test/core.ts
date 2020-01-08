@@ -186,7 +186,7 @@ describe('snabbdom', function () {
       // Only run if srcdoc is supported.
       var frame = document.createElement('iframe');
       if (typeof frame.srcdoc !== 'undefined') {
-        frame.srcdoc = "<div>Thing 1</div>";
+        frame.srcdoc = '<div>Thing 1</div>';
         frame.onload = function () {
           const div0 = frame.contentDocument!.body.querySelector('div') as HTMLDivElement
           patch(div0, h('div', 'Thing 2'));
@@ -362,8 +362,8 @@ describe('snabbdom', function () {
         });
         var h2 = document.createElement('h2');
         h2.id = 'hx';
-        h2.setAttribute('data-env', "xyz");
-        var text = document.createTextNode("Foobar");
+        h2.setAttribute('data-env', 'xyz');
+        var text = document.createTextNode('Foobar');
         var elm = document.createElement('div');
         elm.id = 'id';
         elm.className = 'class other';

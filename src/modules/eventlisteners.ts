@@ -8,12 +8,12 @@ export type On = {
 };
 
 function invokeHandler (handler: any, vnode?: VNode, event?: Event): void {
-  if (typeof handler === "function") {
+  if (typeof handler === 'function') {
     // call function handler
     handler.call(vnode, event, vnode);
-  } else if (typeof handler === "object") {
+  } else if (typeof handler === 'object') {
     // call handler with arguments
-    if (typeof handler[0] === "function") {
+    if (typeof handler[0] === 'function') {
       // special case for single argument for performance
       if (handler.length === 2) {
         handler[0].call(vnode, handler[1], event, vnode);
