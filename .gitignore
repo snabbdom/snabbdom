@@ -46,6 +46,9 @@
 /es/is.d.ts
 /es/is.js
 /es/is.js.map
+/es/jsx-global.d.ts
+/es/jsx-global.js
+/es/jsx-global.js.map
 /es/jsx.d.ts
 /es/jsx.js
 /es/jsx.js.map
@@ -106,8 +109,10 @@
 /is.d.ts
 /is.js
 /is.js.map
-/jsx.d.ts
 /jsx-global.d.ts
+/jsx-global.js
+/jsx-global.js.map
+/jsx.d.ts
 /jsx.js
 /jsx.js.map
 /snabbdom.bundle.d.ts
