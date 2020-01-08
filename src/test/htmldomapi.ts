@@ -23,7 +23,7 @@ describe('svg', function () {
       h('g')
     ]);
     var result = patch(patch(vnode0, a), b).elm as SVGElement;
-    assert.equal(result.childNodes.length, 1);
+    assert.strictEqual(result.childNodes.length, 1);
   });
 
   it('adds correctly xlink namespaced attribute', function () {
@@ -36,10 +36,10 @@ describe('svg', function () {
     ]);
 
     var result = patch(vnode0, a).elm as SVGElement;
-    assert.equal(result.childNodes.length, 1);
+    assert.strictEqual(result.childNodes.length, 1);
     const child = result.childNodes[0] as SVGUseElement;
-    assert.equal(child.getAttribute('xlink:href'), testUrl);
-    assert.equal(child.getAttributeNS(xlinkNS, 'href'), testUrl);
+    assert.strictEqual(child.getAttribute('xlink:href'), testUrl);
+    assert.strictEqual(child.getAttributeNS(xlinkNS, 'href'), testUrl);
   });
 
   it('adds correctly xml namespaced attribute', function () {
@@ -48,7 +48,7 @@ describe('svg', function () {
     var a = h('svg', { attrs: { 'xml:lang': testAttrValue } }, []);
 
     var result = patch(vnode0, a).elm as SVGElement;
-    assert.equal(result.getAttributeNS(xmlNS, 'lang'), testAttrValue);
-    assert.equal(result.getAttribute('xml:lang'), testAttrValue);
+    assert.strictEqual(result.getAttributeNS(xmlNS, 'lang'), testAttrValue);
+    assert.strictEqual(result.getAttribute('xml:lang'), testAttrValue);
   });
 })
