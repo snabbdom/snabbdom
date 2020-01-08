@@ -50,7 +50,7 @@
   "scripts": {
     "docs": "remark . --output",
     "check-clean": "git diff --exit-code",
-    "lint:js": "eslint --ignore-path .gitignore --ext .js,.ts .",
+    "lint:js": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "lint:editorconfig": "editorconfig-checker",
     "lint": "run-s lint:editorconfig lint:js",
     "unit": "karma start",
