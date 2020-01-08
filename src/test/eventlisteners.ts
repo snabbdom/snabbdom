@@ -138,7 +138,7 @@ describe('event listeners', function () {
     assert.equal(2, result.length);
     assert.equal(vnode1, result[0]);
     assert.equal(vnode1, result[1]);
-  }),
+  });
   it('access to virtual node in event handler with argument', function () {
     var result: Array<VNode | Event> = [];
     function clicked (arg: number, ev: Event, vnode: VNode) { result.push(this); result.push(vnode); }
@@ -150,7 +150,7 @@ describe('event listeners', function () {
     assert.equal(2, result.length);
     assert.equal(vnode1, result[0]);
     assert.equal(vnode1, result[1]);
-  }),
+  });
   it('access to virtual node in event handler with arguments', function () {
     var result: Array<VNode | Event> = [];
     function clicked (arg1: number, arg2: string, ev: Event, vnode: VNode) { result.push(this); result.push(vnode); }

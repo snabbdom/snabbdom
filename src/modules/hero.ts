@@ -83,7 +83,7 @@ function destroy (vnode: VNode): void {
     (vnode as any).isTextNode = isTextElement(elm as Element | Text); // is this a text node?
     (vnode as any).boundingRect = (elm as Element).getBoundingClientRect(); // save the bounding rectangle to a new property on the vnode
     (vnode as any).textRect = (vnode as any).isTextNode ? getTextNodeRect((elm as Element).childNodes[0] as Text) : null; // save bounding rect of inner text node
-    var computedStyle = window.getComputedStyle(elm as Element, void 0); // get current styles (includes inherited properties)
+    var computedStyle = window.getComputedStyle(elm as Element, undefined); // get current styles (includes inherited properties)
     (vnode as any).savedStyle = JSON.parse(JSON.stringify(computedStyle)); // save a copy of computed style values
     removed[hero.id] = vnode;
   }
@@ -104,7 +104,7 @@ function post () {
     if (oldVnode) {
       isTextNode = (oldVnode as any).isTextNode && isTextElement(newElm); // Are old & new both text?
       newStyle = (newElm as HTMLElement).style;
-      newComputedStyle = window.getComputedStyle(newElm, void 0); // get full computed style for new element
+      newComputedStyle = window.getComputedStyle(newElm, undefined); // get full computed style for new element
       oldElm = oldVnode.elm as Element;
       oldStyle = (oldElm as HTMLElement).style;
       // Overall element bounding boxes
