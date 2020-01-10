@@ -297,6 +297,10 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       oldVnode = emptyNodeAt(oldVnode);
     }
 
+    if (!(vnode && isVnode(vnode))) {
+      vnode = emptyNode;
+    }
+
     if (sameVnode(oldVnode, vnode)) {
       patchVnode(oldVnode, vnode, insertedVnodeQueue);
     } else {
