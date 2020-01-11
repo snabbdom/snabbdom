@@ -85,8 +85,9 @@ var newVnode = h('div#container.two.classes', {on: {click: anotherEventHandler}}
 // Second `patch` invocation
 patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new state
 
-// to unmount from the DOM and clean up, simply pass null
-patch(newVnode, null)
+// to unmount from the DOM and clean up, patch the vnode with an empty comment node:
+patch(newVnode, h('!'));
+
 ```
 
 ## More examples
@@ -195,7 +196,7 @@ var vnode = h('div', {style: {color: '#000'}}, [
 
 ### `snabbdom/tovnode`
 
-Converts a DOM node into a virtual node. Especially good for patching over an pre-existing, 
+Converts a DOM node into a virtual node. Especially good for patching over an pre-existing,
 server-side generated content.
 
 ```javascript
@@ -732,12 +733,12 @@ Here are some approaches to building applications with Snabbdom.
   A JavaScript library for rendering html. Tung helps to divide html and JavaScript development.
 * [sprotty](https://github.com/theia-ide/sprotty) - "A web-based diagramming framework" uses Snabbdom.
 * [Mark Text](https://github.com/marktext/marktext) - "Realtime preview Markdown Editor" build on Snabbdom.
-* [puddles](https://github.com/flintinatux/puddles) - 
+* [puddles](https://github.com/flintinatux/puddles) -
   "Tiny vdom app framework. Pure Redux. No boilerplate." - Built with :heart: on Snabbdom.
 * [Backbone.VDOMView](https://github.com/jcbrand/backbone.vdomview) - A [Backbone](http://backbonejs.org/) View with VirtualDOM capability via Snabbdom.
 * [Rosmaro Snabbdom starter](https://github.com/lukaszmakuch/rosmaro-snabbdom-starter) - Building user interfaces with state machines and Snabbdom.
 * [Pureact](https://github.com/irony/pureact) - "65 lines implementation of React incl Redux and hooks with only one dependency - Snabbdom"
-* [Snabberb](https://github.com/tobymao/snabberb) - A minimalistic Ruby framework using [Opal](https://github.com/opal/opal) and Snabbdom for building reactive views.  
+* [Snabberb](https://github.com/tobymao/snabberb) - A minimalistic Ruby framework using [Opal](https://github.com/opal/opal) and Snabbdom for building reactive views.
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
