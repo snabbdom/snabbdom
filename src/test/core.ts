@@ -788,6 +788,12 @@ describe('snabbdom', function () {
         elm = patch(vnode2, vnode3).elm;
         assert.deepStrictEqual(map(inner, elm.children), ['2', '1']);
       });
+      it('patches null 2nd argument with empty vnode', function () {
+        var vnode1 = h('i', [h('i', '1'), h('i', '2')]);
+        patch(vnode0, vnode1);
+        var a = patch(vnode1, null);
+        assert.strictEqual(a.sel, '!');
+      });
     });
   });
   describe('hooks', function () {

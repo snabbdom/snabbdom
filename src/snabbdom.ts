@@ -11,6 +11,7 @@ function isDef<A> (s: A): s is NonUndefined<A> { return s !== undefined; }
 
 type VNodeQueue = VNode[];
 
+const createVnode = vnode;
 const emptyNode = vnode('', {}, [], undefined, undefined);
 
 function sameVnode (vnode1: VNode, vnode2: VNode): boolean {
@@ -288,7 +289,7 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     hook?.postpatch?.(oldVnode, vnode);
   }
 
-  return function patch (oldVnode: VNode | Element, vnode: VNode): VNode {
+  return function patch (oldVnode: VNode | Element, vnode: VNode | null): VNode {
     let i: number, elm: Node, parent: Node;
     const insertedVnodeQueue: VNodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
@@ -297,8 +298,8 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       oldVnode = emptyNodeAt(oldVnode);
     }
 
-    if (!(vnode && isVnode(vnode))) {
-      vnode = emptyNode;
+    if (vnode === null) {
+      vnode = createVnode('!', {}, [], undefined, undefined);
     }
 
     if (sameVnode(oldVnode, vnode)) {
