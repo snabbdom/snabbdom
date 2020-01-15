@@ -233,7 +233,6 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
         idxInOld = oldKeyToIdx[newStartVnode.key as string];
         if (isUndef(idxInOld)) { // New element
           api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm!);
-          newStartVnode = newCh[++newStartIdx];
         } else {
           elmToMove = oldCh[idxInOld];
           if (elmToMove.sel !== newStartVnode.sel) {
@@ -243,8 +242,8 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
             oldCh[idxInOld] = undefined as any;
             api.insertBefore(parentElm, elmToMove.elm!, oldStartVnode.elm!);
           }
-          newStartVnode = newCh[++newStartIdx];
         }
+        newStartVnode = newCh[++newStartIdx];
       }
     }
     if (oldStartIdx <= oldEndIdx || newStartIdx <= newEndIdx) {
