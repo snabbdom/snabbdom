@@ -197,7 +197,6 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     let oldKeyToIdx: KeyToIndexMap | undefined;
     let idxInOld: number;
     let elmToMove: VNode;
-    let before: any;
 
     while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
       if (oldStartVnode == null) {
@@ -249,8 +248,7 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     }
     if (oldStartIdx <= oldEndIdx || newStartIdx <= newEndIdx) {
       if (oldStartIdx > oldEndIdx) {
-        before = newCh[newEndIdx + 1] == null ? null : newCh[newEndIdx + 1].elm;
-        addVnodes(parentElm, before, newCh, newStartIdx, newEndIdx, insertedVnodeQueue);
+        addVnodes(parentElm, null, newCh, newStartIdx, newEndIdx, insertedVnodeQueue);
       } else {
         removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
       }
