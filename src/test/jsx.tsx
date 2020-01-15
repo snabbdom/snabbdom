@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import { assert } from 'chai';
 import { jsx } from '../jsx';
 
 describe('snabbdom', function () {

@@ -1,4 +1,4 @@
-import assert from 'assert'
+import { assert } from 'chai'
 import { init } from '../snabbdom'
 import attributesModule from '../modules/attributes'
 var patch = init([

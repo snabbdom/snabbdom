@@ -1,4 +1,4 @@
-import assert from 'assert'
+import { assert } from 'chai'
 import { VNode } from '../vnode';
 
 import { init } from '../snabbdom'
@@ -37,21 +37,21 @@ describe('event listeners', function () {
     elm.click();
     elm = patch(vnode1, vnode2).elm;
     elm.click();
-    assert.deepStrictEqual(result, [1, 2]);
+    assert.deepEqual(result, [1, 2]);
   });
   it('does calls handler for function in array', function () {
-    var result: Event[] = [];
-    function clicked (ev: Event) { result.push(ev); }
+    var result: number[] = [];
+    function clicked (n: number) { result.push(n); }
     var vnode = h('div', { on: { click: [clicked, 1] as any } }, [
       h('a', 'Click my parent'),
     ]);
     elm = patch(vnode0, vnode).elm;
     elm.click();
-    assert.deepStrictEqual(result, [1]);
+    assert.deepEqual(result, [1]);
   });
   it('handles changed value in array', function () {
-    var result: Event[] = [];
-    function clicked (ev: Event) { result.push(ev); }
+    var result: number[] = [];
+    function clicked (n: number) { result.push(n); }
     var vnode1 = h('div', { on: { click: [clicked, 1] as any } }, [
       h('a', 'Click my parent'),
     ]);
@@ -67,10 +67,10 @@ describe('event listeners', function () {
     elm.click();
     elm = patch(vnode2, vnode3).elm;
     elm.click();
-    assert.deepStrictEqual(result, [1, 2, 3]);
+    assert.deepEqual(result, [1, 2, 3]);
   });
   it('handles changed several values in array', function () {
-    var result: Event[] = [];
+    var result: number[][] = [];
     function clicked () { result.push([].slice.call(arguments, 0, arguments.length - 2)); }
     var vnode1 = h('div', { on: { click: [clicked, 1, 2, 3] as any } }, [
       h('a', 'Click my parent'),
@@ -87,7 +87,7 @@ describe('event listeners', function () {
     elm.click();
     elm = patch(vnode2, vnode3).elm;
     elm.click();
-    assert.deepStrictEqual(result, [[1, 2, 3], [1, 2], [2, 3]]);
+    assert.deepEqual(result, [[1, 2, 3], [1, 2], [2, 3]]);
   });
   it('detach attached click event handler to element', function () {
     var result: Event[] = [];
