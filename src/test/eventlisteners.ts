@@ -3,10 +3,11 @@ import { VNode } from '../vnode';
 
 import { init } from '../snabbdom'
 import eventListenersModule from '../modules/eventlisteners'
+import h from '../h'
+
 var patch = init([
   eventListenersModule
 ]);
-import h from '../h'
 
 describe('event listeners', function () {
   var elm: any, vnode0: any;

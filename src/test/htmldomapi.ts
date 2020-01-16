@@ -3,6 +3,7 @@ import assert from 'assert'
 import { init } from '../snabbdom'
 import h from '../h'
 import attributesModule from '../modules/attributes'
+
 var patch = init([
   attributesModule
 ]);
