@@ -6,6 +6,7 @@ module.exports = {
     '/dist/'
   ],
   rules: {
+    'import/newline-after-import': 'error',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/consistent-type-assertions': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
@@ -16,10 +17,7 @@ module.exports = {
     '@typescript-eslint/restrict-plus-operands': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     'comma-dangle': 'off',
-    'dot-notation': 'off',
-    'import/first': 'off',
     'no-mixed-operators': 'off',
-    'no-undef': 'off',
     'no-unneeded-ternary': 'off',
     'no-unused-expressions': 'off',
     'no-unused-vars': 'off',

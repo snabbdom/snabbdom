@@ -1,10 +1,11 @@
 import assert from 'assert'
 import { init } from '../snabbdom'
 import attributesModule from '../modules/attributes'
+import h from '../h'
+
 var patch = init([
   attributesModule
 ]);
-import h from '../h'
 
 describe('attributes', function () {
   var elm: any, vnode0: any;

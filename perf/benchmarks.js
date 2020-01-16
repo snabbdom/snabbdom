@@ -1,3 +1,5 @@
+// Has not been maintained for a while.
+/* eslint-disable */
 var Benchmark = require('benchmark');
 var a = require('../snabbdom.js');
 var b = require('../oldsnabbdom.js');

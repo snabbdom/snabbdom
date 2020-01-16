@@ -1,11 +1,12 @@
 import assert from 'assert'
 
 import { init } from '../snabbdom'
-var patch = init([
-]);
 import h from '../h'
 import thunk from '../thunk'
 import { VNode } from '../vnode';
+
+var patch = init([
+]);
 
 describe('thunk', function () {
   var elm: any, vnode0: any;

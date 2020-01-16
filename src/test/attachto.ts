@@ -1,10 +1,10 @@
 import assert from 'assert'
 import { init } from '../snabbdom'
 import { RemoveHook } from '../hooks';
-
-var patch = init([]);
 import attachTo from '../helpers/attachto'
 import h from '../h'
+
+var patch = init([]);
 
 describe('attachTo', function () {
   var elm: any, vnode0: any;
