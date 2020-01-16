@@ -2,8 +2,7 @@ module.exports = {
   extends: 'standard-with-typescript',
   parserOptions: { project: [ './tsconfig.json', ] },
   ignorePatterns: [
-    '/examples/**/build.js',
-    '/dist/'
+    '/examples/**/build.js'
   ],
   rules: {
     'import/newline-after-import': 'error',
