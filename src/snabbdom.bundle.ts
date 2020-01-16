@@ -4,7 +4,10 @@ import { classModule } from './modules/class'; // makes it easy to toggle classe
 import { propsModule } from './modules/props'; // for setting properties on DOM elements
 import { styleModule } from './modules/style'; // handles styling on elements with support for animations
 import { eventListenersModule } from './modules/eventlisteners'; // attaches event listeners
-import { h } from './h'; // helper function for creating vnodes
+
+// helper function for creating vnodes
+import { h } from './h';
+
 var patch = init([ // Init patch function with choosen modules
   attributesModule,
   classModule,

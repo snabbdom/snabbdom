@@ -2,10 +2,11 @@ import assert from 'assert'
 
 import datasetModule from '../modules/dataset'
 import { init } from '../snabbdom'
+import h from '../h'
+
 var patch = init([
   datasetModule
 ]);
-import h from '../h'
 
 describe('dataset', function () {
   var elm: any, vnode0: any;

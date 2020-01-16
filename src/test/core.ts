@@ -5,16 +5,17 @@ import { init } from '../snabbdom'
 import classModule from '../modules/class'
 import propsModule from '../modules/props'
 import eventListenersModule from '../modules/eventlisteners'
-var patch = init([
-  classModule,
-  propsModule,
-  eventListenersModule
-]);
 import h from '../h'
 import toVNode from '../tovnode'
 import vnode, { VNode } from '../vnode'
 import htmlDomApi from '../htmldomapi'
 import { CreateHook, InsertHook, PrePatchHook, RemoveHook, InitHook, DestroyHook, UpdateHook } from '../hooks'
+
+var patch = init([
+  classModule,
+  propsModule,
+  eventListenersModule
+]);
 
 function prop<T> (name: string) {
   return function (obj: {[index: string]: T}) {

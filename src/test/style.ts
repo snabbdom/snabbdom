@@ -2,11 +2,12 @@ import assert from 'assert'
 
 import { init } from '../snabbdom'
 import styleModule from '../modules/style'
+import h from '../h'
+import toVNode from '../tovnode'
+
 var patch = init([
   styleModule
 ]);
-import h from '../h'
-import toVNode from '../tovnode'
 
 describe('style', function () {
   var elm: any, vnode0: any;
