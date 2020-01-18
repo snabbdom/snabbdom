@@ -38,10 +38,10 @@ describe('attributes', function () {
   it('are not omitted when falsy values are provided', function () {
     var vnode1 = h('div', { attrs: { href: null as any, minlength: 0, value: '', title: 'undefined' } });
     elm = patch(vnode0, vnode1).elm;
-    assert.strictEqual(elm.getAttribute('href'), 'null');
-    assert.strictEqual(elm.getAttribute('minlength'), '0');
-    assert.strictEqual(elm.getAttribute('value'), '');
-    assert.strictEqual(elm.getAttribute('title'), 'undefined');
+    assert.ok(elm.hasAttribute('href'));
+    assert.ok(elm.hasAttribute('minlength'));
+    assert.ok(elm.hasAttribute('value'));
+    assert.ok(elm.hasAttribute('title'));
   });
   it('are set correctly when namespaced', function () {
     var vnode1 = h('div', { attrs: { 'xlink:href': '#foo' } });
@@ -77,11 +77,11 @@ describe('attributes', function () {
       assert.strictEqual(elm.hasAttribute('required'), false);
       assert.strictEqual(elm.getAttribute('required'), null);
     });
-    it('is not omitted if the value is falsy but casted to string', function () {
+    it('is not omitted if the value is falsy', function () {
       var vnode1 = h('div', { attrs: { readonly: 0, noresize: null as any } });
       elm = patch(vnode0, vnode1).elm;
-      assert.strictEqual(elm.getAttribute('readonly'), '0');
-      assert.strictEqual(elm.getAttribute('noresize'), 'null');
+      assert.ok(elm.hasAttribute('readonly'));
+      assert.ok(elm.hasAttribute('noresize'));
     });
   });
   describe('Object.prototype property', function () {
