@@ -17,20 +17,29 @@ const browsers = ci
 module.exports = function (config) {
   config.set({
     basePath: '.',
-    frameworks: ['mocha', 'karma-typescript'],
+    frameworks: ['mocha'],
     // list of files / patterns to load in the browser
-    files: [{ pattern: 'src/**/*' }],
+    files: [
+      { pattern: 'test/**/*.js' },
+      { pattern: 'es/test/**/*.js' }
+    ],
     plugins: [
       'karma-mocha',
       require('karma-mocha-reporter'),
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-browserstack-launcher',
-      'karma-typescript',
+      require('karma-webpack')
     ],
     hostname: ci ? ip : 'localhost',
     preprocessors: {
-      'src/**/*.{ts,tsx}': ['karma-typescript']
+      '**/*.js': ['webpack']
+    },
+    webpack: {
+      mode: 'development'
+    },
+    webpackMiddleware: {
+      stats: 'errors-only'
     },
     browserStack: {
       name: 'Snabbdom',
@@ -41,20 +50,7 @@ module.exports = function (config) {
     },
     browserNoActivityTimeout: 1000000,
     customLaunchers: browserstack,
-    karmaTypescriptConfig: {
-      coverageOptions: {
-        exclude: /test\//,
-      },
-      compilerOptions: {
-        module: 'commonjs'
-      },
-      tsconfig: './tsconfig.json',
-      include: {
-        mode: 'merge',
-        values: ['src/test/**/*'],
-      },
-    },
-    reporters: ['mocha', 'karma-typescript', 'BrowserStack'],
+    reporters: ['mocha', 'BrowserStack'],
     mochaReporter: {
       showDiff: true
     },
