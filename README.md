@@ -84,9 +84,6 @@ var newVnode = h('div#container.two.classes', {on: {click: anotherEventHandler}}
 ]);
 // Second `patch` invocation
 patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new state
-
-// to unmount from the DOM and clean up, simply pass null
-patch(newVnode, null)
 ```
 
 ## More examples
@@ -102,6 +99,7 @@ patch(newVnode, null)
 * [Core documentation](#core-documentation)
   * [`snabbdom.init`](#snabbdominit)
   * [`patch`](#patch)
+    * [Unmounting](#unmounting)
   * [`snabbdom/h`](#snabbdomh)
   * [`snabbdom/tovnode`](#snabbdomtovnode)
   * [Hooks](#hooks)
@@ -178,6 +176,16 @@ vnode tree.
 ```javascript
 patch(oldVnode, newVnode);
 ```
+
+#### Unmounting
+
+While there is no API specifically for removing a VNode tree from its mount point element, one way of almost achieving this is providing a comment VNode as the second argument to `patch`, such as:
+
+```js
+patch(oldVnode, h('!', { hooks: { post: () => { /* patch complete */ } } }))
+```
+
+Of course, then there is still a single comment node at the mount point.
 
 ### `snabbdom/h`
 
