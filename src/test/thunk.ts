@@ -1,4 +1,4 @@
-import assert from 'assert'
+import { assert } from 'chai'
 
 import { init } from '../snabbdom'
 import h from '../h'
@@ -18,9 +18,9 @@ describe('thunk', function () {
       return h('span', 'Number is ' + n);
     }
     var vnode = thunk('span', 'num', numberInSpan, [22]);
-    assert.deepStrictEqual(vnode.sel, 'span');
-    assert.deepStrictEqual(vnode.data.key, 'num');
-    assert.deepStrictEqual(vnode.data.args, [22]);
+    assert.deepEqual(vnode.sel, 'span');
+    assert.deepEqual(vnode.data.key, 'num');
+    assert.deepEqual(vnode.data.args, [22]);
   });
   it('calls render function once on data change', function () {
     var called = 0;

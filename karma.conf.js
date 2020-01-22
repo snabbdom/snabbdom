@@ -22,6 +22,7 @@ module.exports = function (config) {
     files: [{ pattern: 'src/**/*' }],
     plugins: [
       'karma-mocha',
+      require('karma-mocha-reporter'),
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-browserstack-launcher',
@@ -53,7 +54,10 @@ module.exports = function (config) {
         values: ['src/test/**/*'],
       },
     },
-    reporters: ['dots', 'karma-typescript', 'BrowserStack'],
+    reporters: ['mocha', 'karma-typescript', 'BrowserStack'],
+    mochaReporter: {
+      showDiff: true
+    },
     port: 9876,
     colors: true,
     autoWatch: true,

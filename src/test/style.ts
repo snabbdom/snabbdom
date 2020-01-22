@@ -1,4 +1,4 @@
-import assert from 'assert'
+import { assert } from 'chai'
 
 import { init } from '../snabbdom'
 import styleModule from '../modules/style'

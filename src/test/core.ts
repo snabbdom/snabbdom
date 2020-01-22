@@ -1,4 +1,4 @@
-import assert from 'assert'
+import { assert } from 'chai'
 import shuffle from 'lodash.shuffle'
 
 import { init } from '../snabbdom'
@@ -78,7 +78,7 @@ describe('snabbdom', function () {
     });
     it('can create vnode with null props', function () {
       var vnode = h('a', null);
-      assert.deepStrictEqual(vnode.data, {});
+      assert.deepEqual(vnode.data, {});
       vnode = h('a', null, ['I am a string']);
       const children = vnode.children as [VNode]
       assert.strictEqual(children[0].text, 'I am a string');
@@ -373,10 +373,10 @@ describe('snabbdom', function () {
         elm.appendChild(text);
         var vnode = toVNode(elm, domApi);
         assert.strictEqual(vnode.sel, 'x-div#id.class.other');
-        assert.deepStrictEqual(vnode.data, { attrs: { data: 'value' } });
+        assert.deepEqual(vnode.data, { attrs: { data: 'value' } });
         const children = vnode.children as [VNode, VNode]
         assert.strictEqual(children[0].sel, 'x-h2#hx');
-        assert.deepStrictEqual(children[0].data, { attrs: { 'data-env': 'xyz' } });
+        assert.deepEqual(children[0].data, { attrs: { 'data-env': 'xyz' } });
         assert.strictEqual(children[1].text, 'Foobar');
       });
     });
@@ -407,7 +407,7 @@ describe('snabbdom', function () {
           elm = patch(vnode0, vnode1).elm;
           assert.strictEqual(elm.children.length, 2);
           elm = patch(vnode1, vnode2).elm;
-          assert.deepStrictEqual(map(inner, elm.children), ['1', '2', '3', '4', '5']);
+          assert.deepEqual(map(inner, elm.children), ['1', '2', '3', '4', '5']);
         });
         it('add elements in the middle', function () {
           var vnode1 = h('span', [1, 2, 4, 5].map(spanNum));
@@ -416,7 +416,7 @@ describe('snabbdom', function () {
           assert.strictEqual(elm.children.length, 4);
           assert.strictEqual(elm.children.length, 4);
           elm = patch(vnode1, vnode2).elm;
-          assert.deepStrictEqual(map(inner, elm.children), ['1', '2', '3', '4', '5']);
+          assert.deepEqual(map(inner, elm.children), ['1', '2', '3', '4', '5']);
         });
         it('add elements at begin and end', function () {
           var vnode1 = h('span', [2, 3, 4].map(spanNum));
@@ -424,7 +424,7 @@ describe('snabbdom', function () {
           elm = patch(vnode0, vnode1).elm;
           assert.strictEqual(elm.children.length, 3);
           elm = patch(vnode1, vnode2).elm;
-          assert.deepStrictEqual(map(inner, elm.children), ['1', '2', '3', '4', '5']);
+          assert.deepEqual(map(inner, elm.children), ['1', '2', '3', '4', '5']);
         });
         it('adds children to parent with no children', function () {
           var vnode1 = h('span', { key: 'span' });
@@ -432,13 +432,13 @@ describe('snabbdom', function () {
           elm = patch(vnode0, vnode1).elm;
           assert.strictEqual(elm.children.length, 0);
           elm = patch(vnode1, vnode2).elm;
-          assert.deepStrictEqual(map(inner, elm.children), ['1', '2', '3']);
+          assert.deepEqual(map(inner, elm.children), ['1', '2', '3']);
         });
         it('removes all children from parent', function () {
           var vnode1 = h('span', { key: 'span' }, [1, 2, 3].map(spanNum));
           var vnode2 = h('span', { key: 'span' });
           elm = patch(vnode0, vnode1).elm;
-          assert.deepStrictEqual(map(inner, elm.children), ['1', '2', '3']);
+          assert.deepEqual(map(inner, elm.children), ['1', '2', '3']);
           elm = patch(vnode1, vnode2).elm;
           assert.strictEqual(elm.children.length, 0);
         });
@@ -446,9 +446,9 @@ describe('snabbdom', function () {
           var vnode1 = h('span', { key: 'span' }, [1, 2, 3].map(spanNum));
           var vnode2 = h('span', { key: 'span' }, [spanNum(1), h('i', { key: 2 }, '2'), spanNum(3)]);
           elm = patch(vnode0, vnode1).elm;
-          assert.deepStrictEqual(map(inner, elm.children), ['1', '2', '3']);
+          assert.deepEqual(map(inner, elm.children), ['1', '2', '3']);
           elm = patch(vnode1, vnode2).elm;
-          assert.deepStrictEqual(map(inner, elm.children), ['1', '2', '3']);
+          assert.deepEqual(map(inner, elm.children), ['1', '2', '3']);
           assert.strictEqual(elm.children.length, 3);
           assert.strictEqual(elm.children[1].tagName, 'I');
         });
@@ -460,7 +460,7 @@ describe('snabbdom', function () {
           elm = patch(vnode0, vnode1).elm;
           assert.strictEqual(elm.children.length, 5);
           elm = patch(vnode1, vnode2).elm;
-          assert.deepStrictEqual(map(inner, elm.children), ['3', '4', '5']);
+          assert.deepEqual(map(inner, elm.children), ['3', '4', '5']);
         });
         it('removes elements from the end', function () {
           var vnode1 = h('span', [1, 2, 3, 4, 5].map(spanNum));
@@ -480,7 +480,7 @@ describe('snabbdom', function () {
           assert.strictEqual(elm.children.length, 5);
           elm = patch(vnode1, vnode2).elm;
           assert.strictEqual(elm.children.length, 4);
-          assert.deepStrictEqual(elm.children[0].innerHTML, '1');
+          assert.deepEqual(elm.children[0].innerHTML, '1');
           assert.strictEqual(elm.children[0].innerHTML, '1');
           assert.strictEqual(elm.children[1].innerHTML, '2');
           assert.strictEqual(elm.children[2].innerHTML, '4');
@@ -556,7 +556,7 @@ describe('snabbdom', function () {
           elm = patch(vnode0, vnode1).elm;
           assert.strictEqual(elm.children.length, 3);
           elm = patch(vnode1, vnode2).elm;
-          assert.deepStrictEqual(map(inner, elm.children), ['4', '6']);
+          assert.deepEqual(map(inner, elm.children), ['4', '6']);
         });
         it('handles moved and set to undefined element ending at the end', function () {
           var vnode1 = h('span', [2, 4, 5].map(spanNum));
@@ -586,7 +586,7 @@ describe('snabbdom', function () {
         elm = patch(vnode0, vnode1).elm;
         assert.strictEqual(elm.children.length, 8);
         elm = patch(vnode1, vnode2).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['8', '7', '6', '5', '4', '3', '2', '1']);
+        assert.deepEqual(map(inner, elm.children), ['8', '7', '6', '5', '4', '3', '2', '1']);
       });
       it('something', function () {
         var vnode1 = h('span', [0, 1, 2, 3, 4, 5].map(spanNum));
@@ -594,7 +594,7 @@ describe('snabbdom', function () {
         elm = patch(vnode0, vnode1).elm;
         assert.strictEqual(elm.children.length, 6);
         elm = patch(vnode1, vnode2).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['4', '3', '2', '1', '5', '0']);
+        assert.deepEqual(map(inner, elm.children), ['4', '3', '2', '1', '5', '0']);
       });
       it('handles random shuffles', function () {
         var n, i, arr = [], opacities: string[] = [], elms = 14, samples = 5;
@@ -630,7 +630,7 @@ describe('snabbdom', function () {
         elm = patch(vnode0, vnode1).elm;
         assert.strictEqual(elm.children.length, 6);
         elm = patch(vnode1, vnode2).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['2', '1', '0', '5', '4', '3']);
+        assert.deepEqual(map(inner, elm.children), ['2', '1', '0', '5', '4', '3']);
       });
       it('supports all null/undefined children', function () {
         var vnode1 = h('i', [0, 1, 2, 3, 4, 5].map(spanNum));
@@ -640,7 +640,7 @@ describe('snabbdom', function () {
         elm = patch(vnode1, vnode2).elm;
         assert.strictEqual(elm.children.length, 0);
         elm = patch(vnode2, vnode3).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['5', '4', '3', '2', '1', '0']);
+        assert.deepEqual(map(inner, elm.children), ['5', '4', '3', '2', '1', '0']);
       });
       it('handles random shuffles with null/undefined children', function () {
         var i, j, r, len, arr, maxArrLen = 15, samples = 5, vnode1 = vnode0, vnode2;
@@ -655,7 +655,7 @@ describe('snabbdom', function () {
           shuffle(arr);
           vnode2 = h('div', arr.map(spanNum));
           elm = patch(vnode1, vnode2).elm;
-          assert.deepStrictEqual(map(inner, elm.children), arr.filter(function (x) { return x != null; }));
+          assert.deepEqual(map(inner, elm.children), arr.filter(function (x) { return x != null; }));
         }
       });
     });
@@ -664,9 +664,9 @@ describe('snabbdom', function () {
         var vnode1 = h('div', [h('span', 'Hello')]);
         var vnode2 = h('div', [h('span', 'Hello'), h('span', 'World')]);
         elm = patch(vnode0, vnode1).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['Hello']);
+        assert.deepEqual(map(inner, elm.children), ['Hello']);
         elm = patch(vnode1, vnode2).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['Hello', 'World']);
+        assert.deepEqual(map(inner, elm.children), ['Hello', 'World']);
       });
       it('handles unmoved text nodes', function () {
         var vnode1 = h('div', ['Text', h('span', 'Span')]);
@@ -712,26 +712,26 @@ describe('snabbdom', function () {
         var vnode1 = h('div', [h('span', 'World')]);
         var vnode2 = h('div', [h('span', 'Hello'), h('span', 'World')]);
         elm = patch(vnode0, vnode1).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['World']);
+        assert.deepEqual(map(inner, elm.children), ['World']);
         elm = patch(vnode1, vnode2).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['Hello', 'World']);
+        assert.deepEqual(map(inner, elm.children), ['Hello', 'World']);
       });
       it('prepends element of different tag type', function () {
         var vnode1 = h('div', [h('span', 'World')]);
         var vnode2 = h('div', [h('div', 'Hello'), h('span', 'World')]);
         elm = patch(vnode0, vnode1).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['World']);
+        assert.deepEqual(map(inner, elm.children), ['World']);
         elm = patch(vnode1, vnode2).elm;
-        assert.deepStrictEqual(map(prop('tagName'), elm.children), ['DIV', 'SPAN']);
-        assert.deepStrictEqual(map(inner, elm.children), ['Hello', 'World']);
+        assert.deepEqual(map(prop('tagName'), elm.children), ['DIV', 'SPAN']);
+        assert.deepEqual(map(inner, elm.children), ['Hello', 'World']);
       });
       it('removes elements', function () {
         var vnode1 = h('div', [h('span', 'One'), h('span', 'Two'), h('span', 'Three')]);
         var vnode2 = h('div', [h('span', 'One'), h('span', 'Three')]);
         elm = patch(vnode0, vnode1).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['One', 'Two', 'Three']);
+        assert.deepEqual(map(inner, elm.children), ['One', 'Two', 'Three']);
         elm = patch(vnode1, vnode2).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['One', 'Three']);
+        assert.deepEqual(map(inner, elm.children), ['One', 'Three']);
       });
       it('removes a single text node', function () {
         var vnode1 = h('div', 'One');
@@ -747,13 +747,13 @@ describe('snabbdom', function () {
         patch(vnode0, vnode1);
         assert.strictEqual(elm.textContent, 'One');
         patch(vnode1, vnode2);
-        assert.deepStrictEqual(map(prop('textContent'), elm.childNodes), ['Two', 'Three']);
+        assert.deepEqual(map(prop('textContent'), elm.childNodes), ['Two', 'Three']);
       });
       it('removes a text node among other elements', function () {
         var vnode1 = h('div', ['One', h('span', 'Two')]);
         var vnode2 = h('div', [h('div', 'Three')]);
         patch(vnode0, vnode1);
-        assert.deepStrictEqual(map(prop('textContent'), elm.childNodes), ['One', 'Two']);
+        assert.deepEqual(map(prop('textContent'), elm.childNodes), ['One', 'Two']);
         patch(vnode1, vnode2);
         assert.strictEqual(elm.childNodes.length, 1);
         assert.strictEqual(elm.childNodes[0].tagName, 'DIV');
@@ -763,21 +763,21 @@ describe('snabbdom', function () {
         var vnode1 = h('div', [h('span', 'One'), h('div', 'Two'), h('b', 'Three')]);
         var vnode2 = h('div', [h('b', 'Three'), h('span', 'One'), h('div', 'Two')]);
         elm = patch(vnode0, vnode1).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['One', 'Two', 'Three']);
+        assert.deepEqual(map(inner, elm.children), ['One', 'Two', 'Three']);
         elm = patch(vnode1, vnode2).elm;
-        assert.deepStrictEqual(map(prop('tagName'), elm.children), ['B', 'SPAN', 'DIV']);
-        assert.deepStrictEqual(map(inner, elm.children), ['Three', 'One', 'Two']);
+        assert.deepEqual(map(prop('tagName'), elm.children), ['B', 'SPAN', 'DIV']);
+        assert.deepEqual(map(inner, elm.children), ['Three', 'One', 'Two']);
       });
       it('supports null/undefined children', function () {
         var vnode1 = h('i', [null, h('i', '1'), h('i', '2'), null]);
         var vnode2 = h('i', [h('i', '2'), undefined, undefined, h('i', '1'), undefined]);
         var vnode3 = h('i', [null, h('i', '1'), undefined, null, h('i', '2'), undefined, null]);
         elm = patch(vnode0, vnode1).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['1', '2']);
+        assert.deepEqual(map(inner, elm.children), ['1', '2']);
         elm = patch(vnode1, vnode2).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['2', '1']);
+        assert.deepEqual(map(inner, elm.children), ['2', '1']);
         elm = patch(vnode2, vnode3).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['1', '2']);
+        assert.deepEqual(map(inner, elm.children), ['1', '2']);
       });
       it('supports all null/undefined children', function () {
         var vnode1 = h('i', [h('i', '1'), h('i', '2')]);
@@ -787,7 +787,7 @@ describe('snabbdom', function () {
         elm = patch(vnode1, vnode2).elm;
         assert.strictEqual(elm.children.length, 0);
         elm = patch(vnode2, vnode3).elm;
-        assert.deepStrictEqual(map(inner, elm.children), ['2', '1']);
+        assert.deepEqual(map(inner, elm.children), ['2', '1']);
       });
     });
   });
@@ -1021,7 +1021,7 @@ describe('snabbdom', function () {
         ]);
         var vnode1 = h('div');
         patch(vnode0, vnode1);
-        assert.deepStrictEqual(result, ['pre', 'post']);
+        assert.deepEqual(result, ['pre', 'post']);
       });
       it('invokes global `destroy` hook for all removed children', function () {
         var result = [];

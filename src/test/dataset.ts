@@ -1,4 +1,4 @@
-import assert from 'assert'
+import { assert } from 'chai'
 
 import datasetModule from '../modules/dataset'
 import { init } from '../snabbdom'
