@@ -9,6 +9,10 @@ var patch = init([
   styleModule
 ]);
 
+const featureDiscoveryElm = document.createElement('div')
+featureDiscoveryElm.style.setProperty('--foo', 'foo')
+const hasCssVariables = featureDiscoveryElm.style.getPropertyValue('--foo') === 'foo'
+
 describe('style', function () {
   var elm: any, vnode0: any;
   beforeEach(function () {
@@ -67,37 +71,43 @@ describe('style', function () {
     assert.strictEqual(elm.firstChild.style.fontSize, '10px');
   });
   it('updates css variables', function () {
-    var vnode1 = h('div', { style: { '--myVar': 1 as any } });
-    var vnode2 = h('div', { style: { '--myVar': 2 as any } });
-    var vnode3 = h('div', { style: { '--myVar': 3 as any } });
-    elm = patch(vnode0, vnode1).elm;
-    assert.strictEqual(elm.style.getPropertyValue('--myVar'), '1');
-    elm = patch(vnode1, vnode2).elm;
-    assert.strictEqual(elm.style.getPropertyValue('--myVar'), '2');
-    elm = patch(vnode2, vnode3).elm;
-    assert.strictEqual(elm.style.getPropertyValue('--myVar'), '3');
+    if (!hasCssVariables) { this.skip() } else {
+      var vnode1 = h('div', { style: { '--myVar': 1 as any } });
+      var vnode2 = h('div', { style: { '--myVar': 2 as any } });
+      var vnode3 = h('div', { style: { '--myVar': 3 as any } });
+      elm = patch(vnode0, vnode1).elm;
+      assert.strictEqual(elm.style.getPropertyValue('--myVar'), '1');
+      elm = patch(vnode1, vnode2).elm;
+      assert.strictEqual(elm.style.getPropertyValue('--myVar'), '2');
+      elm = patch(vnode2, vnode3).elm;
+      assert.strictEqual(elm.style.getPropertyValue('--myVar'), '3');
+    }
   });
   it('explicialy removes css variables', function () {
-    var vnode1 = h('i', { style: { '--myVar': 1 as any } });
-    var vnode2 = h('i', { style: { '--myVar': '' } });
-    var vnode3 = h('i', { style: { '--myVar': 2 as any } });
-    elm = patch(vnode0, vnode1).elm;
-    assert.strictEqual(elm.style.getPropertyValue('--myVar'), '1');
-    patch(vnode1, vnode2);
-    assert.strictEqual(elm.style.getPropertyValue('--myVar'), '');
-    patch(vnode2, vnode3);
-    assert.strictEqual(elm.style.getPropertyValue('--myVar'), '2');
+    if (!hasCssVariables) { this.skip() } else {
+      var vnode1 = h('i', { style: { '--myVar': 1 as any } });
+      var vnode2 = h('i', { style: { '--myVar': '' } });
+      var vnode3 = h('i', { style: { '--myVar': 2 as any } });
+      elm = patch(vnode0, vnode1).elm;
+      assert.strictEqual(elm.style.getPropertyValue('--myVar'), '1');
+      patch(vnode1, vnode2);
+      assert.strictEqual(elm.style.getPropertyValue('--myVar'), '');
+      patch(vnode2, vnode3);
+      assert.strictEqual(elm.style.getPropertyValue('--myVar'), '2');
+    }
   });
   it('implicially removes css variables from element', function () {
-    var vnode1 = h('div', [h('i', { style: { '--myVar': 1 as any } })]);
-    var vnode2 = h('div', [h('i')]);
-    var vnode3 = h('div', [h('i', { style: { '--myVar': 2 as any } })]);
-    patch(vnode0, vnode1);
-    assert.strictEqual(elm.firstChild.style.getPropertyValue('--myVar'), '1');
-    patch(vnode1, vnode2);
-    assert.strictEqual(elm.firstChild.style.getPropertyValue('--myVar'), '');
-    patch(vnode2, vnode3);
-    assert.strictEqual(elm.firstChild.style.getPropertyValue('--myVar'), '2');
+    if (!hasCssVariables) { this.skip() } else {
+      var vnode1 = h('div', [h('i', { style: { '--myVar': 1 as any } })]);
+      var vnode2 = h('div', [h('i')]);
+      var vnode3 = h('div', [h('i', { style: { '--myVar': 2 as any } })]);
+      patch(vnode0, vnode1);
+      assert.strictEqual(elm.firstChild.style.getPropertyValue('--myVar'), '1');
+      patch(vnode1, vnode2);
+      assert.strictEqual(elm.firstChild.style.getPropertyValue('--myVar'), '');
+      patch(vnode2, vnode3);
+      assert.strictEqual(elm.firstChild.style.getPropertyValue('--myVar'), '2');
+    }
   });
   it('updates delayed styles in next frame', function (done) {
     var vnode1 = h('i', { style: { fontSize: '14px', delayed: { fontSize: '16px' } as any } });

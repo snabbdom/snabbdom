@@ -11,6 +11,8 @@ import vnode, { VNode } from '../vnode'
 import htmlDomApi from '../htmldomapi'
 import { CreateHook, InsertHook, PrePatchHook, RemoveHook, InitHook, DestroyHook, UpdateHook } from '../hooks'
 
+const hasSvgClassList = 'classList' in SVGElement.prototype
+
 var patch = init([
   classModule,
   propsModule,
@@ -145,25 +147,29 @@ describe('snabbdom', function () {
       assert(!elm.classList.contains('not'));
     });
     it('receives classes in selector when namespaced', function () {
-      elm = patch(vnode0,
-        h('svg', [
-          h('g.am.a.class.too')
-        ])
-      ).elm;
-      assert(elm.firstChild.classList.contains('am'));
-      assert(elm.firstChild.classList.contains('a'));
-      assert(elm.firstChild.classList.contains('class'));
+      if (!hasSvgClassList) { this.skip() } else {
+        elm = patch(vnode0,
+          h('svg', [
+            h('g.am.a.class.too')
+          ])
+        ).elm;
+        assert(elm.firstChild.classList.contains('am'));
+        assert(elm.firstChild.classList.contains('a'));
+        assert(elm.firstChild.classList.contains('class'));
+      }
     });
     it('receives classes in class property when namespaced', function () {
-      elm = patch(vnode0,
-        h('svg', [
-          h('g', { class: { am: true, a: true, class: true, not: false, too: true } })
-        ])
-      ).elm;
-      assert(elm.firstChild.classList.contains('am'));
-      assert(elm.firstChild.classList.contains('a'));
-      assert(elm.firstChild.classList.contains('class'));
-      assert(!elm.firstChild.classList.contains('not'));
+      if (!hasSvgClassList) { this.skip() } else {
+        elm = patch(vnode0,
+          h('svg', [
+            h('g', { class: { am: true, a: true, class: true, not: false, too: true } })
+          ])
+        ).elm;
+        assert(elm.firstChild.classList.contains('am'));
+        assert(elm.firstChild.classList.contains('a'));
+        assert(elm.firstChild.classList.contains('class'));
+        assert(!elm.firstChild.classList.contains('not'));
+      }
     });
     it('handles classes from both selector and property', function () {
       elm = patch(vnode0, h('div', [h('i.has', { class: { classes: true } })])).elm;
@@ -322,7 +328,7 @@ describe('snabbdom', function () {
         var prevElm = document.createElement('div');
         prevElm.id = 'id';
         prevElm.className = 'class';
-        var text = new Text('Foobar');
+        var text = document.createTextNode('Foobar');
         const reference = {};
         (text as any).testProperty = reference; // ensures we dont recreate the Text Node
         prevElm.appendChild(text);
@@ -344,7 +350,7 @@ describe('snabbdom', function () {
         var prevElm = document.createElement('div');
         prevElm.id = 'id';
         prevElm.className = 'class';
-        var text = new Text('Foobar');
+        var text = document.createTextNode('Foobar');
         prevElm.appendChild(text);
         prevElm.appendChild(h2);
         var nextVNode = h('div#id.class', [h('h2', 'Hello')]);
@@ -358,9 +364,10 @@ describe('snabbdom', function () {
         assert.strictEqual(elm.childNodes[0].textContent, 'Hello');
       });
       it('can work with domApi', function () {
-        var domApi = Object.assign({}, htmlDomApi, {
+        var domApi = {
+          ...htmlDomApi,
           tagName: function (elm: HTMLElement) { return 'x-' + elm.tagName.toUpperCase(); }
-        });
+        };
         var h2 = document.createElement('h2');
         h2.id = 'hx';
         h2.setAttribute('data-env', 'xyz');
