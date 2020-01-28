@@ -7,6 +7,7 @@ module.exports = {
   ],
   rules: {
     'import/newline-after-import': 'error',
+    'max-statements-per-line': 'error',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/consistent-type-assertions': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',

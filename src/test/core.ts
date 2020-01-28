@@ -147,7 +147,9 @@ describe('snabbdom', function () {
       assert(!elm.classList.contains('not'));
     });
     it('receives classes in selector when namespaced', function () {
-      if (!hasSvgClassList) { this.skip() } else {
+      if (!hasSvgClassList) {
+        this.skip()
+      } else {
         elm = patch(vnode0,
           h('svg', [
             h('g.am.a.class.too')
@@ -159,7 +161,9 @@ describe('snabbdom', function () {
       }
     });
     it('receives classes in class property when namespaced', function () {
-      if (!hasSvgClassList) { this.skip() } else {
+      if (!hasSvgClassList) {
+        this.skip()
+      } else {
         elm = patch(vnode0,
           h('svg', [
             h('g', { class: { am: true, a: true, class: true, not: false, too: true } })
@@ -608,7 +612,9 @@ describe('snabbdom', function () {
         function spanNumWithOpacity (n: number, o: string) {
           return h('span', { key: n, style: { opacity: o } }, n.toString());
         }
-        for (n = 0; n < elms; ++n) { arr[n] = n; }
+        for (n = 0; n < elms; ++n) {
+          arr[n] = n;
+        }
         for (n = 0; n < samples; ++n) {
           var vnode1 = h('span', arr.map(function (n) {
             return spanNumWithOpacity(n, '1');
@@ -662,7 +668,9 @@ describe('snabbdom', function () {
           shuffle(arr);
           vnode2 = h('div', arr.map(spanNum));
           elm = patch(vnode1, vnode2).elm;
-          assert.deepEqual(map(inner, elm.children), arr.filter(function (x) { return x != null; }));
+          assert.deepEqual(map(inner, elm.children), arr.filter(function (x) {
+            return x != null;
+          }));
         }
       });
     });
@@ -984,7 +992,13 @@ describe('snabbdom', function () {
           { remove: function (_, rm) { rm1 = rm; } },
           { remove: function (_, rm) { rm2 = rm; } },
         ]);
-        var vnode1 = h('div', [h('a', { hook: { remove: function (_, rm) { rm3 = rm; } } })]);
+        var vnode1 = h('div', [h('a', {
+          hook: {
+            remove: function (_, rm) {
+              rm3 = rm;
+            }
+          }
+        })]);
         var vnode2 = h('div', []);
         elm = patch(vnode0, vnode1).elm;
         assert.strictEqual(elm.children.length, 1);
@@ -1032,7 +1046,9 @@ describe('snabbdom', function () {
       });
       it('invokes global `destroy` hook for all removed children', function () {
         var result = [];
-        const cb: DestroyHook = (vnode) => { result.push(vnode); }
+        const cb: DestroyHook = (vnode) => {
+          result.push(vnode);
+        }
         var vnode1 = h('div', [
           h('span', 'First sibling'),
           h('div', [
@@ -1116,7 +1132,9 @@ describe('snabbdom', function () {
   describe('short circuiting', function () {
     it('does not update strictly equal vnodes', function () {
       var result = [];
-      const cb: UpdateHook = (vnode) => { result.push(vnode); }
+      const cb: UpdateHook = (vnode) => {
+        result.push(vnode);
+      }
       var vnode1 = h('div', [
         h('span', { hook: { update: cb } }, 'Hello'),
         h('span', 'there'),
@@ -1127,7 +1145,9 @@ describe('snabbdom', function () {
     });
     it('does not update strictly equal children', function () {
       var result = [];
-      function cb (vnode: VNode) { result.push(vnode); }
+      function cb (vnode: VNode) {
+        result.push(vnode);
+      }
       var vnode1 = h('div', [
         h('span', { hook: { patch: cb } as any }, 'Hello'),
         h('span', 'there'),

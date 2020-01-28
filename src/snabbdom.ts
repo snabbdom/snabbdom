@@ -6,8 +6,12 @@ import htmlDomApi, { DOMAPI } from './htmldomapi';
 
 type NonUndefined<T> = T extends undefined ? never : T;
 
-function isUndef (s: any): boolean { return s === undefined; }
-function isDef<A> (s: A): s is NonUndefined<A> { return s !== undefined; }
+function isUndef (s: any): boolean {
+  return s === undefined;
+}
+function isDef<A> (s: A): s is NonUndefined<A> {
+  return s !== undefined;
+}
 
 type VNodeQueue = VNode[];
 

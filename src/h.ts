@@ -25,7 +25,9 @@ export function h(sel: string, data: VNodeData | null, children: VNodeChildren):
 export function h (sel: any, b?: any, c?: any): VNode {
   var data: VNodeData = {}, children: any, text: any, i: number;
   if (c !== undefined) {
-    if (b !== null) { data = b; }
+    if (b !== null) {
+      data = b;
+    }
     if (is.array(c)) {
       children = c;
     } else if (is.primitive(c)) {
