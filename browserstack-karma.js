@@ -91,7 +91,6 @@ module.exports = {
     os: 'Windows',
     os_version: '7',
   },
-  /* https://github.com/snabbdom/snabbdom/issues/472
   BS_IE_10: {
     base: 'BrowserStack',
     browser: 'ie',
@@ -99,5 +98,4 @@ module.exports = {
     os: 'Windows',
     os_version: '7',
   },
-  */
 };
