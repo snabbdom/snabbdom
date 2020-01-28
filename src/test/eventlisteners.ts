@@ -17,7 +17,9 @@ describe('event listeners', function () {
   });
   it('attaches click event handler to element', function () {
     var result = [];
-    function clicked (ev: Event) { result.push(ev); }
+    function clicked (ev: Event) {
+      result.push(ev);
+    }
     var vnode = h('div', { on: { click: clicked } }, [
       h('a', 'Click my parent'),
     ]);
@@ -28,10 +30,22 @@ describe('event listeners', function () {
   it('does not attach new listener', function () {
     var result: number[] = [];
     // function clicked(ev) { result.push(ev); }
-    var vnode1 = h('div', { on: { click: function (ev) { result.push(1); } } }, [
+    var vnode1 = h('div', {
+      on: {
+        click: function (ev) {
+          result.push(1);
+        }
+      }
+    }, [
       h('a', 'Click my parent'),
     ]);
-    var vnode2 = h('div', { on: { click: function (ev) { result.push(2); } } }, [
+    var vnode2 = h('div', {
+      on: {
+        click: function (ev) {
+          result.push(2);
+        }
+      }
+    }, [
       h('a', 'Click my parent'),
     ]);
     elm = patch(vnode0, vnode1).elm;
@@ -42,7 +56,9 @@ describe('event listeners', function () {
   });
   it('does calls handler for function in array', function () {
     var result: number[] = [];
-    function clicked (n: number) { result.push(n); }
+    function clicked (n: number) {
+      result.push(n);
+    }
     var vnode = h('div', { on: { click: [clicked, 1] as any } }, [
       h('a', 'Click my parent'),
     ]);
@@ -52,7 +68,9 @@ describe('event listeners', function () {
   });
   it('handles changed value in array', function () {
     var result: number[] = [];
-    function clicked (n: number) { result.push(n); }
+    function clicked (n: number) {
+      result.push(n);
+    }
     var vnode1 = h('div', { on: { click: [clicked, 1] as any } }, [
       h('a', 'Click my parent'),
     ]);
@@ -72,7 +90,9 @@ describe('event listeners', function () {
   });
   it('handles changed several values in array', function () {
     var result: number[][] = [];
-    function clicked () { result.push([].slice.call(arguments, 0, arguments.length - 2)); }
+    function clicked () {
+      result.push([].slice.call(arguments, 0, arguments.length - 2));
+    }
     var vnode1 = h('div', { on: { click: [clicked, 1, 2, 3] as any } }, [
       h('a', 'Click my parent'),
     ]);
@@ -92,7 +112,9 @@ describe('event listeners', function () {
   });
   it('detach attached click event handler to element', function () {
     var result: Event[] = [];
-    function clicked (ev: Event) { result.push(ev); }
+    function clicked (ev: Event) {
+      result.push(ev);
+    }
     var vnode1 = h('div', { on: { click: clicked } }, [
       h('a', 'Click my parent'),
     ]);
@@ -130,7 +152,10 @@ describe('event listeners', function () {
   });
   it('access to virtual node in event handler', function () {
     var result: VNode[] = [];
-    function clicked (ev: Event, vnode: VNode) { result.push(this); result.push(vnode); }
+    function clicked (ev: Event, vnode: VNode) {
+      result.push(this);
+      result.push(vnode);
+    }
     var vnode1 = h('div', { on: { click: clicked } as any }, [
       h('a', 'Click my parent'),
     ]);
@@ -142,7 +167,10 @@ describe('event listeners', function () {
   });
   it('access to virtual node in event handler with argument', function () {
     var result: Array<VNode | Event> = [];
-    function clicked (arg: number, ev: Event, vnode: VNode) { result.push(this); result.push(vnode); }
+    function clicked (arg: number, ev: Event, vnode: VNode) {
+      result.push(this);
+      result.push(vnode);
+    }
     var vnode1 = h('div', { on: { click: [clicked, 1] as any } }, [
       h('a', 'Click my parent'),
     ]);
@@ -154,7 +182,10 @@ describe('event listeners', function () {
   });
   it('access to virtual node in event handler with arguments', function () {
     var result: Array<VNode | Event> = [];
-    function clicked (arg1: number, arg2: string, ev: Event, vnode: VNode) { result.push(this); result.push(vnode); }
+    function clicked (arg1: number, arg2: string, ev: Event, vnode: VNode) {
+      result.push(this);
+      result.push(vnode);
+    }
     var vnode1 = h('div', { on: { click: [clicked, 1, '2'] as any } }, [
       h('a', 'Click my parent'),
     ]);

@@ -60,7 +60,9 @@ function add () {
 }
 
 function remove (movie) {
-  data = data.filter((m) => { return m !== movie; });
+  data = data.filter((m) => {
+    return m !== movie;
+  });
   render();
 }
 

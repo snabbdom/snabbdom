@@ -4,10 +4,16 @@ import { Module } from './module';
 export type Hero = { id: string }
 
 var raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout;
-var nextFrame = function (fn: any) { raf(function () { raf(fn); }); };
+var nextFrame = function (fn: any) {
+  raf(function () {
+    raf(fn);
+  });
+};
 
 function setNextFrame (obj: any, prop: string, val: any): void {
-  nextFrame(function () { obj[prop] = val; });
+  nextFrame(function () {
+    obj[prop] = val;
+  });
 }
 
 function getTextNodeRect (textNode: Text): ClientRect | undefined {
@@ -164,7 +170,9 @@ function post () {
       setNextFrame(oldStyle, 'transform', 'translate(' + -dx + 'px, ' + -dy + 'px) scale(' + wRatio + ', ' + hRatio + ')'); // scale must be on far right for translate to be correct
       setNextFrame(oldStyle, 'opacity', '0');
       oldElm.addEventListener('transitionend', function (ev: TransitionEvent) {
-        if (ev.propertyName === 'transform') { document.body.removeChild(ev.target as Node); }
+        if (ev.propertyName === 'transform') {
+          document.body.removeChild(ev.target as Node);
+        }
       });
     }
   }

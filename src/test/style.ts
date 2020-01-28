@@ -71,7 +71,9 @@ describe('style', function () {
     assert.strictEqual(elm.firstChild.style.fontSize, '10px');
   });
   it('updates css variables', function () {
-    if (!hasCssVariables) { this.skip() } else {
+    if (!hasCssVariables) {
+      this.skip()
+    } else {
       var vnode1 = h('div', { style: { '--myVar': 1 as any } });
       var vnode2 = h('div', { style: { '--myVar': 2 as any } });
       var vnode3 = h('div', { style: { '--myVar': 3 as any } });
@@ -84,7 +86,9 @@ describe('style', function () {
     }
   });
   it('explicialy removes css variables', function () {
-    if (!hasCssVariables) { this.skip() } else {
+    if (!hasCssVariables) {
+      this.skip()
+    } else {
       var vnode1 = h('i', { style: { '--myVar': 1 as any } });
       var vnode2 = h('i', { style: { '--myVar': '' } });
       var vnode3 = h('i', { style: { '--myVar': 2 as any } });
@@ -97,7 +101,9 @@ describe('style', function () {
     }
   });
   it('implicially removes css variables from element', function () {
-    if (!hasCssVariables) { this.skip() } else {
+    if (!hasCssVariables) {
+      this.skip()
+    } else {
       var vnode1 = h('div', [h('i', { style: { '--myVar': 1 as any } })]);
       var vnode2 = h('div', [h('i')]);
       var vnode3 = h('div', [h('i', { style: { '--myVar': 2 as any } })]);
