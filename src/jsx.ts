@@ -4,7 +4,7 @@ import { h, ArrayOrElement } from './h';
 // for conditional rendering we support boolean child element e.g cond && <tag />
 export type JsxVNodeChild = VNode | string | number | boolean | undefined | null;
 export type JsxVNodeChildren = ArrayOrElement<JsxVNodeChild>
-
+export type JsxVNodeData = VNodeData & {sel?: string};
 export type FunctionComponent = (props: {[prop: string]: any} | null, children?: VNode[]) => VNode;
 
 function flattenAndFilter (children: JsxVNodeChildren[], flattened: VNode[]): VNode[] {
@@ -27,12 +27,16 @@ function flattenAndFilter (children: JsxVNodeChildren[], flattened: VNode[]): VN
  * jsx/tsx compatible factory function
  * see: https://www.typescriptlang.org/docs/handbook/jsx.html#factory-functions
  */
-export function jsx (tag: string | FunctionComponent, data: VNodeData | null, ...children: JsxVNodeChildren[]): VNode {
+export function jsx (tag: string | FunctionComponent, data: JsxVNodeData | null, ...children: JsxVNodeChildren[]): VNode {
   const flatChildren = flattenAndFilter(children, []);
   if (typeof tag === 'function') {
     // tag is a function component
     return tag(data, flatChildren);
   } else {
+    // append sel css selector to tag to support equivalent of h('span.foo.bar')
+    if (data && data.sel) {
+      tag += data.sel;
+    }
     if (flatChildren.length == 1 && !flatChildren[0].sel && flatChildren[0].text) {
       // only child is a simple text node, pass as text for a simpler vtree
       return h(tag, data, flatChildren[0].text);

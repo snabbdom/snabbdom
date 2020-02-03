@@ -36,6 +36,18 @@ describe('snabbdom', function () {
       }));
     });
 
+    it('supports sel property shorthand', function () {
+      const vnode = <div sel="#id.foo.bar"></div>;
+
+      assert.strictEqual(JSON.stringify(vnode), JSON.stringify({
+        sel: 'div#id.foo.bar',
+        data: {
+          sel: '#id.foo.bar',
+        },
+        children: [],
+      }));
+    });
+
     it('flattens children', function () {
       const vnode = (
         <section>
