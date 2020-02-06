@@ -66,11 +66,6 @@ describe('snabbdom', function () {
         sel: 'div#id.foo.bar',
         data: {
           sel: '#id.foo.bar',
-          data: {},
-          elm: undefined,
-          text: undefined,
-          key: undefined,
-          children: undefined,
         },
         children: [],
         elm: undefined,
