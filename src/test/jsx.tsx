@@ -62,13 +62,21 @@ describe('snabbdom', function () {
     it('supports sel property shorthand', function () {
       const vnode = <div sel="#id.foo.bar"></div>;
 
-      assert.strictEqual(JSON.stringify(vnode), JSON.stringify({
+      assert.deepStrictEqual(vnode, {
         sel: 'div#id.foo.bar',
         data: {
           sel: '#id.foo.bar',
+          data: {},
+          elm: undefined,
+          text: undefined,
+          key: undefined,
+          children: undefined,
         },
         children: [],
-      }));
+        elm: undefined,
+        text: undefined,
+        key: undefined
+      });
     });
 
     it('flattens children', function () {
