@@ -21,7 +21,7 @@ module.exports = {
     '@typescript-eslint/no-unused-expressions': 'off',
     '@typescript-eslint/restrict-plus-operands': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
-    'comma-dangle': 'off',
+    'comma-dangle': ['error', 'only-multiline'],
     'no-mixed-operators': 'off',
     'no-unneeded-ternary': 'off',
     'no-unused-expressions': 'off',
