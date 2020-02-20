@@ -4,8 +4,8 @@ import { Module } from './module';
 // because those in TypeScript are too restrictive: https://github.com/Microsoft/TSJS-lib-generator/pull/237
 declare global {
   interface Element {
-    setAttribute(name: string, value: string | number | boolean): void;
-    setAttributeNS(namespaceURI: string, qualifiedName: string, value: string | number | boolean): void;
+    setAttribute(name: string, value: string | number | boolean): void
+    setAttributeNS(namespaceURI: string, qualifiedName: string, value: string | number | boolean): void
   }
 }
 
