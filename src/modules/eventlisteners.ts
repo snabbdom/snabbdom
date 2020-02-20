@@ -33,8 +33,8 @@ function invokeHandler (handler: any, vnode?: VNode, event?: Event): void {
 }
 
 function handleEvent (event: Event, vnode: VNode) {
-  var name = event.type,
-    on = (vnode.data as VNodeData).on;
+  var name = event.type;
+  var on = (vnode.data as VNodeData).on;
 
   // call event handler(s) if exists
   if (on && on[name]) {
@@ -49,12 +49,12 @@ function createListener () {
 }
 
 function updateEventListeners (oldVnode: VNode, vnode?: VNode): void {
-  var oldOn = (oldVnode.data as VNodeData).on,
-    oldListener = (oldVnode as any).listener,
-    oldElm: Element = oldVnode.elm as Element,
-    on = vnode && (vnode.data as VNodeData).on,
-    elm: Element = (vnode && vnode.elm) as Element,
-    name: string;
+  var oldOn = (oldVnode.data as VNodeData).on;
+  var oldListener = (oldVnode as any).listener;
+  var oldElm: Element = oldVnode.elm as Element;
+  var on = vnode && (vnode.data as VNodeData).on;
+  var elm: Element = (vnode && vnode.elm) as Element;
+  var name: string;
 
   // optimization for reused immutable handlers
   if (oldOn === on) {

@@ -17,9 +17,10 @@ const colonChar = 58;
 const xChar = 120;
 
 function updateAttrs (oldVnode: VNode, vnode: VNode): void {
-  var key: string, elm: Element = vnode.elm as Element,
-    oldAttrs = (oldVnode.data as VNodeData).attrs,
-    attrs = (vnode.data as VNodeData).attrs;
+  var key: string;
+  var elm: Element = vnode.elm as Element;
+  var oldAttrs = (oldVnode.data as VNodeData).attrs;
+  var attrs = (vnode.data as VNodeData).attrs;
 
   if (!oldAttrs && !attrs) return;
   if (oldAttrs === attrs) return;
