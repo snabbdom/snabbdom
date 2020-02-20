@@ -33,8 +33,8 @@ function init (thunk: VNode): void {
 
 function prepatch (oldVnode: VNode, thunk: VNode): void {
   let i: number;
-  let old = oldVnode.data as VNodeData;
-  let cur = thunk.data as VNodeData;
+  const old = oldVnode.data as VNodeData;
+  const cur = thunk.data as VNodeData;
   const oldArgs = old.args;
   const args = cur.args;
   if (old.fn !== cur.fn || (oldArgs as any).length !== (args as any).length) {

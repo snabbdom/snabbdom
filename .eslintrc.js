@@ -21,7 +21,6 @@ module.exports = {
     'no-unneeded-ternary': 'off',
     'no-unused-expressions': 'off',
     'no-unused-vars': 'off',
-    'prefer-const': 'off',
     eqeqeq: 'off',
     semi: 'off'
   }
