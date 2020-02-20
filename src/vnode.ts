@@ -41,7 +41,7 @@ export function vnode (sel: string | undefined,
   children: Array<VNode | string> | undefined,
   text: string | undefined,
   elm: Element | Text | undefined): VNode {
-  let key = data === undefined ? undefined : data.key;
+  const key = data === undefined ? undefined : data.key;
   return { sel, data, children, text, elm, key };
 }
 

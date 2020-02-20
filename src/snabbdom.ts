@@ -52,7 +52,7 @@ export { thunk } from './thunk';
 export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   let i: number;
   let j: number;
-  let cbs = ({} as ModuleHooks);
+  const cbs = ({} as ModuleHooks);
 
   const api: DOMAPI = domApi !== undefined ? domApi : htmlDomApi;
 
@@ -91,8 +91,8 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
         data = vnode.data;
       }
     }
-    let children = vnode.children;
-    let sel = vnode.sel;
+    const children = vnode.children;
+    const sel = vnode.sel;
     if (sel === '!') {
       if (isUndef(vnode.text)) {
         vnode.text = '';
@@ -173,7 +173,7 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     for (; startIdx <= endIdx; ++startIdx) {
       let listeners: number;
       let rm: () => void;
-      let ch = vnodes[startIdx];
+      const ch = vnodes[startIdx];
       if (ch != null) {
         if (isDef(ch.sel)) {
           invokeDestroyHook(ch);
@@ -271,8 +271,8 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     const hook = vnode.data?.hook;
     hook?.prepatch?.(oldVnode, vnode);
     const elm = vnode.elm = oldVnode.elm!;
-    let oldCh = oldVnode.children as VNode[];
-    let ch = vnode.children as VNode[];
+    const oldCh = oldVnode.children as VNode[];
+    const ch = vnode.children as VNode[];
     if (oldVnode === vnode) return;
     if (vnode.data !== undefined) {
       for (let i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);

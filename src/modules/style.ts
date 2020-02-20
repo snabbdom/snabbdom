@@ -46,7 +46,7 @@ function updateStyle (oldVnode: VNode, vnode: VNode): void {
   for (name in style) {
     cur = style[name];
     if (name === 'delayed' && style.delayed) {
-      for (let name2 in style.delayed) {
+      for (const name2 in style.delayed) {
         cur = style.delayed[name2];
         if (!oldHasDel || cur !== (oldStyle.delayed as any)[name2]) {
           setNextFrame((elm as any).style, name2, cur);
