@@ -608,7 +608,12 @@ describe('snabbdom', function () {
         assert.deepEqual(map(inner, elm.children), ['4', '3', '2', '1', '5', '0']);
       });
       it('handles random shuffles', function () {
-        var n, i, arr = [], opacities: string[] = [], elms = 14, samples = 5;
+        var n;
+        var i;
+        var arr = [];
+        var opacities: string[] = [];
+        var elms = 14;
+        var samples = 5;
         function spanNumWithOpacity (n: number, o: string) {
           return h('span', { key: n, style: { opacity: o } }, n.toString());
         }
@@ -656,7 +661,15 @@ describe('snabbdom', function () {
         assert.deepEqual(map(inner, elm.children), ['5', '4', '3', '2', '1', '0']);
       });
       it('handles random shuffles with null/undefined children', function () {
-        var i, j, r, len, arr, maxArrLen = 15, samples = 5, vnode1 = vnode0, vnode2;
+        var i;
+        var j;
+        var r;
+        var len;
+        var arr;
+        var maxArrLen = 15;
+        var samples = 5;
+        var vnode1 = vnode0;
+        var vnode2;
         for (i = 0; i < samples; ++i, vnode1 = vnode2) {
           len = Math.floor(Math.random() * maxArrLen);
           arr = [];
@@ -872,7 +885,8 @@ describe('snabbdom', function () {
         assert.strictEqual(result.length, 1);
       });
       it('calls `postpatch` after `prepatch` listener', function () {
-        var pre = 0, post = 0;
+        var pre = 0;
+        var post = 0;
         function preCb () {
           pre++
         }

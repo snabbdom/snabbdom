@@ -23,7 +23,10 @@ export function h(sel: string, data: VNodeData | null): VNode;
 export function h(sel: string, children: VNodeChildren): VNode;
 export function h(sel: string, data: VNodeData | null, children: VNodeChildren): VNode;
 export function h (sel: any, b?: any, c?: any): VNode {
-  var data: VNodeData = {}, children: any, text: any, i: number;
+  var data: VNodeData = {};
+  var children: any;
+  var text: any;
+  var i: number;
   if (c !== undefined) {
     if (b !== null) {
       data = b;

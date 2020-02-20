@@ -6,10 +6,10 @@ export type Dataset = Record<string, string>;
 const CAPS_REGEX = /[A-Z]/g;
 
 function updateDataset (oldVnode: VNode, vnode: VNode): void {
-  let elm: HTMLElement = vnode.elm as HTMLElement,
-    oldDataset = (oldVnode.data as VNodeData).dataset,
-    dataset = (vnode.data as VNodeData).dataset,
-    key: string;
+  let elm: HTMLElement = vnode.elm as HTMLElement;
+  let oldDataset = (oldVnode.data as VNodeData).dataset;
+  let dataset = (vnode.data as VNodeData).dataset;
+  let key: string;
 
   if (!oldDataset && !dataset) return;
   if (oldDataset === dataset) return;

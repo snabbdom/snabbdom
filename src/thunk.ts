@@ -32,8 +32,11 @@ function init (thunk: VNode): void {
 }
 
 function prepatch (oldVnode: VNode, thunk: VNode): void {
-  let i: number, old = oldVnode.data as VNodeData, cur = thunk.data as VNodeData;
-  const oldArgs = old.args, args = cur.args;
+  let i: number;
+  let old = oldVnode.data as VNodeData;
+  let cur = thunk.data as VNodeData;
+  const oldArgs = old.args;
+  const args = cur.args;
   if (old.fn !== cur.fn || (oldArgs as any).length !== (args as any).length) {
     copyToThunk((cur.fn as any).apply(undefined, args), thunk);
     return;

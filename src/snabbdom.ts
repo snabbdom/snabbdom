@@ -50,7 +50,9 @@ export { h } from './h';
 export { thunk } from './thunk';
 
 export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
-  let i: number, j: number, cbs = ({} as ModuleHooks);
+  let i: number;
+  let j: number;
+  let cbs = ({} as ModuleHooks);
 
   const api: DOMAPI = domApi !== undefined ? domApi : htmlDomApi;
 
@@ -80,7 +82,8 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   }
 
   function createElm (vnode: VNode, insertedVnodeQueue: VNodeQueue): Node {
-    let i: any, data = vnode.data;
+    let i: any;
+    let data = vnode.data;
     if (data !== undefined) {
       const init = data.hook?.init;
       if (isDef(init)) {
@@ -88,7 +91,8 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
         data = vnode.data;
       }
     }
-    let children = vnode.children, sel = vnode.sel;
+    let children = vnode.children;
+    let sel = vnode.sel;
     if (sel === '!') {
       if (isUndef(vnode.text)) {
         vnode.text = '';
@@ -167,7 +171,9 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     startIdx: number,
     endIdx: number): void {
     for (; startIdx <= endIdx; ++startIdx) {
-      let listeners: number, rm: () => void, ch = vnodes[startIdx];
+      let listeners: number;
+      let rm: () => void;
+      let ch = vnodes[startIdx];
       if (ch != null) {
         if (isDef(ch.sel)) {
           invokeDestroyHook(ch);
@@ -191,7 +197,8 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     oldCh: VNode[],
     newCh: VNode[],
     insertedVnodeQueue: VNodeQueue) {
-    let oldStartIdx = 0, newStartIdx = 0;
+    let oldStartIdx = 0;
+    let newStartIdx = 0;
     let oldEndIdx = oldCh.length - 1;
     let oldStartVnode = oldCh[0];
     let oldEndVnode = oldCh[oldEndIdx];

@@ -4,9 +4,12 @@ import { Module } from './module';
 export type Props = Record<string, any>;
 
 function updateProps (oldVnode: VNode, vnode: VNode): void {
-  var key: string, cur: any, old: any, elm = vnode.elm,
-    oldProps = (oldVnode.data as VNodeData).props,
-    props = (vnode.data as VNodeData).props;
+  var key: string;
+  var cur: any;
+  var old: any;
+  var elm = vnode.elm;
+  var oldProps = (oldVnode.data as VNodeData).props;
+  var props = (vnode.data as VNodeData).props;
 
   if (!oldProps && !props) return;
   if (oldProps === props) return;

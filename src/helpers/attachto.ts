@@ -39,7 +39,8 @@ function destroy (vnode: VNodeWithAttachData): void {
 }
 
 function create (_: any, vnode: VNodeWithAttachData): void {
-  const real = vnode.elm, attachData = vnode.data.attachData;
+  const real = vnode.elm;
+  const attachData = vnode.data.attachData;
   const placeholder = document.createElement('span');
   // Replace actual element with dummy placeholder
   // Snabbdom will then insert placeholder instead

@@ -22,9 +22,11 @@ function setNextFrame (obj: any, prop: string, val: any): void {
 }
 
 function updateStyle (oldVnode: VNode, vnode: VNode): void {
-  var cur: any, name: string, elm = vnode.elm,
-    oldStyle = (oldVnode.data as VNodeData).style,
-    style = (vnode.data as VNodeData).style;
+  var cur: any;
+  var name: string;
+  var elm = vnode.elm;
+  var oldStyle = (oldVnode.data as VNodeData).style;
+  var style = (vnode.data as VNodeData).style;
 
   if (!oldStyle && !style) return;
   if (oldStyle === style) return;
@@ -61,7 +63,10 @@ function updateStyle (oldVnode: VNode, vnode: VNode): void {
 }
 
 function applyDestroyStyle (vnode: VNode): void {
-  var style: any, name: string, elm = vnode.elm, s = (vnode.data as VNodeData).style;
+  var style: any;
+  var name: string;
+  var elm = vnode.elm;
+  var s = (vnode.data as VNodeData).style;
   if (!s || !(style = s.destroy)) return;
   for (name in style) {
     (elm as any).style[name] = style[name];
@@ -78,8 +83,13 @@ function applyRemoveStyle (vnode: VNode, rm: () => void): void {
     (vnode.elm as any).offsetLeft;
     reflowForced = true;
   }
-  var name: string, elm = vnode.elm, i = 0, compStyle: CSSStyleDeclaration,
-    style = s.remove, amount = 0, applied: string[] = [];
+  var name: string;
+  var elm = vnode.elm;
+  var i = 0;
+  var compStyle: CSSStyleDeclaration;
+  var style = s.remove;
+  var amount = 0;
+  var applied: string[] = [];
   for (name in style) {
     applied.push(name);
     (elm as any).style[name] = style[name];
