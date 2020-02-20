@@ -23,7 +23,6 @@ module.exports = {
     '@typescript-eslint/strict-boolean-expressions': 'off',
     'comma-dangle': ['error', 'only-multiline'],
     'no-mixed-operators': 'off',
-    'no-unneeded-ternary': 'off',
     'no-unused-expressions': 'off',
     'no-unused-vars': 'off',
     eqeqeq: 'off',
