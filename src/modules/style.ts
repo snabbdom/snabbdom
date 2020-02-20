@@ -80,6 +80,7 @@ function applyRemoveStyle (vnode: VNode, rm: () => void): void {
     return;
   }
   if (!reflowForced) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     (vnode.elm as any).offsetLeft;
     reflowForced = true;
   }
