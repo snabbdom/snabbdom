@@ -1,4 +1,9 @@
-import { VNode, VNodeData } from './vnode';
+import { VNode as _VNode, VNodeData as _VNodeData } from './vnode';
+
+// workaround
+// https://github.com/typescript-eslint/typescript-eslint/issues/1596
+type VNode = _VNode;
+type VNodeData = _VNodeData;
 
 declare global {
   /**

@@ -1,4 +1,3 @@
-/* global module, document, Node */
 import { Module } from './modules/module';
 import vnode, { VNode } from './vnode';
 import * as is from './is';
