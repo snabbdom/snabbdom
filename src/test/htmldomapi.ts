@@ -1,8 +1,8 @@
-import { assert } from 'chai'
+import { assert } from 'chai';
 
-import { init } from '../snabbdom'
-import h from '../h'
-import attributesModule from '../modules/attributes'
+import { init } from '../snabbdom';
+import h from '../h';
+import attributesModule from '../modules/attributes';
 
 var patch = init([
   attributesModule
@@ -52,4 +52,4 @@ describe('svg', function () {
     assert.strictEqual(result.getAttributeNS(xmlNS, 'lang'), testAttrValue);
     assert.strictEqual(result.getAttribute('xml:lang'), testAttrValue);
   });
-})
+});

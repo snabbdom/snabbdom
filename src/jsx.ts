@@ -3,7 +3,7 @@ import { h, ArrayOrElement } from './h';
 
 // for conditional rendering we support boolean child element e.g cond && <tag />
 export type JsxVNodeChild = VNode | string | number | boolean | undefined | null;
-export type JsxVNodeChildren = ArrayOrElement<JsxVNodeChild>
+export type JsxVNodeChildren = ArrayOrElement<JsxVNodeChild>;
 
 export type FunctionComponent = (props: {[prop: string]: any} | null, children?: VNode[]) => VNode;
 

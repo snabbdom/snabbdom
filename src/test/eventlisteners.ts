@@ -1,9 +1,9 @@
-import { assert } from 'chai'
+import { assert } from 'chai';
 import { VNode } from '../vnode';
 
-import { init } from '../snabbdom'
-import eventListenersModule from '../modules/eventlisteners'
-import h from '../h'
+import { init } from '../snabbdom';
+import eventListenersModule from '../modules/eventlisteners';
+import h from '../h';
 
 var patch = init([
   eventListenersModule

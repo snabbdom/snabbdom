@@ -27,6 +27,7 @@ module.exports = {
     'no-unused-expressions': 'off',
     'no-unused-vars': 'off',
     eqeqeq: 'off',
-    semi: 'off'
+    '@typescript-eslint/semi': ['error', 'always'],
+    semi: ['error', 'always'],
   }
 }

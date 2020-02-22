@@ -1,8 +1,8 @@
-import { assert } from 'chai'
-import { init } from '../snabbdom'
+import { assert } from 'chai';
+import { init } from '../snabbdom';
 import { RemoveHook } from '../hooks';
-import attachTo from '../helpers/attachto'
-import h from '../h'
+import attachTo from '../helpers/attachto';
+import h from '../h';
 
 var patch = init([]);
 
@@ -82,7 +82,7 @@ describe('attachTo', function () {
       assert.strictEqual(elm.tagName, 'DIV');
       assert.strictEqual(elm.innerHTML, 'First text');
       cb();
-    }
+    };
     var vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),

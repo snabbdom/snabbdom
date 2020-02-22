@@ -29,7 +29,7 @@ type KeyToIndexMap = {[key: string]: number};
 
 type ArraysOf<T> = {
   [K in keyof T]: Array<T[K]>;
-}
+};
 
 type ModuleHooks = ArraysOf<Module>;
 

@@ -1,17 +1,17 @@
-import { assert } from 'chai'
-import shuffle from 'lodash.shuffle'
+import { assert } from 'chai';
+import shuffle from 'lodash.shuffle';
 
-import { init } from '../snabbdom'
-import classModule from '../modules/class'
-import propsModule from '../modules/props'
-import eventListenersModule from '../modules/eventlisteners'
-import h from '../h'
-import toVNode from '../tovnode'
-import vnode, { VNode } from '../vnode'
-import htmlDomApi from '../htmldomapi'
-import { CreateHook, InsertHook, PrePatchHook, RemoveHook, InitHook, DestroyHook, UpdateHook } from '../hooks'
+import { init } from '../snabbdom';
+import classModule from '../modules/class';
+import propsModule from '../modules/props';
+import eventListenersModule from '../modules/eventlisteners';
+import h from '../h';
+import toVNode from '../tovnode';
+import vnode, { VNode } from '../vnode';
+import htmlDomApi from '../htmldomapi';
+import { CreateHook, InsertHook, PrePatchHook, RemoveHook, InitHook, DestroyHook, UpdateHook } from '../hooks';
 
-const hasSvgClassList = 'classList' in SVGElement.prototype
+const hasSvgClassList = 'classList' in SVGElement.prototype;
 
 var patch = init([
   classModule,
@@ -49,25 +49,25 @@ describe('snabbdom', function () {
     it('can create vnode with children', function () {
       var vnode = h('div', [h('span#hello'), h('b.world')]);
       assert.strictEqual(vnode.sel, 'div');
-      const children = vnode.children as [VNode, VNode]
+      const children = vnode.children as [VNode, VNode];
       assert.strictEqual(children[0].sel, 'span#hello');
       assert.strictEqual(children[1].sel, 'b.world');
     });
     it('can create vnode with one child vnode', function () {
       var vnode = h('div', h('span#hello'));
       assert.strictEqual(vnode.sel, 'div');
-      const children = vnode.children as [VNode]
+      const children = vnode.children as [VNode];
       assert.strictEqual(children[0].sel, 'span#hello');
     });
     it('can create vnode with props and one child vnode', function () {
       var vnode = h('div', {}, h('span#hello'));
       assert.strictEqual(vnode.sel, 'div');
-      const children = vnode.children as [VNode]
+      const children = vnode.children as [VNode];
       assert.strictEqual(children[0].sel, 'span#hello');
     });
     it('can create vnode with text content', function () {
       var vnode = h('a', ['I am a string']);
-      const children = vnode.children as [VNode]
+      const children = vnode.children as [VNode];
       assert.strictEqual(children[0].text, 'I am a string');
     });
     it('can create vnode with text content in string', function () {
@@ -82,7 +82,7 @@ describe('snabbdom', function () {
       var vnode = h('a', null);
       assert.deepEqual(vnode.data, {});
       vnode = h('a', null, ['I am a string']);
-      const children = vnode.children as [VNode]
+      const children = vnode.children as [VNode];
       assert.strictEqual(children[0].text, 'I am a string');
     });
     it('can create vnode for comment', function () {
@@ -148,7 +148,7 @@ describe('snabbdom', function () {
     });
     it('receives classes in selector when namespaced', function () {
       if (!hasSvgClassList) {
-        this.skip()
+        this.skip();
       } else {
         elm = patch(vnode0,
           h('svg', [
@@ -162,7 +162,7 @@ describe('snabbdom', function () {
     });
     it('receives classes in class property when namespaced', function () {
       if (!hasSvgClassList) {
-        this.skip()
+        this.skip();
       } else {
         elm = patch(vnode0,
           h('svg', [
@@ -199,9 +199,9 @@ describe('snabbdom', function () {
       if (typeof frame.srcdoc !== 'undefined') {
         frame.srcdoc = '<div>Thing 1</div>';
         frame.onload = function () {
-          const div0 = frame.contentDocument!.body.querySelector('div') as HTMLDivElement
+          const div0 = frame.contentDocument!.body.querySelector('div') as HTMLDivElement;
           patch(div0, h('div', 'Thing 2'));
-          const div1 = frame.contentDocument!.body.querySelector('div') as HTMLDivElement
+          const div1 = frame.contentDocument!.body.querySelector('div') as HTMLDivElement;
           assert.strictEqual(div1.textContent, 'Thing 2');
           frame.remove();
           done();
@@ -295,7 +295,7 @@ describe('snabbdom', function () {
     describe('using toVNode()', function () {
       it('can remove previous children of the root element', function () {
         var h2 = document.createElement('h2');
-        h2.textContent = 'Hello'
+        h2.textContent = 'Hello';
         var prevElm = document.createElement('div');
         prevElm.id = 'id';
         prevElm.className = 'class';
@@ -328,7 +328,7 @@ describe('snabbdom', function () {
       });
       it('can remove some children of the root element', function () {
         var h2 = document.createElement('h2');
-        h2.textContent = 'Hello'
+        h2.textContent = 'Hello';
         var prevElm = document.createElement('div');
         prevElm.id = 'id';
         prevElm.className = 'class';
@@ -350,7 +350,7 @@ describe('snabbdom', function () {
       });
       it('can remove text elements', function () {
         var h2 = document.createElement('h2');
-        h2.textContent = 'Hello'
+        h2.textContent = 'Hello';
         var prevElm = document.createElement('div');
         prevElm.id = 'id';
         prevElm.className = 'class';
@@ -385,7 +385,7 @@ describe('snabbdom', function () {
         var vnode = toVNode(elm, domApi);
         assert.strictEqual(vnode.sel, 'x-div#id.class.other');
         assert.deepEqual(vnode.data, { attrs: { data: 'value' } });
-        const children = vnode.children as [VNode, VNode]
+        const children = vnode.children as [VNode, VNode];
         assert.strictEqual(children[0].sel, 'x-h2#hx');
         assert.deepEqual(children[0].data, { attrs: { 'data-env': 'xyz' } });
         assert.strictEqual(children[1].text, 'Foobar');
@@ -637,7 +637,7 @@ describe('snabbdom', function () {
           elm = patch(vnode1, vnode2).elm as HTMLSpanElement;
           for (i = 0; i < elms; ++i) {
             assert.strictEqual(elm.children[i].innerHTML, shufArr[i].toString());
-            const opacity = (elm.children[i] as HTMLSpanElement).style.opacity as string
+            const opacity = (elm.children[i] as HTMLSpanElement).style.opacity as string;
             assert.strictEqual(opacities[i].indexOf(opacity), 0);
           }
         }
@@ -828,7 +828,7 @@ describe('snabbdom', function () {
           assert.strictEqual((vnode.elm as HTMLDivElement).children.length, 2);
           assert.strictEqual(vnode.elm!.parentNode, null);
           result.push(vnode);
-        }
+        };
         var vnode1 = h('div', [
           h('span', 'First sibling'),
           h('div', { hook: { create: cb } }, [
@@ -847,7 +847,7 @@ describe('snabbdom', function () {
           assert.strictEqual((vnode.elm as HTMLDivElement).children.length, 2);
           assert.strictEqual(vnode.elm!.parentNode!.children.length, 3);
           result.push(vnode);
-        }
+        };
         var vnode1 = h('div', [
           h('span', 'First sibling'),
           h('div', { hook: { insert: cb } }, [
@@ -865,7 +865,7 @@ describe('snabbdom', function () {
           assert.strictEqual(oldVnode, vnode1.children![1]);
           assert.strictEqual(vnode, vnode2.children![1]);
           result.push(vnode);
-        }
+        };
         var vnode1 = h('div', [
           h('span', 'First sibling'),
           h('div', { hook: { prepatch: cb } }, [
@@ -888,11 +888,11 @@ describe('snabbdom', function () {
         var pre = 0;
         var post = 0;
         function preCb () {
-          pre++
+          pre++;
         }
         function postCb () {
           assert.strictEqual(pre, post + 1);
-          post++
+          post++;
         }
         var vnode1 = h('div', [
           h('span', 'First sibling'),
@@ -953,7 +953,7 @@ describe('snabbdom', function () {
           result.push(vnode);
           rm();
           assert.strictEqual(parent.children.length, 1);
-        }
+        };
         var vnode1 = h('div', [
           h('span', 'First sibling'),
           h('div', { hook: { remove: cb } }, [
@@ -978,7 +978,7 @@ describe('snabbdom', function () {
             h('span', 'Child 1'),
           ]),
         ]);
-        var vnode2 = h('div', 'Text node')
+        var vnode2 = h('div', 'Text node');
         patch(vnode0, vnode1);
         patch(vnode1, vnode2);
         assert.strictEqual(calls, 1);
@@ -988,11 +988,11 @@ describe('snabbdom', function () {
         const init: InitHook = (vnode) => {
           assert.strictEqual(vnode, vnode2);
           count += 1;
-        }
+        };
         const prepatch: PrePatchHook = (oldVnode, vnode) => {
           assert.strictEqual(vnode, vnode1);
           count += 1;
-        }
+        };
         var vnode1 = h('div', { hook: { init: init, prepatch: prepatch } });
         patch(vnode0, vnode1);
         assert.strictEqual(1, count);
@@ -1033,7 +1033,7 @@ describe('snabbdom', function () {
         const cb: RemoveHook = (vnode, rm) => {
           result.push(vnode);
           rm();
-        }
+        };
         var vnode1 = h('div', { hook: { remove: cb } }, [
           h('b', 'Child 1'),
           h('i', 'Child 2'),
@@ -1062,7 +1062,7 @@ describe('snabbdom', function () {
         var result = [];
         const cb: DestroyHook = (vnode) => {
           result.push(vnode);
-        }
+        };
         var vnode1 = h('div', [
           h('span', 'First sibling'),
           h('div', [
@@ -1148,7 +1148,7 @@ describe('snabbdom', function () {
       var result = [];
       const cb: UpdateHook = (vnode) => {
         result.push(vnode);
-      }
+      };
       var vnode1 = h('div', [
         h('span', { hook: { update: cb } }, 'Hello'),
         h('span', 'there'),

@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export type Attrs = Record<string, string | number | boolean>
+export type Attrs = Record<string, string | number | boolean>;
 
 const xlinkNS = 'http://www.w3.org/1999/xlink';
 const xmlNS = 'http://www.w3.org/XML/1998/namespace';
