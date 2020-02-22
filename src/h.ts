@@ -4,7 +4,7 @@ import * as is from './is';
 export type VNodes = VNode[];
 export type VNodeChildElement = VNode | string | number | undefined | null;
 export type ArrayOrElement<T> = T | T[];
-export type VNodeChildren = ArrayOrElement<VNodeChildElement>
+export type VNodeChildren = ArrayOrElement<VNodeChildElement>;
 
 function addNS (data: any, children: VNodes | undefined, sel: string | undefined): void {
   data.ns = 'http://www.w3.org/2000/svg';

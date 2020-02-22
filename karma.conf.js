@@ -61,4 +61,4 @@ module.exports = function (config) {
     singleRun: !watch && !live,
     concurrency: ci ? 1 : Infinity,
   });
-}
+};

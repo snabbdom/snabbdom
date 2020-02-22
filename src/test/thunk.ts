@@ -1,8 +1,8 @@
-import { assert } from 'chai'
+import { assert } from 'chai';
 
-import { init } from '../snabbdom'
-import h from '../h'
-import thunk from '../thunk'
+import { init } from '../snabbdom';
+import h from '../h';
+import thunk from '../thunk';
 import { VNode } from '../vnode';
 
 var patch = init([

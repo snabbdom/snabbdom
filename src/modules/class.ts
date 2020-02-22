@@ -1,7 +1,7 @@
 import { VNode, VNodeData } from '../vnode';
 import { Module } from './module';
 
-export type Classes = Record<string, boolean>
+export type Classes = Record<string, boolean>;
 
 function updateClass (oldVnode: VNode, vnode: VNode): void {
   var cur: any;

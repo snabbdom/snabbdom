@@ -1,17 +1,17 @@
-import { assert } from 'chai'
+import { assert } from 'chai';
 
-import { init } from '../snabbdom'
-import styleModule from '../modules/style'
-import h from '../h'
-import toVNode from '../tovnode'
+import { init } from '../snabbdom';
+import styleModule from '../modules/style';
+import h from '../h';
+import toVNode from '../tovnode';
 
 var patch = init([
   styleModule
 ]);
 
-const featureDiscoveryElm = document.createElement('div')
-featureDiscoveryElm.style.setProperty('--foo', 'foo')
-const hasCssVariables = featureDiscoveryElm.style.getPropertyValue('--foo') === 'foo'
+const featureDiscoveryElm = document.createElement('div');
+featureDiscoveryElm.style.setProperty('--foo', 'foo');
+const hasCssVariables = featureDiscoveryElm.style.getPropertyValue('--foo') === 'foo';
 
 describe('style', function () {
   var elm: any, vnode0: any;
@@ -72,7 +72,7 @@ describe('style', function () {
   });
   it('updates css variables', function () {
     if (!hasCssVariables) {
-      this.skip()
+      this.skip();
     } else {
       var vnode1 = h('div', { style: { '--myVar': 1 as any } });
       var vnode2 = h('div', { style: { '--myVar': 2 as any } });
@@ -87,7 +87,7 @@ describe('style', function () {
   });
   it('explicialy removes css variables', function () {
     if (!hasCssVariables) {
-      this.skip()
+      this.skip();
     } else {
       var vnode1 = h('i', { style: { '--myVar': 1 as any } });
       var vnode2 = h('i', { style: { '--myVar': '' } });
@@ -102,7 +102,7 @@ describe('style', function () {
   });
   it('implicially removes css variables from element', function () {
     if (!hasCssVariables) {
-      this.skip()
+      this.skip();
     } else {
       var vnode1 = h('div', [h('i', { style: { '--myVar': 1 as any } })]);
       var vnode2 = h('div', [h('i')]);
@@ -128,11 +128,11 @@ describe('style', function () {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             assert.strictEqual(elm.style.fontSize, '20px');
-            done()
-          })
-        })
-      })
-    })
+            done();
+          });
+        });
+      });
+    });
   });
   it('applies tranform as transition on remove', function (done) {
     var btn = h('button', {

@@ -1,7 +1,7 @@
 import { VNode, VNodeData } from '../vnode';
 import { Module } from './module';
 
-export type Hero = { id: string }
+export type Hero = { id: string };
 
 var raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout;
 var nextFrame = function (fn: any) {

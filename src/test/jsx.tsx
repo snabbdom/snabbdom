@@ -182,7 +182,7 @@ describe('snabbdom', function () {
     });
 
     it('works with a function component', function () {
-      const Part = ({ part }: {part: string}) => <span>{part}</span>
+      const Part = ({ part }: {part: string}) => <span>{part}</span>;
       const vnode = (
         <div>
           <a attrs={{ href: 'https://github.com/snabbdom/snabbdom' }}>Snabbdom</a>
@@ -257,6 +257,6 @@ describe('snabbdom', function () {
         text: undefined,
         key: undefined
       });
-    })
+    });
   });
 });

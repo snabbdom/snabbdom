@@ -4,7 +4,7 @@ import { Module } from './module';
 export type VNodeStyle = Record<string, string> & {
   delayed?: Record<string, string>
   remove?: Record<string, string>
-}
+};
 
 // Bindig `requestAnimationFrame` like this fixes a bug in IE/Edge. See #360 and #409.
 var raf = (typeof window !== 'undefined' && (window.requestAnimationFrame).bind(window)) || setTimeout;
