@@ -1,4 +1,6 @@
 import { assert } from 'chai';
+// workaround linter issue
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { jsx } from '../jsx';
 
 describe('snabbdom', function () {
@@ -182,6 +184,8 @@ describe('snabbdom', function () {
     });
 
     it('works with a function component', function () {
+      // workaround linter issue
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const Part = ({ part }: {part: string}) => <span>{part}</span>;
       const vnode = (
         <div>

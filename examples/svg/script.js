@@ -4,8 +4,6 @@ var patch = snabbdom.init([
 ]);
 var h = require('../../h.js').default;
 
-var vnode;
-
 window.addEventListener('DOMContentLoaded', () => {
   var container = document.getElementById('container');
   var vnode = h('div', [
@@ -13,5 +11,5 @@ window.addEventListener('DOMContentLoaded', () => {
       h('circle', { attrs: { cx: 50, cy: 50, r: 40, stroke: 'green', 'stroke-width': 4, fill: 'yellow' } })
     ])
   ]);
-  vnode = patch(container, vnode);
+  patch(container, vnode);
 });
