@@ -7,11 +7,6 @@
         "target": "ES5",
         "jsx": "react",
         "jsxFactory": "jsx",
-        "lib": [
-            "dom",
-            "es5",
-            "es2015.core"
-        ]
     },
     "files": [
         "src/helpers/attachto.ts",
