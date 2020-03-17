@@ -33,7 +33,7 @@ export function jsx (tag: string | FunctionComponent, data: VNodeData | null, ..
     // tag is a function component
     return tag(data, flatChildren);
   } else {
-    if (flatChildren.length == 1 && !flatChildren[0].sel && flatChildren[0].text) {
+    if (flatChildren.length === 1 && !flatChildren[0].sel && flatChildren[0].text) {
       // only child is a simple text node, pass as text for a simpler vtree
       return h(tag, data, flatChildren[0].text);
     } else {
