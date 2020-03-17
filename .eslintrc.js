@@ -8,7 +8,6 @@ module.exports = {
     'import/newline-after-import': 'error',
     'max-statements-per-line': 'error',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/consistent-type-assertions': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-unnecessary-type-assertion': 'off',

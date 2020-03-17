@@ -103,9 +103,9 @@ function updateEventListeners (oldVnode: VNode, vnode?: VNode): void {
   }
 }
 
-export const eventListenersModule = {
+export const eventListenersModule: Module = {
   create: updateEventListeners,
   update: updateEventListeners,
   destroy: updateEventListeners
-} as Module;
+};
 export default eventListenersModule;
