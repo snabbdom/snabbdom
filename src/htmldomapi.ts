@@ -6,8 +6,8 @@ export interface DOMAPI {
   insertBefore: (parentNode: Node, newNode: Node, referenceNode: Node | null) => void
   removeChild: (node: Node, child: Node) => void
   appendChild: (node: Node, child: Node) => void
-  parentNode: (node: Node) => Node
-  nextSibling: (node: Node) => Node
+  parentNode: (node: Node) => Node | null
+  nextSibling: (node: Node) => Node | null
   tagName: (elm: Element) => string
   setTextContent: (node: Node, text: string | null) => void
   getTextContent: (node: Node) => string | null
@@ -76,7 +76,7 @@ function isComment (node: Node): node is Comment {
   return node.nodeType === 8;
 }
 
-export const htmlDomApi = {
+export const htmlDomApi: DOMAPI = {
   createElement,
   createElementNS,
   createTextNode,
@@ -92,6 +92,6 @@ export const htmlDomApi = {
   isElement,
   isText,
   isComment,
-} as DOMAPI;
+};
 
 export default htmlDomApi;

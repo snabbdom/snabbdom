@@ -30,7 +30,7 @@ type ArraysOf<T> = {
   [K in keyof T]: Array<T[K]>;
 };
 
-type ModuleHooks = ArraysOf<Module>;
+type ModuleHooks = ArraysOf<Required<Module>>;
 
 function createKeyToOldIdx (children: VNode[], beginIdx: number, endIdx: number): KeyToIndexMap {
   const map: KeyToIndexMap = {};
@@ -51,7 +51,14 @@ export { thunk } from './thunk';
 export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   let i: number;
   let j: number;
-  const cbs = ({} as ModuleHooks);
+  const cbs: ModuleHooks = {
+    create: [],
+    update: [],
+    remove: [],
+    destroy: [],
+    pre: [],
+    post: []
+  };
 
   const api: DOMAPI = domApi !== undefined ? domApi : htmlDomApi;
 
@@ -74,7 +81,7 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   function createRmCb (childElm: Node, listeners: number) {
     return function rmCb () {
       if (--listeners === 0) {
-        const parent = api.parentNode(childElm);
+        const parent = api.parentNode(childElm) as Node;
         api.removeChild(parent, childElm);
       }
     };
@@ -310,7 +317,7 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       patchVnode(oldVnode, vnode, insertedVnodeQueue);
     } else {
       elm = oldVnode.elm!;
-      parent = api.parentNode(elm);
+      parent = api.parentNode(elm) as Node;
 
       createElm(vnode, insertedVnodeQueue);
 

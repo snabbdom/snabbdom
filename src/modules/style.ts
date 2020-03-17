@@ -30,8 +30,8 @@ function updateStyle (oldVnode: VNode, vnode: VNode): void {
 
   if (!oldStyle && !style) return;
   if (oldStyle === style) return;
-  oldStyle = oldStyle || {} as VNodeStyle;
-  style = style || {} as VNodeStyle;
+  oldStyle = oldStyle || {};
+  style = style || {};
   var oldHasDel = 'delayed' in oldStyle;
 
   for (name in oldStyle) {
@@ -110,11 +110,11 @@ function forceReflow () {
   reflowForced = false;
 }
 
-export const styleModule = {
+export const styleModule: Module = {
   pre: forceReflow,
   create: updateStyle,
   update: updateStyle,
   destroy: applyDestroyStyle,
   remove: applyRemoveStyle
-} as Module;
+};
 export default styleModule;
