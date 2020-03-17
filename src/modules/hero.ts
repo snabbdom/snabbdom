@@ -147,7 +147,7 @@ function post () {
       setNextFrame(newStyle, 'opacity', '1');
       // Animate old element
       for (var key in (oldVnode as any).savedStyle) { // re-apply saved inherited properties
-        if (parseInt(key) != key as any as number) {
+        if (String(parseInt(key)) !== key) {
           var ms = key.substring(0, 2) === 'ms';
           var moz = key.substring(0, 3) === 'moz';
           var webkit = key.substring(0, 6) === 'webkit';
