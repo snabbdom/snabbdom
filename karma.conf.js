@@ -1,6 +1,16 @@
 const ci = !!process.env.CI;
 const watch = !!process.env.WATCH;
 const live = !!process.env.LIVE;
+const { DefineVariablePlugin } = require('define-variable-webpack-plugin');
+const { benchmarkMaxDurationEnvPrefix } = require('./util');
+
+const browserBenchmarkMaxDurationFromEnv = () => Object.fromEntries(Object
+  .entries(process.env)
+  .filter(([varName]) => varName.startsWith(benchmarkMaxDurationEnvPrefix))
+  .map(([key, max]) => [
+    key.slice(benchmarkMaxDurationEnvPrefix.length),
+    max
+  ]));
 
 const ip = 'bs-local.com';
 
@@ -26,6 +36,7 @@ module.exports = function (config) {
     plugins: [
       'karma-mocha',
       require('karma-mocha-reporter'),
+      require('./karma-benchmark-reporter'),
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-browserstack-launcher',
@@ -36,6 +47,11 @@ module.exports = function (config) {
       '**/*.js': ['webpack']
     },
     webpack: {
+      plugins: [
+        new DefineVariablePlugin({
+          benchmark: JSON.stringify(browserBenchmarkMaxDurationFromEnv())
+        })
+      ],
       mode: 'development'
     },
     webpackMiddleware: {
@@ -50,7 +66,7 @@ module.exports = function (config) {
     },
     browserNoActivityTimeout: 1000000,
     customLaunchers: browserstack,
-    reporters: ['mocha', 'BrowserStack'],
+    reporters: ['mocha', 'benchmark', 'BrowserStack'],
     mochaReporter: {
       showDiff: true
     },

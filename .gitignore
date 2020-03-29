@@ -64,6 +64,9 @@
 /es/tovnode.d.ts
 /es/tovnode.js
 /es/tovnode.js.map
+/es/util.d.ts
+/es/util.js
+/es/util.js.map
 /es/vnode.d.ts
 /es/vnode.js
 /es/vnode.js.map
@@ -127,6 +130,9 @@
 /tovnode.d.ts
 /tovnode.js
 /tovnode.js.map
+/util.d.ts
+/util.js
+/util.js.map
 /vnode.d.ts
 /vnode.js
 /vnode.js.map
