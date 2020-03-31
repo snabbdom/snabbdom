@@ -20,6 +20,7 @@
         "src/modules/style.ts",
         "src/test/attachto.ts",
         "src/test/attributes.ts",
+        "src/test/benchmark.ts",
         "src/test/core.ts",
         "src/test/dataset.ts",
         "src/test/eventlisteners.ts",
