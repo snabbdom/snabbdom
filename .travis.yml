@@ -1,7 +1,9 @@
 sudo: false
 language: node_js
 node_js:
-  - v12.10.0
+  - 'v10.19.0'
+  - 'v12.16.1'
+  - 'v13.12.0'
 script:
   - commitlint-travis
   - run-s test docs check-clean
