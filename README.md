@@ -710,6 +710,8 @@ proper lookup as it is stored internally as a key/value pair inside of
 an object, where `.key` is the key and the value is the
 [`.elm`](#elm--element) property created.
 
+`.key` property should be unique for sibling elements [(here is how key map is created in during the patch phase)](https://github.com/snabbdom/snabbdom/blob/0fe8fd323770012b224253b8857edaa37f77dbe2/src/snabbdom.ts#L248)
+
 For example: `h('div', {key: 1}, [])` will create a virtual node
 object with a `.key` property with the value of `1`.
 
