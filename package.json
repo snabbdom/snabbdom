@@ -4,6 +4,17 @@
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
   "type": "module",
   "main": "./es/snabbdom.js",
+  "exports": {
+    ".": "./es/snabbdom.js",
+    "./h": "./es/h.js",
+    "./attributes": "./es/modules/attributes.js",
+    "./class": "./es/modules/class.js",
+    "./dataset": "./es/modules/dataset.js",
+    "./eventlisteners": "./es/modules/eventlisteners.js",
+    "./props": "./es/modules/props.js",
+    "./style": "./es/modules/style.js",
+    "./tovnode": "./es/tovnode.js"
+  },
   "typings": "es/snabbdom.d.ts",
   "directories": {
     "example": "examples",
