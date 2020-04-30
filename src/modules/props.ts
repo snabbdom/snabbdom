@@ -1,5 +1,5 @@
-import { VNode, VNodeData } from '../vnode';
-import { Module } from './module';
+import { VNode, VNodeData } from '../vnode.js';
+import { Module } from './module.js';
 
 export type Props = Record<string, any>;
 

@@ -1,5 +1,5 @@
-import { VNode, VNodeData } from './vnode';
-import { h } from './h';
+import { VNode, VNodeData } from './vnode.js';
+import { h } from './h.js';
 
 export interface ThunkData extends VNodeData {
   fn: () => VNode

@@ -1,7 +1,7 @@
-import { Module } from './modules/module';
-import vnode, { VNode } from './vnode';
-import * as is from './is';
-import htmlDomApi, { DOMAPI } from './htmldomapi';
+import { Module } from './modules/module.js';
+import vnode, { VNode } from './vnode.js';
+import * as is from './is.js';
+import htmlDomApi, { DOMAPI } from './htmldomapi.js';
 
 type NonUndefined<T> = T extends undefined ? never : T;
 
@@ -45,8 +45,8 @@ function createKeyToOldIdx (children: VNode[], beginIdx: number, endIdx: number)
 
 const hooks: Array<keyof Module> = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 
-export { h } from './h';
-export { thunk } from './thunk';
+export { h } from './h.js';
+export { thunk } from './thunk.js';
 
 export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   let i: number;

@@ -1,12 +1,12 @@
-import { Hooks } from './hooks';
-import { AttachData } from './helpers/attachto';
-import { VNodeStyle } from './modules/style';
-import { On } from './modules/eventlisteners';
-import { Attrs } from './modules/attributes';
-import { Classes } from './modules/class';
-import { Props } from './modules/props';
-import { Dataset } from './modules/dataset';
-import { Hero } from './modules/hero';
+import { Hooks } from './hooks.js';
+import { AttachData } from './helpers/attachto.js';
+import { VNodeStyle } from './modules/style.js';
+import { On } from './modules/eventlisteners.js';
+import { Attrs } from './modules/attributes.js';
+import { Classes } from './modules/class.js';
+import { Props } from './modules/props.js';
+import { Dataset } from './modules/dataset.js';
+import { Hero } from './modules/hero.js';
 
 export type Key = string | number;
 
