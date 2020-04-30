@@ -1,10 +1,14 @@
-var snabbdom = require('../../snabbdom.js');
-var patch = snabbdom.init([
-  require('../../modules/attributes').default,
-  require('../../modules/style').default,
-  require('../../modules/eventlisteners').default
+import * as snabbdom from '../../es/snabbdom.js';
+import attributes from '../../es/modules/attributes.js';
+import h from '../../es/h.js';
+import listeners from '../../es/modules/eventlisteners.js';
+import style from '../../es/modules/style.js';
+
+const patch = snabbdom.init([
+  attributes,
+  style,
+  listeners
 ]);
-var h = require('../../h.js').default;
 
 var vnode;
 

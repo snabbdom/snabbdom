@@ -1,11 +1,16 @@
-var snabbdom = require('../../snabbdom.js');
-var patch = snabbdom.init([
-  require('../../modules/class').default,
-  require('../../modules/props').default,
-  require('../../modules/style').default,
-  require('../../modules/eventlisteners').default,
+import * as snabbdom from '../../es/snabbdom.js';
+import clazz from '../../es/modules/class.js';
+import h from '../../es/h.js';
+import props from '../../es/modules/props.js';
+import style from '../../es/modules/style.js';
+import listeners from '../../es/modules/eventlisteners.js';
+
+const patch = snabbdom.init([
+  clazz,
+  props,
+  style,
+  listeners
 ]);
-var h = require('../../h.js').default;
 
 var vnode;
 
@@ -25,6 +30,7 @@ var originalData = [
   { rank: 9, title: 'The Lord of the Rings: The Return of the King', desc: 'Gandalf and Aragorn lead the World of Men against Sauron\'s army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.', elmHeight: 0 },
   { rank: 10, title: 'Fight Club', desc: 'An insomniac office worker looking for a way to change his life crosses paths with a devil-may-care soap maker and they form an underground fight club that evolves into something much, much more...', elmHeight: 0 },
 ];
+
 var data = [
   originalData[0],
   originalData[1],
