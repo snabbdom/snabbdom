@@ -4,7 +4,7 @@
         "strictFunctionTypes": false,
         "strictBindCallApply": false,
         "noImplicitThis": false,
-        "target": "ES5",
+        "target": "ES6",
         "jsx": "react",
         "jsxFactory": "jsx",
     },

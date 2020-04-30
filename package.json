@@ -2,9 +2,9 @@
   "name": "snabbdom",
   "version": "0.7.4",
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
-  "main": "snabbdom.js",
-  "module": "es/snabbdom.js",
-  "typings": "snabbdom.d.ts",
+  "type": "module",
+  "main": "./es/snabbdom.js",
+  "typings": "es/snabbdom.d.ts",
   "directories": {
     "example": "examples",
     "test": "test"
@@ -53,9 +53,7 @@
     "lint": "run-s lint:editorconfig lint:js",
     "unit": "karma start",
     "test": "run-s lint compile unit",
-    "compile": "npm run compile-es && npm run compile-commonjs",
-    "compile-es": "tsc --outDir es --module es6",
-    "compile-commonjs": "tsc --outDir . --module commonjs",
+    "compile": "tsc --outDir es --module es6",
     "prepublishOnly": "npm run compile",
     "release-major": "xyz --repo git@github.com:paldepind/snabbdom.git --increment major",
     "release-minor": "xyz --repo git@github.com:paldepind/snabbdom.git --increment minor",
