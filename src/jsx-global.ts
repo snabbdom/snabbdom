@@ -1,4 +1,4 @@
-import { VNode as _VNode, VNodeData as _VNodeData } from './vnode';
+import { VNode as _VNode, VNodeData as _VNodeData } from './vnode.js';
 
 // workaround
 // https://github.com/typescript-eslint/typescript-eslint/issues/1596

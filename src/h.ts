@@ -1,5 +1,5 @@
-import { vnode, VNode, VNodeData } from './vnode';
-import * as is from './is';
+import { vnode, VNode, VNodeData } from './vnode.js';
+import * as is from './is.js';
 
 export type VNodes = VNode[];
 export type VNodeChildElement = VNode | string | number | undefined | null;

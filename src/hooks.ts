@@ -1,4 +1,4 @@
-import { VNode } from './vnode';
+import { VNode } from './vnode.js';
 
 export type PreHook = () => any;
 export type InitHook = (vNode: VNode) => any;

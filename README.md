@@ -58,30 +58,40 @@ performance, small size and all the features listed below.
 ## Example
 
 ```javascript
-var snabbdom = require('snabbdom');
-var patch = snabbdom.init([ // Init patch function with chosen modules
-  require('snabbdom/modules/class').default, // makes it easy to toggle classes
-  require('snabbdom/modules/props').default, // for setting properties on DOM elements
-  require('snabbdom/modules/style').default, // handles styling on elements with support for animations
-  require('snabbdom/modules/eventlisteners').default, // attaches event listeners
+import * as snabbdom from 'snabbdom';
+import clazz         from 'snabbdom/class';
+import h             from 'snabbdom/h';
+import props         from 'snabbdom/props';
+import style         from 'snabbdom/style';
+import listeners     from 'snabbdom/eventlisteners';
+
+
+// Init patch function with chosen modules
+var patch = snabbdom.init([
+  clazz,     // makes it easy to toggle classes
+  props,     // for setting properties on DOM elements
+  style,     // attaches event listeners
+  listeners  // attaches event listeners
 ]);
-var h = require('snabbdom/h').default; // helper function for creating vnodes
+
 
 var container = document.getElementById('container');
 
-var vnode = h('div#container.two.classes', {on: {click: someFn}}, [
+var vnode = h('div#container.two.classes', { on: { click: someFn } }, [
   h('span', {style: {fontWeight: 'bold'}}, 'This is bold'),
   ' and this is just normal text',
-  h('a', {props: {href: '/foo'}}, 'I\'ll take you places!')
+  h('a', { props: { href: '/foo' } }, 'I\'ll take you places!')
 ]);
+
 // Patch into empty DOM element – this modifies the DOM as a side effect
 patch(container, vnode);
 
-var newVnode = h('div#container.two.classes', {on: {click: anotherEventHandler}}, [
-  h('span', {style: {fontWeight: 'normal', fontStyle: 'italic'}}, 'This is now italic type'),
+var newVnode = h('div#container.two.classes', { on: { click: anotherEventHandler } }, [
+  h('span', { style: { fontWeight: 'normal', fontStyle: 'italic' }}, 'This is now italic type'),
   ' and this is still just normal text',
-  h('a', {props: {href: '/bar'}}, 'I\'ll take you places!')
+  h('a', { props: { href: '/bar' } }, 'I\'ll take you places!')
 ]);
+
 // Second `patch` invocation
 patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new state
 ```
@@ -150,9 +160,13 @@ takes a list of modules and returns a `patch` function that uses the
 specified set of modules.
 
 ```javascript
-var patch = snabbdom.init([
-  require('snabbdom/modules/class').default,
-  require('snabbdom/modules/style').default,
+import * as snabbdom from 'snabbdom';
+import clazz         from 'snabbdom/class';
+import style         from 'snabbdom/style';
+
+const patch = snabbdom.init([
+  clazz,
+  style
 ]);
 ```
 
@@ -194,7 +208,8 @@ tag/selector as a string, an optional data object and an optional string or
 array of children.
 
 ```javascript
-var h = require('snabbdom/h').default;
+import h from 'snabbdom/h';
+
 var vnode = h('div', {style: {color: '#000'}}, [
   h('h1', 'Headline'),
   h('p', 'A paragraph'),
@@ -207,15 +222,21 @@ Converts a DOM node into a virtual node. Especially good for patching over an pr
 server-side generated content.
 
 ```javascript
-var snabbdom = require('snabbdom')
+import * as snabbdom from 'snabbdom';
+import clazz         from 'snabbdom/class';
+import h             from 'snabbdom/h';
+import props         from 'snabbdom/props';
+import style         from 'snabbdom/style';
+import listeners     from 'snabbdom/eventlisteners';
+import toVNode       from 'snabbdom/tovnode';
+
+
 var patch = snabbdom.init([ // Init patch function with chosen modules
-  require('snabbdom/modules/class').default, // makes it easy to toggle classes
-  require('snabbdom/modules/props').default, // for setting properties on DOM elements
-  require('snabbdom/modules/style').default, // handles styling on elements with support for animations
-  require('snabbdom/modules/eventlisteners').default, // attaches event listeners
+  clazz, // makes it easy to toggle classes
+  props, // for setting properties on DOM elements
+  style, // handles styling on elements with support for animations
+  listeners // attaches event listeners
 ]);
-var h = require('snabbdom/h').default; // helper function for creating vnodes
-var toVNode = require('snabbdom/tovnode').default;
 
 var newVNode = h('div', {style: {color: '#000'}}, [
   h('h1', 'Headline'),
