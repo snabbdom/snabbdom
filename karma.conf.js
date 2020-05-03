@@ -20,12 +20,12 @@ module.exports = function (config) {
     frameworks: ['mocha'],
     // list of files / patterns to load in the browser
     files: [
-      { pattern: 'test/**/*.js' },
-      { pattern: 'es/test/**/*.js' }
+      { pattern: process.env.FILES_PATTERN },
     ],
     plugins: [
       'karma-mocha',
       require('karma-mocha-reporter'),
+      require('./karma-benchmark-reporter'),
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-browserstack-launcher',
@@ -50,7 +50,7 @@ module.exports = function (config) {
     },
     browserNoActivityTimeout: 1000000,
     customLaunchers: browserstack,
-    reporters: ['mocha', 'BrowserStack'],
+    reporters: ['mocha', 'benchmark', 'BrowserStack'],
     mochaReporter: {
       showDiff: true
     },
