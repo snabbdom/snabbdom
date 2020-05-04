@@ -43,7 +43,7 @@
     "remark-toc": "7.0.0",
     "tsconfigs": "4.0.2",
     "typescript": "3.8.3",
-    "webpack": "4.42.0"
+    "webpack": "4.43.0"
   },
   "scripts": {
     "docs": "remark . --output",
