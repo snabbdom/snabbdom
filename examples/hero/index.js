@@ -1,12 +1,12 @@
 /* jshint esnext: true */
-var snabbdom = require('../../snabbdom.js')
-var patch = snabbdom.init([
-  require('../../modules/class').default,
-  require('../../modules/hero').default,
-  require('../../modules/style').default,
-  require('../../modules/eventlisteners').default,
-])
-var h = require('../../h.js').default
+import { init } from '../../es/snabbdom.js'
+import clazz from '../../es/modules/class.js'
+import hero from '../../es/modules/hero.js'
+import style from '../../es/modules/style.js'
+import listeners from '../../es/modules/eventlisteners.js'
+import h from '../../es/h.js'
+
+var patch = init([clazz, hero, style, listeners])
 
 var vnode
 
