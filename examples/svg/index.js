@@ -1,8 +1,8 @@
-var snabbdom = require('../../snabbdom.js')
-var patch = snabbdom.init([
-  require('../../modules/attributes').default,
-])
-var h = require('../../h.js').default
+import { init } from '../../es/snabbdom.js'
+import attrs from '../../es/modules/attributes.js'
+import h from '../../es/h.js'
+
+var patch = init([attrs])
 
 window.addEventListener('DOMContentLoaded', () => {
   var container = document.getElementById('container')

@@ -58,14 +58,20 @@ performance, small size and all the features listed below.
 ## Example
 
 ```javascript
-var snabbdom = require('snabbdom');
-var patch = snabbdom.init([ // Init patch function with chosen modules
-  require('snabbdom/modules/class').default, // makes it easy to toggle classes
-  require('snabbdom/modules/props').default, // for setting properties on DOM elements
-  require('snabbdom/modules/style').default, // handles styling on elements with support for animations
-  require('snabbdom/modules/eventlisteners').default, // attaches event listeners
+import { init } from 'snabbdom';
+import clazz from 'snabbdom/class';
+import h from 'snabbdom/h';
+import props from 'snabbdom/props';
+import style from 'snabbdom/style';
+import listeners from 'snabbdom/eventlisteners';
+
+var patch = init([ // Init patch function with chosen modules
+  clazz,     // makes it easy to toggle classes
+  props,     // for setting properties on DOM elements
+  style,     // handles styling on elements with support for animations
+  listeners,  // attaches event listeners
 ]);
-var h = require('snabbdom/h').default; // helper function for creating vnodes
+import h from 'snabbdom/h'; // helper function for creating vnodes
 
 var container = document.getElementById('container');
 
@@ -148,10 +154,10 @@ takes a list of modules and returns a `patch` function that uses the
 specified set of modules.
 
 ```javascript
-var patch = snabbdom.init([
-  require('snabbdom/modules/class').default,
-  require('snabbdom/modules/style').default,
-]);
+import clazz from 'snabbdom/class';
+import style from 'snabbdom/style';
+
+var patch = init([ clazz, style ]);
 ```
 
 ### `patch`
@@ -192,7 +198,7 @@ tag/selector as a string, an optional data object and an optional string or
 array of children.
 
 ```javascript
-var h = require('snabbdom/h').default;
+import h from 'snabbdom/h';
 var vnode = h('div', {style: {color: '#000'}}, [
   h('h1', 'Headline'),
   h('p', 'A paragraph'),
@@ -205,15 +211,19 @@ Converts a DOM node into a virtual node. Especially good for patching over an pr
 server-side generated content.
 
 ```javascript
-var snabbdom = require('snabbdom')
-var patch = snabbdom.init([ // Init patch function with chosen modules
-  require('snabbdom/modules/class').default, // makes it easy to toggle classes
-  require('snabbdom/modules/props').default, // for setting properties on DOM elements
-  require('snabbdom/modules/style').default, // handles styling on elements with support for animations
-  require('snabbdom/modules/eventlisteners').default, // attaches event listeners
+import { init } from 'snabbdom';
+import clazz         from 'snabbdom/class';
+import props         from 'snabbdom/props';
+import style         from 'snabbdom/style';
+import listeners     from 'snabbdom/eventlisteners';
+var patch = init([ // Init patch function with chosen modules
+  clazz, // makes it easy to toggle classes
+  props, // for setting properties on DOM elements
+  style, // handles styling on elements with support for animations
+  listeners, // attaches event listeners
 ]);
-var h = require('snabbdom/h').default; // helper function for creating vnodes
-var toVNode = require('snabbdom/tovnode').default;
+import h from 'snabbdom/h'; // helper function for creating vnodes
+import toVNode from 'snabbdom/tovnode';
 
 var newVNode = h('div', {style: {color: '#000'}}, [
   h('h1', 'Headline'),

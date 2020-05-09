@@ -1,10 +1,13 @@
-const ci = !!process.env.CI
-const watch = !!process.env.WATCH
-const live = !!process.env.LIVE
+const isPathInside = require('is-path-inside');
+const path = require('path');
+
+const ci = !!process.env.CI;
+const watch = !!process.env.WATCH;
+const live = !!process.env.LIVE;
 
 const ip = 'bs-local.com'
 
-const browserstack = require('./browserstack-karma.js')
+const browserstack = require('./browserstack-karma.cjs');
 
 // https://www.browserstack.com/open-source (text search "parallels")
 const BROWSERSTACK_OPEN_SOURCE_CONCURRENCY = 5
@@ -28,7 +31,7 @@ module.exports = function (config) {
     plugins: [
       'karma-mocha',
       require('karma-mocha-reporter'),
-      require('./karma-benchmark-reporter'),
+      require('./karma-benchmark-reporter.cjs'),
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-browserstack-launcher',
@@ -39,7 +42,29 @@ module.exports = function (config) {
       '**/*.js': ['webpack']
     },
     webpack: {
-      mode: 'development'
+      mode: 'development',
+      module: {
+        rules: [
+          {
+            exclude: (input) => isPathInside(input, path.resolve(__dirname, 'node_modules')),
+            test: /\.m?js$/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                presets: [
+                  [
+                    '@babel/preset-env',
+                    {
+                      useBuiltIns: 'usage',
+                      corejs: 3,
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        ]
+      }
     },
     webpackMiddleware: {
       stats: 'errors-only'
