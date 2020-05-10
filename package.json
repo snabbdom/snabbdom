@@ -11,7 +11,6 @@
   },
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
-    "@commitlint/config-conventional": "8.3.4",
     "@commitlint/travis-cli": "8.3.5",
     "@types/assert": "1.4.6",
     "@types/chai": "4.2.11",
@@ -24,6 +23,7 @@
     "browserify": "16.5.1",
     "chai": "4.2.0",
     "chalk": "3.0.0",
+    "commitlint-config-awesome": "1.0.4",
     "core-js": "3.6.5",
     "cross-env": "7.0.2",
     "editorconfig-checker": "3.0.4",
