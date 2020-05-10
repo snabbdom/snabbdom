@@ -3,7 +3,9 @@
     "github>mightyiam/renovate-config:js-lib"
   ],
   "node": {
-    "supportPolicy": "current"
+    "supportPolicy": [
+      "current"
+    ]
   },
   "minor": {
     "automerge": false
