@@ -235,7 +235,7 @@ desired points in the life of a virtual node.
 #### Overview
 
 | Name | Triggered when | Arguments to callback |
-| ---- | -------------- | --------------------- |
+| - | - | - |
 | `pre` | the patch process begins | none |
 | `init` | a vnode has been added | `vnode` |
 | `create` | a DOM element has been created based on a vnode | `emptyVnode, vnode` |
@@ -801,13 +801,13 @@ var vnode1 = h('div', [
 ### Pull requests
 
 | PR scope | Policy |
-| -------- | ------ |
+| - | - |
 | Maintenance, documentation, configuration, linting, dependencies, bug fixes, etc. | Requires approval from 2 maintainers. In lieu of such within one week, @paldepind or @mightyiam may merge. |
 | More substantial changes | Both @paldepind & @mightyiam must approve. |
 
 ### Releases
 
 | Patch level | Authorized maintainers |
-| ----------- | ---------------------- |
+| - | - |
 | Patch and minor | @paldepind, @mightyiam |
 | Major | @paldepind |
