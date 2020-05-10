@@ -3,7 +3,6 @@
     "compilerOptions": {
         "strictFunctionTypes": false,
         "strictBindCallApply": false,
-        "noImplicitThis": false,
         "target": "ES5",
         "jsx": "react",
         "jsxFactory": "jsx",
