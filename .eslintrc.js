@@ -1,6 +1,6 @@
 module.exports = {
   extends: 'standard-with-typescript',
-  parserOptions: { project: [ './tsconfig.json', ] },
+  parserOptions: { project: ['./tsconfig.json'] },
   ignorePatterns: [
     '/examples/**/build.js'
   ],
@@ -11,6 +11,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+    '@typescript-eslint/no-unused-expressions': 'off',
     '@typescript-eslint/prefer-optional-chain': 'off',
     '@typescript-eslint/prefer-includes': 'off',
     '@typescript-eslint/prefer-nullish-coalescing': 'off',
@@ -22,4 +23,4 @@ module.exports = {
     '@typescript-eslint/semi': ['error', 'always'],
     semi: ['error', 'always'],
   }
-}
+};
