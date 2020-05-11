@@ -5,7 +5,3 @@ node_js:
 script:
   - commitlint-travis
   - run-s test docs check-clean
-env:
-  global:
-    - BROWSER_STACK_USERNAME='snabbdombot1'
-    - BROWSER_STACK_ACCESS_KEY='Wx2FUSehQLBf3haqHphd'
