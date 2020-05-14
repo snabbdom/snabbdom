@@ -371,6 +371,14 @@ Allows you to set properties on DOM elements.
 h('a', {props: {href: '/foo'}}, 'Go to Foo');
 ```
 
+Properties can only be set. Not removed. Even though browsers allow addition and
+deletion of custom properties, deletion will not be attempted by this module.
+This makes sense, because native DOM properties cannot be removed. And
+if you are using custom properties for storing values or referencing
+objects on the DOM, then please consider using
+[data-\* attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes)
+instead. Perhaps via [the dataset module](#the-dataset-module).
+
 ### The attributes module
 
 Same as props, but set attributes instead of properties on DOM elements.
