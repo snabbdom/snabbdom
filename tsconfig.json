@@ -2,7 +2,6 @@
     "extends": "tsconfigs/browser-module",
     "compilerOptions": {
         "strictFunctionTypes": false,
-        "strictBindCallApply": false,
         "target": "ES5",
         "jsx": "react",
         "jsxFactory": "jsx",
