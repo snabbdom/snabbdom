@@ -1,1 +1,1 @@
-module.exports = { extends: ['awesome'] };
+module.exports = { extends: ['awesome'] }

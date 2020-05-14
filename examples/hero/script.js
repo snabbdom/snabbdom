@@ -1,14 +1,14 @@
 /* jshint esnext: true */
-var snabbdom = require('../../snabbdom.js');
+var snabbdom = require('../../snabbdom.js')
 var patch = snabbdom.init([
   require('../../modules/class').default,
   require('../../modules/hero').default,
   require('../../modules/style').default,
   require('../../modules/eventlisteners').default,
-]);
-var h = require('../../h.js').default;
+])
+var h = require('../../h.js').default
 
-var vnode;
+var vnode
 
 var data = {
   selected: undefined,
@@ -24,20 +24,20 @@ var data = {
     { rank: 9, title: 'to witness', desc: 'Metus amet ad, elit porttitor a aliquet commodo lacus, integer neque imperdiet augue laoreet, nonummy turpis lacus sed pulvinar condimentum platea. Wisi eleifend quis, tristique dictum, ac dictumst.' },
     { rank: 10, title: 'the effect', desc: 'Et orci hac ultrices id in. Diam ultrices luctus egestas, sem aliquam auctor molestie odio laoreet. Pede nam cubilia, diam vestibulum ornare natoque, aenean etiam fusce id, eget dictum blandit et mauris mauris' },
   ]
-};
+}
 
 function select (m) {
-  data.selected = m;
-  render();
+  data.selected = m
+  render()
 }
 
 function render () {
-  vnode = patch(vnode, view(data));
+  vnode = patch(vnode, view(data))
 }
 
 const fadeInOutStyle = {
   opacity: '0', delayed: { opacity: '1' }, remove: { opacity: '0' }
-};
+}
 
 const detailView = (movie) =>
   h('div.page', { style: fadeInOutStyle }, [
@@ -86,7 +86,7 @@ const detailView = (movie) =>
         h('span', movie.desc),
       ]),
     ]),
-  ]);
+  ])
 
 const overviewView = (movies) =>
   h('div.page', { style: fadeInOutStyle }, [
@@ -122,15 +122,15 @@ const overviewView = (movies) =>
         ])
       )),
     ]),
-  ]);
+  ])
 
 const view = (data) =>
   h('div.page-container', [
     data.selected ? detailView(data.selected) : overviewView(data.movies),
-  ]);
+  ])
 
 window.addEventListener('DOMContentLoaded', () => {
-  var container = document.getElementById('container');
-  vnode = patch(container, view(data));
-  render();
-});
+  var container = document.getElementById('container')
+  vnode = patch(container, view(data))
+  render()
+})

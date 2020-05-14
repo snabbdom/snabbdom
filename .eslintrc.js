@@ -21,7 +21,5 @@ module.exports = {
     '@typescript-eslint/method-signature-style': 'off',
     'comma-dangle': ['error', 'only-multiline'],
     'no-mixed-operators': 'off',
-    '@typescript-eslint/semi': ['error', 'always'],
-    semi: ['error', 'always'],
   }
-};
+}

@@ -1,10 +1,10 @@
-const ci = !!process.env.CI;
-const watch = !!process.env.WATCH;
-const live = !!process.env.LIVE;
+const ci = !!process.env.CI
+const watch = !!process.env.WATCH
+const live = !!process.env.LIVE
 
-const ip = 'bs-local.com';
+const ip = 'bs-local.com'
 
-const browserstack = require('./browserstack-karma.js');
+const browserstack = require('./browserstack-karma.js')
 
 const browsers = ci
   ? Object.keys(browserstack)
@@ -12,7 +12,7 @@ const browsers = ci
     ? undefined
     : watch
       ? ['Chrome']
-      : ['Chrome', 'Firefox'];
+      : ['Chrome', 'Firefox']
 
 module.exports = function (config) {
   config.set({
@@ -60,5 +60,5 @@ module.exports = function (config) {
     browsers: browsers,
     singleRun: !watch && !live,
     concurrency: ci ? 1 : Infinity,
-  });
-};
+  })
+}
