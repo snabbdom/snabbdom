@@ -1,113 +1,113 @@
-import { VNode, VNodeData } from '../vnode';
-import { Module } from './module';
+import { VNode, VNodeData } from '../vnode'
+import { Module } from './module'
 
 export type VNodeStyle = Record<string, string> & {
   delayed?: Record<string, string>
   remove?: Record<string, string>
-};
+}
 
 // Bindig `requestAnimationFrame` like this fixes a bug in IE/Edge. See #360 and #409.
-var raf = (typeof window !== 'undefined' && (window.requestAnimationFrame).bind(window)) || setTimeout;
+var raf = (typeof window !== 'undefined' && (window.requestAnimationFrame).bind(window)) || setTimeout
 var nextFrame = function (fn: any) {
   raf(function () {
-    raf(fn);
-  });
-};
-var reflowForced = false;
+    raf(fn)
+  })
+}
+var reflowForced = false
 
 function setNextFrame (obj: any, prop: string, val: any): void {
   nextFrame(function () {
-    obj[prop] = val;
-  });
+    obj[prop] = val
+  })
 }
 
 function updateStyle (oldVnode: VNode, vnode: VNode): void {
-  var cur: any;
-  var name: string;
-  var elm = vnode.elm;
-  var oldStyle = (oldVnode.data as VNodeData).style;
-  var style = (vnode.data as VNodeData).style;
+  var cur: any
+  var name: string
+  var elm = vnode.elm
+  var oldStyle = (oldVnode.data as VNodeData).style
+  var style = (vnode.data as VNodeData).style
 
-  if (!oldStyle && !style) return;
-  if (oldStyle === style) return;
-  oldStyle = oldStyle || {};
-  style = style || {};
-  var oldHasDel = 'delayed' in oldStyle;
+  if (!oldStyle && !style) return
+  if (oldStyle === style) return
+  oldStyle = oldStyle || {}
+  style = style || {}
+  var oldHasDel = 'delayed' in oldStyle
 
   for (name in oldStyle) {
     if (!style[name]) {
       if (name[0] === '-' && name[1] === '-') {
-        (elm as any).style.removeProperty(name);
+        (elm as any).style.removeProperty(name)
       } else {
-        (elm as any).style[name] = '';
+        (elm as any).style[name] = ''
       }
     }
   }
   for (name in style) {
-    cur = style[name];
+    cur = style[name]
     if (name === 'delayed' && style.delayed) {
       for (const name2 in style.delayed) {
-        cur = style.delayed[name2];
+        cur = style.delayed[name2]
         if (!oldHasDel || cur !== (oldStyle.delayed as any)[name2]) {
-          setNextFrame((elm as any).style, name2, cur);
+          setNextFrame((elm as any).style, name2, cur)
         }
       }
     } else if (name !== 'remove' && cur !== oldStyle[name]) {
       if (name[0] === '-' && name[1] === '-') {
-        (elm as any).style.setProperty(name, cur);
+        (elm as any).style.setProperty(name, cur)
       } else {
-        (elm as any).style[name] = cur;
+        (elm as any).style[name] = cur
       }
     }
   }
 }
 
 function applyDestroyStyle (vnode: VNode): void {
-  var style: any;
-  var name: string;
-  var elm = vnode.elm;
-  var s = (vnode.data as VNodeData).style;
-  if (!s || !(style = s.destroy)) return;
+  var style: any
+  var name: string
+  var elm = vnode.elm
+  var s = (vnode.data as VNodeData).style
+  if (!s || !(style = s.destroy)) return
   for (name in style) {
-    (elm as any).style[name] = style[name];
+    (elm as any).style[name] = style[name]
   }
 }
 
 function applyRemoveStyle (vnode: VNode, rm: () => void): void {
-  var s = (vnode.data as VNodeData).style;
+  var s = (vnode.data as VNodeData).style
   if (!s || !s.remove) {
-    rm();
-    return;
+    rm()
+    return
   }
   if (!reflowForced) {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    (vnode.elm as any).offsetLeft;
-    reflowForced = true;
+    (vnode.elm as any).offsetLeft
+    reflowForced = true
   }
-  var name: string;
-  var elm = vnode.elm;
-  var i = 0;
-  var compStyle: CSSStyleDeclaration;
-  var style = s.remove;
-  var amount = 0;
-  var applied: string[] = [];
+  var name: string
+  var elm = vnode.elm
+  var i = 0
+  var compStyle: CSSStyleDeclaration
+  var style = s.remove
+  var amount = 0
+  var applied: string[] = []
   for (name in style) {
     applied.push(name);
-    (elm as any).style[name] = style[name];
+    (elm as any).style[name] = style[name]
   }
-  compStyle = getComputedStyle(elm as Element);
-  var props = (compStyle as any)['transition-property'].split(', ');
+  compStyle = getComputedStyle(elm as Element)
+  var props = (compStyle as any)['transition-property'].split(', ')
   for (; i < props.length; ++i) {
-    if (applied.indexOf(props[i]) !== -1) amount++;
+    if (applied.indexOf(props[i]) !== -1) amount++
   }
   (elm as Element).addEventListener('transitionend', function (ev: TransitionEvent) {
-    if (ev.target === elm) --amount;
-    if (amount === 0) rm();
-  });
+    if (ev.target === elm) --amount
+    if (amount === 0) rm()
+  })
 }
 
 function forceReflow () {
-  reflowForced = false;
+  reflowForced = false
 }
 
 export const styleModule: Module = {
@@ -116,5 +116,5 @@ export const styleModule: Module = {
   update: updateStyle,
   destroy: applyDestroyStyle,
   remove: applyRemoveStyle
-};
-export default styleModule;
+}
+export default styleModule

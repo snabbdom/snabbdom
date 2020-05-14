@@ -98,4 +98,4 @@ module.exports = {
     os: 'Windows',
     os_version: '7',
   },
-};
+}

@@ -1,9 +1,9 @@
-import { VNode as _VNode, VNodeData as _VNodeData } from './vnode';
+import { VNode as _VNode, VNodeData as _VNodeData } from './vnode'
 
 // workaround
 // https://github.com/typescript-eslint/typescript-eslint/issues/1596
-type VNode = _VNode;
-type VNodeData = _VNodeData;
+type VNode = _VNode
+type VNodeData = _VNodeData
 
 declare global {
   /**
@@ -12,7 +12,7 @@ declare global {
    */
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
-    type Element = VNode;
+    type Element = VNode
     interface IntrinsicElements {
       [elemName: string]: VNodeData
     }

@@ -1,12 +1,12 @@
-import { assert } from 'chai';
+import { assert } from 'chai'
 // workaround linter issue
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { jsx } from '../jsx';
+import { jsx } from '../jsx'
 
 describe('snabbdom', function () {
   describe('jsx', function () {
     it('can be used as a jsxFactory method', function () {
-      const vnode = <div title="Hello World">Hello World</div>;
+      const vnode = <div title="Hello World">Hello World</div>
 
       assert.deepStrictEqual(vnode, {
         sel: 'div',
@@ -15,11 +15,11 @@ describe('snabbdom', function () {
         elm: undefined,
         text: 'Hello World',
         key: undefined
-      });
-    });
+      })
+    })
 
     it('creates text property for text only child', function () {
-      const vnode = <div>foo bar</div>;
+      const vnode = <div>foo bar</div>
 
       assert.deepStrictEqual(vnode, {
         sel: 'div',
@@ -28,11 +28,11 @@ describe('snabbdom', function () {
         elm: undefined,
         text: 'foo bar',
         key: undefined
-      });
-    });
+      })
+    })
 
     it('creates an array of children for multiple children', function () {
-      const vnode = <div>{'foo'}{'bar'}</div>;
+      const vnode = <div>{'foo'}{'bar'}</div>
 
       assert.deepStrictEqual(vnode, {
         sel: 'div',
@@ -58,8 +58,8 @@ describe('snabbdom', function () {
         elm: undefined,
         text: undefined,
         key: undefined
-      });
-    });
+      })
+    })
 
     it('flattens children', function () {
       const vnode = (
@@ -68,7 +68,7 @@ describe('snabbdom', function () {
           some description
           {['part1', 'part2'].map(part => <span>{part}</span>)}
         </section>
-      );
+      )
 
       assert.deepStrictEqual(vnode, {
         sel: 'section',
@@ -110,16 +110,16 @@ describe('snabbdom', function () {
         elm: undefined,
         text: undefined,
         key: undefined
-      });
-    });
+      })
+    })
 
     it('removes falsey children', function () {
-      const showLogin = false;
-      const showCaptcha = false;
-      const loginAttempts = 0;
-      const userName = '';
-      const profilePic = undefined;
-      const isLoggedIn = true;
+      const showLogin = false
+      const showCaptcha = false
+      const loginAttempts = 0
+      const userName = ''
+      const profilePic = undefined
+      const isLoggedIn = true
       const vnode = (
         <div>
           Login Form
@@ -130,7 +130,7 @@ describe('snabbdom', function () {
           Login Attempts: {loginAttempts}
           Logged In: {isLoggedIn}
         </div>
-      );
+      )
 
       assert.deepStrictEqual(vnode, {
         sel: 'div',
@@ -180,13 +180,13 @@ describe('snabbdom', function () {
         elm: undefined,
         text: undefined,
         key: undefined
-      });
-    });
+      })
+    })
 
     it('works with a function component', function () {
       // workaround linter issue
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const Part = ({ part }: {part: string}) => <span>{part}</span>;
+      const Part = ({ part }: {part: string}) => <span>{part}</span>
       const vnode = (
         <div>
           <a attrs={{ href: 'https://github.com/snabbdom/snabbdom' }}>Snabbdom</a>
@@ -194,7 +194,7 @@ describe('snabbdom', function () {
           {['work', 'like', 'a', 'charm!'].map(part => <Part part={part}></Part>)}
           {'💃🕺🎉'}
         </div>
-      );
+      )
 
       assert.deepStrictEqual(vnode, {
         sel: 'div',
@@ -260,7 +260,7 @@ describe('snabbdom', function () {
         elm: undefined,
         text: undefined,
         key: undefined
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})
