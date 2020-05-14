@@ -285,12 +285,22 @@ describe('snabbdom', function () {
       elm = patch(vnode1, vnode2).elm;
       assert.strictEqual(elm.src, 'http://other/');
     });
-    it('removes an elements props', function () {
+    it('removes custom props', function () {
       var vnode1 = h('a', { props: { src: 'http://other/' } });
       var vnode2 = h('a');
       patch(vnode0, vnode1);
       patch(vnode1, vnode2);
       assert.strictEqual(elm.src, undefined);
+    });
+    it('cannot remove native props', function () {
+      var vnode1 = h('a', { props: { href: 'http://example.com/' } });
+      var vnode2 = h('a');
+      var { elm: elm1 } = patch(vnode0, vnode1);
+      if (!(elm1 instanceof HTMLAnchorElement)) throw new Error();
+      assert.strictEqual(elm1.href, 'http://example.com/');
+      var { elm: elm2 } = patch(vnode1, vnode2);
+      if (!(elm2 instanceof HTMLAnchorElement)) throw new Error();
+      assert.strictEqual(elm2.href, 'http://example.com/');
     });
     describe('using toVNode()', function () {
       it('can remove previous children of the root element', function () {
