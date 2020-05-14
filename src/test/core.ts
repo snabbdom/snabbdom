@@ -4,6 +4,7 @@ import shuffle from 'lodash.shuffle'
 import { init } from '../snabbdom'
 import classModule from '../modules/class'
 import propsModule from '../modules/props'
+import styleModule from '../modules/style'
 import eventListenersModule from '../modules/eventlisteners'
 import h from '../h'
 import toVNode from '../tovnode'
@@ -276,6 +277,38 @@ describe('snabbdom', function () {
       elm = patch(vnode1, vnode2).elm
       assert.strictEqual(elm.src, 'http://localhost/')
     })
+    it('can set prop value to `0`', function () {
+      var patch = init([propsModule, styleModule])
+      var view = (scrollTop: number) => h('div',
+        {
+          style: { height: '100px', overflowY: 'scroll' },
+          props: { scrollTop },
+        },
+        [h('div', { style: { height: '200px' } })]
+      )
+      var vnode1 = view(0)
+      var mountPoint = document.body.appendChild(document.createElement('div'))
+      var { elm } = patch(mountPoint, vnode1)
+      if (!(elm instanceof HTMLDivElement)) throw new Error()
+      assert.strictEqual(elm.scrollTop, 0)
+      var vnode2 = view(20)
+      patch(vnode1, vnode2)
+      assert.isAtLeast(elm.scrollTop, 18)
+      assert.isAtMost(elm.scrollTop, 20)
+      var vnode3 = view(0)
+      patch(vnode2, vnode3)
+      assert.strictEqual(elm.scrollTop, 0)
+      document.body.removeChild(mountPoint)
+    })
+    it('can set prop value to empty string', function () {
+      var vnode1 = h('p', { props: { textContent: 'foo' } })
+      var { elm } = patch(vnode0, vnode1)
+      if (!(elm instanceof HTMLParagraphElement)) throw new Error()
+      assert.strictEqual(elm.textContent, 'foo')
+      var vnode2 = h('p', { props: { textContent: '' } })
+      patch(vnode1, vnode2)
+      assert.strictEqual(elm.textContent, '')
+    })
     it('preserves memoized props', function () {
       var cachedProps = { src: 'http://other/' }
       var vnode1 = h('a', { props: cachedProps })
@@ -301,6 +334,15 @@ describe('snabbdom', function () {
       var { elm: elm2 } = patch(vnode1, vnode2)
       if (!(elm2 instanceof HTMLAnchorElement)) throw new Error()
       assert.strictEqual(elm2.href, 'http://example.com/')
+    })
+    it('does not delete custom props', function () {
+      var vnode1 = h('p', { props: { a: 'foo' } })
+      var vnode2 = h('p')
+      const { elm } = patch(vnode0, vnode1)
+      if (!(elm instanceof HTMLParagraphElement)) throw new Error()
+      assert.strictEqual((elm as any).a, 'foo')
+      patch(vnode1, vnode2)
+      assert.strictEqual((elm as any).a, 'foo')
     })
     describe('using toVNode()', function () {
       it('can remove previous children of the root element', function () {
