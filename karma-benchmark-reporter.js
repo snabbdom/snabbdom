@@ -13,7 +13,7 @@ function BenchmarkReporter (baseReporterDecorator) {
     }
   }
   this.onRunComplete = function () {
-    if (resultsPerBrowser.length === 0) return
+    if (resultsPerBrowser.size === 0) return
     this.writeCommonMsg(chalk.underline.bold('\nBENCHMARK (times in seconds):\n'))
     resultsPerBrowser.forEach((results, browserName) => {
       this.writeCommonMsg(`  ${chalk.bold(browserName)}:\n`)
