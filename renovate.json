@@ -4,5 +4,17 @@
   ],
   "node": {
     "supportPolicy": "current"
+  },
+  "minor": {
+    "automerge": false
+  },
+  "patch": {
+    "automerge": false
+  },
+  "pin": {
+    "automerge": false
+  },
+  "lockFileMaintenance": {
+    "automerge": false
   }
 }
