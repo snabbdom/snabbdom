@@ -16,7 +16,11 @@ function updateClass (oldVnode: VNode, vnode: VNode): void {
   klass = klass || {}
 
   for (name in oldClass) {
-    if (!klass[name]) {
+    if (
+      oldClass[name] &&
+      !Object.prototype.hasOwnProperty.call(klass, name)
+    ) {
+      // was `true` and now not provided
       elm.classList.remove(name)
     }
   }
