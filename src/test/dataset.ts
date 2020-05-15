@@ -9,6 +9,12 @@ var patch = init([
 ]);
 
 describe('dataset', function () {
+  before(function () {
+    if (!Object.hasOwnProperty.call(HTMLElement.prototype, 'dataset')) {
+      this.skip();
+    }
+  });
+
   var elm: any, vnode0: any;
   beforeEach(function () {
     elm = document.createElement('div');
