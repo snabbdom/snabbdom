@@ -710,7 +710,7 @@ proper lookup as it is stored internally as a key/value pair inside of
 an object, where `.key` is the key and the value is the
 [`.elm`](#elm--element) property created.
 
-The `.key` property must be unique among sibling elements.
+If provided, the `.key` property must be unique among sibling elements.
 
 For example: `h('div', {key: 1}, [])` will create a virtual node
 object with a `.key` property with the value of `1`.
