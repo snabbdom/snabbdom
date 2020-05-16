@@ -742,7 +742,7 @@ Here are some approaches to building applications with Snabbdom.
   A JavaScript library for rendering html. Tung helps to divide html and JavaScript development.
 * [sprotty](https://github.com/theia-ide/sprotty) - "A web-based diagramming framework" uses Snabbdom.
 * [Mark Text](https://github.com/marktext/marktext) - "Realtime preview Markdown Editor" build on Snabbdom.
-* [puddles](https://github.com/flintinatux/puddles) -
+* [puddles](https://github.com/flintinatux/puddles) - 
   "Tiny vdom app framework. Pure Redux. No boilerplate." - Built with :heart: on Snabbdom.
 * [Backbone.VDOMView](https://github.com/jcbrand/backbone.vdomview) - A [Backbone](http://backbonejs.org/) View with VirtualDOM capability via Snabbdom.
 * [Rosmaro Snabbdom starter](https://github.com/lukaszmakuch/rosmaro-snabbdom-starter) - Building user interfaces with state machines and Snabbdom.
