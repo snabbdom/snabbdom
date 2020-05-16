@@ -583,6 +583,8 @@ arguments.
 
 `thunk(selector, key, renderFn, [stateArguments])`
 
+The `renderFn` is invoked only if the `renderFn` is changed or `[stateArguments]` array length or it's elements are changed.
+
 The `key` is optional. It should be supplied when the `selector` is
 not unique among the thunks siblings. This ensures that the thunk is
 always matched correctly when diffing.
