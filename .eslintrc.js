@@ -18,6 +18,7 @@ module.exports = {
     '@typescript-eslint/no-dynamic-delete': 'off',
     '@typescript-eslint/restrict-plus-operands': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
+    '@typescript-eslint/method-signature-style': 'off',
     'comma-dangle': ['error', 'only-multiline'],
     'no-mixed-operators': 'off',
     '@typescript-eslint/semi': ['error', 'always'],
