@@ -6,6 +6,9 @@ const ip = 'bs-local.com'
 
 const browserstack = require('./browserstack-karma.js')
 
+// https://www.browserstack.com/open-source (text search "parallels")
+const BROWSERSTACK_OPEN_SOURCE_CONCURRENCY = 5
+
 const browsers = ci
   ? Object.keys(browserstack)
   : live
@@ -59,6 +62,6 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: browsers,
     singleRun: !watch && !live,
-    concurrency: ci ? 1 : Infinity,
+    concurrency: ci ? BROWSERSTACK_OPEN_SOURCE_CONCURRENCY : Infinity,
   })
 }
