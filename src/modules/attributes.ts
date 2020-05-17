@@ -1,14 +1,6 @@
 import { VNode, VNodeData } from '../vnode'
 import { Module } from './module'
 
-// because those in TypeScript are too restrictive: https://github.com/Microsoft/TSJS-lib-generator/pull/237
-declare global {
-  interface Element {
-    setAttribute(name: string, value: string | number | boolean): void
-    setAttributeNS(namespaceURI: string, qualifiedName: string, value: string | number | boolean): void
-  }
-}
-
 export type Attrs = Record<string, string | number | boolean>
 
 const xlinkNS = 'http://www.w3.org/1999/xlink'
@@ -37,6 +29,14 @@ function updateAttrs (oldVnode: VNode, vnode: VNode): void {
       } else if (cur === false) {
         elm.removeAttribute(key)
       } else {
+        /**
+         * The following `setAttribute` calls pass type checking
+         * with the `value` parameter possibly a `number` due to
+         * the import of `latest-snabbdom-release` in
+         * `src/benchmark/core.ts`, which re-declares `setAttribute`.
+         * For background, read
+         * https://github.com/snabbdom/snabbdom/issues/615
+         */
         if (key.charCodeAt(0) !== xChar) {
           elm.setAttribute(key, cur)
         } else if (key.charCodeAt(3) === colonChar) {
