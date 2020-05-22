@@ -12,7 +12,7 @@
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
     "@commitlint/travis-cli": "8.3.5",
-    "@types/assert": "1.4.6",
+    "@types/assert": "1.4.7",
     "@types/chai": "4.2.11",
     "@types/faker": "4.1.11",
     "@types/lodash.shuffle": "4.2.6",
