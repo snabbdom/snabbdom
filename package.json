@@ -14,7 +14,7 @@
     "@commitlint/travis-cli": "8.3.5",
     "@types/assert": "1.4.7",
     "@types/chai": "4.2.11",
-    "@types/faker": "4.1.11",
+    "@types/faker": "4.1.12",
     "@types/lodash.shuffle": "4.2.6",
     "@types/mathjs": "6.0.5",
     "@types/mocha": "7.0.2",
