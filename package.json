@@ -26,7 +26,7 @@
     "commitlint-config-awesome": "1.0.4",
     "core-js": "3.6.5",
     "cross-env": "7.0.2",
-    "editorconfig-checker": "3.0.4",
+    "editorconfig-checker": "3.0.5",
     "eslint": "7.0.0",
     "eslint-config-standard-with-typescript": "17.0.0",
     "eslint-plugin-import": "2.20.2",
