@@ -17,6 +17,7 @@ const BENCHMARK_TIMEOUT_MINUTES = 10
 const REQUIRED_PRECISION = 0.02
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const __karma__: {
     info(info: unknown): void
   }
