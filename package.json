@@ -18,7 +18,7 @@
     "@types/lodash.shuffle": "4.2.6",
     "@types/mathjs": "6.0.5",
     "@types/mocha": "7.0.2",
-    "@typescript-eslint/eslint-plugin": "3.0.2",
+    "@typescript-eslint/eslint-plugin": "3.2.0",
     "benchmark": "2.1.4",
     "browserify": "16.5.1",
     "chai": "4.2.0",
