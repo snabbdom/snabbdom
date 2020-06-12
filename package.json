@@ -45,7 +45,7 @@
     "babel-loader": "8.1.0",
     "benchmark": "2.1.4",
     "chai": "4.2.0",
-    "chalk": "4.0.0",
+    "chalk": "4.1.0",
     "commitlint-config-awesome": "1.0.4",
     "core-js": "3.6.5",
     "cross-env": "7.0.2",
