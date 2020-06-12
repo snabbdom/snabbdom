@@ -133,9 +133,7 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
   * [key : string | number](#key--string--number)
 * [Structuring applications](#structuring-applications)
 * [Common errors](#common-errors)
-* [Maintenance policy](#maintenance-policy)
-  * [Pull requests](#pull-requests)
-  * [Releases](#releases)
+* [Opportunity for community feedback](#opportunity-for-community-feedback)
 
 ## Core documentation
 
@@ -800,18 +798,7 @@ var vnode1 = h('div', [
 ]);
 ```
 
-## Maintenance policy
+## Opportunity for community feedback
 
-### Pull requests
-
-| PR scope | Policy |
-| - | - |
-| Maintenance, documentation, configuration, linting, dependencies, bug fixes, etc. | Requires approval from 2 maintainers. In lieu of such within one week, @paldepind or @mightyiam may merge. |
-| More substantial changes | Both @paldepind & @mightyiam must approve. |
-
-### Releases
-
-| Patch level | Authorized maintainers |
-| - | - |
-| Patch and minor | @paldepind, @mightyiam |
-| Major | @paldepind |
+Pull requests that the community may care to provide feedback on should be
+merged after such opportunity of a few days was provided.
