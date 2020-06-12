@@ -31,7 +31,7 @@
     "test": "test"
   },
   "devDependencies": {
-    "@babel/core": "7.9.6",
+    "@babel/core": "7.10.2",
     "@babel/preset-env": "7.9.6",
     "@commitlint/cli": "8.3.5",
     "@commitlint/travis-cli": "8.3.5",
