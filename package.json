@@ -34,7 +34,7 @@
     "@babel/core": "7.10.2",
     "@babel/preset-env": "7.10.2",
     "@commitlint/cli": "8.3.5",
-    "@commitlint/travis-cli": "8.3.5",
+    "@commitlint/travis-cli": "9.0.1",
     "@types/assert": "1.4.7",
     "@types/chai": "4.2.11",
     "@types/faker": "4.1.12",
@@ -46,7 +46,6 @@
     "benchmark": "2.1.4",
     "chai": "4.2.0",
     "chalk": "4.1.0",
-    "commitlint-config-awesome": "1.0.4",
     "core-js": "3.6.5",
     "cross-env": "7.0.2",
     "editorconfig-checker": "3.1.0",
@@ -131,7 +130,7 @@
   "homepage": "https://github.com/paldepind/snabbdom#readme",
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -x @commitlint/config-conventional -E HUSKY_GIT_PARAMS",
+      "commit-msg": "commitlint --config commitlint.config.json -E HUSKY_GIT_PARAMS",
       "pre-commit": "run-s docs check-clean test"
     }
   },

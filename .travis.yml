@@ -3,9 +3,5 @@ language: node_js
 node_js:
   - "v14.4.0"
 script:
-# Disabled because commitlint does not support loading config from ES module or .cjs.
-# And the following does not work, either:
-#  - commitlint-travis -x @commitlint/config-conventional
-# https://github.com/conventional-changelog/commitlint/issues/902
-#  - commitlint-travis
+  - commitlint-travis --config commitlint.config.json
   - run-s test docs check-clean
