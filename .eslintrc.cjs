@@ -1,6 +1,6 @@
 module.exports = {
   extends: 'standard-with-typescript',
-  parserOptions: { project: [ './tsconfig.json', ] },
+  parserOptions: { project: ['./tsconfig.json'] },
   rules: {
     'import/newline-after-import': 'error',
     'max-statements-per-line': 'error',
