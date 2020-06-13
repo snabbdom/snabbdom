@@ -15,12 +15,14 @@
     "subject-full-stop": [2, "never", "."],
     "type-empty": [2, "never"],
     "type-enum": [2, "always", [
+      "auto",
       "ux",
       "dx"
     ]],
     "scope-empty": [2, "never"],
     "scope-enum": [2, "always", [
       "commitlint",
+      "deps",
       "eslint",
       "typescript",
       "vscode"
