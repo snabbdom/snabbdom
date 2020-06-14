@@ -4,6 +4,9 @@
     { "path": "../package/tsconfig.json" }
   ],
   "compilerOptions": {
+    "types": [
+      "mocha"
+    ],
     "strictFunctionTypes": false,
     "target": "ES2015",
     "outDir": "../../build/test",
