@@ -44,7 +44,6 @@
         "src/is.ts",
         "src/jsx-global.ts",
         "src/jsx.ts",
-        "src/snabbdom.bundle.ts",
         "src/snabbdom.ts",
         "src/thunk.ts",
         "src/tovnode.ts",
