@@ -1,15 +1,37 @@
-# Coverage directory used by tools like istanbul
+## Coverage directory used by tools like istanbul
+
 /coverage/
 
-# Dependency directory
-# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
+## Dependency directory
+## https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
+
 /node_modules/
 
-# Package artifacts
+## Package artifacts
+
 /build/package/tsconfig.tsbuildinfo
+
+/build/package/h.d.ts
+/build/package/h.js
+/build/package/h.js.map
 /build/package/helpers/attachto.d.ts
 /build/package/helpers/attachto.js
 /build/package/helpers/attachto.js.map
+/build/package/hooks.d.ts
+/build/package/hooks.js
+/build/package/hooks.js.map
+/build/package/htmldomapi.d.ts
+/build/package/htmldomapi.js
+/build/package/htmldomapi.js.map
+/build/package/is.d.ts
+/build/package/is.js
+/build/package/is.js.map
+/build/package/jsx-global.d.ts
+/build/package/jsx-global.js
+/build/package/jsx-global.js.map
+/build/package/jsx.d.ts
+/build/package/jsx.js
+/build/package/jsx.js.map
 /build/package/modules/attributes.d.ts
 /build/package/modules/attributes.js
 /build/package/modules/attributes.js.map
@@ -34,24 +56,6 @@
 /build/package/modules/style.d.ts
 /build/package/modules/style.js
 /build/package/modules/style.js.map
-/build/package/h.d.ts
-/build/package/h.js
-/build/package/h.js.map
-/build/package/hooks.d.ts
-/build/package/hooks.js
-/build/package/hooks.js.map
-/build/package/htmldomapi.d.ts
-/build/package/htmldomapi.js
-/build/package/htmldomapi.js.map
-/build/package/is.d.ts
-/build/package/is.js
-/build/package/is.js.map
-/build/package/jsx-global.d.ts
-/build/package/jsx-global.js
-/build/package/jsx-global.js.map
-/build/package/jsx.d.ts
-/build/package/jsx.js
-/build/package/jsx.js.map
 /build/package/snabbdom.d.ts
 /build/package/snabbdom.js
 /build/package/snabbdom.js.map
@@ -66,6 +70,7 @@
 /build/package/vnode.js.map
 
 # Test artifacts
+
 /build/test/benchmark/core.js
 /build/test/benchmark/core.js.map
 /build/test/unit/attachto.js

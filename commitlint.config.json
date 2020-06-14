@@ -25,6 +25,7 @@
       "deps",
       "eslint",
       "exports",
+      "format",
       "git",
       "package",
       "relic",
