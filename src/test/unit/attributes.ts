@@ -1,7 +1,7 @@
 import { assert } from 'chai'
-import { init } from '../snabbdom'
-import attributesModule from '../modules/attributes'
-import h from '../h'
+import { init } from '../../package/snabbdom'
+import attributesModule from '../../package/modules/attributes'
+import h from '../../package/h'
 
 var patch = init([
   attributesModule

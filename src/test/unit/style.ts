@@ -1,9 +1,9 @@
 import { assert } from 'chai'
 
-import { init } from '../snabbdom'
-import styleModule from '../modules/style'
-import h from '../h'
-import toVNode from '../tovnode'
+import { init } from '../../package/snabbdom'
+import styleModule from '../../package/modules/style'
+import h from '../../package/h'
+import toVNode from '../../package/tovnode'
 
 var patch = init([
   styleModule

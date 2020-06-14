@@ -1,8 +1,8 @@
 import { assert } from 'chai'
 
-import datasetModule from '../modules/dataset'
-import { init } from '../snabbdom'
-import h from '../h'
+import datasetModule from '../../package/modules/dataset'
+import { init } from '../../package/snabbdom'
+import h from '../../package/h'
 
 var patch = init([
   datasetModule

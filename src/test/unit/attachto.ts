@@ -1,8 +1,8 @@
 import { assert } from 'chai'
-import { init } from '../snabbdom'
-import { RemoveHook } from '../hooks'
-import attachTo from '../helpers/attachto'
-import h from '../h'
+import { init } from '../../package/snabbdom'
+import { RemoveHook } from '../../package/hooks'
+import attachTo from '../../package/helpers/attachto'
+import h from '../../package/h'
 
 var patch = init([])
 

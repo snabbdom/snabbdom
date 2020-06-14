@@ -1,9 +1,9 @@
 import { assert } from 'chai'
 
-import { init } from '../snabbdom'
-import h from '../h'
-import thunk from '../thunk'
-import { VNode } from '../vnode'
+import { init } from '../../package/snabbdom'
+import h from '../../package/h'
+import thunk from '../../package/thunk'
+import { VNode } from '../../package/vnode'
 
 var patch = init([
 ])

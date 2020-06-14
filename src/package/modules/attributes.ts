@@ -29,24 +29,16 @@ function updateAttrs (oldVnode: VNode, vnode: VNode): void {
       } else if (cur === false) {
         elm.removeAttribute(key)
       } else {
-        /**
-         * The following `setAttribute` calls pass type checking
-         * with the `value` parameter possibly a `number` due to
-         * the import of `latest-snabbdom-release` in
-         * `src/benchmark/core.ts`, which re-declares `setAttribute`.
-         * For background, read
-         * https://github.com/snabbdom/snabbdom/issues/615
-         */
         if (key.charCodeAt(0) !== xChar) {
-          elm.setAttribute(key, cur)
+          elm.setAttribute(key, cur as any)
         } else if (key.charCodeAt(3) === colonChar) {
           // Assume xml namespace
-          elm.setAttributeNS(xmlNS, key, cur)
+          elm.setAttributeNS(xmlNS, key, cur as any)
         } else if (key.charCodeAt(5) === colonChar) {
           // Assume xlink namespace
-          elm.setAttributeNS(xlinkNS, key, cur)
+          elm.setAttributeNS(xlinkNS, key, cur as any)
         } else {
-          elm.setAttribute(key, cur)
+          elm.setAttribute(key, cur as any)
         }
       }
     }

@@ -1,10 +1,10 @@
 /* jshint esnext: true */
-import { init } from '../../es/snabbdom.js'
-import clazz from '../../es/modules/class.js'
-import hero from '../../es/modules/hero.js'
-import style from '../../es/modules/style.js'
-import listeners from '../../es/modules/eventlisteners.js'
-import h from '../../es/h.js'
+import { init } from '../../build/package/snabbdom.js'
+import clazz from '../../build/package/modules/class.js'
+import hero from '../../build/package/modules/hero.js'
+import style from '../../build/package/modules/style.js'
+import listeners from '../../build/package/modules/eventlisteners.js'
+import h from '../../build/package/h.js'
 
 var patch = init([clazz, hero, style, listeners])
 
