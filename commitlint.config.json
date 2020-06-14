@@ -25,6 +25,7 @@
       "deps",
       "eslint",
       "exports",
+      "git",
       "typescript",
       "vscode"
     ]]
