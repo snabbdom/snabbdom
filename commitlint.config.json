@@ -26,6 +26,7 @@
       "eslint",
       "exports",
       "git",
+      "package",
       "relic",
       "typescript",
       "vscode"
