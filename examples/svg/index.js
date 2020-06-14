@@ -1,6 +1,6 @@
-import { init } from '../../es/snabbdom.js'
-import attrs from '../../es/modules/attributes.js'
-import h from '../../es/h.js'
+import { init } from '../../build/package/snabbdom.js'
+import attrs from '../../build/package/modules/attributes.js'
+import h from '../../build/package/h.js'
 
 var patch = init([attrs])
 

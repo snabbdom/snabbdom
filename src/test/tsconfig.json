@@ -1,0 +1,25 @@
+{
+  "extends": "tsconfigs/browser-executable",
+  "references": [
+    { "path": "../package/tsconfig.json" }
+  ],
+  "compilerOptions": {
+    "strictFunctionTypes": false,
+    "target": "ES2015",
+    "outDir": "../../build/test",
+    "jsx": "react",
+    "jsxFactory": "jsx"
+  },
+  "files": [
+    "unit/attachto.ts",
+    "unit/attributes.ts",
+    "benchmark/core.ts",
+    "unit/core.ts",
+    "unit/dataset.ts",
+    "unit/eventlisteners.ts",
+    "unit/htmldomapi.ts",
+    "unit/jsx.tsx",
+    "unit/style.ts",
+    "unit/thunk.ts"
+  ]
+}
