@@ -34,7 +34,6 @@
     "@babel/preset-env": "7.10.2",
     "@commitlint/cli": "8.3.5",
     "@commitlint/travis-cli": "9.0.1",
-    "@types/assert": "1.4.7",
     "@types/chai": "4.2.11",
     "@types/faker": "4.1.12",
     "@types/lodash.shuffle": "4.2.6",
