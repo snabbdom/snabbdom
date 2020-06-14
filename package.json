@@ -3,7 +3,6 @@
   "version": "0.7.4",
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
   "type": "module",
-  "module": "es/snabbdom.js",
   "exports": {
     "./helpers/attachto": "./build/package/helpers/attachto.js",
     "./modules/attributes": "./build/package/modules/attributes.js",
