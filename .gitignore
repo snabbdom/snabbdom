@@ -5,7 +5,7 @@
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 /node_modules/
 
-# Built ES modules
+# Package artifacts
 /es/helpers/attachto.d.ts
 /es/helpers/attachto.js
 /es/helpers/attachto.js.map
@@ -33,8 +33,6 @@
 /es/modules/style.d.ts
 /es/modules/style.js
 /es/modules/style.js.map
-/es/benchmark/
-/es/test/
 /es/h.d.ts
 /es/h.js
 /es/h.js.map
@@ -65,3 +63,35 @@
 /es/vnode.d.ts
 /es/vnode.js
 /es/vnode.js.map
+
+# Test artifacts
+/es/benchmark/core.d.ts
+/es/benchmark/core.js
+/es/benchmark/core.js.map
+/es/test/attachto.d.ts
+/es/test/attachto.js
+/es/test/attachto.js.map
+/es/test/attributes.d.ts
+/es/test/attributes.js
+/es/test/attributes.js.map
+/es/test/core.d.ts
+/es/test/core.js
+/es/test/core.js.map
+/es/test/dataset.d.ts
+/es/test/dataset.js
+/es/test/dataset.js.map
+/es/test/eventlisteners.d.ts
+/es/test/eventlisteners.js
+/es/test/eventlisteners.js.map
+/es/test/htmldomapi.d.ts
+/es/test/htmldomapi.js
+/es/test/htmldomapi.js.map
+/es/test/jsx.d.ts
+/es/test/jsx.js
+/es/test/jsx.js.map
+/es/test/style.d.ts
+/es/test/style.js
+/es/test/style.js.map
+/es/test/thunk.d.ts
+/es/test/thunk.js
+/es/test/thunk.js.map
