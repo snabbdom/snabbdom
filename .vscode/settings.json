@@ -3,6 +3,7 @@
   "eslint.validate": [
     "javascript",
     "javascriptreact",
+    "markdown",
     "typescript",
     "typescriptreact",
   ],

@@ -57,7 +57,7 @@ performance, small size and all the features listed below.
 
 ## Example
 
-```javascript
+```mjs
 import { init } from 'snabbdom';
 import clazz from 'snabbdom/modules/class';
 import props from 'snabbdom/modules/props';
@@ -152,7 +152,7 @@ The core exposes only one single function `snabbdom.init`. This `init`
 takes a list of modules and returns a `patch` function that uses the
 specified set of modules.
 
-```javascript
+```mjs
 import clazz from 'snabbdom/modules/class';
 import style from 'snabbdom/modules/style';
 
@@ -176,7 +176,7 @@ vnode. This makes it possible to implement a simpler and more
 performant architecture. This also avoids the creation of a new old
 vnode tree.
 
-```javascript
+```mjs
 patch(oldVnode, newVnode);
 ```
 
@@ -184,7 +184,7 @@ patch(oldVnode, newVnode);
 
 While there is no API specifically for removing a VNode tree from its mount point element, one way of almost achieving this is providing a comment VNode as the second argument to `patch`, such as:
 
-```js
+```mjs
 patch(oldVnode, h('!', { hooks: { post: () => { /* patch complete */ } } }))
 ```
 
@@ -196,7 +196,7 @@ It is recommended that you use `snabbdom/h` to create vnodes. `h` accepts a
 tag/selector as a string, an optional data object and an optional string or
 array of children.
 
-```javascript
+```mjs
 import h from 'snabbdom/h';
 var vnode = h('div', {style: {color: '#000'}}, [
   h('h1', 'Headline'),
@@ -209,7 +209,7 @@ var vnode = h('div', {style: {color: '#000'}}, [
 Converts a DOM node into a virtual node. Especially good for patching over an pre-existing, 
 server-side generated content.
 
-```javascript
+```mjs
 import { init } from 'snabbdom';
 import clazz         from 'snabbdom/modules/class';
 import props         from 'snabbdom/modules/props';
@@ -266,7 +266,7 @@ elements: `init`, `create`, `insert`, `prepatch`, `update`,
 To use hooks, pass them as an object to `hook` field of the data
 object argument.
 
-```javascript
+```mjs
 h('div.row', {
   key: movie.rank,
   hook: {
@@ -312,7 +312,7 @@ from the DOM or if its parent is being removed from the DOM.
 To see the difference between this hook and the `remove` hook,
 consider an example.
 
-```js
+```mjs
 var vnode1 = h('div', [h('div', [h('span', 'Hello')])]);
 var vnode2 = h('div', []);
 patch(container, vnode1);
@@ -332,7 +332,7 @@ animate the disappearance of the removed element's children.
 
 Modules works by registering global listeners for [hooks](#hooks). A module is simply a dictionary mapping hook names to functions.
 
-```javascript
+```mjs
 var myModule = {
   create: function(oldVnode, vnode) {
     // invoked whenever a new virtual node is created
@@ -358,7 +358,7 @@ elements. It expects an object in the `class` data property. The
 object should map class names to booleans that indicates whether or
 not the class should stay or go on the vnode.
 
-```javascript
+```mjs
 h('a', {class: {active: true, selected: false}}, 'Toggle');
 ```
 
@@ -366,7 +366,7 @@ h('a', {class: {active: true, selected: false}}, 'Toggle');
 
 Allows you to set properties on DOM elements.
 
-```javascript
+```mjs
 h('a', {props: {href: '/foo'}}, 'Go to Foo');
 ```
 
@@ -382,7 +382,7 @@ instead. Perhaps via [the dataset module](#the-dataset-module).
 
 Same as props, but set attributes instead of properties on DOM elements.
 
-```javascript
+```mjs
 h('a', {attrs: {href: '/foo'}}, 'Go to Foo');
 ```
 
@@ -405,7 +405,7 @@ the DOM element.
 
 Allows you to set custom data attributes (`data-*`) on DOM elements. These can then be accessed with the [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) property.
 
-```javascript
+```mjs
 h('button', {dataset: {action: 'reset'}}, 'Reset');
 ```
 
@@ -414,7 +414,7 @@ h('button', {dataset: {action: 'reset'}}, 'Reset');
 The style module is for making your HTML look slick and animate smoothly. At
 its core it allows you to set CSS properties on elements.
 
-```javascript
+```mjs
 h('span', {
   style: {border: '1px solid #bada55', color: '#c0ffee', fontWeight: 'bold'}
 }, 'Say my name, and every colour illuminates');
@@ -424,7 +424,7 @@ Note that the style module does not remove style attributes if they
 are removed as properties from the style object. To remove a style,
 you should instead set it to the empty string.
 
-```javascript
+```mjs
 h('div', {
   style: {position: shouldFollow ? 'fixed' : ''}
 }, 'I, I follow, I follow you');
@@ -435,7 +435,7 @@ h('div', {
 CSS custom properties (aka CSS variables) are supported, they must be prefixed
 with `--`
 
-```javascript
+```mjs
 h('div', {
   style: {'--warnColor': 'yellow'}
 }, 'Warning');
@@ -446,7 +446,7 @@ h('div', {
 You can specify properties as being delayed. Whenever these properties
 change, the change is not applied until after the next frame.
 
-```javascript
+```mjs
 h('span', {
   style: {opacity: '0', transition: 'opacity 1s', delayed: {opacity: '1'}}
 }, 'Imma fade right in!');
@@ -461,7 +461,7 @@ is about to be removed from the DOM. The applied styles should be
 animated with CSS transitions. Only once all the styles are done
 animating will the element be removed from the DOM.
 
-```javascript
+```mjs
 h('span', {
   style: {opacity: '1', transition: 'opacity 1s',
           remove: {opacity: '0'}}
@@ -472,7 +472,7 @@ This makes it easy to declaratively animate the removal of elements.
 
 #### Set properties on `destroy`
 
-```javascript
+```mjs
 h('span', {
   style: {opacity: '1', transition: 'opacity 1s',
           destroy: {opacity: '0'}}
@@ -489,7 +489,7 @@ object at `on` with a property corresponding to the name of the event
 you want to listen to. The function will be called when the event
 happens and will be passed the event object that belongs to it.
 
-```javascript
+```mjs
 function clickHandler(ev) { console.log('got clicked'); }
 h('div', {on: {click: clickHandler}});
 ```
@@ -507,7 +507,7 @@ express that by supplying an array at the named event property. The
 first element in the array should be a function that will be invoked
 with the value in the second element once the event occurs.
 
-```javascript
+```mjs
 function clickHandler(number) { console.log('button ' + number + ' was clicked!'); }
 h('div', [
   h('a', {on: {click: [clickHandler, 1]}}),
@@ -518,7 +518,7 @@ h('div', [
 
 Each handler is called not only with the given arguments but also with the current event and vnode appended to the argument list. It also supports using multiple listeners per event by specifying an array of handlers:
 
-```javascript
+```mjs
 stopPropagation = function(ev) { ev.stopPropagation() }
 sendValue = function(func, ev, vnode) { func(vnode.elm.value) }
 
@@ -536,7 +536,7 @@ are allowed to mutate the given data).
 
 In particular, you should **not** do something like this:
 
-```javascript
+```mjs
 // Does not work
 var sharedHandler = {
   change: function(e){ console.log('you chose: ' + e.target.value); }
@@ -554,7 +554,7 @@ h('div', [
 For many such cases, you can use array-based handlers instead (described above).
 Alternatively, simply make sure each node is passed unique `on` values:
 
-```javascript
+```mjs
 // Works
 var sharedHandler = function(e){ console.log('you chose: ' + e.target.value); };
 h('div', [
@@ -573,7 +573,7 @@ SVG just works when using the `h` function for creating virtual
 nodes. SVG elements are automatically created with the appropriate
 namespaces.
 
-```javascript
+```mjs
 var vnode = h('div', [
   h('svg', {attrs: {width: 100, height: 100}}, [
     h('circle', {attrs: {cx: 50, cy: 50, r: 40, stroke: 'green', 'stroke-width': 4, fill: 'yellow'}})
@@ -609,7 +609,7 @@ dealing with immutable data.
 
 Consider a simple function for creating a virtual node based on a number.
 
-```js
+```mjs
 function numberView(n) {
   return h('div', 'Number is: ' + n);
 }
@@ -620,7 +620,7 @@ then creating the virtual DOM node and patching it against the old
 vnode is wasteful. To avoid the overhead we can use the `thunk` helper
 function.
 
-```js
+```mjs
 function render(state) {
   return thunk('num', numberView, [state.number]);
 }
@@ -665,12 +665,12 @@ The data object is the (optional) second parameter to [`h()`](#snabbdomh)
 
 For example `h('div', {props: {className: 'container'}}, [...])` will produce a virtual node with
 
-```js
-{
+```mjs
+({
   "props": {
     className: "container"
   }
-}
+})
 ```
 
 as its `.data` object.
@@ -685,7 +685,7 @@ the parent DOM node upon creation.
 For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will
 create a virtual node with
 
-```js
+```mjs
 [
   {
     sel: 'h1',
@@ -778,7 +778,7 @@ Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node':
 
 The reason for this error is reusing of vnodes between patches (see code example), snabbdom stores actual dom nodes inside the virtual dom nodes passed to it as performance improvement, so reusing nodes between patches is not supported.
 
-```js
+```mjs
 var sharedNode = h('div', {}, 'Selected');
 var vnode1 = h('div', [
   h('div', {}, ['One']),
@@ -796,7 +796,7 @@ patch(vnode1, vnode2);
 
 You can fix this issue by creating a shallow copy of the object (here with object spread syntax):
 
-```js
+```mjs
 var vnode2 = h('div', [
   h('div', {}, ['One']),
   h('div', {}, [{ ...sharedNode }]),
@@ -806,7 +806,7 @@ var vnode2 = h('div', [
 
 Another solution would be to wrap shared vnodes in a factory function:
 
-```js
+```mjs
 var sharedNode = () => h('div', {}, 'Selected');
 var vnode1 = h('div', [
   h('div', {}, ['One']),
