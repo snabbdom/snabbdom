@@ -697,7 +697,7 @@ For example `h('div', {props: {className: 'container'}}, [...])` will produce a 
 
 ```mjs
 ({
-  "props": {
+  props: {
     className: "container"
   }
 })
