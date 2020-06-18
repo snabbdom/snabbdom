@@ -58,7 +58,7 @@ performance, small size and all the features listed below.
 ## Example
 
 ```mjs
-import { init } from 'snabbdom'
+import { init } from 'snabbdom/init'
 import { classModule } from 'snabbdom/modules/class'
 import { propsModule } from 'snabbdom/modules/props'
 import { styleModule } from 'snabbdom/modules/style'
@@ -102,7 +102,7 @@ patch(vnode, newVnode) // Snabbdom efficiently updates the old view to the new s
 ## Table of contents
 
 * [Core documentation](#core-documentation)
-  * [`snabbdom.init`](#snabbdominit)
+  * [`init`](#init)
   * [`patch`](#patch)
     * [Unmounting](#unmounting)
   * [`snabbdom/h`](#snabbdomh)
@@ -146,9 +146,9 @@ The core of Snabbdom provides only the most essential functionality.
 It is designed to be as simple as possible while still being fast and
 extendable.
 
-### `snabbdom.init`
+### `init`
 
-The core exposes only one single function `snabbdom.init`. This `init`
+The core exposes only one single function `init`. This `init`
 takes a list of modules and returns a `patch` function that uses the
 specified set of modules.
 
@@ -211,7 +211,7 @@ Converts a DOM node into a virtual node. Especially good for patching over an pr
 server-side generated content.
 
 ```mjs
-import { init } from 'snabbdom'
+import { init } from 'snabbdom/init'
 import { classModule } from 'snabbdom/modules/class'
 import { propsModule } from 'snabbdom/modules/props'
 import { styleModule } from 'snabbdom/modules/style'

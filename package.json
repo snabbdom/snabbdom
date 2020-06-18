@@ -4,7 +4,7 @@
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
   "type": "module",
   "exports": {
-    "./": "./build/package/snabbdom.js",
+    "./init": "./build/package/init.js",
     "./h": "./build/package/h.js",
     "./helpers/attachto": "./build/package/helpers/attachto.js",
     "./hooks": "./build/package/hooks.js",

@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import shuffle from 'lodash.shuffle'
 
-import { init } from '../../package/snabbdom'
+import { init } from '../../package/init'
 import { classModule } from '../../package/modules/class'
 import { propsModule } from '../../package/modules/props'
 import { styleModule } from '../../package/modules/style'

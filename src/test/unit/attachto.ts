@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { init } from '../../package/snabbdom'
+import { init } from '../../package/init'
 import { RemoveHook } from '../../package/hooks'
 import { attachTo } from '../../package/helpers/attachto'
 import { h } from '../../package/h'

@@ -22,6 +22,7 @@
     "helpers/attachto.ts",
     "hooks.ts",
     "htmldomapi.ts",
+    "init.ts",
     "is.ts",
     "jsx-global.ts",
     "jsx.ts",
@@ -33,7 +34,6 @@
     "modules/module.ts",
     "modules/props.ts",
     "modules/style.ts",
-    "snabbdom.ts",
     "thunk.ts",
     "tovnode.ts",
     "vnode.ts"
