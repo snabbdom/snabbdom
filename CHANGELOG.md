@@ -84,3 +84,181 @@ extensions.
 * **typescript:** do not redeclare Element.setAttribute(NS) ([0620b5e](https://github.com/paldepind/snabbdom/commit/0620b5eda03cd124d4bd743660cb376b0d75a0a3)), closes [#615](https://github.com/paldepind/snabbdom/issues/615)
 * do not provide UMD bundles ([8e24bbf](https://github.com/paldepind/snabbdom/commit/8e24bbf016ff5cc0afb2759ec2e4b745921ee453)), closes [#498](https://github.com/paldepind/snabbdom/issues/498) [#514](https://github.com/paldepind/snabbdom/issues/514) [#481](https://github.com/paldepind/snabbdom/issues/481)
 * only esm and correct import paths ([dad44f0](https://github.com/paldepind/snabbdom/commit/dad44f0d632d344ca13ee8430d941c26a53d5c2a)), closes [#516](https://github.com/paldepind/snabbdom/issues/516) [#437](https://github.com/paldepind/snabbdom/issues/437) [#263](https://github.com/paldepind/snabbdom/issues/263)
+
+## [v0.7.2] - 2018-09-02
+
+## Bugfixes
+
+- Improvements to TypeScript types #364. Thanks to @gfmio.
+- In some cases and browsers the style module would cause elements to not be removed correctly #367. Thanks to @jvanbruegge for fixing this tricky bug.
+    
+## [v0.7.0] - 2017-07-27
+
+## Breaking change
+
+The way Snabbdom handles boolean attributes in the attributes module has been changed. Snabbdom no longer maintains a list of known boolean attributes. Not relying on such a list means that custom boolean attributes are supported, that performance is slightly better, and that the list doesn't have to be kept up to date.
+
+Whether or not to set a boolean attribute is now determined by looking at the value specified for the attribute. If the value is a boolean (i.e. strictly equal to `true` or `false`) it will be handled as a boolean attribute. If you're currently setting boolean attributes with booleans then this change does not affect you.
+
+```js
+h("div", {
+  attrs: {
+    foo: true // will be set a boolean attribute since `true` is a boolean
+    bar: "baz" // will set a normal attribute
+  }
+});
+```
+
+The example above will result in the HTML: `<div foo bar="baz" />`. Even if `bar` is actually a boolean attribute. So for instance `h("input", { attrs: { required: 12 } })` will no longer set a boolean attribute correctly.
+
+Previously `h("input", { attrs: { required: 0 } })` would result in the HTML `<input>` since `required` was a know boolean attribute and `0` is falsey. Per the new behavior the HTML will be `<input required="0">`. To accomidate for the change always give boolean values for boolean attributes.
+
+## Bugfixes
+- `toVNode` now handles `DocumentFragment` which makes it possible to patch into a fragment. #320. Thanks to @staltz.
+- Custom boolean attributes are handled correctly. #314. Thanks to @caridy.
+- Type improvement. `VNode` key property can be `undefined`  #290. Thanks to @yarom82.
+- Data attributes are checked for existence before deleting. Old behavior caused error in Safari. #313. Thanks to @FeliciousX.
+
+## Performance improvements
+
+- New handling of boolean attributes. #314. Thanks to @caridy.
+    
+## [v0.6.9] - 2017-05-19
+
+## Bug fixes
+
+- Fix style delayed and remove to be optional in TypeScript, https://github.com/snabbdom/snabbdom/issues/295
+    
+## [v0.6.8] - 2017-05-16
+
+## Bug fixes
+
+- Fix error when class is set by vdom selector in SVG, https://github.com/snabbdom/snabbdom/issues/217. Thanks to @caesarsol 
+- Fix hyperscript to support undefined or null children in TypeScript, https://github.com/snabbdom/snabbdom/issues/226. Thanks to @ornicar 
+- Fix thunk function so it is not called redundantly, https://github.com/snabbdom/snabbdom/pull/273. Thanks to @caesarsol 
+- Improve TypeScript types of VNode props, https://github.com/snabbdom/snabbdom/issues/264 and https://github.com/snabbdom/snabbdom/issues/264. Thanks to @mightyiam 
+- Fix toVNode() for comment nodes, lacking some fields, https://github.com/snabbdom/snabbdom/pull/266. Thanks to @staltz
+
+## Performance improvements
+
+- Improvement for attribute patching, https://github.com/snabbdom/snabbdom/issues/257. Thanks to @diervo 
+    
+## [v0.6.6] - 2017-03-07
+
+## Bug fixes
+- The attributes module sets boolean attributes correctly according to the specificaiton. https://github.com/snabbdom/snabbdom/issues/254. Thanks to @PerWiklander for reporting the bug.
+    
+## [v0.6.5] - 2017-02-25
+
+This is a patch version with a few bug fixes.
+
+## Bug fixes
+- Fix `toVNode()` to handle text nodes correctly, https://github.com/snabbdom/snabbdom/issues/252. Thanks to @Steelfish 
+- Fix dataset module to support old browsers, such as IE10. Thanks @staltz
+- Fix "create element" workflow to align with "update element" workflow, https://github.com/snabbdom/snabbdom/pull/234. Thanks @caridy 
+
+    
+## [v0.6.4] - 2017-02-09
+
+This version adds some features such as support for comment nodes and better server-side/client-side rendering collaboration, besides some bug fixes.
+
+## New features
+
+### Add ability to create comment nodes. https://github.com/snabbdom/snabbdom/issues/142 Thanks to @pedrosland
+
+Example:
+
+``` js
+h('!', 'Will show as a comment')
+```
+
+will be rendered on the DOM as
+
+``` html
+<!-- Will show as a comment -->
+```
+
+### Introduce `toVNode()` to reconstruct root element as vnode. https://github.com/snabbdom/snabbdom/issues/167 Thanks to @staltz
+
+Useful for client-side rendering over existing HTML that was rendered server-side with snabbdom.
+
+Example:
+
+``` js
+import {toVNode} from 'snabbdom/tovnode'
+// ...
+patch(toVNode(element), vnode)
+```
+
+Will deep-convert the `element` to a VNode, this way allowing existing HTML to not be ignored by the patch process.
+
+## Bug fixes
+- Fix compatibility issue of String.prototype.startsWith in the Style Module. https://github.com/snabbdom/snabbdom/pull/228 Thanks to @zhulongzheng 
+- Support for `null`/`undefined` children without crashing. https://github.com/snabbdom/snabbdom/issues/226 Thanks to @nunocastromartins 
+
+    
+## [v0.6.3] - 2017-01-16
+
+## Bugfixes
+- Fix the export of the `Module` interface for TypeScript projects depending on snabbdom. 
+
+    
+## [v0.6.2] - 2017-01-16
+
+## Bugfixes
+- Fix the export of the `Hooks` interface for TypeScript projects depending on snabbdom. 
+
+    
+## [v0.6.1] - 2017-01-05
+
+The biggest change in this release is that the Snabbdom source code has been ported to TypeScript. The work has been primarily done by @staltz. This brings much improved support for using Snabbdom in TypeScript projects.
+
+**Note**: This release contains breaking changes. See below.
+
+## New features
+- Complete TypeScript support. Thanks to @staltz.
+- Support for CSS variables. #195. Thanks to @jlesquembre.
+- Allow `h(sel, data, node)` and `h(sel, node)` shortcut notations in the `h` function. #196. That is, instead of `h('div', [child])` one can now do `h('div', child)`. Thanks to @AlexGalays.
+
+## Bugfixes
+- Fix custom element creation when tag name begins with 'svg'. #213. Thanks to @tdumitrescu.
+- Fix bug related to updating one child with same key but different selector. #188. Thanks to @zhulongzheng.
+- Strings can be used as children inside SVG elements. #208. Thanks to @jbucaran and @jbucaran.
+- Use `parentNode` fixing bug in IE 11. #210. Thanks to @aronallen.
+
+## Breaking changes
+
+The TypeScript rewrite uses the `import` and `export` features introduced in ECMAScript 2015. Unfortunately the ES imports have no analogy to the CommonJS pattern of setting `module.exports`. This means that the Snabbdom modules that previously used this feature now have to be imported in a slightly different way.
+
+``` js
+var h = require("snabbdom/h"); // The old way
+var h = require("snabbdom/h").h; // The new way
+var h = require("snabbdom/h").default; // Alternative new way
+var {h} = require("snabbdom/h"); // Using destructuring
+```
+
+    
+## [v0.6.0] - 2017-01-05
+
+Deprecated. Use [version 0.6.1](https://github.com/snabbdom/snabbdom/releases/tag/v0.6.1) instead. 
+
+
+## v0.5.0 - 2016-05-16
+
+## Breaking change
+
+This release contains a new thunk implementation that solves many issues with the old thunk implementation. The thunk API has changed slightly. Please see the [thunks](https://github.com/paldepind/snabbdom#thunks) section in the readme.
+
+
+[Unreleased]: https://github.com/snabbdom/snabbdom/compare/v0.7.2...HEAD
+[v0.7.2]: https://github.com/snabbdom/snabbdom/compare/v0.7.0...v0.7.2
+[v0.7.0]: https://github.com/snabbdom/snabbdom/compare/v0.6.9...v0.7.0
+[v0.6.9]: https://github.com/snabbdom/snabbdom/compare/v0.6.8...v0.6.9
+[v0.6.8]: https://github.com/snabbdom/snabbdom/compare/v0.6.6...v0.6.8
+[v0.6.6]: https://github.com/snabbdom/snabbdom/compare/v0.6.5...v0.6.6
+[v0.6.5]: https://github.com/snabbdom/snabbdom/compare/v0.6.4...v0.6.5
+[v0.6.4]: https://github.com/snabbdom/snabbdom/compare/v0.6.3...v0.6.4
+[v0.6.3]: https://github.com/snabbdom/snabbdom/compare/v0.6.2...v0.6.3
+[v0.6.2]: https://github.com/snabbdom/snabbdom/compare/v0.6.1...v0.6.2
+[v0.6.1]: https://github.com/snabbdom/snabbdom/compare/v0.6.0...v0.6.1
+[v0.6.0]: https://github.com/snabbdom/snabbdom/compare/v0.5.0...v0.6.0
