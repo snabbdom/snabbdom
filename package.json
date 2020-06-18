@@ -49,6 +49,7 @@
     "eslint": "7.2.0",
     "eslint-config-standard-with-typescript": "18.0.2",
     "eslint-plugin-import": "2.21.2",
+    "eslint-plugin-markdown": "2.0.0-alpha.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
@@ -81,7 +82,7 @@
   "scripts": {
     "docs": "remark . --output",
     "check-clean": "git diff --exit-code",
-    "lint:js": "eslint --ext .ts,.tsx,.cjs --ignore-path .gitignore .",
+    "lint:js": "eslint --ext .ts,.tsx,.cjs,.md,.mjs --ignore-path .gitignore .",
     "lint:editorconfig": "editorconfig-checker",
     "lint": "run-s lint:editorconfig lint:js",
     "unit": "cross-env FILES_PATTERN=\"build/test/unit/**/*.js\" karma start karma.conf.cjs",
