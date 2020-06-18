@@ -20,8 +20,6 @@ module.exports = {
         'no-undef': 'off',
         'no-unused-expressions': 'off',
         'no-unused-vars': 'off',
-        'object-curly-newline': 'off',
-        'object-property-newline': 'off',
         'quote-props': 'off',
         'space-before-blocks': 'off',
         'space-before-function-paren': 'off',
