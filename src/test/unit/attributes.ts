@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { init } from '../../package/snabbdom'
+import { init } from '../../package/init'
 import { attributesModule } from '../../package/modules/attributes'
 import { h } from '../../package/h'
 

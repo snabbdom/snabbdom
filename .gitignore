@@ -23,6 +23,9 @@
 /build/package/htmldomapi.d.ts
 /build/package/htmldomapi.js
 /build/package/htmldomapi.js.map
+/build/package/init.d.ts
+/build/package/init.js
+/build/package/init.js.map
 /build/package/is.d.ts
 /build/package/is.js
 /build/package/is.js.map
@@ -56,9 +59,6 @@
 /build/package/modules/style.d.ts
 /build/package/modules/style.js
 /build/package/modules/style.js.map
-/build/package/snabbdom.d.ts
-/build/package/snabbdom.js
-/build/package/snabbdom.js.map
 /build/package/thunk.d.ts
 /build/package/thunk.js
 /build/package/thunk.js.map
