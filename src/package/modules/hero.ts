@@ -180,4 +180,3 @@ function post () {
 }
 
 export const heroModule: Module = { pre, create, destroy, post }
-export default heroModule

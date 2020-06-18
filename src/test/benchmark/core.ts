@@ -1,7 +1,7 @@
 import 'core-js/stable/array/fill'
 import faker from 'faker'
 import { VNode } from '../../package/vnode'
-import h from '../../package/h'
+import { h } from '../../package/h'
 import { init as curInit } from '../../package/snabbdom'
 import { init as refInit } from 'latest-snabbdom-release'
 import { assert } from 'chai'

@@ -33,4 +33,3 @@ function updateClass (oldVnode: VNode, vnode: VNode): void {
 }
 
 export const classModule: Module = { create: updateClass, update: updateClass }
-export default classModule

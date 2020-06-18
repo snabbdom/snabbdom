@@ -62,4 +62,3 @@ export function attachTo (target: Element, vnode: VNode): VNode {
   hook.destroy = destroy
   return vnode
 };
-export default attachTo

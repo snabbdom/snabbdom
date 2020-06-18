@@ -1,7 +1,7 @@
 import { Module } from './modules/module'
-import vnode, { VNode } from './vnode'
+import { vnode, VNode } from './vnode'
 import * as is from './is'
-import htmlDomApi, { DOMAPI } from './htmldomapi'
+import { htmlDomApi, DOMAPI } from './htmldomapi'
 
 type NonUndefined<T> = T extends undefined ? never : T
 

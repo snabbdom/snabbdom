@@ -62,5 +62,3 @@ export const thunk = function thunk (sel: string, key?: any, fn?: any, args?: an
     args: args
   })
 } as ThunkFn
-
-export default thunk

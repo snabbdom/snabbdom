@@ -59,17 +59,17 @@ performance, small size and all the features listed below.
 
 ```mjs
 import { init } from 'snabbdom'
-import clazz from 'snabbdom/modules/class'
-import props from 'snabbdom/modules/props'
-import style from 'snabbdom/modules/style'
-import listeners from 'snabbdom/modules/eventlisteners'
-import h from 'snabbdom/h' // helper function for creating vnodes
+import { classModule } from 'snabbdom/modules/class'
+import { propsModule } from 'snabbdom/modules/props'
+import { styleModule } from 'snabbdom/modules/style'
+import { eventListenersModule } from 'snabbdom/modules/eventlisteners'
+import { h } from 'snabbdom/h' // helper function for creating vnodes
 
 var patch = init([ // Init patch function with chosen modules
-  clazz, // makes it easy to toggle classes
-  props, // for setting properties on DOM elements
-  style, // handles styling on elements with support for animations
-  listeners, // attaches event listeners
+  classModule, // makes it easy to toggle classes
+  propsModule, // for setting properties on DOM elements
+  styleModule, // handles styling on elements with support for animations
+  eventListenersModule, // attaches event listeners
 ])
 
 var container = document.getElementById('container')
@@ -153,10 +153,10 @@ takes a list of modules and returns a `patch` function that uses the
 specified set of modules.
 
 ```mjs
-import clazz from 'snabbdom/modules/class'
-import style from 'snabbdom/modules/style'
+import { classModule } from 'snabbdom/modules/class'
+import { styleModule } from 'snabbdom/modules/style'
 
-var patch = init([clazz, style])
+var patch = init([classModule, styleModule])
 ```
 
 ### `patch`
@@ -197,7 +197,7 @@ tag/selector as a string, an optional data object and an optional string or
 array of children.
 
 ```mjs
-import h from 'snabbdom/h'
+import { h } from 'snabbdom/h'
 
 var vnode = h('div', { style: { color: '#000' } }, [
   h('h1', 'Headline'),
@@ -212,18 +212,18 @@ server-side generated content.
 
 ```mjs
 import { init } from 'snabbdom'
-import clazz from 'snabbdom/modules/class'
-import props from 'snabbdom/modules/props'
-import style from 'snabbdom/modules/style'
-import listeners from 'snabbdom/modules/eventlisteners'
-import h from 'snabbdom/h' // helper function for creating vnodes
-import toVNode from 'snabbdom/tovnode'
+import { classModule } from 'snabbdom/modules/class'
+import { propsModule } from 'snabbdom/modules/props'
+import { styleModule } from 'snabbdom/modules/style'
+import { eventListenersModule } from 'snabbdom/modules/eventlisteners'
+import { h } from 'snabbdom/h' // helper function for creating vnodes
+import { toVNode } from 'snabbdom/tovnode'
 
 var patch = init([ // Init patch function with chosen modules
-  clazz, // makes it easy to toggle classes
-  props, // for setting properties on DOM elements
-  style, // handles styling on elements with support for animations
-  listeners, // attaches event listeners
+  classModule, // makes it easy to toggle classes
+  propsModule, // for setting properties on DOM elements
+  styleModule, // handles styling on elements with support for animations
+  eventListenersModule, // attaches event listeners
 ])
 
 var newVNode = h('div', { style: { color: '#000' } }, [
