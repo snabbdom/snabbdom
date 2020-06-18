@@ -54,4 +54,3 @@ function updateAttrs (oldVnode: VNode, vnode: VNode): void {
 }
 
 export const attributesModule: Module = { create: updateAttrs, update: updateAttrs }
-export default attributesModule

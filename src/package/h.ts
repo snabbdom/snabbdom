@@ -60,4 +60,3 @@ export function h (sel: any, b?: any, c?: any): VNode {
   }
   return vnode(sel, data, children, text, undefined)
 };
-export default h
