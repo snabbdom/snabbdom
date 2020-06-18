@@ -58,37 +58,37 @@ performance, small size and all the features listed below.
 ## Example
 
 ```mjs
-import { init } from 'snabbdom';
-import clazz from 'snabbdom/modules/class';
-import props from 'snabbdom/modules/props';
-import style from 'snabbdom/modules/style';
-import listeners from 'snabbdom/modules/eventlisteners';
-import h from 'snabbdom/h'; // helper function for creating vnodes
+import { init } from 'snabbdom'
+import clazz from 'snabbdom/modules/class'
+import props from 'snabbdom/modules/props'
+import style from 'snabbdom/modules/style'
+import listeners from 'snabbdom/modules/eventlisteners'
+import h from 'snabbdom/h' // helper function for creating vnodes
 
 var patch = init([ // Init patch function with chosen modules
   clazz, // makes it easy to toggle classes
   props, // for setting properties on DOM elements
   style, // handles styling on elements with support for animations
   listeners, // attaches event listeners
-]);
+])
 
-var container = document.getElementById('container');
+var container = document.getElementById('container')
 
 var vnode = h('div#container.two.classes', { on: { click: someFn } }, [
   h('span', { style: { fontWeight: 'bold' } }, 'This is bold'),
   ' and this is just normal text',
   h('a', { props: { href: '/foo' } }, 'I\'ll take you places!')
-]);
+])
 // Patch into empty DOM element – this modifies the DOM as a side effect
-patch(container, vnode);
+patch(container, vnode)
 
 var newVnode = h('div#container.two.classes', { on: { click: anotherEventHandler } }, [
   h('span', { style: { fontWeight: 'normal', fontStyle: 'italic' } }, 'This is now italic type'),
   ' and this is still just normal text',
   h('a', { props: { href: '/bar' } }, 'I\'ll take you places!')
-]);
+])
 // Second `patch` invocation
-patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new state
+patch(vnode, newVnode) // Snabbdom efficiently updates the old view to the new state
 ```
 
 ## More examples
@@ -153,10 +153,10 @@ takes a list of modules and returns a `patch` function that uses the
 specified set of modules.
 
 ```mjs
-import clazz from 'snabbdom/modules/class';
-import style from 'snabbdom/modules/style';
+import clazz from 'snabbdom/modules/class'
+import style from 'snabbdom/modules/style'
 
-var patch = init([clazz, style]);
+var patch = init([clazz, style])
 ```
 
 ### `patch`
@@ -177,7 +177,7 @@ performant architecture. This also avoids the creation of a new old
 vnode tree.
 
 ```mjs
-patch(oldVnode, newVnode);
+patch(oldVnode, newVnode)
 ```
 
 #### Unmounting
@@ -197,12 +197,12 @@ tag/selector as a string, an optional data object and an optional string or
 array of children.
 
 ```mjs
-import h from 'snabbdom/h';
+import h from 'snabbdom/h'
 
 var vnode = h('div', { style: { color: '#000' } }, [
   h('h1', 'Headline'),
   h('p', 'A paragraph'),
-]);
+])
 ```
 
 ### `snabbdom/tovnode`
@@ -211,25 +211,25 @@ Converts a DOM node into a virtual node. Especially good for patching over an pr
 server-side generated content.
 
 ```mjs
-import { init } from 'snabbdom';
-import clazz from 'snabbdom/modules/class';
-import props from 'snabbdom/modules/props';
-import style from 'snabbdom/modules/style';
-import listeners from 'snabbdom/modules/eventlisteners';
-import h from 'snabbdom/h'; // helper function for creating vnodes
-import toVNode from 'snabbdom/tovnode';
+import { init } from 'snabbdom'
+import clazz from 'snabbdom/modules/class'
+import props from 'snabbdom/modules/props'
+import style from 'snabbdom/modules/style'
+import listeners from 'snabbdom/modules/eventlisteners'
+import h from 'snabbdom/h' // helper function for creating vnodes
+import toVNode from 'snabbdom/tovnode'
 
 var patch = init([ // Init patch function with chosen modules
   clazz, // makes it easy to toggle classes
   props, // for setting properties on DOM elements
   style, // handles styling on elements with support for animations
   listeners, // attaches event listeners
-]);
+])
 
 var newVNode = h('div', { style: { color: '#000' } }, [
   h('h1', 'Headline'),
   h('p', 'A paragraph'),
-]);
+])
 
 patch(toVNode(document.querySelector('.container')), newVNode)
 ```
@@ -272,9 +272,9 @@ object argument.
 h('div.row', {
   key: movie.rank,
   hook: {
-    insert: (vnode) => { movie.elmHeight = vnode.elm.offsetHeight; }
+    insert: (vnode) => { movie.elmHeight = vnode.elm.offsetHeight }
   }
-});
+})
 ```
 
 #### The `init` hook
@@ -315,10 +315,10 @@ To see the difference between this hook and the `remove` hook,
 consider an example.
 
 ```mjs
-var vnode1 = h('div', [h('div', [h('span', 'Hello')])]);
-var vnode2 = h('div', []);
-patch(container, vnode1);
-patch(vnode1, vnode2);
+var vnode1 = h('div', [h('div', [h('span', 'Hello')])])
+var vnode2 = h('div', [])
+patch(container, vnode1)
+patch(vnode1, vnode2)
 ```
 
 Here `destroy` is triggered for both the inner `div` element _and_ the
@@ -342,7 +342,7 @@ var myModule = {
   update: function (oldVnode, vnode) {
     // invoked whenever a virtual node is updated
   }
-};
+}
 ```
 
 With this mechanism you can easily augment the behaviour of Snabbdom.
@@ -361,7 +361,7 @@ object should map class names to booleans that indicates whether or
 not the class should stay or go on the vnode.
 
 ```mjs
-h('a', { class: { active: true, selected: false } }, 'Toggle');
+h('a', { class: { active: true, selected: false } }, 'Toggle')
 ```
 
 ### The props module
@@ -369,7 +369,7 @@ h('a', { class: { active: true, selected: false } }, 'Toggle');
 Allows you to set properties on DOM elements.
 
 ```mjs
-h('a', { props: { href: '/foo' } }, 'Go to Foo');
+h('a', { props: { href: '/foo' } }, 'Go to Foo')
 ```
 
 Properties can only be set. Not removed. Even though browsers allow addition and
@@ -385,7 +385,7 @@ instead. Perhaps via [the dataset module](#the-dataset-module).
 Same as props, but set attributes instead of properties on DOM elements.
 
 ```mjs
-h('a', { attrs: { href: '/foo' } }, 'Go to Foo');
+h('a', { attrs: { href: '/foo' } }, 'Go to Foo')
 ```
 
 Attributes are added and updated using `setAttribute`. In case of an
@@ -408,7 +408,7 @@ the DOM element.
 Allows you to set custom data attributes (`data-*`) on DOM elements. These can then be accessed with the [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) property.
 
 ```mjs
-h('button', { dataset: { action: 'reset' } }, 'Reset');
+h('button', { dataset: { action: 'reset' } }, 'Reset')
 ```
 
 ### The style module
@@ -419,7 +419,7 @@ its core it allows you to set CSS properties on elements.
 ```mjs
 h('span', {
   style: { border: '1px solid #bada55', color: '#c0ffee', fontWeight: 'bold' }
-}, 'Say my name, and every colour illuminates');
+}, 'Say my name, and every colour illuminates')
 ```
 
 Note that the style module does not remove style attributes if they
@@ -429,7 +429,7 @@ you should instead set it to the empty string.
 ```mjs
 h('div', {
   style: { position: shouldFollow ? 'fixed' : '' }
-}, 'I, I follow, I follow you');
+}, 'I, I follow, I follow you')
 ```
 
 #### Custom properties (CSS variables)
@@ -440,7 +440,7 @@ with `--`
 ```mjs
 h('div', {
   style: { '--warnColor': 'yellow' }
-}, 'Warning');
+}, 'Warning')
 ```
 
 #### Delayed properties
@@ -451,7 +451,7 @@ change, the change is not applied until after the next frame.
 ```mjs
 h('span', {
   style: { opacity: '0', transition: 'opacity 1s', delayed: { opacity: '1' } }
-}, 'Imma fade right in!');
+}, 'Imma fade right in!')
 ```
 
 This makes it easy to declaratively animate the entry of elements.
@@ -470,7 +470,7 @@ h('span', {
     transition: 'opacity 1s',
     remove: { opacity: '0' }
   }
-}, 'It\'s better to fade out than to burn away');
+}, 'It\'s better to fade out than to burn away')
 ```
 
 This makes it easy to declaratively animate the removal of elements.
@@ -484,7 +484,7 @@ h('span', {
     transition: 'opacity 1s',
     destroy: { opacity: '0' }
   }
-}, 'It\'s better to fade out than to burn away');
+}, 'It\'s better to fade out than to burn away')
 ```
 
 ### Eventlisteners module
@@ -499,9 +499,9 @@ happens and will be passed the event object that belongs to it.
 
 ```mjs
 function clickHandler (ev) {
-  console.log('got clicked');
+  console.log('got clicked')
 }
-h('div', { on: { click: clickHandler } });
+h('div', { on: { click: clickHandler } })
 ```
 
 Very often, however, you're not really interested in the event object
@@ -519,13 +519,13 @@ with the value in the second element once the event occurs.
 
 ```mjs
 function clickHandler (number) {
-  console.log('button ' + number + ' was clicked!');
+  console.log('button ' + number + ' was clicked!')
 }
 h('div', [
   h('a', { on: { click: [clickHandler, 1] } }),
   h('a', { on: { click: [clickHandler, 2] } }),
   h('a', { on: { click: [clickHandler, 3] } }),
-]);
+])
 ```
 
 Each handler is called not only with the given arguments but also with the current event and vnode appended to the argument list. It also supports using multiple listeners per event by specifying an array of handlers:
@@ -538,7 +538,7 @@ sendValue = function (func, ev, vnode) {
   func(vnode.elm.value)
 }
 
-h('a', { on: { click: [[sendValue, console.log], stopPropagation] } });
+h('a', { on: { click: [[sendValue, console.log], stopPropagation] } })
 ```
 
 Snabbdom allows swapping event handlers between renders. This happens without
@@ -555,8 +555,8 @@ In particular, you should **not** do something like this:
 ```mjs
 // Does not work
 var sharedHandler = {
-  change: function (e) { console.log('you chose: ' + e.target.value); }
-};
+  change: function (e) { console.log('you chose: ' + e.target.value) }
+}
 h('div', [
   h('input', {
     props: { type: 'radio', name: 'test', value: '0' },
@@ -570,7 +570,7 @@ h('div', [
     props: { type: 'radio', name: 'test', value: '2' },
     on: sharedHandler
   })
-]);
+])
 ```
 
 For many such cases, you can use array-based handlers instead (described above).
@@ -579,8 +579,8 @@ Alternatively, simply make sure each node is passed unique `on` values:
 ```mjs
 // Works
 var sharedHandler = function (e) {
-  console.log('you chose: ' + e.target.value);
-};
+  console.log('you chose: ' + e.target.value)
+}
 h('div', [
   h('input', {
     props: { type: 'radio', name: 'test', value: '0' },
@@ -594,7 +594,7 @@ h('div', [
     props: { type: 'radio', name: 'test', value: '2' },
     on: { change: sharedHandler }
   })
-]);
+])
 ```
 
 ## SVG
@@ -608,7 +608,7 @@ var vnode = h('div', [
   h('svg', { attrs: { width: 100, height: 100 } }, [
     h('circle', { attrs: { cx: 50, cy: 50, r: 40, stroke: 'green', 'stroke-width': 4, fill: 'yellow' } })
   ])
-]);
+])
 ```
 
 See also the [SVG example](./examples/svg) and the [SVG Carousel example](./examples/carousel-svg/).
@@ -641,7 +641,7 @@ Consider a simple function for creating a virtual node based on a number.
 
 ```mjs
 function numberView (n) {
-  return h('div', 'Number is: ' + n);
+  return h('div', 'Number is: ' + n)
 }
 ```
 
@@ -652,7 +652,7 @@ function.
 
 ```mjs
 function render (state) {
-  return thunk('num', numberView, [state.number]);
+  return thunk('num', numberView, [state.number])
 }
 ```
 
@@ -809,19 +809,19 @@ Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node':
 The reason for this error is reusing of vnodes between patches (see code example), snabbdom stores actual dom nodes inside the virtual dom nodes passed to it as performance improvement, so reusing nodes between patches is not supported.
 
 ```mjs
-var sharedNode = h('div', {}, 'Selected');
+var sharedNode = h('div', {}, 'Selected')
 var vnode1 = h('div', [
   h('div', {}, ['One']),
   h('div', {}, ['Two']),
   h('div', {}, [sharedNode]),
-]);
+])
 var vnode2 = h('div', [
   h('div', {}, ['One']),
   h('div', {}, [sharedNode]),
   h('div', {}, ['Three']),
-]);
-patch(container, vnode1);
-patch(vnode1, vnode2);
+])
+patch(container, vnode1)
+patch(vnode1, vnode2)
 ```
 
 You can fix this issue by creating a shallow copy of the object (here with object spread syntax):
@@ -831,18 +831,18 @@ var vnode2 = h('div', [
   h('div', {}, ['One']),
   h('div', {}, [{ ...sharedNode }]),
   h('div', {}, ['Three']),
-]);
+])
 ```
 
 Another solution would be to wrap shared vnodes in a factory function:
 
 ```mjs
-var sharedNode = () => h('div', {}, 'Selected');
+var sharedNode = () => h('div', {}, 'Selected')
 var vnode1 = h('div', [
   h('div', {}, ['One']),
   h('div', {}, ['Two']),
   h('div', {}, [sharedNode()]),
-]);
+])
 ```
 
 ## Opportunity for community feedback
