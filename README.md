@@ -555,7 +555,7 @@ In particular, you should **not** do something like this:
 ```mjs
 // Does not work
 var sharedHandler = {
-  change: function(e){ console.log('you chose: ' + e.target.value); }
+  change: function(e) { console.log('you chose: ' + e.target.value); }
 };
 h('div', [
   h('input', {
@@ -578,7 +578,7 @@ Alternatively, simply make sure each node is passed unique `on` values:
 
 ```mjs
 // Works
-var sharedHandler = function(e){
+var sharedHandler = function(e) {
   console.log('you chose: ' + e.target.value);
 };
 h('div', [
