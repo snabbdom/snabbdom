@@ -524,7 +524,7 @@ Each handler is called not only with the given arguments but also with the curre
 stopPropagation = function(ev) { ev.stopPropagation() }
 sendValue = function(func, ev, vnode) { func(vnode.elm.value) }
 
-h('a', { on:{ click:[[sendValue, console.log], stopPropagation] } });
+h('a', { on: { click: [[sendValue, console.log], stopPropagation] } });
 ```
 
 Snabbdom allows swapping event handlers between renders. This happens without
