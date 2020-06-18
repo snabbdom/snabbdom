@@ -492,7 +492,9 @@ you want to listen to. The function will be called when the event
 happens and will be passed the event object that belongs to it.
 
 ```mjs
-function clickHandler(ev) { console.log('got clicked'); }
+function clickHandler(ev) {
+  console.log('got clicked');
+}
 h('div', {on: {click: clickHandler}});
 ```
 
@@ -510,7 +512,9 @@ first element in the array should be a function that will be invoked
 with the value in the second element once the event occurs.
 
 ```mjs
-function clickHandler(number) { console.log('button ' + number + ' was clicked!'); }
+function clickHandler(number) {
+  console.log('button ' + number + ' was clicked!');
+}
 h('div', [
   h('a', {on: {click: [clickHandler, 1]}}),
   h('a', {on: {click: [clickHandler, 2]}}),
@@ -521,8 +525,12 @@ h('div', [
 Each handler is called not only with the given arguments but also with the current event and vnode appended to the argument list. It also supports using multiple listeners per event by specifying an array of handlers:
 
 ```mjs
-stopPropagation = function(ev) { ev.stopPropagation() }
-sendValue = function(func, ev, vnode) { func(vnode.elm.value) }
+stopPropagation = function(ev) {
+  ev.stopPropagation()
+}
+sendValue = function(func, ev, vnode) {
+  func(vnode.elm.value)
+}
 
 h('a', { on: { click: [[sendValue, console.log], stopPropagation] } });
 ```
@@ -558,7 +566,9 @@ Alternatively, simply make sure each node is passed unique `on` values:
 
 ```mjs
 // Works
-var sharedHandler = function(e){ console.log('you chose: ' + e.target.value); };
+var sharedHandler = function(e){
+  console.log('you chose: ' + e.target.value);
+};
 h('div', [
   h('input', {props: {type: 'radio', name: 'test', value: '0'},
               on: {change: sharedHandler}}),
