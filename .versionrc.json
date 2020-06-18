@@ -1,0 +1,20 @@
+{
+  "types": [
+    {
+      "type": "auto",
+      "section": "Internal changes"
+    },
+    {
+      "type": "dx",
+      "section": "Internal changes"
+    },
+    {
+      "type": "ux",
+      "section": "User facing changes"
+    }
+  ],
+  "releaseCommitMessageFormat": "release(package): {{currentTag}}",
+  "skip": {
+    "tag": true
+  }
+}

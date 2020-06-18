@@ -16,8 +16,9 @@
     "type-empty": [2, "never"],
     "type-enum": [2, "always", [
       "auto",
-      "ux",
-      "dx"
+      "dx",
+      "release",
+      "ux"
     ]],
     "scope-empty": [2, "never"],
     "scope-enum": [2, "always", [

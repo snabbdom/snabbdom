@@ -72,6 +72,7 @@
     "p-reduce": "2.1.0",
     "remark-cli": "8.0.0",
     "remark-toc": "7.0.0",
+    "standard-version": "8.0.0",
     "ts-transform-import-path-rewrite": "0.2.1",
     "tsconfigs": "5.0.0",
     "tty-table": "4.1.3",
@@ -87,12 +88,10 @@
     "lint": "run-s lint:editorconfig lint:js",
     "unit": "cross-env FILES_PATTERN=\"build/test/unit/**/*.js\" karma start karma.conf.cjs",
     "benchmark": "cross-env FILES_PATTERN=\"build/test/benchmark/**/*.js\" karma start karma.conf.cjs --concurrency=1",
+    "make-release-commit": "standard-version",
     "test": "run-s lint compile unit",
     "compile": "ttsc --build src/test/tsconfig.json",
-    "prepublishOnly": "npm run compile",
-    "release-major": "xyz --repo git@github.com:paldepind/snabbdom.git --increment major",
-    "release-minor": "xyz --repo git@github.com:paldepind/snabbdom.git --increment minor",
-    "release-patch": "xyz --repo git@github.com:paldepind/snabbdom.git --increment patch"
+    "prepublishOnly": "npm run compile"
   },
   "repository": {
     "type": "git",
