@@ -465,8 +465,11 @@ animating will the element be removed from the DOM.
 
 ```mjs
 h('span', {
-  style: { opacity: '1', transition: 'opacity 1s',
-    remove: { opacity: '0' } }
+  style: {
+    opacity: '1',
+    transition: 'opacity 1s',
+    remove: { opacity: '0' }
+  }
 }, 'It\'s better to fade out than to burn away');
 ```
 
@@ -476,8 +479,11 @@ This makes it easy to declaratively animate the removal of elements.
 
 ```mjs
 h('span', {
-  style: { opacity: '1', transition: 'opacity 1s',
-    destroy: { opacity: '0' } }
+  style: {
+    opacity: '1',
+    transition: 'opacity 1s',
+    destroy: { opacity: '0' }
+  }
 }, 'It\'s better to fade out than to burn away');
 ```
 
@@ -552,12 +558,18 @@ var sharedHandler = {
   change: function(e){ console.log('you chose: ' + e.target.value); }
 };
 h('div', [
-  h('input', { props: { type: 'radio', name: 'test', value: '0' },
-    on: sharedHandler }),
-  h('input', { props: { type: 'radio', name: 'test', value: '1' },
-    on: sharedHandler }),
-  h('input', { props: { type: 'radio', name: 'test', value: '2' },
-    on: sharedHandler })
+  h('input', {
+    props: { type: 'radio', name: 'test', value: '0' },
+    on: sharedHandler
+  }),
+  h('input', {
+    props: { type: 'radio', name: 'test', value: '1' },
+    on: sharedHandler
+  }),
+  h('input', {
+    props: { type: 'radio', name: 'test', value: '2' },
+    on: sharedHandler
+  })
 ]);
 ```
 
@@ -570,12 +582,18 @@ var sharedHandler = function(e){
   console.log('you chose: ' + e.target.value);
 };
 h('div', [
-  h('input', { props: { type: 'radio', name: 'test', value: '0' },
-    on: { change: sharedHandler } }),
-  h('input', { props: { type: 'radio', name: 'test', value: '1' },
-    on: { change: sharedHandler } }),
-  h('input', { props: { type: 'radio', name: 'test', value: '2' },
-    on: { change: sharedHandler } })
+  h('input', {
+    props: { type: 'radio', name: 'test', value: '0' },
+    on: { change: sharedHandler }
+  }),
+  h('input', {
+    props: { type: 'radio', name: 'test', value: '1' },
+    on: { change: sharedHandler }
+  }),
+  h('input', {
+    props: { type: 'radio', name: 'test', value: '2' },
+    on: { change: sharedHandler }
+  })
 ]);
 ```
 
