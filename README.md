@@ -60,7 +60,6 @@ performance, small size and all the features listed below.
 ```javascript
 import { init } from 'snabbdom';
 import clazz from 'snabbdom/class';
-import h from 'snabbdom/h';
 import props from 'snabbdom/props';
 import style from 'snabbdom/style';
 import listeners from 'snabbdom/eventlisteners';
