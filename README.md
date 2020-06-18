@@ -198,6 +198,7 @@ array of children.
 
 ```mjs
 import h from 'snabbdom/h';
+
 var vnode = h('div', {style: {color: '#000'}}, [
   h('h1', 'Headline'),
   h('p', 'A paragraph'),
@@ -217,6 +218,7 @@ import style         from 'snabbdom/modules/style';
 import listeners     from 'snabbdom/modules/eventlisteners';
 import h from 'snabbdom/h'; // helper function for creating vnodes
 import toVNode from 'snabbdom/tovnode';
+
 var patch = init([ // Init patch function with chosen modules
   clazz, // makes it easy to toggle classes
   props, // for setting properties on DOM elements
