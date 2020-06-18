@@ -66,10 +66,10 @@ import listeners from 'snabbdom/modules/eventlisteners';
 import h from 'snabbdom/h'; // helper function for creating vnodes
 
 var patch = init([ // Init patch function with chosen modules
-  clazz,     // makes it easy to toggle classes
-  props,     // for setting properties on DOM elements
-  style,     // handles styling on elements with support for animations
-  listeners,  // attaches event listeners
+  clazz, // makes it easy to toggle classes
+  props, // for setting properties on DOM elements
+  style, // handles styling on elements with support for animations
+  listeners, // attaches event listeners
 ]);
 
 var container = document.getElementById('container');
@@ -212,10 +212,10 @@ server-side generated content.
 
 ```mjs
 import { init } from 'snabbdom';
-import clazz         from 'snabbdom/modules/class';
-import props         from 'snabbdom/modules/props';
-import style         from 'snabbdom/modules/style';
-import listeners     from 'snabbdom/modules/eventlisteners';
+import clazz from 'snabbdom/modules/class';
+import props from 'snabbdom/modules/props';
+import style from 'snabbdom/modules/style';
+import listeners from 'snabbdom/modules/eventlisteners';
 import h from 'snabbdom/h'; // helper function for creating vnodes
 import toVNode from 'snabbdom/tovnode';
 

@@ -17,7 +17,6 @@ module.exports = {
     {
       files: ['**/*.md/*.@(mjs|ts)'],
       rules: {
-        'no-multi-spaces': 'off',
         'no-undef': 'off',
         'no-unused-expressions': 'off',
         'no-unused-vars': 'off',
