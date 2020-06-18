@@ -21,7 +21,6 @@ module.exports = {
         'no-unused-expressions': 'off',
         'no-unused-vars': 'off',
         'object-curly-newline': 'off',
-        'object-curly-spacing': 'off',
         'object-property-newline': 'off',
         'quote-props': 'off',
         'space-before-blocks': 'off',
