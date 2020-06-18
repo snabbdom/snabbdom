@@ -74,18 +74,18 @@ var patch = init([ // Init patch function with chosen modules
 
 var container = document.getElementById('container');
 
-var vnode = h('div#container.two.classes', {on: {click: someFn}}, [
-  h('span', {style: {fontWeight: 'bold'}}, 'This is bold'),
+var vnode = h('div#container.two.classes', { on: { click: someFn } }, [
+  h('span', { style: { fontWeight: 'bold' } }, 'This is bold'),
   ' and this is just normal text',
-  h('a', {props: {href: '/foo'}}, 'I\'ll take you places!')
+  h('a', { props: { href: '/foo' } }, 'I\'ll take you places!')
 ]);
 // Patch into empty DOM element – this modifies the DOM as a side effect
 patch(container, vnode);
 
-var newVnode = h('div#container.two.classes', {on: {click: anotherEventHandler}}, [
-  h('span', {style: {fontWeight: 'normal', fontStyle: 'italic'}}, 'This is now italic type'),
+var newVnode = h('div#container.two.classes', { on: { click: anotherEventHandler } }, [
+  h('span', { style: { fontWeight: 'normal', fontStyle: 'italic' } }, 'This is now italic type'),
   ' and this is still just normal text',
-  h('a', {props: {href: '/bar'}}, 'I\'ll take you places!')
+  h('a', { props: { href: '/bar' } }, 'I\'ll take you places!')
 ]);
 // Second `patch` invocation
 patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new state
@@ -199,7 +199,7 @@ array of children.
 ```mjs
 import h from 'snabbdom/h';
 
-var vnode = h('div', {style: {color: '#000'}}, [
+var vnode = h('div', { style: { color: '#000' } }, [
   h('h1', 'Headline'),
   h('p', 'A paragraph'),
 ]);
@@ -226,7 +226,7 @@ var patch = init([ // Init patch function with chosen modules
   listeners, // attaches event listeners
 ]);
 
-var newVNode = h('div', {style: {color: '#000'}}, [
+var newVNode = h('div', { style: { color: '#000' } }, [
   h('h1', 'Headline'),
   h('p', 'A paragraph'),
 ]);
@@ -361,7 +361,7 @@ object should map class names to booleans that indicates whether or
 not the class should stay or go on the vnode.
 
 ```mjs
-h('a', {class: {active: true, selected: false}}, 'Toggle');
+h('a', { class: { active: true, selected: false } }, 'Toggle');
 ```
 
 ### The props module
@@ -369,7 +369,7 @@ h('a', {class: {active: true, selected: false}}, 'Toggle');
 Allows you to set properties on DOM elements.
 
 ```mjs
-h('a', {props: {href: '/foo'}}, 'Go to Foo');
+h('a', { props: { href: '/foo' } }, 'Go to Foo');
 ```
 
 Properties can only be set. Not removed. Even though browsers allow addition and
@@ -385,7 +385,7 @@ instead. Perhaps via [the dataset module](#the-dataset-module).
 Same as props, but set attributes instead of properties on DOM elements.
 
 ```mjs
-h('a', {attrs: {href: '/foo'}}, 'Go to Foo');
+h('a', { attrs: { href: '/foo' } }, 'Go to Foo');
 ```
 
 Attributes are added and updated using `setAttribute`. In case of an
@@ -408,7 +408,7 @@ the DOM element.
 Allows you to set custom data attributes (`data-*`) on DOM elements. These can then be accessed with the [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) property.
 
 ```mjs
-h('button', {dataset: {action: 'reset'}}, 'Reset');
+h('button', { dataset: { action: 'reset' } }, 'Reset');
 ```
 
 ### The style module
@@ -418,7 +418,7 @@ its core it allows you to set CSS properties on elements.
 
 ```mjs
 h('span', {
-  style: {border: '1px solid #bada55', color: '#c0ffee', fontWeight: 'bold'}
+  style: { border: '1px solid #bada55', color: '#c0ffee', fontWeight: 'bold' }
 }, 'Say my name, and every colour illuminates');
 ```
 
@@ -428,7 +428,7 @@ you should instead set it to the empty string.
 
 ```mjs
 h('div', {
-  style: {position: shouldFollow ? 'fixed' : ''}
+  style: { position: shouldFollow ? 'fixed' : '' }
 }, 'I, I follow, I follow you');
 ```
 
@@ -439,7 +439,7 @@ with `--`
 
 ```mjs
 h('div', {
-  style: {'--warnColor': 'yellow'}
+  style: { '--warnColor': 'yellow' }
 }, 'Warning');
 ```
 
@@ -450,7 +450,7 @@ change, the change is not applied until after the next frame.
 
 ```mjs
 h('span', {
-  style: {opacity: '0', transition: 'opacity 1s', delayed: {opacity: '1'}}
+  style: { opacity: '0', transition: 'opacity 1s', delayed: { opacity: '1' } }
 }, 'Imma fade right in!');
 ```
 
@@ -465,8 +465,8 @@ animating will the element be removed from the DOM.
 
 ```mjs
 h('span', {
-  style: {opacity: '1', transition: 'opacity 1s',
-          remove: {opacity: '0'}}
+  style: { opacity: '1', transition: 'opacity 1s',
+          remove: { opacity: '0' } }
 }, 'It\'s better to fade out than to burn away');
 ```
 
@@ -476,8 +476,8 @@ This makes it easy to declaratively animate the removal of elements.
 
 ```mjs
 h('span', {
-  style: {opacity: '1', transition: 'opacity 1s',
-          destroy: {opacity: '0'}}
+  style: { opacity: '1', transition: 'opacity 1s',
+          destroy: { opacity: '0' } }
 }, 'It\'s better to fade out than to burn away');
 ```
 
@@ -495,7 +495,7 @@ happens and will be passed the event object that belongs to it.
 function clickHandler(ev) {
   console.log('got clicked');
 }
-h('div', {on: {click: clickHandler}});
+h('div', { on: { click: clickHandler } });
 ```
 
 Very often, however, you're not really interested in the event object
@@ -516,9 +516,9 @@ function clickHandler(number) {
   console.log('button ' + number + ' was clicked!');
 }
 h('div', [
-  h('a', {on: {click: [clickHandler, 1]}}),
-  h('a', {on: {click: [clickHandler, 2]}}),
-  h('a', {on: {click: [clickHandler, 3]}}),
+  h('a', { on: { click: [clickHandler, 1] } }),
+  h('a', { on: { click: [clickHandler, 2] } }),
+  h('a', { on: { click: [clickHandler, 3] } }),
 ]);
 ```
 
@@ -552,12 +552,12 @@ var sharedHandler = {
   change: function(e){ console.log('you chose: ' + e.target.value); }
 };
 h('div', [
-  h('input', {props: {type: 'radio', name: 'test', value: '0'},
-              on: sharedHandler}),
-  h('input', {props: {type: 'radio', name: 'test', value: '1'},
-              on: sharedHandler}),
-  h('input', {props: {type: 'radio', name: 'test', value: '2'},
-              on: sharedHandler})
+  h('input', { props: { type: 'radio', name: 'test', value: '0' },
+              on: sharedHandler }),
+  h('input', { props: { type: 'radio', name: 'test', value: '1' },
+              on: sharedHandler }),
+  h('input', { props: { type: 'radio', name: 'test', value: '2' },
+              on: sharedHandler })
 ]);
 ```
 
@@ -570,12 +570,12 @@ var sharedHandler = function(e){
   console.log('you chose: ' + e.target.value);
 };
 h('div', [
-  h('input', {props: {type: 'radio', name: 'test', value: '0'},
-              on: {change: sharedHandler}}),
-  h('input', {props: {type: 'radio', name: 'test', value: '1'},
-              on: {change: sharedHandler}}),
-  h('input', {props: {type: 'radio', name: 'test', value: '2'},
-              on: {change: sharedHandler}})
+  h('input', { props: { type: 'radio', name: 'test', value: '0' },
+              on: { change: sharedHandler } }),
+  h('input', { props: { type: 'radio', name: 'test', value: '1' },
+              on: { change: sharedHandler } }),
+  h('input', { props: { type: 'radio', name: 'test', value: '2' },
+              on: { change: sharedHandler } })
 ]);
 ```
 
@@ -587,8 +587,8 @@ namespaces.
 
 ```mjs
 var vnode = h('div', [
-  h('svg', {attrs: {width: 100, height: 100}}, [
-    h('circle', {attrs: {cx: 50, cy: 50, r: 40, stroke: 'green', 'stroke-width': 4, fill: 'yellow'}})
+  h('svg', { attrs: { width: 100, height: 100 } }, [
+    h('circle', { attrs: { cx: 50, cy: 50, r: 40, stroke: 'green', 'stroke-width': 4, fill: 'yellow' } })
   ])
 ]);
 ```
