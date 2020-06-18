@@ -20,7 +20,6 @@ module.exports = {
         'no-undef': 'off',
         'no-unused-expressions': 'off',
         'no-unused-vars': 'off',
-        'space-before-function-paren': 'off',
         quotes: 'off',
         semi: 'off',
       },
