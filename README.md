@@ -60,10 +60,10 @@ performance, small size and all the features listed below.
 ```javascript
 import { init } from 'snabbdom';
 import clazz from 'snabbdom/class';
-import h from 'snabbdom/h';
 import props from 'snabbdom/props';
 import style from 'snabbdom/style';
 import listeners from 'snabbdom/eventlisteners';
+import h from 'snabbdom/h'; // helper function for creating vnodes
 
 var patch = init([ // Init patch function with chosen modules
   clazz,     // makes it easy to toggle classes
@@ -71,7 +71,7 @@ var patch = init([ // Init patch function with chosen modules
   style,     // handles styling on elements with support for animations
   listeners,  // attaches event listeners
 ]);
-import h from 'snabbdom/h'; // helper function for creating vnodes
+
 
 var container = document.getElementById('container');
 
