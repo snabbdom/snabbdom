@@ -156,7 +156,7 @@ specified set of modules.
 import clazz from 'snabbdom/modules/class';
 import style from 'snabbdom/modules/style';
 
-var patch = init([ clazz, style ]);
+var patch = init([clazz, style]);
 ```
 
 ### `patch`
