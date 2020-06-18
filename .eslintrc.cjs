@@ -25,7 +25,6 @@ module.exports = {
         'quote-props': 'off',
         'space-before-blocks': 'off',
         'space-before-function-paren': 'off',
-        indent: 'off',
         quotes: 'off',
         semi: 'off',
       },
