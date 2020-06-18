@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/paldepind/snabbdom/compare/v1.0.0...v1.0.1) (2020-06-18)
+
+
+### User facing changes
+
+* **package:** fix ./snabbdom related files and exports fields errors ([89b917b](https://github.com/paldepind/snabbdom/commit/89b917bb3f3f8986390e3e400327a9087533d928))
+
 ## [1.0.0](https://github.com/paldepind/snabbdom/compare/v0.7.4...v1.0.0) (2020-06-18)
 
 
