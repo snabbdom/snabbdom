@@ -63,6 +63,7 @@ import clazz from 'snabbdom/modules/class';
 import props from 'snabbdom/modules/props';
 import style from 'snabbdom/modules/style';
 import listeners from 'snabbdom/modules/eventlisteners';
+import h from 'snabbdom/h'; // helper function for creating vnodes
 
 var patch = init([ // Init patch function with chosen modules
   clazz,     // makes it easy to toggle classes
@@ -70,7 +71,6 @@ var patch = init([ // Init patch function with chosen modules
   style,     // handles styling on elements with support for animations
   listeners,  // attaches event listeners
 ]);
-import h from 'snabbdom/h'; // helper function for creating vnodes
 
 var container = document.getElementById('container');
 
@@ -215,14 +215,14 @@ import clazz         from 'snabbdom/modules/class';
 import props         from 'snabbdom/modules/props';
 import style         from 'snabbdom/modules/style';
 import listeners     from 'snabbdom/modules/eventlisteners';
+import h from 'snabbdom/h'; // helper function for creating vnodes
+import toVNode from 'snabbdom/tovnode';
 var patch = init([ // Init patch function with chosen modules
   clazz, // makes it easy to toggle classes
   props, // for setting properties on DOM elements
   style, // handles styling on elements with support for animations
   listeners, // attaches event listeners
 ]);
-import h from 'snabbdom/h'; // helper function for creating vnodes
-import toVNode from 'snabbdom/tovnode';
 
 var newVNode = h('div', {style: {color: '#000'}}, [
   h('h1', 'Headline'),
