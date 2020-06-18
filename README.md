@@ -59,10 +59,10 @@ performance, small size and all the features listed below.
 
 ```javascript
 import { init } from 'snabbdom';
-import clazz from 'snabbdom/class';
-import props from 'snabbdom/props';
-import style from 'snabbdom/style';
-import listeners from 'snabbdom/eventlisteners';
+import clazz from 'snabbdom/modules/class';
+import props from 'snabbdom/modules/props';
+import style from 'snabbdom/modules/style';
+import listeners from 'snabbdom/modules/eventlisteners';
 
 var patch = init([ // Init patch function with chosen modules
   clazz,     // makes it easy to toggle classes
@@ -153,8 +153,8 @@ takes a list of modules and returns a `patch` function that uses the
 specified set of modules.
 
 ```javascript
-import clazz from 'snabbdom/class';
-import style from 'snabbdom/style';
+import clazz from 'snabbdom/modules/class';
+import style from 'snabbdom/modules/style';
 
 var patch = init([ clazz, style ]);
 ```
@@ -211,10 +211,10 @@ server-side generated content.
 
 ```javascript
 import { init } from 'snabbdom';
-import clazz         from 'snabbdom/class';
-import props         from 'snabbdom/props';
-import style         from 'snabbdom/style';
-import listeners     from 'snabbdom/eventlisteners';
+import clazz         from 'snabbdom/modules/class';
+import props         from 'snabbdom/modules/props';
+import style         from 'snabbdom/modules/style';
+import listeners     from 'snabbdom/modules/eventlisteners';
 var patch = init([ // Init patch function with chosen modules
   clazz, // makes it easy to toggle classes
   props, // for setting properties on DOM elements

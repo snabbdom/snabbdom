@@ -23,6 +23,7 @@
     "scope-enum": [2, "always", [
       "commitlint",
       "deps",
+      "docs",
       "eslint",
       "exports",
       "format",
