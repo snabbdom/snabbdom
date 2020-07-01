@@ -24,8 +24,8 @@
     "./vnode": "./build/package/vnode.js"
   },
   "devDependencies": {
-    "@babel/core": "7.10.3",
-    "@babel/preset-env": "7.10.3",
+    "@babel/core": "7.10.4",
+    "@babel/preset-env": "7.10.4",
     "@commitlint/cli": "9.0.1",
     "@commitlint/travis-cli": "9.0.1",
     "@types/chai": "4.2.11",
@@ -33,7 +33,7 @@
     "@types/lodash.shuffle": "4.2.6",
     "@types/mathjs": "6.0.5",
     "@types/mocha": "7.0.2",
-    "@typescript-eslint/eslint-plugin": "3.4.0",
+    "@typescript-eslint/eslint-plugin": "3.5.0",
     "babel-loader": "8.1.0",
     "benchmark": "2.1.4",
     "chai": "4.2.0",
