@@ -29,7 +29,7 @@
     "@commitlint/cli": "9.1.1",
     "@commitlint/config-conventional": "9.1.1",
     "@commitlint/travis-cli": "9.1.1",
-    "@types/chai": "4.2.11",
+    "@types/chai": "4.2.12",
     "@types/faker": "4.1.12",
     "@types/lodash.shuffle": "4.2.6",
     "@types/mathjs": "6.0.5",
