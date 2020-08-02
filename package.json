@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.11.0",
-    "@babel/preset-env": "7.10.4",
+    "@babel/preset-env": "7.11.0",
     "@commitlint/cli": "9.1.1",
     "@commitlint/config-conventional": "9.1.1",
     "@commitlint/travis-cli": "9.1.1",
