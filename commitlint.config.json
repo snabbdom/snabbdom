@@ -9,6 +9,7 @@
       "deps",
       "docs",
       "eslint",
+      "examples",
       "exports",
       "format",
       "git",
