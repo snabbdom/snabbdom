@@ -1,8 +1,8 @@
-import { init } from '../../build/package/snabbdom.js'
-import attrs from '../../build/package/modules/attributes.js'
-import h from '../../build/package/h.js'
+import { init } from '../../build/package/init.js'
+import { attributesModule } from '../../build/package/modules/attributes.js'
+import { h } from '../../build/package/h.js'
 
-var patch = init([attrs])
+var patch = init([attributesModule])
 
 window.addEventListener('DOMContentLoaded', () => {
   var container = document.getElementById('container')

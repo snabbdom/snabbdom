@@ -1,11 +1,11 @@
-import { init } from '../../build/package/snabbdom.js'
-import clazz from '../../build/package/modules/class.js'
-import props from '../../build/package/modules/props.js'
-import style from '../../build/package/modules/style.js'
-import listeners from '../../build/package/modules/eventlisteners.js'
-import h from '../../build/package/h.js'
+import { init } from '../../build/package/init.js'
+import { classModule } from '../../build/package/modules/class.js'
+import { propsModule } from '../../build/package/modules/props.js'
+import { styleModule } from '../../build/package/modules/style.js'
+import { eventListenersModule } from '../../build/package/modules/eventlisteners.js'
+import { h } from '../../build/package/h.js'
 
-var patch = init([clazz, props, style, listeners])
+var patch = init([classModule, propsModule, styleModule, eventListenersModule])
 
 var vnode
 
