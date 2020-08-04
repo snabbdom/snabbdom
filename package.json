@@ -24,7 +24,7 @@
     "./vnode": "./build/package/vnode.js"
   },
   "devDependencies": {
-    "@babel/core": "7.11.0",
+    "@babel/core": "7.11.1",
     "@babel/preset-env": "7.11.0",
     "@commitlint/cli": "9.1.1",
     "@commitlint/config-conventional": "9.1.1",
