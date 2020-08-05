@@ -1,5 +1,34 @@
 # Contributing
 
+## Allowing CI builds of pull requests from forks
+
+Some secrets are included as environment variables in the CI build.
+Since code in forks is considered un-trusted,
+CI builds of pull requests from forks are run without secrets.
+This causes the CI build to fail.
+
+To mark a branch of a pull request as trusted
+— which would trigger a build that includes the secrets —
+run the following command:
+
+```sh
+# `REMOTE` is a temporary remote name. It could be the pull request author user name.
+# `FORK_URL` is the URL of the fork.
+git remote add $REMOTE $FORK_URL
+git fetch $REMOTE
+# `FORK_BRANCH` is the compare (source) branch.
+BRANCH=allow-ci_${REMOTE}_${FORK_BRANCH}
+# `ORIGIN` is your remote name for the Snabbdom repository.
+git push $ORIGIN refs/remotes/${REMOTE}/${FORK_BRANCH}:refs/heads/$BRANCH
+git remote remove $REMOTE
+```
+
+After the pull request is merged or closed, delete the branch:
+
+```sh
+git push --delete $ORIGIN $BRANCH
+```
+
 ## Making a release
 
 Make sure you have permission to publish, by running
