@@ -1,3 +1,4 @@
+fancy tests commit
 <img alt="Snabbdom" src="logo.png" width="356px">
 
 A virtual DOM library with focus on simplicity, modularity, powerful features
