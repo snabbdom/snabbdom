@@ -7,7 +7,7 @@ Since code in forks is considered un-trusted,
 CI builds of pull requests from forks are run without secrets.
 This causes the CI build to fail.
 
-To mark a branch of a pull request as trusted
+To mark the HEAD of a pull request as trusted
 — which would trigger a build that includes the secrets —
 run the following command:
 
