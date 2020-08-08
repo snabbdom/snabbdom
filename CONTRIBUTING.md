@@ -12,15 +12,12 @@ To mark the HEAD of a pull request as trusted
 run the following command:
 
 ```sh
-# `REMOTE` is a temporary remote name. It could be the pull request author user name.
-# `FORK_URL` is the URL of the fork.
-git remote add $REMOTE $FORK_URL
-git fetch $REMOTE
-# `FORK_BRANCH` is the compare (source) branch.
-BRANCH=allow-ci_${REMOTE}_${FORK_BRANCH}
 # `ORIGIN` is your remote name for the Snabbdom repository.
-git push $ORIGIN refs/remotes/${REMOTE}/${FORK_BRANCH}:refs/heads/$BRANCH
-git remote remove $REMOTE
+# `PR` is the pull request number
+REF=refs/remotes/$ORIGIN/pull/$PR/head
+git fetch $ORIGIN refs/pull/$PR/head:$REF
+BRANCH=allow-ci_$PR
+git push $ORIGIN ${REF}:refs/heads/$BRANCH
 ```
 
 After the pull request is merged or closed, delete the branch:
