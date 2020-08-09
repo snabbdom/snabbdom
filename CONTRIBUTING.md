@@ -15,9 +15,9 @@ run the following command:
 # `ORIGIN` is your remote name for the Snabbdom repository.
 # `PR` is the pull request number
 REF=refs/remotes/$ORIGIN/pull/$PR/head
-git fetch $ORIGIN refs/pull/$PR/head:$REF
+git fetch $ORIGIN +refs/pull/$PR/head:$REF
 BRANCH=allow-ci_$PR
-git push $ORIGIN ${REF}:refs/heads/$BRANCH
+git push $ORIGIN +${REF}:refs/heads/$BRANCH
 ```
 
 After the pull request is merged or closed, delete the branch:
