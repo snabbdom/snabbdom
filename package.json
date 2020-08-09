@@ -91,7 +91,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/paldepind/snabbdom.git"
+    "url": "git+https://github.com/snabbdom/snabbdom.git"
   },
   "keywords": [
     "virtual",
@@ -103,7 +103,7 @@
   "author": "Simon Friis Vindum",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/paldepind/snabbdom/issues"
+    "url": "https://github.com/snabbdom/snabbdom/issues"
   },
   "remarkConfig": {
     "plugins": [
@@ -120,7 +120,7 @@
       "tablePipeAlign": false
     }
   },
-  "homepage": "https://github.com/paldepind/snabbdom#readme",
+  "homepage": "https://github.com/snabbdom/snabbdom#readme",
   "husky": {
     "hooks": {
       "commit-msg": "commitlint --config commitlint.config.json -E HUSKY_GIT_PARAMS",
