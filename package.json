@@ -34,7 +34,7 @@
     "@types/lodash.shuffle": "4.2.6",
     "@types/mathjs": "6.0.5",
     "@types/mocha": "8.0.0",
-    "@typescript-eslint/eslint-plugin": "3.8.0",
+    "@typescript-eslint/eslint-plugin": "3.9.0",
     "babel-loader": "8.1.0",
     "benchmark": "2.1.4",
     "chai": "4.2.0",
