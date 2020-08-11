@@ -90,7 +90,9 @@ function render () {
     m.offset = last ? last.offset + last.elmHeight + margin : margin
     return acc.concat(m)
   }, [])
-  totalHeight = data[data.length - 1].offset + data[data.length - 1].elmHeight
+  totalHeight = data.length === 0
+    ? 0
+    : data[data.length - 1].offset + data[data.length - 1].elmHeight
   vnode = patch(vnode, view(data))
 }
 
