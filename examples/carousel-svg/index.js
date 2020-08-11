@@ -1,10 +1,10 @@
-import { init } from '../../build/package/snabbdom.js'
-import attrs from '../../build/package/modules/attributes.js'
-import style from '../../build/package/modules/style.js'
-import listeners from '../../build/package/modules/eventlisteners.js'
-import h from '../../build/package/h.js'
+import { init } from '../../build/package/init.js'
+import { attributesModule } from '../../build/package/modules/attributes.js'
+import { styleModule } from '../../build/package/modules/style.js'
+import { eventListenersModule } from '../../build/package/modules/eventlisteners.js'
+import { h } from '../../build/package/h.js'
 
-var patch = init([attrs, style, listeners])
+var patch = init([attributesModule, styleModule, eventListenersModule])
 
 var vnode
 
