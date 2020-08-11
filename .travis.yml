@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-  - "v14.7.0"
+  - "v14.8.0"
 script:
   - commitlint-travis --config commitlint.config.json
   - run-s test docs check-clean
