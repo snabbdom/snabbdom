@@ -1,6 +1,3 @@
-const isPathInside = require('is-path-inside')
-const path = require('path')
-
 const ci = !!process.env.CI
 const watch = !!process.env.WATCH
 const live = !!process.env.LIVE
@@ -35,40 +32,8 @@ module.exports = function (config) {
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-browserstack-launcher',
-      require('karma-webpack')
     ],
     hostname: ci ? ip : 'localhost',
-    preprocessors: {
-      '**/*.js': ['webpack']
-    },
-    webpack: {
-      mode: 'development',
-      module: {
-        rules: [
-          {
-            exclude: (input) => isPathInside(input, path.resolve(__dirname, 'node_modules')),
-            test: /\.m?js$/,
-            use: {
-              loader: 'babel-loader',
-              options: {
-                presets: [
-                  [
-                    '@babel/preset-env',
-                    {
-                      useBuiltIns: 'usage',
-                      corejs: 3,
-                    }
-                  ]
-                ]
-              }
-            }
-          }
-        ]
-      }
-    },
-    webpackMiddleware: {
-      stats: 'errors-only'
-    },
     browserStack: {
       name: 'Snabbdom',
       retryLimit: 3,
