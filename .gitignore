@@ -91,3 +91,16 @@
 /build/test/unit/style.js.map
 /build/test/unit/thunk.js
 /build/test/unit/thunk.js.map
+
+## Test bundle artifacts
+
+/test-bundles/benchmark/core.js
+/test-bundles/unit/attachto.js
+/test-bundles/unit/attributes.js
+/test-bundles/unit/core.js
+/test-bundles/unit/dataset.js
+/test-bundles/unit/eventlisteners.js
+/test-bundles/unit/htmldomapi.js
+/test-bundles/unit/jsx.js
+/test-bundles/unit/style.js
+/test-bundles/unit/thunk.js
