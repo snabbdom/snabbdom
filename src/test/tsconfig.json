@@ -10,6 +10,10 @@
     "strictFunctionTypes": false,
     "target": "ES2015",
     "outDir": "../../build/test",
+    "baseUrl": "../..",
+    "paths": {
+      "latest-snabbdom-release/*": ["node_modules/latest-snabbdom-release/build/package/*"]
+    },
     "jsx": "react",
     "jsxFactory": "jsx"
   },

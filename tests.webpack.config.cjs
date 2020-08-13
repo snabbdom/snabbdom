@@ -34,6 +34,11 @@ const makeTestsWebpackConfig = async () => ({
         }
       }
     ]
+  },
+  resolve: {
+    alias: {
+      'latest-snabbdom-release/init': 'latest-snabbdom-release/build/package/init'
+    }
   }
 })
 module.exports = makeTestsWebpackConfig
