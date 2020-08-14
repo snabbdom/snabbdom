@@ -129,7 +129,7 @@ patch(vnode, newVnode) // Snabbdom efficiently updates the old view to the new s
     * [Delayed properties](#delayed-properties)
     * [Set properties on `remove`](#set-properties-on-remove)
     * [Set properties on `destroy`](#set-properties-on-destroy)
-  * [Eventlisteners module](#eventlisteners-module)
+  * [The eventlisteners module](#the-eventlisteners-module)
 * [SVG](#svg)
   * [Classes in SVG Elements](#classes-in-svg-elements)
 * [Thunks](#thunks)
@@ -497,7 +497,7 @@ h('span', {
 
 The `all` value of `transition-property` is not supported.
 
-### Eventlisteners module
+### The eventlisteners module
 
 The event listeners module gives powerful capabilities for attaching
 event listeners.
