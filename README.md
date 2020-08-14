@@ -460,6 +460,8 @@ h('span', {
 
 This makes it easy to declaratively animate the entry of elements.
 
+The `all` value of `transition-property` is not supported.
+
 #### Set properties on `remove`
 
 Styles set in the `remove` property will take effect once the element
@@ -479,6 +481,8 @@ h('span', {
 
 This makes it easy to declaratively animate the removal of elements.
 
+The `all` value of `transition-property` is not supported.
+
 #### Set properties on `destroy`
 
 ```mjs
@@ -490,6 +494,8 @@ h('span', {
   }
 }, 'It\'s better to fade out than to burn away')
 ```
+
+The `all` value of `transition-property` is not supported.
 
 ### Eventlisteners module
 
