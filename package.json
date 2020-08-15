@@ -70,7 +70,7 @@
     "p-reduce": "2.1.0",
     "remark-cli": "8.0.1",
     "remark-toc": "7.0.0",
-    "standard-version": "8.0.2",
+    "standard-version": "9.0.0",
     "ts-transform-import-path-rewrite": "0.2.1",
     "tsconfigs": "5.0.0",
     "tty-table": "4.1.3",
