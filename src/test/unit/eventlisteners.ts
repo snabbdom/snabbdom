@@ -151,8 +151,8 @@ describe('event listeners', function () {
     assert.strictEqual(5, called)
   })
   it('access to virtual node in event handler', function () {
-    var result: Array<VNode | HTMLElement> = []
-    function clicked (this: HTMLElement, ev: Event, vnode: VNode) {
+    var result: VNode[] = []
+    function clicked (this: VNode, ev: Event, vnode: VNode) {
       result.push(this)
       result.push(vnode)
     }
@@ -166,8 +166,8 @@ describe('event listeners', function () {
     assert.strictEqual(vnode1, result[1])
   })
   it('access to virtual node in event handler with argument', function () {
-    var result: Array<VNode | HTMLElement> = []
-    function clicked (this: HTMLElement, arg: number, ev: Event, vnode: VNode) {
+    var result: VNode[] = []
+    function clicked (this: VNode, arg: number, ev: Event, vnode: VNode) {
       result.push(this)
       result.push(vnode)
     }
@@ -181,8 +181,8 @@ describe('event listeners', function () {
     assert.strictEqual(vnode1, result[1])
   })
   it('access to virtual node in event handler with arguments', function () {
-    var result: Array<VNode | HTMLElement> = []
-    function clicked (this: HTMLElement, arg1: number, arg2: string, ev: Event, vnode: VNode) {
+    var result: VNode[] = []
+    function clicked (this: VNode, arg1: number, arg2: string, ev: Event, vnode: VNode) {
       result.push(this)
       result.push(vnode)
     }
