@@ -74,7 +74,7 @@
     "ts-transform-import-path-rewrite": "0.2.1",
     "tsconfigs": "5.0.0",
     "tty-table": "4.1.3",
-    "ttypescript": "1.5.10",
+    "ttypescript": "1.5.11",
     "typescript": "3.9.7",
     "webpack": "4.44.1",
     "webpack-cli": "3.3.12"
