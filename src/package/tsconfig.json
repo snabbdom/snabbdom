@@ -7,13 +7,10 @@
     "outDir": "../../build/package",
     "plugins": [
       {
-        "transform": "ts-transform-import-path-rewrite",
+        "transform": "./ts-transform-js-extension.cjs",
         "import": "transform",
-        "alias": {
-          "^(\\..*)(?<!\\.js)$": "$1.js"
-        },
         "after": true,
-        "type": "config"
+        "type": "raw"
       }
     ]
   },
