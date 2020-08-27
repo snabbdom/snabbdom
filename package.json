@@ -49,7 +49,7 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
-    "faker": "5.0.0",
+    "faker": "5.1.0",
     "globby": "11.0.1",
     "husky": "4.2.5",
     "is-path-inside": "3.0.2",
