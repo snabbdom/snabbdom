@@ -36,12 +36,12 @@ module.exports = function (config) {
     hostname: ci ? ip : 'localhost',
     browserStack: {
       name: 'Snabbdom',
-      retryLimit: 3,
+      retryLimit: 1,
     },
     client: {
       captureConsole: true,
     },
-    browserNoActivityTimeout: 1000000,
+    captureTimeout: 25000,
     customLaunchers: browserstack,
     reporters: ['mocha', 'benchmark', 'BrowserStack'],
     mochaReporter: {
