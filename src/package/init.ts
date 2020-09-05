@@ -16,8 +16,20 @@ type VNodeQueue = VNode[]
 
 const emptyNode = vnode('', {}, [], undefined, undefined)
 
+function sameVnodeKey (vnode1: VNode, vnode2: VNode): boolean {
+  return vnode1.key === vnode2.key
+}
+
+function sameVnodeSel (vnode1: VNode, vnode2: VNode): boolean {
+  return vnode1.sel === vnode2.sel
+}
+
+function sameVnodeIsAttr (vnode1: VNode, vnode2: VNode): boolean {
+  return vnode1.data?.attrs?.is === vnode2.data?.attrs?.is
+}
+
 function sameVnode (vnode1: VNode, vnode2: VNode): boolean {
-  return vnode1.key === vnode2.key && vnode1.sel === vnode2.sel
+  return sameVnodeKey(vnode1, vnode2) && sameVnodeSel(vnode1, vnode2) && sameVnodeIsAttr(vnode1, vnode2)
 }
 
 function isVnode (vnode: any): vnode is VNode {
@@ -109,8 +121,8 @@ export function init (modules: Array<Partial<Module>>, domApi?: DOMAPI) {
       const dot = dotIdx > 0 ? dotIdx : sel.length
       const tag = hashIdx !== -1 || dotIdx !== -1 ? sel.slice(0, Math.min(hash, dot)) : sel
       const elm = vnode.elm = isDef(data) && isDef(i = data.ns)
-        ? api.createElementNS(i, tag)
-        : api.createElement(tag)
+        ? api.createElementNS(i, tag, vnode.data?.attrs)
+        : api.createElement(tag, vnode.data?.attrs)
       if (hash < dot) elm.setAttribute('id', sel.slice(hash + 1, dot))
       if (dotIdx > 0) elm.setAttribute('class', sel.slice(dot + 1).replace(/\./g, ' '))
       for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode)

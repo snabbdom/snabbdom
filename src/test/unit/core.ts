@@ -36,17 +36,27 @@ function map (fn: any, list: any[]) {
 
 var inner = prop('innerHTML')
 
+class A extends HTMLParagraphElement {}
+class B extends HTMLParagraphElement {}
+
 describe('snabbdom', function () {
+  before(function () {
+    customElements.define('p-a', A, { extends: 'p' })
+    customElements.define('p-b', B, { extends: 'p' })
+  })
+
   var elm: any, vnode0: any
   beforeEach(function () {
     elm = document.createElement('div')
     vnode0 = elm
   })
+
   describe('hyperscript', function () {
     it('can create vnode with proper tag', function () {
       assert.strictEqual(h('div').sel, 'div')
       assert.strictEqual(h('a').sel, 'a')
     })
+
     it('can create vnode with children', function () {
       var vnode = h('div', [h('span#hello'), h('b.world')])
       assert.strictEqual(vnode.sel, 'div')
@@ -109,6 +119,7 @@ describe('snabbdom', function () {
       elm = patch(vnode0, h('div', [h('div#unique')])).elm
       assert.strictEqual(elm.firstChild.id, 'unique')
     })
+
     it('has correct namespace', function () {
       var SVGNamespace = 'http://www.w3.org/2000/svg'
       var XHTMLNamespace = 'http://www.w3.org/1999/xhtml'
@@ -180,6 +191,11 @@ describe('snabbdom', function () {
       elm = patch(vnode0, h('div', [h('i.has', { class: { classes: true } })])).elm
       assert(elm.firstChild.classList.contains('has'))
       assert(elm.firstChild.classList.contains('classes'))
+    })
+    it('can create custom elements', function () {
+      var vnode1 = h('p', { attrs: { is: 'p-a' } })
+      elm = patch(vnode0, vnode1).elm
+      assert(elm instanceof A)
     })
     it('can create elements with text content', function () {
       elm = patch(vnode0, h('div', ['I am a string'])).elm
@@ -343,6 +359,15 @@ describe('snabbdom', function () {
       assert.strictEqual((elm as any).a, 'foo')
       patch(vnode1, vnode2)
       assert.strictEqual((elm as any).a, 'foo')
+    })
+    it('handles changing is attribute', function () {
+      var vnode1 = h('p', { attrs: { is: 'p-a' } })
+      var vnode2 = h('p', { attrs: { is: 'p-b' } })
+
+      elm = patch(vnode0, vnode1).elm
+      assert(elm instanceof A)
+      elm = patch(vnode1, vnode2).elm
+      assert(elm instanceof B)
     })
     describe('using toVNode()', function () {
       it('can remove previous children of the root element', function () {
@@ -764,6 +789,7 @@ describe('snabbdom', function () {
         elm = patch(vnode1, vnode2).elm
         assert.strictEqual(elm.childNodes[0].textContent, 'Text2')
       })
+
       it('handles unmoved comment nodes', function () {
         var vnode1 = h('div', [h('!', 'Text'), h('span', 'Span')])
         var vnode2 = h('div', [h('!', 'Text'), h('span', 'Span')])

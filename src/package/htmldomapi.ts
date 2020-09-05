@@ -1,6 +1,6 @@
 export interface DOMAPI {
-  createElement: (tagName: any) => HTMLElement
-  createElementNS: (namespaceURI: string, qualifiedName: string) => Element
+  createElement: (tagName: any, options?: ElementCreationOptions) => HTMLElement
+  createElementNS: (namespaceURI: string, qualifiedName: string, options?: ElementCreationOptions) => Element
   createTextNode: (text: string) => Text
   createComment: (text: string) => Comment
   insertBefore: (parentNode: Node, newNode: Node, referenceNode: Node | null) => void
@@ -16,12 +16,12 @@ export interface DOMAPI {
   isComment: (node: Node) => node is Comment
 }
 
-function createElement (tagName: any): HTMLElement {
-  return document.createElement(tagName)
+function createElement (tagName: any, options?: ElementCreationOptions): HTMLElement {
+  return document.createElement(tagName, options)
 }
 
-function createElementNS (namespaceURI: string, qualifiedName: string): Element {
-  return document.createElementNS(namespaceURI, qualifiedName)
+function createElementNS (namespaceURI: string, qualifiedName: string, options?: ElementCreationOptions): Element {
+  return document.createElementNS(namespaceURI, qualifiedName, options)
 }
 
 function createTextNode (text: string): Text {
