@@ -191,7 +191,7 @@ describe('snabbdom', function () {
       assert(elm.firstChild.classList.contains('classes'))
     })
     it('can create custom elements', function () {
-      var vnode1 = h('p', { attrs: { is: 'p-a' } })
+      var vnode1 = h('p', { is: 'p-a' })
       elm = patch(vnode0, vnode1).elm
       assert(elm instanceof A)
     })
@@ -359,8 +359,8 @@ describe('snabbdom', function () {
       assert.strictEqual((elm as any).a, 'foo')
     })
     it('handles changing is attribute', function () {
-      var vnode1 = h('p', { attrs: { is: 'p-a' } })
-      var vnode2 = h('p', { attrs: { is: 'p-b' } })
+      var vnode1 = h('p', { is: 'p-a' })
+      var vnode2 = h('p', { is: 'p-b' })
 
       elm = patch(vnode0, vnode1).elm
       assert(elm instanceof A)
