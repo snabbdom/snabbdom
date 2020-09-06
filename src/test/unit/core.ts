@@ -56,7 +56,6 @@ describe('snabbdom', function () {
       assert.strictEqual(h('div').sel, 'div')
       assert.strictEqual(h('a').sel, 'a')
     })
-
     it('can create vnode with children', function () {
       var vnode = h('div', [h('span#hello'), h('b.world')])
       assert.strictEqual(vnode.sel, 'div')
@@ -119,7 +118,6 @@ describe('snabbdom', function () {
       elm = patch(vnode0, h('div', [h('div#unique')])).elm
       assert.strictEqual(elm.firstChild.id, 'unique')
     })
-
     it('has correct namespace', function () {
       var SVGNamespace = 'http://www.w3.org/2000/svg'
       var XHTMLNamespace = 'http://www.w3.org/1999/xhtml'
@@ -789,7 +787,6 @@ describe('snabbdom', function () {
         elm = patch(vnode1, vnode2).elm
         assert.strictEqual(elm.childNodes[0].textContent, 'Text2')
       })
-
       it('handles unmoved comment nodes', function () {
         var vnode1 = h('div', [h('!', 'Text'), h('span', 'Span')])
         var vnode2 = h('div', [h('!', 'Text'), h('span', 'Span')])
