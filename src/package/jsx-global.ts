@@ -5,6 +5,7 @@ import { VNode as _VNode, VNodeData as _VNodeData } from './vnode'
 type VNode = _VNode
 type VNodeData = _VNodeData
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 declare global {
   /**
    * opt-in jsx intrinsic global interfaces
@@ -18,3 +19,4 @@ declare global {
     }
   }
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */
