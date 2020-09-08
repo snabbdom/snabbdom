@@ -81,13 +81,15 @@ describe('event listeners', function () {
       // Check that the second argument was a vnode
       assert.strictEqual(vnode.sel, 'div')
     }
-    var vnode1 = h('div', { on: { click: [clicked, clicked, clicked] as any } }, [
+    // @ts-expect-error
+    var vnode1 = h('div', { on: { click: [clicked, clicked, clicked] } }, [
       h('a', 'Click my parent'),
     ])
     elm = patch(vnode0, vnode1).elm
     elm.click()
     assert.strictEqual(3, called)
-    var vnode2 = h('div', { on: { click: [clicked, clicked] as any } }, [
+    // @ts-expect-error
+    var vnode2 = h('div', { on: { click: [clicked, clicked] } }, [
       h('a', 'Click my parent'),
     ])
     elm = patch(vnode1, vnode2).elm

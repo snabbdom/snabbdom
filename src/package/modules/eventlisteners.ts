@@ -1,15 +1,20 @@
 import { VNode, VNodeData } from '../vnode'
 import { Module } from './module'
 
+type SpecificListener<N extends keyof HTMLElementEventMap> = (ev: HTMLElementEventMap[N]) => void
+
 export type On = {
-  [N in keyof HTMLElementEventMap]?: (ev: HTMLElementEventMap[N]) => void
+  [N in keyof HTMLElementEventMap]?: SpecificListener<N> | Array<SpecificListener<N>>
 } & {
-  [event: string]: EventListener
+  [event: string]: EventListener | EventListener[]
 }
 
-function invokeHandler (handler: any, vnode?: VNode, event?: Event): void {
+type SomeListener<N extends keyof HTMLElementEventMap> = SpecificListener<N> | EventListener
+
+function invokeHandler<N extends keyof HTMLElementEventMap> (handler: SomeListener<N> | Array<SomeListener<N>>, vnode?: VNode, event?: Event): void {
   if (typeof handler === 'function') {
     // call function handler
+    // @ts-expect-error
     handler.call(vnode, event, vnode)
   } else if (typeof handler === 'object') {
     // call multiple handlers
