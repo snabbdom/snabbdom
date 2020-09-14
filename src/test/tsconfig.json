@@ -7,7 +7,7 @@
     "types": [
       "mocha"
     ],
-    "strictFunctionTypes": false,
+    "strictFunctionTypes": true,
     "target": "ES2015",
     "outDir": "../../build/test",
     "baseUrl": "../..",

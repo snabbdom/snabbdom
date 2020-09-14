@@ -3,10 +3,12 @@ import { Module } from './module'
 
 type SpecificListener<N extends keyof HTMLElementEventMap> = (ev: HTMLElementEventMap[N]) => void
 
+type Listener = (ev: any) => void
+
 export type On = {
   [N in keyof HTMLElementEventMap]?: SpecificListener<N> | Array<SpecificListener<N>>
 } & {
-  [event: string]: EventListener | EventListener[]
+  [event: string]: Listener | Listener[]
 }
 
 type SomeListener<N extends keyof HTMLElementEventMap> = SpecificListener<N> | EventListener
