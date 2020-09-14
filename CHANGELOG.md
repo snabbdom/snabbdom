@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/snabbdom/snabbdom/compare/v2.0.0...v2.1.0) (2020-09-14)
+
+
+### Features
+
+* **eventlisteners:** add types for VNode in listener ([63b1b6c](https://github.com/snabbdom/snabbdom/commit/63b1b6c22e49d06b1fb509a14d321ec19f324bb5)), closes [#796](https://github.com/snabbdom/snabbdom/issues/796)
+* **eventlisteners:** relax custom event listener type ([15ce059](https://github.com/snabbdom/snabbdom/commit/15ce059e2b5e80d1975168fff2d2a44f71bd5cbb)), closes [#850](https://github.com/snabbdom/snabbdom/issues/850)
+
 ## [2.0.0](https://github.com/snabbdom/snabbdom/compare/v1.0.1...v2.0.0) (2020-09-10)
 
 
