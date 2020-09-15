@@ -105,7 +105,6 @@ describe('core benchmark', () => {
         inputs,
         async function subjectToResultReducer (acc: HTMLElement | VNode, input, i) {
           const vnode = view(input)
-          // @ts-expect-error
           subject(acc, vnode)
           if (i % REQUEST_ANIMATION_FRAME_EVERY_N_PATCHES === 0) {
             await new Promise((resolve) => {
