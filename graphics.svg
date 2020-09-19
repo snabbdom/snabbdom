@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="539px"
+   height="96px"
+   viewBox="0 0 539 96"
+   version="1.1"
+   id="svg858"
+   sodipodi:docname="snabbdom-logo.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+  <metadata
+     id="metadata862">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1862"
+     inkscape:window-height="1016"
+     id="namedview860"
+     showgrid="false"
+     inkscape:zoom="1.570328"
+     inkscape:cx="284.49611"
+     inkscape:cy="6.4800713"
+     inkscape:window-x="1978"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg858" />
+  <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+  <desc
+     id="desc842">Created with Sketch.</desc>
+  <defs
+     id="defs849">
+    <linearGradient
+       x1="0%"
+       y1="33.6063981%"
+       x2="100%"
+       y2="33.6063971%"
+       id="linearGradient-1">
+      <stop
+         stop-color="#3023AE"
+         offset="0%"
+         id="stop844" />
+      <stop
+         stop-color="#C86DD7"
+         offset="100%"
+         id="stop846" />
+    </linearGradient>
+  </defs>
+  <g
+     id="Page-1"
+     stroke="none"
+     stroke-width="1"
+     fill="none"
+     fill-rule="evenodd">
+    <g
+       id="Group-8">
+      <g
+         id="Group-2-Copy-2">
+        <path
+           d="M31.5703506,0.790039063 L0.360389693,32 L64,95.6396103 L127.63961,32 L96.4296494,0.790039063 L31.5703506,0.790039063 Z"
+           id="Combined-Shape"
+           fill="url(#linearGradient-1)" />
+        <path
+           d="M99.3537178,17.8594856 L99.3553391,17.8578644 L106.426407,24.9289322 L99.3553391,32 L92.2858925,24.9305534 L92.2842712,24.9321747 L85.2132034,17.8611069 L92.2842712,10.7900391 L99.3537178,17.8594856 Z M14.5025253,32 L21.5735931,24.9289322 L28.6446609,32 L21.5735931,39.0710678 L14.5025253,32 Z M21.5735931,24.9289322 L28.6446609,17.8578644 L35.7157288,24.9289322 L28.6446609,32 L21.5735931,24.9289322 Z M28.6446609,17.8578644 L35.7157288,10.7867966 L42.7867966,17.8578644 L35.7157288,24.9289322 L28.6446609,17.8578644 Z M21.5735931,39.0710678 L28.6446609,32 L35.7157288,39.0710678 L28.6446609,46.1421356 L21.5735931,39.0710678 Z M28.6446609,46.1421356 L35.7157288,39.0710678 L42.7867966,46.1421356 L35.7157288,53.2132034 L28.6446609,46.1421356 Z M42.7867966,60.2842712 L49.8578644,53.2132034 L56.9289322,60.2842712 L49.8578644,67.3553391 L42.7867966,60.2842712 Z M49.8578644,67.3553391 L56.9289322,60.2842712 L64,67.3553391 L56.9289322,74.4264069 L49.8578644,67.3553391 Z M56.9289322,74.4264069 L64,67.3553391 L71.0710678,74.4264069 L64,81.4974747 L56.9289322,74.4264069 Z M64,67.3553391 L71.0710678,60.2842712 L78.1421356,67.3553391 L71.0710678,74.4264069 L64,67.3553391 Z M71.0710678,60.2842712 L78.1421356,53.2132034 L85.2132034,60.2842712 L78.1421356,67.3553391 L71.0710678,60.2842712 Z M64,53.2132034 L71.0710678,46.1421356 L78.1421356,53.2132034 L71.0710678,60.2842712 L64,53.2132034 Z M56.9289322,46.1421356 L64,39.0710678 L71.0710678,46.1421356 L64,53.2132034 L56.9289322,46.1421356 Z M49.8578644,39.0710678 L56.9289322,32 L64,39.0710678 L56.9289322,46.1421356 L49.8578644,39.0710678 Z M42.7867966,32 L49.8578644,24.9289322 L56.9289322,32 L49.8578644,39.0710678 L42.7867966,32 Z M49.8578644,24.9289322 L56.9289322,17.8578644 L64,24.9289322 L56.9289322,32 L49.8578644,24.9289322 Z M56.9289322,17.8578644 L64,10.7867966 L71.0710678,17.8578644 L64,24.9289322 L56.9289322,17.8578644 Z M64,24.9289322 L71.0710678,17.8578644 L78.1421356,24.9289322 L71.0710678,32 L64,24.9289322 Z M71.0710678,32 L78.1421356,24.9289322 L85.2132034,32 L78.1421356,39.0710678 L71.0710678,32 Z M85.2132034,46.1421356 L92.2842712,39.0710678 L99.3553391,46.1421356 L92.2842712,53.2132034 L85.2132034,46.1421356 Z M92.2842712,39.0710678 L99.3553391,32 L106.426407,39.0710678 L99.3553391,46.1421356 L92.2842712,39.0710678 Z M99.3553391,32 L106.426407,24.9289322 L113.497475,32 L106.426407,39.0710678 L99.3553391,32 Z"
+           id="path852"
+           fill="#FFFFFF" />
+      </g>
+    </g>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:80.2879px;line-height:50.1801px;font-family:sans-serif;letter-spacing:0.3px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.00719;"
+     x="146.64102"
+     y="74.721977"
+     id="text866"><tspan
+       sodipodi:role="line"
+       id="tspan864"
+       x="146.64102"
+       y="74.721977"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#000000;fill-opacity:1;stroke-width:2.00719;">Snabbdom</tspan></text>
+</svg>
