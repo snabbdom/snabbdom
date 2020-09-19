@@ -9,3 +9,6 @@ indent_size = 2
 
 [*.min.js.map]
 insert_final_newline = false
+
+[graphics.svg]
+indent_size = unset
