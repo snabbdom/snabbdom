@@ -1,4 +1,4 @@
-<img alt="Snabbdom" src="logo.png" width="356px">
+<img alt="Snabbdom" src="readme-title.svg" width="356px">
 
 A virtual DOM library with focus on simplicity, modularity, powerful features
 and performance.
