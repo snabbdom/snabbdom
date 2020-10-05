@@ -27,6 +27,7 @@
     "unit/htmldomapi.ts",
     "unit/jsx.tsx",
     "unit/style.ts",
-    "unit/thunk.ts"
+    "unit/thunk.ts",
+    "types/karma.d.ts"
   ]
 }
