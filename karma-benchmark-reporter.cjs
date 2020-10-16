@@ -3,7 +3,7 @@ const Table = require('tty-table')
 
 exports['reporter:benchmark'] = ['type', BenchmarkReporter]
 
-function BenchmarkReporter (baseReporterDecorator) {
+function BenchmarkReporter(baseReporterDecorator) {
   baseReporterDecorator(this)
   const resultsPerBrowser = new Map()
   this.onBrowserInfo = function (browser, info) {
@@ -14,31 +14,33 @@ function BenchmarkReporter (baseReporterDecorator) {
   }
   this.onRunComplete = function () {
     if (resultsPerBrowser.size === 0) return
-    this.writeCommonMsg(chalk.underline.bold('\nBENCHMARK (times in seconds):\n'))
+    this.writeCommonMsg(
+      chalk.underline.bold('\nBENCHMARK (times in seconds):\n')
+    )
     resultsPerBrowser.forEach((results, browserName) => {
       this.writeCommonMsg(`  ${chalk.bold(browserName)}:\n`)
       const rows = results.map(({ cur, ref }, i) => ({
         i: String(i),
         cur: cur.toFixed(0),
         ref: ref.toFixed(0),
-        diff: `${(cur / ref * 100).toFixed(2)}%`,
+        diff: `${((cur / ref) * 100).toFixed(2)}%`,
       }))
       const header = [
         {
           value: 'i',
-          align: 'right'
+          align: 'right',
         },
         {
           value: 'ref',
-          align: 'right'
+          align: 'right',
         },
         {
           value: 'cur',
-          align: 'right'
+          align: 'right',
         },
         {
           value: 'diff',
-          align: 'right'
+          align: 'right',
         },
       ]
       console.log(Table(header, rows).render())

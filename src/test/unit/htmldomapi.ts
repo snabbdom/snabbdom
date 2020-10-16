@@ -4,9 +4,7 @@ import { init } from '../../package/init'
 import { h } from '../../package/h'
 import { attributesModule } from '../../package/modules/attributes'
 
-var patch = init([
-  attributesModule
-])
+var patch = init([attributesModule])
 
 describe('svg', function () {
   var elm: any, vnode0: any
@@ -16,13 +14,8 @@ describe('svg', function () {
   })
 
   it('removes child svg elements', function () {
-    var a = h('svg', {}, [
-      h('g'),
-      h('g')
-    ])
-    var b = h('svg', {}, [
-      h('g')
-    ])
+    var a = h('svg', {}, [h('g'), h('g')])
+    var b = h('svg', {}, [h('g')])
     var result = patch(patch(vnode0, a), b).elm as SVGElement
     assert.strictEqual(result.childNodes.length, 1)
   })
@@ -31,9 +24,13 @@ describe('svg', function () {
     var xlinkNS = 'http://www.w3.org/1999/xlink'
     var testUrl = '/test'
     var a = h('svg', {}, [
-      h('use', {
-        attrs: { 'xlink:href': testUrl }
-      }, [])
+      h(
+        'use',
+        {
+          attrs: { 'xlink:href': testUrl },
+        },
+        []
+      ),
     ])
 
     var result = patch(vnode0, a).elm as SVGElement

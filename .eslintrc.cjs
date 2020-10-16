@@ -1,18 +1,13 @@
 module.exports = {
-  extends: 'standard-with-typescript',
+  extends: ['standard-with-typescript', 'plugin:prettier/recommended'],
   parserOptions: {
-    project: [
-      './src/package/tsconfig.json',
-      './src/test/tsconfig.json',
-    ]
+    project: ['./src/package/tsconfig.json', './src/test/tsconfig.json'],
   },
-  plugins: [
-    'markdown',
-  ],
+  plugins: ['markdown'],
   overrides: [
     {
       files: ['**/*.md'],
-      processor: 'markdown/markdown'
+      processor: 'markdown/markdown',
     },
     {
       files: ['**/*.md/*.@(mjs|ts)'],
@@ -21,10 +16,9 @@ module.exports = {
         'no-unused-expressions': 'off',
         'no-unused-vars': 'off',
       },
-    }
+    },
   ],
   rules: {
-    'import/newline-after-import': 'error',
     'max-statements-per-line': 'error',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
@@ -38,7 +32,9 @@ module.exports = {
     '@typescript-eslint/restrict-plus-operands': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/method-signature-style': 'off',
+    '@typescript-eslint/space-before-function-paren': 'off',
+    '@typescript-eslint/indent': 'off',
     'comma-dangle': ['error', 'only-multiline'],
     'no-mixed-operators': 'off',
-  }
+  },
 }

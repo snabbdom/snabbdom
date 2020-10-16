@@ -66,11 +66,7 @@ describe('attachTo', function () {
         attachTo(elm, h('div#attached', 'First text')),
       ]),
     ])
-    var vnode2 = h('div', [
-      h('div#wrapper', [
-        h('div', 'Some element'),
-      ]),
-    ])
+    var vnode2 = h('div', [h('div#wrapper', [h('div', 'Some element')])])
     elm = patch(vnode0, vnode1).elm
     assert.strictEqual(elm.children[0].innerHTML, 'First text')
     elm = patch(vnode1, vnode2).elm
@@ -86,14 +82,13 @@ describe('attachTo', function () {
     var vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
-        attachTo(elm, h('div#attached', { hook: { remove: rm } }, 'First text')),
+        attachTo(
+          elm,
+          h('div#attached', { hook: { remove: rm } }, 'First text')
+        ),
       ]),
     ])
-    var vnode2 = h('div', [
-      h('div#wrapper', [
-        h('div', 'Some element'),
-      ]),
-    ])
+    var vnode2 = h('div', [h('div#wrapper', [h('div', 'Some element')])])
     elm = patch(vnode0, vnode1).elm
     elm = patch(vnode1, vnode2).elm
   })

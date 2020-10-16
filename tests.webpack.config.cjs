@@ -6,17 +6,20 @@ const outputPath = path.resolve(__dirname, 'build/test')
 const makeTestsWebpackConfig = async () => ({
   mode: 'development',
   entry: Object.fromEntries(
-    (await globby(path.resolve(outputPath, '**/*.js')))
-      .map((item) => [path.relative(outputPath, item), item])
+    (await globby(path.resolve(outputPath, '**/*.js'))).map((item) => [
+      path.relative(outputPath, item),
+      item,
+    ])
   ),
   output: {
     path: path.resolve(__dirname, 'test-bundles'),
-    filename: ({ chunk }) => chunk.name
+    filename: ({ chunk }) => chunk.name,
   },
   module: {
     rules: [
       {
-        exclude: (input) => isPathInside(input, path.resolve(__dirname, 'node_modules')),
+        exclude: (input) =>
+          isPathInside(input, path.resolve(__dirname, 'node_modules')),
         test: /\.m?js$/,
         use: {
           loader: 'babel-loader',
@@ -27,18 +30,19 @@ const makeTestsWebpackConfig = async () => ({
                 {
                   useBuiltIns: 'usage',
                   corejs: 3,
-                }
-              ]
-            ]
-          }
-        }
-      }
-    ]
+                },
+              ],
+            ],
+          },
+        },
+      },
+    ],
   },
   resolve: {
     alias: {
-      'latest-snabbdom-release/init': 'latest-snabbdom-release/build/package/init'
-    }
-  }
+      'latest-snabbdom-release/init':
+        'latest-snabbdom-release/build/package/init',
+    },
+  },
 })
 module.exports = makeTestsWebpackConfig

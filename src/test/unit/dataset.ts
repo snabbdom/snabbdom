@@ -4,9 +4,7 @@ import { datasetModule } from '../../package/modules/dataset'
 import { init } from '../../package/init'
 import { h } from '../../package/h'
 
-var patch = init([
-  datasetModule
-])
+var patch = init([datasetModule])
 
 describe('dataset', function () {
   before(function () {
@@ -46,7 +44,16 @@ describe('dataset', function () {
     assert.strictEqual(elm.dataset.bar, 'bar')
   })
   it('handles string conversions', function () {
-    var vnode1 = h('i', { dataset: { empty: '', dash: '-', dashed: 'foo-bar', camel: 'fooBar', integer: 0 as any, float: 0.1 as any } })
+    var vnode1 = h('i', {
+      dataset: {
+        empty: '',
+        dash: '-',
+        dashed: 'foo-bar',
+        camel: 'fooBar',
+        integer: 0 as any,
+        float: 0.1 as any,
+      },
+    })
     elm = patch(vnode0, vnode1).elm
 
     assert.strictEqual(elm.dataset.empty, '')

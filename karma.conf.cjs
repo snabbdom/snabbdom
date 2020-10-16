@@ -12,19 +12,17 @@ const BROWSERSTACK_OPEN_SOURCE_CONCURRENCY = 5
 const browsers = ci
   ? Object.keys(browserstack)
   : live
-    ? undefined
-    : watch
-      ? ['Chrome']
-      : ['Chrome', 'Firefox']
+  ? undefined
+  : watch
+  ? ['Chrome']
+  : ['Chrome', 'Firefox']
 
 module.exports = function (config) {
   config.set({
     basePath: '.',
     frameworks: ['mocha'],
     // list of files / patterns to load in the browser
-    files: [
-      { pattern: process.env.FILES_PATTERN },
-    ],
+    files: [{ pattern: process.env.FILES_PATTERN }],
     plugins: [
       'karma-mocha',
       require('karma-mocha-reporter'),
@@ -44,7 +42,7 @@ module.exports = function (config) {
     customLaunchers: browserstack,
     reporters: ['mocha', 'benchmark', 'BrowserStack'],
     mochaReporter: {
-      showDiff: true
+      showDiff: true,
     },
     port: 9876,
     colors: true,

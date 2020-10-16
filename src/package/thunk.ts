@@ -15,22 +15,22 @@ export interface ThunkFn {
   (sel: string, key: any, fn: Function, args: any[]): Thunk
 }
 
-function copyToThunk (vnode: VNode, thunk: VNode): void {
-  (vnode.data as VNodeData).fn = (thunk.data as VNodeData).fn;
-  (vnode.data as VNodeData).args = (thunk.data as VNodeData).args
+function copyToThunk(vnode: VNode, thunk: VNode): void {
+  ;(vnode.data as VNodeData).fn = (thunk.data as VNodeData).fn
+  ;(vnode.data as VNodeData).args = (thunk.data as VNodeData).args
   thunk.data = vnode.data
   thunk.children = vnode.children
   thunk.text = vnode.text
   thunk.elm = vnode.elm
 }
 
-function init (thunk: VNode): void {
+function init(thunk: VNode): void {
   const cur = thunk.data as VNodeData
   const vnode = (cur.fn as any).apply(undefined, cur.args)
   copyToThunk(vnode, thunk)
 }
 
-function prepatch (oldVnode: VNode, thunk: VNode): void {
+function prepatch(oldVnode: VNode, thunk: VNode): void {
   let i: number
   const old = oldVnode.data as VNodeData
   const cur = thunk.data as VNodeData
@@ -49,7 +49,12 @@ function prepatch (oldVnode: VNode, thunk: VNode): void {
   copyToThunk(oldVnode, thunk)
 }
 
-export const thunk = function thunk (sel: string, key?: any, fn?: any, args?: any): VNode {
+export const thunk = function thunk(
+  sel: string,
+  key?: any,
+  fn?: any,
+  args?: any
+): VNode {
   if (args === undefined) {
     args = fn
     fn = key
@@ -59,6 +64,6 @@ export const thunk = function thunk (sel: string, key?: any, fn?: any, args?: an
     key: key,
     hook: { init, prepatch },
     fn: fn,
-    args: args
+    args: args,
   })
 } as ThunkFn

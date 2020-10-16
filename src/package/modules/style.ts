@@ -7,7 +7,10 @@ export type VNodeStyle = Record<string, string> & {
 }
 
 // Bindig `requestAnimationFrame` like this fixes a bug in IE/Edge. See #360 and #409.
-var raf = (typeof window !== 'undefined' && (window.requestAnimationFrame).bind(window)) || setTimeout
+var raf =
+  (typeof window !== 'undefined' &&
+    window.requestAnimationFrame.bind(window)) ||
+  setTimeout
 var nextFrame = function (fn: any) {
   raf(function () {
     raf(fn)
@@ -15,13 +18,13 @@ var nextFrame = function (fn: any) {
 }
 var reflowForced = false
 
-function setNextFrame (obj: any, prop: string, val: any): void {
+function setNextFrame(obj: any, prop: string, val: any): void {
   nextFrame(function () {
     obj[prop] = val
   })
 }
 
-function updateStyle (oldVnode: VNode, vnode: VNode): void {
+function updateStyle(oldVnode: VNode, vnode: VNode): void {
   var cur: any
   var name: string
   var elm = vnode.elm
@@ -37,9 +40,9 @@ function updateStyle (oldVnode: VNode, vnode: VNode): void {
   for (name in oldStyle) {
     if (!style[name]) {
       if (name[0] === '-' && name[1] === '-') {
-        (elm as any).style.removeProperty(name)
+        ;(elm as any).style.removeProperty(name)
       } else {
-        (elm as any).style[name] = ''
+        ;(elm as any).style[name] = ''
       }
     }
   }
@@ -54,26 +57,26 @@ function updateStyle (oldVnode: VNode, vnode: VNode): void {
       }
     } else if (name !== 'remove' && cur !== oldStyle[name]) {
       if (name[0] === '-' && name[1] === '-') {
-        (elm as any).style.setProperty(name, cur)
+        ;(elm as any).style.setProperty(name, cur)
       } else {
-        (elm as any).style[name] = cur
+        ;(elm as any).style[name] = cur
       }
     }
   }
 }
 
-function applyDestroyStyle (vnode: VNode): void {
+function applyDestroyStyle(vnode: VNode): void {
   var style: any
   var name: string
   var elm = vnode.elm
   var s = (vnode.data as VNodeData).style
   if (!s || !(style = s.destroy)) return
   for (name in style) {
-    (elm as any).style[name] = style[name]
+    ;(elm as any).style[name] = style[name]
   }
 }
 
-function applyRemoveStyle (vnode: VNode, rm: () => void): void {
+function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   var s = (vnode.data as VNodeData).style
   if (!s || !s.remove) {
     rm()
@@ -81,7 +84,7 @@ function applyRemoveStyle (vnode: VNode, rm: () => void): void {
   }
   if (!reflowForced) {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    (vnode.elm as any).offsetLeft
+    ;(vnode.elm as any).offsetLeft
     reflowForced = true
   }
   var name: string
@@ -92,21 +95,23 @@ function applyRemoveStyle (vnode: VNode, rm: () => void): void {
   var amount = 0
   var applied: string[] = []
   for (name in style) {
-    applied.push(name);
-    (elm as any).style[name] = style[name]
+    applied.push(name)
+    ;(elm as any).style[name] = style[name]
   }
   compStyle = getComputedStyle(elm as Element)
   var props = (compStyle as any)['transition-property'].split(', ')
   for (; i < props.length; ++i) {
     if (applied.indexOf(props[i]) !== -1) amount++
   }
-  (elm as Element).addEventListener('transitionend', function (ev: TransitionEvent) {
+  ;(elm as Element).addEventListener('transitionend', function (
+    ev: TransitionEvent
+  ) {
     if (ev.target === elm) --amount
     if (amount === 0) rm()
   })
 }
 
-function forceReflow () {
+function forceReflow() {
   reflowForced = false
 }
 
@@ -115,5 +120,5 @@ export const styleModule: Module = {
   create: updateStyle,
   update: updateStyle,
   destroy: applyDestroyStyle,
-  remove: applyRemoveStyle
+  remove: applyRemoveStyle,
 }

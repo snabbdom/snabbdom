@@ -4,14 +4,22 @@ import { Module } from './module'
 type Listener<T> = (this: VNode, ev: T, vnode: VNode) => void
 
 export type On = {
-  [N in keyof HTMLElementEventMap]?: Listener<HTMLElementEventMap[N]> | Array<Listener<HTMLElementEventMap[N]>>
+  [N in keyof HTMLElementEventMap]?:
+    | Listener<HTMLElementEventMap[N]>
+    | Array<Listener<HTMLElementEventMap[N]>>
 } & {
   [event: string]: Listener<any> | Array<Listener<any>>
 }
 
-type SomeListener<N extends keyof HTMLElementEventMap> = Listener<HTMLElementEventMap[N]> | Listener<any>
+type SomeListener<N extends keyof HTMLElementEventMap> =
+  | Listener<HTMLElementEventMap[N]>
+  | Listener<any>
 
-function invokeHandler<N extends keyof HTMLElementEventMap> (handler: SomeListener<N> | Array<SomeListener<N>>, vnode: VNode, event?: Event): void {
+function invokeHandler<N extends keyof HTMLElementEventMap>(
+  handler: SomeListener<N> | Array<SomeListener<N>>,
+  vnode: VNode,
+  event?: Event
+): void {
   if (typeof handler === 'function') {
     // call function handler
     handler.call(vnode, event, vnode)
@@ -23,7 +31,7 @@ function invokeHandler<N extends keyof HTMLElementEventMap> (handler: SomeListen
   }
 }
 
-function handleEvent (event: Event, vnode: VNode) {
+function handleEvent(event: Event, vnode: VNode) {
   var name = event.type
   var on = (vnode.data as VNodeData).on
 
@@ -33,13 +41,13 @@ function handleEvent (event: Event, vnode: VNode) {
   }
 }
 
-function createListener () {
-  return function handler (event: Event) {
+function createListener() {
+  return function handler(event: Event) {
     handleEvent(event, (handler as any).vnode)
   }
 }
 
-function updateEventListeners (oldVnode: VNode, vnode?: VNode): void {
+function updateEventListeners(oldVnode: VNode, vnode?: VNode): void {
   var oldOn = (oldVnode.data as VNodeData).on
   var oldListener = (oldVnode as any).listener
   var oldElm: Element = oldVnode.elm as Element
@@ -73,7 +81,8 @@ function updateEventListeners (oldVnode: VNode, vnode?: VNode): void {
   // add new listeners which has not already attached
   if (on) {
     // reuse existing listener or create new
-    var listener = (vnode as any).listener = (oldVnode as any).listener || createListener()
+    var listener = ((vnode as any).listener =
+      (oldVnode as any).listener || createListener())
     // update vnode for listener
     listener.vnode = vnode
 
@@ -97,5 +106,5 @@ function updateEventListeners (oldVnode: VNode, vnode?: VNode): void {
 export const eventListenersModule: Module = {
   create: updateEventListeners,
   update: updateEventListeners,
-  destroy: updateEventListeners
+  destroy: updateEventListeners,
 }

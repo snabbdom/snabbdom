@@ -5,13 +5,12 @@ import { styleModule } from '../../package/modules/style'
 import { h } from '../../package/h'
 import { toVNode } from '../../package/tovnode'
 
-var patch = init([
-  styleModule
-])
+var patch = init([styleModule])
 
 const featureDiscoveryElm = document.createElement('div')
 featureDiscoveryElm.style.setProperty('--foo', 'foo')
-const hasCssVariables = featureDiscoveryElm.style.getPropertyValue('--foo') === 'foo'
+const hasCssVariables =
+  featureDiscoveryElm.style.getPropertyValue('--foo') === 'foo'
 
 describe('style', function () {
   var elm: any, vnode0: any
@@ -116,8 +115,12 @@ describe('style', function () {
     }
   })
   it('updates delayed styles in next frame', function (done) {
-    var vnode1 = h('i', { style: { fontSize: '14px', delayed: { fontSize: '16px' } as any } })
-    var vnode2 = h('i', { style: { fontSize: '18px', delayed: { fontSize: '20px' } as any } })
+    var vnode1 = h('i', {
+      style: { fontSize: '14px', delayed: { fontSize: '16px' } as any },
+    })
+    var vnode2 = h('i', {
+      style: { fontSize: '18px', delayed: { fontSize: '20px' } as any },
+    })
     elm = patch(vnode0, vnode1).elm
     assert.strictEqual(elm.style.fontSize, '14px')
     requestAnimationFrame(() => {
@@ -135,12 +138,16 @@ describe('style', function () {
     })
   })
   it('applies tranform as transition on remove', function (done) {
-    var btn = h('button', {
-      style: {
-        transition: 'transform 0.1s',
-        remove: { transform: 'translateY(100%)' } as any
-      }
-    }, ['A button'])
+    var btn = h(
+      'button',
+      {
+        style: {
+          transition: 'transform 0.1s',
+          remove: { transform: 'translateY(100%)' } as any,
+        },
+      },
+      ['A button']
+    )
     var vnode1 = h('div.parent', {}, [btn])
     var vnode2 = h('div.parent', {}, [null])
     document.body.appendChild(vnode0)

@@ -3,7 +3,7 @@ import { Module } from './module'
 
 export type Props = Record<string, any>
 
-function updateProps (oldVnode: VNode, vnode: VNode): void {
+function updateProps(oldVnode: VNode, vnode: VNode): void {
   var key: string
   var cur: any
   var old: any
@@ -20,7 +20,7 @@ function updateProps (oldVnode: VNode, vnode: VNode): void {
     cur = props[key]
     old = oldProps[key]
     if (old !== cur && (key !== 'value' || (elm as any)[key] !== cur)) {
-      (elm as any)[key] = cur
+      ;(elm as any)[key] = cur
     }
   }
 }

@@ -43,10 +43,12 @@
     "cross-env": "7.0.2",
     "editorconfig-checker": "3.2.0",
     "eslint": "7.9.0",
+    "eslint-config-prettier": "^6.12.0",
     "eslint-config-standard-with-typescript": "19.0.1",
     "eslint-plugin-import": "2.22.0",
     "eslint-plugin-markdown": "2.0.0-rc.0",
     "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
     "faker": "5.1.0",
@@ -68,6 +70,7 @@
     "npm-run-all": "4.1.5",
     "p-map-series": "2.1.0",
     "p-reduce": "2.1.0",
+    "prettier": "^2.1.2",
     "regenerator-runtime": "0.13.7",
     "remark-cli": "8.0.1",
     "remark-toc": "7.0.0",
@@ -79,12 +82,16 @@
     "webpack": "4.44.2",
     "webpack-cli": "3.3.12"
   },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
   "scripts": {
     "mark-pr-head-as-trusted": "node --unhandled-rejections=strict mark-pr-head-as-trusted.cjs",
     "docs": "remark . --output",
     "check-clean": "git diff --exit-code",
     "lint:js": "eslint --ext .ts,.tsx,.cjs,.md,.mjs --ignore-path .gitignore .",
-    "lint:editorconfig": "editorconfig-checker",
+    "lint:editorconfig": "editorconfig-checker -exclude svg",
     "lint": "run-s lint:editorconfig lint:js",
     "unit": "cross-env FILES_PATTERN=\"test-bundles/unit/**/*.js\" karma start karma.conf.cjs",
     "benchmark": "cross-env FILES_PATTERN=\"test-bundles/benchmark/**/*.js\" karma start karma.conf.cjs --concurrency=1",
@@ -92,7 +99,8 @@
     "test": "run-s lint compile bundle-tests unit",
     "compile": "ttsc --build src/test/tsconfig.json",
     "bundle-tests": "webpack --config tests.webpack.config.cjs",
-    "prepublishOnly": "npm run compile"
+    "prepublishOnly": "npm run compile",
+    "format": "prettier --write ./{.,src,perf,examples}/**/*.{ts,tsx,js,cjs}"
   },
   "repository": {
     "type": "git",

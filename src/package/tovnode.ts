@@ -1,7 +1,7 @@
 import { vnode, VNode } from './vnode'
 import { htmlDomApi, DOMAPI } from './htmldomapi'
 
-export function toVNode (node: Node, domApi?: DOMAPI): VNode {
+export function toVNode(node: Node, domApi?: DOMAPI): VNode {
   const api: DOMAPI = domApi !== undefined ? domApi : htmlDomApi
   let text: string
   if (api.isElement(node)) {

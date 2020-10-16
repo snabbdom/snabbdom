@@ -3,7 +3,7 @@ import { Module } from './module'
 
 export type Classes = Record<string, boolean>
 
-function updateClass (oldVnode: VNode, vnode: VNode): void {
+function updateClass(oldVnode: VNode, vnode: VNode): void {
   var cur: any
   var name: string
   var elm: Element = vnode.elm as Element
@@ -16,10 +16,7 @@ function updateClass (oldVnode: VNode, vnode: VNode): void {
   klass = klass || {}
 
   for (name in oldClass) {
-    if (
-      oldClass[name] &&
-      !Object.prototype.hasOwnProperty.call(klass, name)
-    ) {
+    if (oldClass[name] && !Object.prototype.hasOwnProperty.call(klass, name)) {
       // was `true` and now not provided
       elm.classList.remove(name)
     }
@@ -27,7 +24,7 @@ function updateClass (oldVnode: VNode, vnode: VNode): void {
   for (name in klass) {
     cur = klass[name]
     if (cur !== oldClass[name]) {
-      (elm.classList as any)[cur ? 'add' : 'remove'](name)
+      ;(elm.classList as any)[cur ? 'add' : 'remove'](name)
     }
   }
 }

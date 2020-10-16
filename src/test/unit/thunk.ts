@@ -5,8 +5,7 @@ import { h } from '../../package/h'
 import { thunk } from '../../package/thunk'
 import { VNode } from '../../package/vnode'
 
-var patch = init([
-])
+var patch = init([])
 
 describe('thunk', function () {
   var elm: any, vnode0: any
@@ -14,7 +13,7 @@ describe('thunk', function () {
     elm = vnode0 = document.createElement('div')
   })
   it('returns vnode with data and render function', function () {
-    function numberInSpan (n: number) {
+    function numberInSpan(n: number) {
       return h('span', 'Number is ' + n)
     }
     var vnode = thunk('span', 'num', numberInSpan, [22])
@@ -24,16 +23,12 @@ describe('thunk', function () {
   })
   it('calls render function once on data change', function () {
     var called = 0
-    function numberInSpan (n: number) {
+    function numberInSpan(n: number) {
       called++
       return h('span', { key: 'num' }, 'Number is ' + n)
     }
-    var vnode1 = h('div', [
-      thunk('span', 'num', numberInSpan, [1])
-    ])
-    var vnode2 = h('div', [
-      thunk('span', 'num', numberInSpan, [2])
-    ])
+    var vnode1 = h('div', [thunk('span', 'num', numberInSpan, [1])])
+    var vnode2 = h('div', [thunk('span', 'num', numberInSpan, [2])])
     patch(vnode0, vnode1)
     assert.strictEqual(called, 1)
     patch(vnode1, vnode2)
@@ -41,16 +36,12 @@ describe('thunk', function () {
   })
   it('does not call render function on data unchanged', function () {
     var called = 0
-    function numberInSpan (n: number) {
+    function numberInSpan(n: number) {
       called++
       return h('span', { key: 'num' }, 'Number is ' + n)
     }
-    var vnode1 = h('div', [
-      thunk('span', 'num', numberInSpan, [1])
-    ])
-    var vnode2 = h('div', [
-      thunk('span', 'num', numberInSpan, [1])
-    ])
+    var vnode1 = h('div', [thunk('span', 'num', numberInSpan, [1])])
+    var vnode2 = h('div', [thunk('span', 'num', numberInSpan, [1])])
     patch(vnode0, vnode1)
     assert.strictEqual(called, 1)
     patch(vnode1, vnode2)
@@ -58,16 +49,12 @@ describe('thunk', function () {
   })
   it('calls render function once on data-length change', function () {
     var called = 0
-    function numberInSpan (n: number) {
+    function numberInSpan(n: number) {
       called++
       return h('span', { key: 'num' }, 'Number is ' + n)
     }
-    var vnode1 = h('div', [
-      thunk('span', 'num', numberInSpan, [1])
-    ])
-    var vnode2 = h('div', [
-      thunk('span', 'num', numberInSpan, [1, 2])
-    ])
+    var vnode1 = h('div', [thunk('span', 'num', numberInSpan, [1])])
+    var vnode2 = h('div', [thunk('span', 'num', numberInSpan, [1, 2])])
     patch(vnode0, vnode1)
     assert.strictEqual(called, 1)
     patch(vnode1, vnode2)
@@ -75,20 +62,16 @@ describe('thunk', function () {
   })
   it('calls render function once on function change', function () {
     var called = 0
-    function numberInSpan (n: number) {
+    function numberInSpan(n: number) {
       called++
       return h('span', { key: 'num' }, 'Number is ' + n)
     }
-    function numberInSpan2 (n: number) {
+    function numberInSpan2(n: number) {
       called++
       return h('span', { key: 'num' }, 'Number really is ' + n)
     }
-    var vnode1 = h('div', [
-      thunk('span', 'num', numberInSpan, [1])
-    ])
-    var vnode2 = h('div', [
-      thunk('span', 'num', numberInSpan2, [1])
-    ])
+    var vnode1 = h('div', [thunk('span', 'num', numberInSpan, [1])])
+    var vnode2 = h('div', [thunk('span', 'num', numberInSpan2, [1])])
     patch(vnode0, vnode1)
     assert.strictEqual(called, 1)
     patch(vnode1, vnode2)
@@ -96,19 +79,13 @@ describe('thunk', function () {
   })
   it('renders correctly', function () {
     var called = 0
-    function numberInSpan (n: number) {
+    function numberInSpan(n: number) {
       called++
       return h('span', { key: 'num' }, 'Number is ' + n)
     }
-    var vnode1 = h('div', [
-      thunk('span', 'num', numberInSpan, [1])
-    ])
-    var vnode2 = h('div', [
-      thunk('span', 'num', numberInSpan, [1])
-    ])
-    var vnode3 = h('div', [
-      thunk('span', 'num', numberInSpan, [2])
-    ])
+    var vnode1 = h('div', [thunk('span', 'num', numberInSpan, [1])])
+    var vnode2 = h('div', [thunk('span', 'num', numberInSpan, [1])])
+    var vnode3 = h('div', [thunk('span', 'num', numberInSpan, [2])])
     elm = patch(vnode0, vnode1).elm
     assert.strictEqual(elm.firstChild.tagName.toLowerCase(), 'span')
     assert.strictEqual(elm.firstChild.innerHTML, 'Number is 1')
@@ -121,7 +98,7 @@ describe('thunk', function () {
     assert.strictEqual(called, 2)
   })
   it('supports leaving out the `key` argument', function () {
-    function vnodeFn (s: string) {
+    function vnodeFn(s: string) {
       return h('span.number', 'Hello ' + s)
     }
     var vnode1 = thunk('span.number', vnodeFn, ['World!'])
@@ -130,7 +107,7 @@ describe('thunk', function () {
   })
   it('renders correctly when root', function () {
     var called = 0
-    function numberInSpan (n: number) {
+    function numberInSpan(n: number) {
       called++
       return h('span', { key: 'num' }, 'Number is ' + n)
     }
@@ -152,11 +129,11 @@ describe('thunk', function () {
     assert.strictEqual(called, 2)
   })
   it('can be replaced and removed', function () {
-    function numberInSpan (n: number) {
+    function numberInSpan(n: number) {
       return h('span', { key: 'num' }, 'Number is ' + n)
     }
-    function oddEven (n: number): VNode {
-      var prefix = (n % 2) === 0 ? 'Even' : 'Odd'
+    function oddEven(n: number): VNode {
+      var prefix = n % 2 === 0 ? 'Even' : 'Odd'
       return h('div', { key: oddEven as any }, prefix + ': ' + n)
     }
     var vnode1 = h('div', [thunk('span', 'num', numberInSpan, [1])])
@@ -171,11 +148,11 @@ describe('thunk', function () {
     assert.strictEqual(elm.firstChild.innerHTML, 'Even: 4')
   })
   it('can be replaced and removed when root', function () {
-    function numberInSpan (n: number) {
+    function numberInSpan(n: number) {
       return h('span', { key: 'num' }, 'Number is ' + n)
     }
-    function oddEven (n: number): VNode {
-      var prefix = (n % 2) === 0 ? 'Even' : 'Odd'
+    function oddEven(n: number): VNode {
+      var prefix = n % 2 === 0 ? 'Even' : 'Odd'
       return h('div', { key: oddEven as any }, prefix + ': ' + n)
     }
     var vnode1 = thunk('span', 'num', numberInSpan, [1])
@@ -191,42 +168,40 @@ describe('thunk', function () {
   })
   it('invokes destroy hook on thunks', function () {
     var called = 0
-    function destroyHook () {
+    function destroyHook() {
       called++
     }
-    function numberInSpan (n: number) {
-      return h('span', { key: 'num', hook: { destroy: destroyHook } }, 'Number is ' + n)
+    function numberInSpan(n: number) {
+      return h(
+        'span',
+        { key: 'num', hook: { destroy: destroyHook } },
+        'Number is ' + n
+      )
     }
     var vnode1 = h('div', [
       h('div', 'Foo'),
       thunk('span', 'num', numberInSpan, [1]),
-      h('div', 'Foo')
-    ])
-    var vnode2 = h('div', [
       h('div', 'Foo'),
-      h('div', 'Foo')
     ])
+    var vnode2 = h('div', [h('div', 'Foo'), h('div', 'Foo')])
     patch(vnode0, vnode1)
     patch(vnode1, vnode2)
     assert.strictEqual(called, 1)
   })
   it('invokes remove hook on thunks', function () {
     var called = 0
-    function hook () {
+    function hook() {
       called++
     }
-    function numberInSpan (n: number) {
+    function numberInSpan(n: number) {
       return h('span', { key: 'num', hook: { remove: hook } }, 'Number is ' + n)
     }
     var vnode1 = h('div', [
       h('div', 'Foo'),
       thunk('span', 'num', numberInSpan, [1]),
-      h('div', 'Foo')
-    ])
-    var vnode2 = h('div', [
       h('div', 'Foo'),
-      h('div', 'Foo')
     ])
+    var vnode2 = h('div', [h('div', 'Foo'), h('div', 'Foo')])
     patch(vnode0, vnode1)
     patch(vnode1, vnode2)
     assert.strictEqual(called, 1)

@@ -15,7 +15,7 @@ interface VNodeWithAttachData extends VNode {
   data: VNodeDataWithAttach
 }
 
-function pre (vnode: VNodeWithAttachData, newVnode: VNodeWithAttachData): void {
+function pre(vnode: VNodeWithAttachData, newVnode: VNodeWithAttachData): void {
   const attachData = vnode.data.attachData
   // Copy created placeholder and real element from old vnode
   newVnode.data.attachData.placeholder = attachData.placeholder
@@ -24,21 +24,21 @@ function pre (vnode: VNodeWithAttachData, newVnode: VNodeWithAttachData): void {
   vnode.elm = vnode.data.attachData.real
 }
 
-function post (_: any, vnode: VNodeWithAttachData): void {
+function post(_: any, vnode: VNodeWithAttachData): void {
   // Mount dummy placeholder in vnode so potential reorders use it
   vnode.elm = vnode.data.attachData.placeholder
 }
 
-function destroy (vnode: VNodeWithAttachData): void {
+function destroy(vnode: VNodeWithAttachData): void {
   // Remove placeholder
   if (vnode.elm !== undefined) {
-    (vnode.elm.parentNode as HTMLElement).removeChild(vnode.elm)
+    ;(vnode.elm.parentNode as HTMLElement).removeChild(vnode.elm)
   }
   // Remove real element from where it was inserted
   vnode.elm = vnode.data.attachData.real
 }
 
-function create (_: any, vnode: VNodeWithAttachData): void {
+function create(_: any, vnode: VNodeWithAttachData): void {
   const real = vnode.elm
   const attachData = vnode.data.attachData
   const placeholder = document.createElement('span')
@@ -50,7 +50,7 @@ function create (_: any, vnode: VNodeWithAttachData): void {
   attachData.placeholder = placeholder
 }
 
-export function attachTo (target: Element, vnode: VNode): VNode {
+export function attachTo(target: Element, vnode: VNode): VNode {
   if (vnode.data === undefined) vnode.data = {}
   if (vnode.data.hook === undefined) vnode.data.hook = {}
   const data = vnode.data
@@ -61,4 +61,4 @@ export function attachTo (target: Element, vnode: VNode): VNode {
   hook.postpatch = post
   hook.destroy = destroy
   return vnode
-};
+}

@@ -15,7 +15,7 @@ describe('snabbdom', function () {
         children: undefined,
         elm: undefined,
         text: 'Hello World',
-        key: undefined
+        key: undefined,
       })
     })
 
@@ -28,12 +28,17 @@ describe('snabbdom', function () {
         children: undefined,
         elm: undefined,
         text: 'foo bar',
-        key: undefined
+        key: undefined,
       })
     })
 
     it('creates an array of children for multiple children', function () {
-      const vnode = <div>{'foo'}{'bar'}</div>
+      const vnode = (
+        <div>
+          {'foo'}
+          {'bar'}
+        </div>
+      )
 
       assert.deepStrictEqual(vnode, {
         sel: 'div',
@@ -45,7 +50,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'foo',
-            key: undefined
+            key: undefined,
           },
           {
             sel: undefined,
@@ -53,12 +58,12 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'bar',
-            key: undefined
+            key: undefined,
           },
         ],
         elm: undefined,
         text: undefined,
-        key: undefined
+        key: undefined,
       })
     })
 
@@ -67,7 +72,9 @@ describe('snabbdom', function () {
         <section>
           <h1>A Heading</h1>
           some description
-          {['part1', 'part2'].map(part => <span>{part}</span>)}
+          {['part1', 'part2'].map((part) => (
+            <span>{part}</span>
+          ))}
         </section>
       )
 
@@ -81,7 +88,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'A Heading',
-            key: undefined
+            key: undefined,
           },
           {
             sel: undefined,
@@ -89,7 +96,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'some description',
-            key: undefined
+            key: undefined,
           },
           {
             sel: 'span',
@@ -97,7 +104,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'part1',
-            key: undefined
+            key: undefined,
           },
           {
             sel: 'span',
@@ -105,12 +112,12 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'part2',
-            key: undefined
+            key: undefined,
           },
         ],
         elm: undefined,
         text: undefined,
-        key: undefined
+        key: undefined,
       })
     })
 
@@ -143,7 +150,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'Login Form',
-            key: undefined
+            key: undefined,
           },
           {
             sel: undefined,
@@ -151,7 +158,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'Login Attempts: ',
-            key: undefined
+            key: undefined,
           },
           {
             sel: undefined,
@@ -159,7 +166,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: '0',
-            key: undefined
+            key: undefined,
           },
           {
             sel: undefined,
@@ -167,7 +174,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'Logged In: ',
-            key: undefined
+            key: undefined,
           },
           {
             sel: undefined,
@@ -175,24 +182,28 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'true',
-            key: undefined
+            key: undefined,
           },
         ],
         elm: undefined,
         text: undefined,
-        key: undefined
+        key: undefined,
       })
     })
 
     it('works with a function component', function () {
       // workaround linter issue
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const Part = ({ part }: {part: string}) => <span>{part}</span>
+      const Part = ({ part }: { part: string }) => <span>{part}</span>
       const vnode = (
         <div>
-          <a attrs={{ href: 'https://github.com/snabbdom/snabbdom' }}>Snabbdom</a>
+          <a attrs={{ href: 'https://github.com/snabbdom/snabbdom' }}>
+            Snabbdom
+          </a>
           and tsx
-          {['work', 'like', 'a', 'charm!'].map(part => <Part part={part}></Part>)}
+          {['work', 'like', 'a', 'charm!'].map((part) => (
+            <Part part={part}></Part>
+          ))}
           {'💃🕺🎉'}
         </div>
       )
@@ -207,7 +218,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'Snabbdom',
-            key: undefined
+            key: undefined,
           },
           {
             sel: undefined,
@@ -215,7 +226,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'and tsx',
-            key: undefined
+            key: undefined,
           },
           {
             sel: 'span',
@@ -223,7 +234,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'work',
-            key: undefined
+            key: undefined,
           },
           {
             sel: 'span',
@@ -231,7 +242,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'like',
-            key: undefined
+            key: undefined,
           },
           {
             sel: 'span',
@@ -239,7 +250,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'a',
-            key: undefined
+            key: undefined,
           },
           {
             sel: 'span',
@@ -247,7 +258,7 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: 'charm!',
-            key: undefined
+            key: undefined,
           },
           {
             sel: undefined,
@@ -255,12 +266,12 @@ describe('snabbdom', function () {
             children: undefined,
             elm: undefined,
             text: '💃🕺🎉',
-            key: undefined
+            key: undefined,
           },
         ],
         elm: undefined,
         text: undefined,
-        key: undefined
+        key: undefined,
       })
     })
   })
