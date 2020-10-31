@@ -1,4 +1,4 @@
-const ts = require('typescript')
+const ts = require("typescript");
 
 module.exports.transform = (ctx) => (sf) =>
   ts.visitNode(sf, (node) => {
@@ -11,19 +11,19 @@ module.exports.transform = (ctx) => (sf) =>
             ts.isLiteralTypeNode(node.argument) &&
             ts.isStringLiteral(node.argument.literal)
           ? node.argument.literal.text
-          : null
+          : null;
 
-      if (originalPath === null) return node
-      const pathWithExtension = originalPath.endsWith('.js')
+      if (originalPath === null) return node;
+      const pathWithExtension = originalPath.endsWith(".js")
         ? originalPath
-        : originalPath + '.js'
-      const newNode = ts.getMutableClone(node)
+        : originalPath + ".js";
+      const newNode = ts.getMutableClone(node);
       if (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) {
-        newNode.moduleSpecifier = ts.createLiteral(pathWithExtension)
+        newNode.moduleSpecifier = ts.createLiteral(pathWithExtension);
       } else if (ts.isImportTypeNode(node)) {
-        newNode.argument = ts.createLiteralTypeNode(pathWithExtension)
+        newNode.argument = ts.createLiteralTypeNode(pathWithExtension);
       }
-      return newNode
-    }
-    return ts.visitEachChild(node, visitor, ctx)
-  })
+      return newNode;
+    };
+    return ts.visitEachChild(node, visitor, ctx);
+  });

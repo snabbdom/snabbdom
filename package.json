@@ -82,10 +82,7 @@
     "webpack": "4.44.2",
     "webpack-cli": "3.3.12"
   },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
-  },
+  "prettier": {},
   "scripts": {
     "mark-pr-head-as-trusted": "node --unhandled-rejections=strict mark-pr-head-as-trusted.cjs",
     "docs": "remark . --output",
@@ -100,7 +97,7 @@
     "compile": "ttsc --build src/test/tsconfig.json",
     "bundle-tests": "webpack --config tests.webpack.config.cjs",
     "prepublishOnly": "npm run compile",
-    "format": "prettier --write ./{.,src,perf,examples}/**/*.{ts,tsx,js,cjs}"
+    "format": "prettier --write ./{.,src,perf,examples}/**/*.{ts,tsx,js,cjs} ./*.{ts,tsx,js,cjs}"
   },
   "repository": {
     "type": "git",

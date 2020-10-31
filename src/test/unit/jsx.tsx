@@ -1,47 +1,47 @@
-import { assert } from 'chai'
+import { assert } from "chai";
 // workaround linter issue
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { jsx } from '../../package/jsx'
-import '../../package/jsx-global'
+import { jsx } from "../../package/jsx";
+import "../../package/jsx-global";
 
-describe('snabbdom', function () {
-  describe('jsx', function () {
-    it('can be used as a jsxFactory method', function () {
-      const vnode = <div title="Hello World">Hello World</div>
+describe("snabbdom", function () {
+  describe("jsx", function () {
+    it("can be used as a jsxFactory method", function () {
+      const vnode = <div title="Hello World">Hello World</div>;
 
       assert.deepStrictEqual(vnode, {
-        sel: 'div',
-        data: { title: 'Hello World' },
+        sel: "div",
+        data: { title: "Hello World" },
         children: undefined,
         elm: undefined,
-        text: 'Hello World',
+        text: "Hello World",
         key: undefined,
-      })
-    })
+      });
+    });
 
-    it('creates text property for text only child', function () {
-      const vnode = <div>foo bar</div>
+    it("creates text property for text only child", function () {
+      const vnode = <div>foo bar</div>;
 
       assert.deepStrictEqual(vnode, {
-        sel: 'div',
+        sel: "div",
         data: {},
         children: undefined,
         elm: undefined,
-        text: 'foo bar',
+        text: "foo bar",
         key: undefined,
-      })
-    })
+      });
+    });
 
-    it('creates an array of children for multiple children', function () {
+    it("creates an array of children for multiple children", function () {
       const vnode = (
         <div>
-          {'foo'}
-          {'bar'}
+          {"foo"}
+          {"bar"}
         </div>
-      )
+      );
 
       assert.deepStrictEqual(vnode, {
-        sel: 'div',
+        sel: "div",
         data: {},
         children: [
           {
@@ -49,7 +49,7 @@ describe('snabbdom', function () {
             data: undefined,
             children: undefined,
             elm: undefined,
-            text: 'foo',
+            text: "foo",
             key: undefined,
           },
           {
@@ -57,37 +57,37 @@ describe('snabbdom', function () {
             data: undefined,
             children: undefined,
             elm: undefined,
-            text: 'bar',
+            text: "bar",
             key: undefined,
           },
         ],
         elm: undefined,
         text: undefined,
         key: undefined,
-      })
-    })
+      });
+    });
 
-    it('flattens children', function () {
+    it("flattens children", function () {
       const vnode = (
         <section>
           <h1>A Heading</h1>
           some description
-          {['part1', 'part2'].map((part) => (
+          {["part1", "part2"].map((part) => (
             <span>{part}</span>
           ))}
         </section>
-      )
+      );
 
       assert.deepStrictEqual(vnode, {
-        sel: 'section',
+        sel: "section",
         data: {},
         children: [
           {
-            sel: 'h1',
+            sel: "h1",
             data: {},
             children: undefined,
             elm: undefined,
-            text: 'A Heading',
+            text: "A Heading",
             key: undefined,
           },
           {
@@ -95,39 +95,39 @@ describe('snabbdom', function () {
             data: undefined,
             children: undefined,
             elm: undefined,
-            text: 'some description',
+            text: "some description",
             key: undefined,
           },
           {
-            sel: 'span',
+            sel: "span",
             data: {},
             children: undefined,
             elm: undefined,
-            text: 'part1',
+            text: "part1",
             key: undefined,
           },
           {
-            sel: 'span',
+            sel: "span",
             data: {},
             children: undefined,
             elm: undefined,
-            text: 'part2',
+            text: "part2",
             key: undefined,
           },
         ],
         elm: undefined,
         text: undefined,
         key: undefined,
-      })
-    })
+      });
+    });
 
-    it('removes falsey children', function () {
-      const showLogin = false
-      const showCaptcha = false
-      const loginAttempts = 0
-      const userName = ''
-      const profilePic = undefined
-      const isLoggedIn = true
+    it("removes falsey children", function () {
+      const showLogin = false;
+      const showCaptcha = false;
+      const loginAttempts = 0;
+      const userName = "";
+      const profilePic = undefined;
+      const isLoggedIn = true;
       const vnode = (
         <div>
           Login Form
@@ -138,10 +138,10 @@ describe('snabbdom', function () {
           Login Attempts: {loginAttempts}
           Logged In: {isLoggedIn}
         </div>
-      )
+      );
 
       assert.deepStrictEqual(vnode, {
-        sel: 'div',
+        sel: "div",
         data: {},
         children: [
           {
@@ -149,7 +149,7 @@ describe('snabbdom', function () {
             data: undefined,
             children: undefined,
             elm: undefined,
-            text: 'Login Form',
+            text: "Login Form",
             key: undefined,
           },
           {
@@ -157,7 +157,7 @@ describe('snabbdom', function () {
             data: undefined,
             children: undefined,
             elm: undefined,
-            text: 'Login Attempts: ',
+            text: "Login Attempts: ",
             key: undefined,
           },
           {
@@ -165,7 +165,7 @@ describe('snabbdom', function () {
             data: undefined,
             children: undefined,
             elm: undefined,
-            text: '0',
+            text: "0",
             key: undefined,
           },
           {
@@ -173,7 +173,7 @@ describe('snabbdom', function () {
             data: undefined,
             children: undefined,
             elm: undefined,
-            text: 'Logged In: ',
+            text: "Logged In: ",
             key: undefined,
           },
           {
@@ -181,43 +181,43 @@ describe('snabbdom', function () {
             data: undefined,
             children: undefined,
             elm: undefined,
-            text: 'true',
+            text: "true",
             key: undefined,
           },
         ],
         elm: undefined,
         text: undefined,
         key: undefined,
-      })
-    })
+      });
+    });
 
-    it('works with a function component', function () {
+    it("works with a function component", function () {
       // workaround linter issue
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const Part = ({ part }: { part: string }) => <span>{part}</span>
+      const Part = ({ part }: { part: string }) => <span>{part}</span>;
       const vnode = (
         <div>
-          <a attrs={{ href: 'https://github.com/snabbdom/snabbdom' }}>
+          <a attrs={{ href: "https://github.com/snabbdom/snabbdom" }}>
             Snabbdom
           </a>
           and tsx
-          {['work', 'like', 'a', 'charm!'].map((part) => (
+          {["work", "like", "a", "charm!"].map((part) => (
             <Part part={part}></Part>
           ))}
-          {'💃🕺🎉'}
+          {"💃🕺🎉"}
         </div>
-      )
+      );
 
       assert.deepStrictEqual(vnode, {
-        sel: 'div',
+        sel: "div",
         data: {},
         children: [
           {
-            sel: 'a',
-            data: { attrs: { href: 'https://github.com/snabbdom/snabbdom' } },
+            sel: "a",
+            data: { attrs: { href: "https://github.com/snabbdom/snabbdom" } },
             children: undefined,
             elm: undefined,
-            text: 'Snabbdom',
+            text: "Snabbdom",
             key: undefined,
           },
           {
@@ -225,39 +225,39 @@ describe('snabbdom', function () {
             data: undefined,
             children: undefined,
             elm: undefined,
-            text: 'and tsx',
+            text: "and tsx",
             key: undefined,
           },
           {
-            sel: 'span',
+            sel: "span",
             data: {},
             children: undefined,
             elm: undefined,
-            text: 'work',
+            text: "work",
             key: undefined,
           },
           {
-            sel: 'span',
+            sel: "span",
             data: {},
             children: undefined,
             elm: undefined,
-            text: 'like',
+            text: "like",
             key: undefined,
           },
           {
-            sel: 'span',
+            sel: "span",
             data: {},
             children: undefined,
             elm: undefined,
-            text: 'a',
+            text: "a",
             key: undefined,
           },
           {
-            sel: 'span',
+            sel: "span",
             data: {},
             children: undefined,
             elm: undefined,
-            text: 'charm!',
+            text: "charm!",
             key: undefined,
           },
           {
@@ -265,14 +265,14 @@ describe('snabbdom', function () {
             data: undefined,
             children: undefined,
             elm: undefined,
-            text: '💃🕺🎉',
+            text: "💃🕺🎉",
             key: undefined,
           },
         ],
         elm: undefined,
         text: undefined,
         key: undefined,
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

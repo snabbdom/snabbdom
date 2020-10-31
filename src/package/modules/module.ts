@@ -5,13 +5,13 @@ import {
   DestroyHook,
   RemoveHook,
   PostHook,
-} from '../hooks'
+} from "../hooks";
 
 export type Module = Partial<{
-  pre: PreHook
-  create: CreateHook
-  update: UpdateHook
-  destroy: DestroyHook
-  remove: RemoveHook
-  post: PostHook
-}>
+  pre: PreHook;
+  create: CreateHook;
+  update: UpdateHook;
+  destroy: DestroyHook;
+  remove: RemoveHook;
+  post: PostHook;
+}>;

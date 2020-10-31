@@ -1,14 +1,20 @@
-import { vnode, VNode, VNodeData } from './vnode'
-import { h, ArrayOrElement } from './h'
+import { vnode, VNode, VNodeData } from "./vnode";
+import { h, ArrayOrElement } from "./h";
 
 // for conditional rendering we support boolean child element e.g cond && <tag />
-export type JsxVNodeChild = VNode | string | number | boolean | undefined | null
-export type JsxVNodeChildren = ArrayOrElement<JsxVNodeChild>
+export type JsxVNodeChild =
+  | VNode
+  | string
+  | number
+  | boolean
+  | undefined
+  | null;
+export type JsxVNodeChildren = ArrayOrElement<JsxVNodeChild>;
 
 export type FunctionComponent = (
   props: { [prop: string]: any } | null,
   children?: VNode[]
-) => VNode
+) => VNode;
 
 function flattenAndFilter(
   children: JsxVNodeChildren[],
@@ -20,24 +26,24 @@ function flattenAndFilter(
       child !== undefined &&
       child !== null &&
       child !== false &&
-      child !== ''
+      child !== ""
     ) {
       if (Array.isArray(child)) {
-        flattenAndFilter(child, flattened)
+        flattenAndFilter(child, flattened);
       } else if (
-        typeof child === 'string' ||
-        typeof child === 'number' ||
-        typeof child === 'boolean'
+        typeof child === "string" ||
+        typeof child === "number" ||
+        typeof child === "boolean"
       ) {
         flattened.push(
           vnode(undefined, undefined, undefined, String(child), undefined)
-        )
+        );
       } else {
-        flattened.push(child)
+        flattened.push(child);
       }
     }
   }
-  return flattened
+  return flattened;
 }
 
 /**
@@ -49,10 +55,10 @@ export function jsx(
   data: VNodeData | null,
   ...children: JsxVNodeChildren[]
 ): VNode {
-  const flatChildren = flattenAndFilter(children, [])
-  if (typeof tag === 'function') {
+  const flatChildren = flattenAndFilter(children, []);
+  if (typeof tag === "function") {
     // tag is a function component
-    return tag(data, flatChildren)
+    return tag(data, flatChildren);
   } else {
     if (
       flatChildren.length === 1 &&
@@ -60,9 +66,9 @@ export function jsx(
       flatChildren[0].text
     ) {
       // only child is a simple text node, pass as text for a simpler vtree
-      return h(tag, data, flatChildren[0].text)
+      return h(tag, data, flatChildren[0].text);
     } else {
-      return h(tag, data, flatChildren)
+      return h(tag, data, flatChildren);
     }
   }
 }
