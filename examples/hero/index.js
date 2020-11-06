@@ -26,7 +26,7 @@ var data = {
   ]
 }
 
-function select (m) {
+function select (evt, m) {
   data.selected = m
   render()
 }
@@ -58,7 +58,7 @@ const detailView = (movie) =>
         h('div.hero.header-title', { hero: { id: movie.title } }, movie.title),
         h('div.spacer'),
         h('div.close', {
-          on: { click: [select, undefined] },
+          on: { click: [evt => select(evt, undefined)] },
           style: {
             transform: 'scale(0)',
             delayed: { transform: 'scale(1)' },
@@ -113,7 +113,7 @@ const overviewView = (movies) =>
         }
       }, movies.map((movie) =>
         h('div.row', {
-          on: { click: [select, movie] },
+          on: { click: [evt => select(evt, movie)] },
         }, [
           h('div.hero.rank', [
             h('span.hero', { hero: { id: 'rank' + movie.rank } }, movie.rank)

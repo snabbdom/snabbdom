@@ -38,7 +38,7 @@ var data = [
   originalData[9],
 ]
 
-function changeSort (prop) {
+function changeSort (evt, prop) {
   sortBy = prop
   data.sort((a, b) => {
     if (a[prop] > b[prop]) {
@@ -59,7 +59,7 @@ function add () {
   render()
 }
 
-function remove (movie) {
+function remove (evt, movie) {
   data = data.filter((m) => {
     return m !== movie
   })
@@ -80,7 +80,7 @@ function movieView (movie) {
     h('div', { style: { fontWeight: 'bold' } }, movie.rank),
     h('div', movie.title),
     h('div', movie.desc),
-    h('div.btn.rm-btn', { on: { click: [remove, movie] } }, 'x'),
+    h('div.btn.rm-btn', { on: { click: [evt => remove(evt, movie)] } }, 'x'),
   ])
 }
 
@@ -103,9 +103,9 @@ function view (data) {
       h('a.btn.add', { on: { click: add } }, 'Add'),
       'Sort by: ',
       h('span.btn-group', [
-        h('a.btn.rank', { class: { active: sortBy === 'rank' }, on: { click: [changeSort, 'rank'] } }, 'Rank'),
-        h('a.btn.title', { class: { active: sortBy === 'title' }, on: { click: [changeSort, 'title'] } }, 'Title'),
-        h('a.btn.desc', { class: { active: sortBy === 'desc' }, on: { click: [changeSort, 'desc'] } }, 'Description'),
+        h('a.btn.rank', { class: { active: sortBy === 'rank' }, on: { click: [evt => changeSort(evt, 'rank')] } }, 'Rank'),
+        h('a.btn.title', { class: { active: sortBy === 'title' }, on: { click: [evt => changeSort(evt, 'title')] } }, 'Title'),
+        h('a.btn.desc', { class: { active: sortBy === 'desc' }, on: { click: [evt => changeSort(evt, 'desc')] } }, 'Description'),
       ]),
     ]),
     h('div.list', { style: { height: totalHeight + 'px' } }, data.map(movieView)),

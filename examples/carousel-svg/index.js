@@ -17,18 +17,18 @@ function gRotation () {
   return 'rotate(' + data.degRotation + 'deg)'
 }
 
-function triangleClick (id) {
+function triangleClick (evt, id) {
   console.log('triangleClick: %s', id)
   render()
 }
 
-function handleRotate (degs) {
+function handleRotate (evt, degs) {
   data.degRotation += degs
   console.log('handleRotate: %s, %s', degs, data.degRotation)
   render()
 }
 
-function handleReset (degs) {
+function handleReset (evt, degs) {
   data.degRotation = degs
   console.log('handleReset: %s', degs)
   render()
@@ -45,7 +45,7 @@ const hTriangle = (id, degRotation) =>
       transform: 'rotate(' + degRotation + ')',
       'stroke-width': 3
     },
-    on: { click: [triangleClick, id] }
+    on: { click: [evt => triangleClick(evt, id)] }
   })
 
 const view = (data) =>
@@ -62,9 +62,9 @@ const view = (data) =>
           hTriangle('blue', 300)
         ])
     ]),
-    h('button', { on: { click: [handleRotate, 60] } }, 'Rotate Clockwise'),
-    h('button', { on: { click: [handleRotate, -60] } }, 'Rotate Anticlockwise'),
-    h('button', { on: { click: [handleReset, 0] } }, 'Reset')
+    h('button', { on: { click: [evt => handleRotate(evt, 60)] } }, 'Rotate Clockwise'),
+    h('button', { on: { click: [evt => handleRotate(evt, -60)] } }, 'Rotate Anticlockwise'),
+    h('button', { on: { click: [evt => handleReset(evt, 0)] } }, 'Reset')
   ])
 
 window.addEventListener('DOMContentLoaded', () => {
