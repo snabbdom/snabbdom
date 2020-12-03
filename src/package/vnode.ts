@@ -31,7 +31,8 @@ export interface VNodeData {
   hook?: Hooks;
   key?: Key;
   ns?: string; // for SVGs
-  fn?: () => VNode; // for thunks
+  fn?: (...args: any[]) => VNode; // for thunks
+  compareFn?: (a: any, b: any) => boolean; // for thunks
   args?: any[]; // for thunks
   [key: string]: any; // for any other 3rd party module
 }

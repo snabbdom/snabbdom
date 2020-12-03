@@ -10,13 +10,27 @@ export interface Thunk extends VNode {
   data: ThunkData;
 }
 
-export interface ThunkFn {
-  (sel: string, fn: Function, args: any[]): Thunk;
-  (sel: string, key: any, fn: Function, args: any[]): Thunk;
+type ThunkCompareFn<T = any> = (a: T, b: T) => boolean;
+
+export interface ThunkFn<P extends any[] = any[]> {
+  (
+    sel: string,
+    fn: (...p: P) => VNode,
+    args: P,
+    compareFn?: ThunkCompareFn
+  ): Thunk;
+  (
+    sel: string,
+    key: any,
+    fn: (...p: P) => VNode,
+    args: P,
+    compareFn?: ThunkCompareFn
+  ): Thunk;
 }
 
 function copyToThunk(vnode: VNode, thunk: VNode): void {
   (vnode.data as VNodeData).fn = (thunk.data as VNodeData).fn;
+  (vnode.data as VNodeData).compareFn = (thunk.data as VNodeData).compareFn;
   (vnode.data as VNodeData).args = (thunk.data as VNodeData).args;
   thunk.data = vnode.data;
   thunk.children = vnode.children;
@@ -34,14 +48,15 @@ function prepatch(oldVnode: VNode, thunk: VNode): void {
   let i: number;
   const old = oldVnode.data as VNodeData;
   const cur = thunk.data as VNodeData;
-  const oldArgs = old.args;
-  const args = cur.args;
-  if (old.fn !== cur.fn || (oldArgs as any).length !== (args as any).length) {
+  const oldArgs = old.args as any[];
+  const args = cur.args as any[];
+  if (old.fn !== cur.fn || oldArgs.length !== args.length) {
     copyToThunk((cur.fn as any).apply(undefined, args), thunk);
     return;
   }
-  for (i = 0; i < (args as any).length; ++i) {
-    if ((oldArgs as any)[i] !== (args as any)[i]) {
+  const compareFn = cur.compareFn || ((a: any, b: any) => a === b);
+  for (i = 0; i < args.length; ++i) {
+    if (!compareFn(oldArgs[i], args[i])) {
       copyToThunk((cur.fn as any).apply(undefined, args), thunk);
       return;
     }
@@ -53,9 +68,11 @@ export const thunk = function thunk(
   sel: string,
   key?: any,
   fn?: any,
-  args?: any
+  args?: any,
+  compareFn?: any
 ): VNode {
-  if (args === undefined) {
+  if (typeof key === "function") {
+    compareFn = args;
     args = fn;
     fn = key;
     key = undefined;
@@ -64,6 +81,7 @@ export const thunk = function thunk(
     key: key,
     hook: { init, prepatch },
     fn: fn,
+    compareFn: compareFn,
     args: args,
   });
 } as ThunkFn;

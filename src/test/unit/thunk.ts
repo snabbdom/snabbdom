@@ -47,6 +47,22 @@ describe("thunk", function () {
     patch(vnode1, vnode2);
     assert.strictEqual(called, 1);
   });
+  it("uses provided compare fn to compare args", function () {
+    var called = 0;
+    function numberInSpan(n: number) {
+      called++;
+      return h("span", { key: "num" }, "Number is " + n);
+    }
+    var compareFn = (a: number, b: number) => Math.abs(a) === Math.abs(b);
+    var vnode1 = h("div", [thunk("span", "num", numberInSpan, [1]), compareFn]);
+    var vnode2 = h("div", [
+      thunk("span", "num", numberInSpan, [-1], compareFn),
+    ]);
+    patch(vnode0, vnode1);
+    assert.strictEqual(called, 1);
+    patch(vnode1, vnode2);
+    assert.strictEqual(called, 1);
+  });
   it("calls render function once on data-length change", function () {
     var called = 0;
     function numberInSpan(n: number) {
