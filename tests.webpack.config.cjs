@@ -3,12 +3,13 @@ const isPathInside = require("is-path-inside");
 const globby = require("globby");
 
 const outputPath = path.resolve(__dirname, "build/test");
+
 const makeTestsWebpackConfig = async () => ({
   mode: "development",
   entry: Object.fromEntries(
-    (await globby(path.resolve(outputPath, "**/*.js"))).map((item) => [
-      path.relative(outputPath, item),
+    (await globby("**/*.js", { cwd: outputPath })).map((item) => [
       item,
+      path.join(outputPath, item),
     ])
   ),
   output: {
@@ -45,4 +46,5 @@ const makeTestsWebpackConfig = async () => ({
     },
   },
 });
+
 module.exports = makeTestsWebpackConfig;
