@@ -80,7 +80,7 @@ function movieView (movie) {
     h('div', { style: { fontWeight: 'bold' } }, movie.rank),
     h('div', movie.title),
     h('div', movie.desc),
-    h('div.btn.rm-btn', { on: { click: [remove, movie] } }, 'x'),
+    h('div.btn.rm-btn', { on: { click: () => { remove(movie) } } }, 'x'),
   ])
 }
 
@@ -103,9 +103,9 @@ function view (data) {
       h('a.btn.add', { on: { click: add } }, 'Add'),
       'Sort by: ',
       h('span.btn-group', [
-        h('a.btn.rank', { class: { active: sortBy === 'rank' }, on: { click: [changeSort, 'rank'] } }, 'Rank'),
-        h('a.btn.title', { class: { active: sortBy === 'title' }, on: { click: [changeSort, 'title'] } }, 'Title'),
-        h('a.btn.desc', { class: { active: sortBy === 'desc' }, on: { click: [changeSort, 'desc'] } }, 'Description'),
+        h('a.btn.rank', { class: { active: sortBy === 'rank' }, on: { click: () => { changeSort('rank') } } }, 'Rank'),
+        h('a.btn.title', { class: { active: sortBy === 'title' }, on: { click: () => { changeSort('title') } } }, 'Title'),
+        h('a.btn.desc', { class: { active: sortBy === 'desc' }, on: { click: () => { changeSort('desc') } } }, 'Description'),
       ]),
     ]),
     h('div.list', { style: { height: totalHeight + 'px' } }, data.map(movieView)),
