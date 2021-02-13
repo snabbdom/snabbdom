@@ -70,7 +70,7 @@
     "p-reduce": "2.1.0",
     "regenerator-runtime": "0.13.7",
     "remark-cli": "8.0.1",
-    "remark-toc": "7.0.0",
+    "remark-toc": "7.1.0",
     "standard-version": "9.0.0",
     "tsconfigs": "5.0.0",
     "tty-table": "4.1.3",
