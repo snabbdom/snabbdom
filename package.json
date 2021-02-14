@@ -51,7 +51,7 @@
     "eslint-plugin-standard": "4.0.1",
     "faker": "5.1.0",
     "globby": "11.0.2",
-    "husky": "4.3.0",
+    "husky": "5.0.9",
     "is-path-inside": "3.0.2",
     "karma": "6.1.1",
     "karma-browserstack-launcher": "1.6.0",
