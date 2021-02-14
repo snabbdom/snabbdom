@@ -69,7 +69,7 @@
     "p-map-series": "2.1.0",
     "p-reduce": "2.1.0",
     "regenerator-runtime": "0.13.7",
-    "remark-cli": "8.0.1",
+    "remark-cli": "9.0.0",
     "remark-toc": "7.1.0",
     "standard-version": "9.1.0",
     "tsconfigs": "5.0.0",
