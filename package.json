@@ -35,7 +35,7 @@
     "@types/mathjs": "6.0.5",
     "@types/mocha": "8.0.3",
     "@typescript-eslint/eslint-plugin": "4.2.0",
-    "babel-loader": "8.1.0",
+    "babel-loader": "8.2.2",
     "benchmark": "2.1.4",
     "chai": "4.2.0",
     "chalk": "4.1.0",
