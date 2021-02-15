@@ -445,7 +445,7 @@ describe('snabbdom', function () {
       it('can work with domApi', function () {
         var domApi = {
           ...htmlDomApi,
-          tagName: function (elm: HTMLElement) { return 'x-' + elm.tagName.toUpperCase() }
+          tagName: function (elm: Element) { return 'x-' + elm.tagName.toUpperCase() }
         }
         var h2 = document.createElement('h2')
         h2.id = 'hx'

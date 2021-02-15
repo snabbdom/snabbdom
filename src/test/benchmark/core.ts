@@ -16,12 +16,14 @@ const REQUEST_ANIMATION_FRAME_EVERY_N_PATCHES = 1
 const BENCHMARK_TIMEOUT_MINUTES = 10
 const REQUIRED_PRECISION = 0.02
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 declare global {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const __karma__: {
     info(info: unknown): void
   }
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 const ALLOWED_REGRESSION = 0.03
 describe('core benchmark', () => {

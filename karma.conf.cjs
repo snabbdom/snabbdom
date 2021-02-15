@@ -41,7 +41,6 @@ module.exports = function (config) {
     client: {
       captureConsole: true,
     },
-    captureTimeout: 25000,
     customLaunchers: browserstack,
     reporters: ['mocha', 'benchmark', 'BrowserStack'],
     mochaReporter: {

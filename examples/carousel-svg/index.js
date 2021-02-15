@@ -45,7 +45,7 @@ const hTriangle = (id, degRotation) =>
       transform: 'rotate(' + degRotation + ')',
       'stroke-width': 3
     },
-    on: { click: [triangleClick, id] }
+    on: { click: () => { triangleClick(id) } }
   })
 
 const view = (data) =>
@@ -62,9 +62,9 @@ const view = (data) =>
           hTriangle('blue', 300)
         ])
     ]),
-    h('button', { on: { click: [handleRotate, 60] } }, 'Rotate Clockwise'),
-    h('button', { on: { click: [handleRotate, -60] } }, 'Rotate Anticlockwise'),
-    h('button', { on: { click: [handleReset, 0] } }, 'Reset')
+    h('button', { on: { click: () => { handleRotate(60) } } }, 'Rotate Clockwise'),
+    h('button', { on: { click: () => { handleRotate(-60) } } }, 'Rotate Anticlockwise'),
+    h('button', { on: { click: () => { handleReset(0) } } }, 'Reset')
   ])
 
 window.addEventListener('DOMContentLoaded', () => {

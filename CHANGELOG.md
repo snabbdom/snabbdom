@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/snabbdom/snabbdom/compare/v2.0.0...v2.1.0) (2020-09-14)
+
+
+### Features
+
+* **eventlisteners:** add types for VNode in listener ([63b1b6c](https://github.com/snabbdom/snabbdom/commit/63b1b6c22e49d06b1fb509a14d321ec19f324bb5)), closes [#796](https://github.com/snabbdom/snabbdom/issues/796)
+* **eventlisteners:** relax custom event listener type ([15ce059](https://github.com/snabbdom/snabbdom/commit/15ce059e2b5e80d1975168fff2d2a44f71bd5cbb)), closes [#850](https://github.com/snabbdom/snabbdom/issues/850)
+
+## [2.0.0](https://github.com/snabbdom/snabbdom/compare/v1.0.1...v2.0.0) (2020-09-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* **eventlisteners:** loaded/carrying event listeners are no longer supported.
+
+### Features
+
+* **eventlisteners:** add missing mult. listeners type ([5a89efe](https://github.com/snabbdom/snabbdom/commit/5a89efe01580d50f15649c19a444745867c5c0d4)), closes [#794](https://github.com/snabbdom/snabbdom/issues/794)
+* **eventlisteners:** remove loaded listeners feature ([6e0ff8e](https://github.com/snabbdom/snabbdom/commit/6e0ff8e8141c70891e55e41a3107d6d4de0bc754)), closes [#802](https://github.com/snabbdom/snabbdom/issues/802) [#802](https://github.com/snabbdom/snabbdom/issues/802)
+
+
+### Bug Fixes
+
+* **deps:** add regenertor-runtime to devDeps ([2a2964c](https://github.com/snabbdom/snabbdom/commit/2a2964c3eb47cd2f5a7ae88f49b2afe9ea299d7e)), closes [#813](https://github.com/snabbdom/snabbdom/issues/813)
+* **docs:** gitter badge url ([7e19849](https://github.com/snabbdom/snabbdom/commit/7e198493c11f6d4afa8b03d727083d661e85ec0e))
+* **examples:** example import paths ([8111f62](https://github.com/snabbdom/snabbdom/commit/8111f6234a70840673412da6cd37a726a7c839f8)), closes [#761](https://github.com/snabbdom/snabbdom/issues/761)
+* **examples:** totalHeight 0 on remove last element reorder animation ([afa77c0](https://github.com/snabbdom/snabbdom/commit/afa77c04d4ab959a5f2bb5853e5dd821c744843f))
+* **package:** remove directories field ([c7a2a93](https://github.com/snabbdom/snabbdom/commit/c7a2a93f5a2ed63bd76130e5e3d3769a9f1c1c58))
+* **package:** update urls paldepind -> snabbdom ([f94185a](https://github.com/snabbdom/snabbdom/commit/f94185a5bbb31018af48b77449e74f58339fe404)), closes [#775](https://github.com/snabbdom/snabbdom/issues/775)
+
 ### [1.0.1](https://github.com/paldepind/snabbdom/compare/v1.0.0...v1.0.1) (2020-06-18)
 
 
