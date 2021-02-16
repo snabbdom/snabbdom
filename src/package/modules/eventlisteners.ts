@@ -17,15 +17,15 @@ function invokeHandler<N extends keyof HTMLElementEventMap> (handler: SomeListen
     handler.call(vnode, event, vnode)
   } else if (typeof handler === 'object') {
     // call multiple handlers
-    for (var i = 0; i < handler.length; i++) {
+    for (let i = 0; i < handler.length; i++) {
       invokeHandler(handler[i], vnode, event)
     }
   }
 }
 
 function handleEvent (event: Event, vnode: VNode) {
-  var name = event.type
-  var on = (vnode.data as VNodeData).on
+  const name = event.type
+  const on = (vnode.data as VNodeData).on
 
   // call event handler(s) if exists
   if (on && on[name]) {
@@ -40,12 +40,12 @@ function createListener () {
 }
 
 function updateEventListeners (oldVnode: VNode, vnode?: VNode): void {
-  var oldOn = (oldVnode.data as VNodeData).on
-  var oldListener = (oldVnode as any).listener
-  var oldElm: Element = oldVnode.elm as Element
-  var on = vnode && (vnode.data as VNodeData).on
-  var elm: Element = (vnode && vnode.elm) as Element
-  var name: string
+  const oldOn = (oldVnode.data as VNodeData).on
+  const oldListener = (oldVnode as any).listener
+  const oldElm: Element = oldVnode.elm as Element
+  const on = vnode && (vnode.data as VNodeData).on
+  const elm: Element = (vnode && vnode.elm) as Element
+  let name: string
 
   // optimization for reused immutable handlers
   if (oldOn === on) {
@@ -73,7 +73,7 @@ function updateEventListeners (oldVnode: VNode, vnode?: VNode): void {
   // add new listeners which has not already attached
   if (on) {
     // reuse existing listener or create new
-    var listener = (vnode as any).listener = (oldVnode as any).listener || createListener()
+    const listener = (vnode as any).listener = (oldVnode as any).listener || createListener()
     // update vnode for listener
     listener.vnode = vnode
 

@@ -4,7 +4,7 @@ import { datasetModule } from '../../package/modules/dataset'
 import { init } from '../../package/init'
 import { h } from '../../package/h'
 
-var patch = init([
+const patch = init([
   datasetModule
 ])
 
@@ -15,7 +15,7 @@ describe('dataset', function () {
     }
   })
 
-  var elm: any, vnode0: any
+  let elm: any, vnode0: any
   beforeEach(function () {
     elm = document.createElement('div')
     vnode0 = elm
@@ -25,8 +25,8 @@ describe('dataset', function () {
     assert.strictEqual(elm.dataset.foo, 'foo')
   })
   it('updates dataset', function () {
-    var vnode1 = h('i', { dataset: { foo: 'foo', bar: 'bar' } })
-    var vnode2 = h('i', { dataset: { baz: 'baz' } })
+    const vnode1 = h('i', { dataset: { foo: 'foo', bar: 'bar' } })
+    const vnode2 = h('i', { dataset: { baz: 'baz' } })
     elm = patch(vnode0, vnode1).elm
     assert.strictEqual(elm.dataset.foo, 'foo')
     assert.strictEqual(elm.dataset.bar, 'bar')
@@ -35,9 +35,9 @@ describe('dataset', function () {
     assert.strictEqual(elm.dataset.foo, undefined)
   })
   it('can be memoized', function () {
-    var cachedDataset = { foo: 'foo', bar: 'bar' }
-    var vnode1 = h('i', { dataset: cachedDataset })
-    var vnode2 = h('i', { dataset: cachedDataset })
+    const cachedDataset = { foo: 'foo', bar: 'bar' }
+    const vnode1 = h('i', { dataset: cachedDataset })
+    const vnode2 = h('i', { dataset: cachedDataset })
     elm = patch(vnode0, vnode1).elm
     assert.strictEqual(elm.dataset.foo, 'foo')
     assert.strictEqual(elm.dataset.bar, 'bar')
@@ -46,7 +46,7 @@ describe('dataset', function () {
     assert.strictEqual(elm.dataset.bar, 'bar')
   })
   it('handles string conversions', function () {
-    var vnode1 = h('i', { dataset: { empty: '', dash: '-', dashed: 'foo-bar', camel: 'fooBar', integer: 0 as any, float: 0.1 as any } })
+    const vnode1 = h('i', { dataset: { empty: '', dash: '-', dashed: 'foo-bar', camel: 'fooBar', integer: 0 as any, float: 0.1 as any } })
     elm = patch(vnode0, vnode1).elm
 
     assert.strictEqual(elm.dataset.empty, '')

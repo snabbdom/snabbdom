@@ -69,16 +69,16 @@ import { styleModule } from 'snabbdom/modules/style'
 import { eventListenersModule } from 'snabbdom/modules/eventlisteners'
 import { h } from 'snabbdom/h' // helper function for creating vnodes
 
-var patch = init([ // Init patch function with chosen modules
+const patch = init([ // Init patch function with chosen modules
   classModule, // makes it easy to toggle classes
   propsModule, // for setting properties on DOM elements
   styleModule, // handles styling on elements with support for animations
   eventListenersModule, // attaches event listeners
 ])
 
-var container = document.getElementById('container')
+const container = document.getElementById('container')
 
-var vnode = h('div#container.two.classes', { on: { click: someFn } }, [
+const vnode = h('div#container.two.classes', { on: { click: someFn } }, [
   h('span', { style: { fontWeight: 'bold' } }, 'This is bold'),
   ' and this is just normal text',
   h('a', { props: { href: '/foo' } }, 'I\'ll take you places!')
@@ -86,7 +86,7 @@ var vnode = h('div#container.two.classes', { on: { click: someFn } }, [
 // Patch into empty DOM element – this modifies the DOM as a side effect
 patch(container, vnode)
 
-var newVnode = h('div#container.two.classes', { on: { click: anotherEventHandler } }, [
+const newVnode = h('div#container.two.classes', { on: { click: anotherEventHandler } }, [
   h('span', { style: { fontWeight: 'normal', fontStyle: 'italic' } }, 'This is now italic type'),
   ' and this is still just normal text',
   h('a', { props: { href: '/bar' } }, 'I\'ll take you places!')
@@ -160,7 +160,7 @@ specified set of modules.
 import { classModule } from 'snabbdom/modules/class'
 import { styleModule } from 'snabbdom/modules/style'
 
-var patch = init([classModule, styleModule])
+const patch = init([classModule, styleModule])
 ```
 
 ### `patch`
@@ -203,7 +203,7 @@ array of children.
 ```mjs
 import { h } from 'snabbdom/h'
 
-var vnode = h('div', { style: { color: '#000' } }, [
+const vnode = h('div', { style: { color: '#000' } }, [
   h('h1', 'Headline'),
   h('p', 'A paragraph'),
 ])
@@ -223,14 +223,14 @@ import { eventListenersModule } from 'snabbdom/modules/eventlisteners'
 import { h } from 'snabbdom/h' // helper function for creating vnodes
 import { toVNode } from 'snabbdom/tovnode'
 
-var patch = init([ // Init patch function with chosen modules
+const patch = init([ // Init patch function with chosen modules
   classModule, // makes it easy to toggle classes
   propsModule, // for setting properties on DOM elements
   styleModule, // handles styling on elements with support for animations
   eventListenersModule, // attaches event listeners
 ])
 
-var newVNode = h('div', { style: { color: '#000' } }, [
+const newVNode = h('div', { style: { color: '#000' } }, [
   h('h1', 'Headline'),
   h('p', 'A paragraph'),
 ])
@@ -319,8 +319,8 @@ To see the difference between this hook and the `remove` hook,
 consider an example.
 
 ```mjs
-var vnode1 = h('div', [h('div', [h('span', 'Hello')])])
-var vnode2 = h('div', [])
+const vnode1 = h('div', [h('div', [h('span', 'Hello')])])
+const vnode2 = h('div', [])
 patch(container, vnode1)
 patch(vnode1, vnode2)
 ```
@@ -339,7 +339,7 @@ animate the disappearance of the removed element's children.
 Modules works by registering global listeners for [hooks](#hooks). A module is simply a dictionary mapping hook names to functions.
 
 ```mjs
-var myModule = {
+const myModule = {
   create: function (oldVnode, vnode) {
     // invoked whenever a new virtual node is created
   },
@@ -564,7 +564,7 @@ In particular, you should **not** do something like this:
 
 ```mjs
 // Does not work
-var sharedHandler = {
+const sharedHandler = {
   change: function (e) { console.log('you chose: ' + e.target.value) }
 }
 h('div', [
@@ -588,7 +588,7 @@ Alternatively, simply make sure each node is passed unique `on` values:
 
 ```mjs
 // Works
-var sharedHandler = function (e) {
+const sharedHandler = function (e) {
   console.log('you chose: ' + e.target.value)
 }
 h('div', [
@@ -614,7 +614,7 @@ nodes. SVG elements are automatically created with the appropriate
 namespaces.
 
 ```mjs
-var vnode = h('div', [
+const vnode = h('div', [
   h('svg', { attrs: { width: 100, height: 100 } }, [
     h('circle', { attrs: { cx: 50, cy: 50, r: 40, stroke: 'green', 'stroke-width': 4, fill: 'yellow' } })
   ])
@@ -819,13 +819,13 @@ Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node':
 The reason for this error is reusing of vnodes between patches (see code example), snabbdom stores actual dom nodes inside the virtual dom nodes passed to it as performance improvement, so reusing nodes between patches is not supported.
 
 ```mjs
-var sharedNode = h('div', {}, 'Selected')
-var vnode1 = h('div', [
+const sharedNode = h('div', {}, 'Selected')
+const vnode1 = h('div', [
   h('div', {}, ['One']),
   h('div', {}, ['Two']),
   h('div', {}, [sharedNode]),
 ])
-var vnode2 = h('div', [
+const vnode2 = h('div', [
   h('div', {}, ['One']),
   h('div', {}, [sharedNode]),
   h('div', {}, ['Three']),
@@ -837,7 +837,7 @@ patch(vnode1, vnode2)
 You can fix this issue by creating a shallow copy of the object (here with object spread syntax):
 
 ```mjs
-var vnode2 = h('div', [
+const vnode2 = h('div', [
   h('div', {}, ['One']),
   h('div', {}, [{ ...sharedNode }]),
   h('div', {}, ['Three']),
@@ -847,8 +847,8 @@ var vnode2 = h('div', [
 Another solution would be to wrap shared vnodes in a factory function:
 
 ```mjs
-var sharedNode = () => h('div', {}, 'Selected')
-var vnode1 = h('div', [
+const sharedNode = () => h('div', {}, 'Selected')
+const vnode1 = h('div', [
   h('div', {}, ['One']),
   h('div', {}, ['Two']),
   h('div', {}, [sharedNode()]),

@@ -3,8 +3,8 @@ import { Module } from './module'
 
 export type Hero = { id: string }
 
-var raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout
-var nextFrame = function (fn: any) {
+const raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout
+const nextFrame = function (fn: any) {
   raf(function () {
     raf(fn)
   })
@@ -17,9 +17,9 @@ function setNextFrame (obj: any, prop: string, val: any): void {
 }
 
 function getTextNodeRect (textNode: Text): ClientRect | undefined {
-  var rect: ClientRect | undefined
+  let rect: ClientRect | undefined
   if (document.createRange) {
-    var range = document.createRange()
+    const range = document.createRange()
     range.selectNodeContents(textNode)
     if (range.getBoundingClientRect) {
       rect = range.getBoundingClientRect()
@@ -36,8 +36,8 @@ function calcTransformOrigin (
   if (isTextNode) {
     if (textRect) {
       // calculate pixels to center of text from left edge of bounding box
-      var relativeCenterX = textRect.left + textRect.width / 2 - boundingRect.left
-      var relativeCenterY = textRect.top + textRect.height / 2 - boundingRect.top
+      const relativeCenterX = textRect.left + textRect.width / 2 - boundingRect.left
+      const relativeCenterY = textRect.top + textRect.height / 2 - boundingRect.top
       return relativeCenterX + 'px ' + relativeCenterY + 'px'
     }
   }
@@ -67,7 +67,7 @@ function isTextElement (elm: Element | Text): elm is Text {
   return elm.childNodes.length === 1 && elm.childNodes[0].nodeType === 3
 }
 
-var removed: any, created: any
+let removed: any, created: any
 
 function pre () {
   removed = {}
@@ -75,7 +75,7 @@ function pre () {
 }
 
 function create (oldVnode: VNode, vnode: VNode): void {
-  var hero = (vnode.data as VNodeData).hero
+  const hero = (vnode.data as VNodeData).hero
   if (hero && hero.id) {
     created.push(hero.id)
     created.push(vnode)
@@ -83,20 +83,20 @@ function create (oldVnode: VNode, vnode: VNode): void {
 }
 
 function destroy (vnode: VNode): void {
-  var hero = (vnode.data as VNodeData).hero
+  const hero = (vnode.data as VNodeData).hero
   if (hero && hero.id) {
-    var elm = vnode.elm;
+    const elm = vnode.elm;
     (vnode as any).isTextNode = isTextElement(elm as Element | Text); // is this a text node?
     (vnode as any).boundingRect = (elm as Element).getBoundingClientRect(); // save the bounding rectangle to a new property on the vnode
     (vnode as any).textRect = (vnode as any).isTextNode ? getTextNodeRect((elm as Element).childNodes[0] as Text) : null // save bounding rect of inner text node
-    var computedStyle = window.getComputedStyle(elm as Element, undefined); // get current styles (includes inherited properties)
+    const computedStyle = window.getComputedStyle(elm as Element, undefined); // get current styles (includes inherited properties)
     (vnode as any).savedStyle = JSON.parse(JSON.stringify(computedStyle)) // save a copy of computed style values
     removed[hero.id] = vnode
   }
 }
 
 function post () {
-  var i: number, id: any, newElm: Element, oldVnode: VNode, oldElm: Element,
+  let i: number, id: any, newElm: Element, oldVnode: VNode, oldElm: Element,
     hRatio: number, wRatio: number,
     oldRect: ClientRect, newRect: ClientRect, dx: number, dy: number,
     origTransform: string | null, origTransition: string | null,
@@ -146,11 +146,11 @@ function post () {
       setNextFrame(newStyle, 'transform', origTransform)
       setNextFrame(newStyle, 'opacity', '1')
       // Animate old element
-      for (var key in (oldVnode as any).savedStyle) { // re-apply saved inherited properties
+      for (const key in (oldVnode as any).savedStyle) { // re-apply saved inherited properties
         if (String(parseInt(key)) !== key) {
-          var ms = key.substring(0, 2) === 'ms'
-          var moz = key.substring(0, 3) === 'moz'
-          var webkit = key.substring(0, 6) === 'webkit'
+          const ms = key.substring(0, 2) === 'ms'
+          const moz = key.substring(0, 3) === 'moz'
+          const webkit = key.substring(0, 6) === 'webkit'
           if (!ms && !moz && !webkit) {
             // ignore prefixed style properties
             (oldStyle as any)[key] = (oldVnode as any).savedStyle[key]
