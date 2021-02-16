@@ -7,13 +7,13 @@ export type VNodeStyle = Record<string, string> & {
 }
 
 // Bindig `requestAnimationFrame` like this fixes a bug in IE/Edge. See #360 and #409.
-var raf = (typeof window !== 'undefined' && (window.requestAnimationFrame).bind(window)) || setTimeout
-var nextFrame = function (fn: any) {
+const raf = (typeof window !== 'undefined' && (window.requestAnimationFrame).bind(window)) || setTimeout
+const nextFrame = function (fn: any) {
   raf(function () {
     raf(fn)
   })
 }
-var reflowForced = false
+let reflowForced = false
 
 function setNextFrame (obj: any, prop: string, val: any): void {
   nextFrame(function () {
@@ -22,17 +22,17 @@ function setNextFrame (obj: any, prop: string, val: any): void {
 }
 
 function updateStyle (oldVnode: VNode, vnode: VNode): void {
-  var cur: any
-  var name: string
-  var elm = vnode.elm
-  var oldStyle = (oldVnode.data as VNodeData).style
-  var style = (vnode.data as VNodeData).style
+  let cur: any
+  let name: string
+  const elm = vnode.elm
+  let oldStyle = (oldVnode.data as VNodeData).style
+  let style = (vnode.data as VNodeData).style
 
   if (!oldStyle && !style) return
   if (oldStyle === style) return
   oldStyle = oldStyle || {}
   style = style || {}
-  var oldHasDel = 'delayed' in oldStyle
+  const oldHasDel = 'delayed' in oldStyle
 
   for (name in oldStyle) {
     if (!style[name]) {
@@ -63,10 +63,10 @@ function updateStyle (oldVnode: VNode, vnode: VNode): void {
 }
 
 function applyDestroyStyle (vnode: VNode): void {
-  var style: any
-  var name: string
-  var elm = vnode.elm
-  var s = (vnode.data as VNodeData).style
+  let style: any
+  let name: string
+  const elm = vnode.elm
+  const s = (vnode.data as VNodeData).style
   if (!s || !(style = s.destroy)) return
   for (name in style) {
     (elm as any).style[name] = style[name]
@@ -74,7 +74,7 @@ function applyDestroyStyle (vnode: VNode): void {
 }
 
 function applyRemoveStyle (vnode: VNode, rm: () => void): void {
-  var s = (vnode.data as VNodeData).style
+  const s = (vnode.data as VNodeData).style
   if (!s || !s.remove) {
     rm()
     return
@@ -84,19 +84,18 @@ function applyRemoveStyle (vnode: VNode, rm: () => void): void {
     (vnode.elm as any).offsetLeft
     reflowForced = true
   }
-  var name: string
-  var elm = vnode.elm
-  var i = 0
-  var compStyle: CSSStyleDeclaration
-  var style = s.remove
-  var amount = 0
-  var applied: string[] = []
+  let name: string
+  const elm = vnode.elm
+  let i = 0
+  const style = s.remove
+  let amount = 0
+  const applied: string[] = []
   for (name in style) {
     applied.push(name);
     (elm as any).style[name] = style[name]
   }
-  compStyle = getComputedStyle(elm as Element)
-  var props = (compStyle as any)['transition-property'].split(', ')
+  const compStyle = getComputedStyle(elm as Element)
+  const props = (compStyle as any)['transition-property'].split(', ')
   for (; i < props.length; ++i) {
     if (applied.indexOf(props[i]) !== -1) amount++
   }

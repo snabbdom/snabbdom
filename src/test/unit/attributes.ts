@@ -3,18 +3,18 @@ import { init } from '../../package/init'
 import { attributesModule } from '../../package/modules/attributes'
 import { h } from '../../package/h'
 
-var patch = init([
+const patch = init([
   attributesModule
 ])
 
 describe('attributes', function () {
-  var elm: any, vnode0: any
+  let elm: any, vnode0: any
   beforeEach(function () {
     elm = document.createElement('div')
     vnode0 = elm
   })
   it('have their provided values', function () {
-    var vnode1 = h('div', { attrs: { href: '/foo', minlength: 1, selected: true, disabled: false } })
+    const vnode1 = h('div', { attrs: { href: '/foo', minlength: 1, selected: true, disabled: false } })
     elm = patch(vnode0, vnode1).elm
     assert.strictEqual(elm.getAttribute('href'), '/foo')
     assert.strictEqual(elm.getAttribute('minlength'), '1')
@@ -23,9 +23,9 @@ describe('attributes', function () {
     assert.strictEqual(elm.hasAttribute('disabled'), false)
   })
   it('can be memoized', function () {
-    var cachedAttrs = { href: '/foo', minlength: 1, selected: true }
-    var vnode1 = h('div', { attrs: cachedAttrs })
-    var vnode2 = h('div', { attrs: cachedAttrs })
+    const cachedAttrs = { href: '/foo', minlength: 1, selected: true }
+    const vnode1 = h('div', { attrs: cachedAttrs })
+    const vnode2 = h('div', { attrs: cachedAttrs })
     elm = patch(vnode0, vnode1).elm
     assert.strictEqual(elm.getAttribute('href'), '/foo')
     assert.strictEqual(elm.getAttribute('minlength'), '1')
@@ -36,7 +36,7 @@ describe('attributes', function () {
     assert.strictEqual(elm.getAttribute('selected'), '')
   })
   it('are not omitted when falsy values are provided', function () {
-    var vnode1 = h('div', { attrs: { href: null as any, minlength: 0, value: '', title: 'undefined' } })
+    const vnode1 = h('div', { attrs: { href: null as any, minlength: 0, value: '', title: 'undefined' } })
     elm = patch(vnode0, vnode1).elm
     assert.ok(elm.hasAttribute('href'))
     assert.ok(elm.hasAttribute('minlength'))
@@ -44,7 +44,7 @@ describe('attributes', function () {
     assert.ok(elm.hasAttribute('title'))
   })
   it('are set correctly when namespaced', function () {
-    var vnode1 = h('div', { attrs: { 'xlink:href': '#foo' } })
+    const vnode1 = h('div', { attrs: { 'xlink:href': '#foo' } })
     elm = patch(vnode0, vnode1).elm
     assert.strictEqual(elm.getAttributeNS('http://www.w3.org/1999/xlink', 'href'), '#foo')
   })
@@ -53,7 +53,7 @@ describe('attributes', function () {
     elm.id = 'myId'
     elm.className = 'myClass'
     vnode0 = elm
-    var vnode1 = h('div#myId.myClass', { attrs: {} }, ['Hello'])
+    const vnode1 = h('div#myId.myClass', { attrs: {} }, ['Hello'])
     elm = patch(vnode0, vnode1).elm
     assert.strictEqual(elm.tagName, 'DIV')
     assert.strictEqual(elm.id, 'myId')
@@ -62,7 +62,7 @@ describe('attributes', function () {
   })
   describe('boolean attribute', function () {
     it('is present and empty string if the value is truthy', function () {
-      var vnode1 = h('div', { attrs: { required: true, readonly: 1, noresize: 'truthy' } })
+      const vnode1 = h('div', { attrs: { required: true, readonly: 1, noresize: 'truthy' } })
       elm = patch(vnode0, vnode1).elm
       assert.strictEqual(elm.hasAttribute('required'), true)
       assert.strictEqual(elm.getAttribute('required'), '')
@@ -72,13 +72,13 @@ describe('attributes', function () {
       assert.strictEqual(elm.getAttribute('noresize'), 'truthy')
     })
     it('is omitted if the value is false', function () {
-      var vnode1 = h('div', { attrs: { required: false } })
+      const vnode1 = h('div', { attrs: { required: false } })
       elm = patch(vnode0, vnode1).elm
       assert.strictEqual(elm.hasAttribute('required'), false)
       assert.strictEqual(elm.getAttribute('required'), null)
     })
     it('is not omitted if the value is falsy', function () {
-      var vnode1 = h('div', { attrs: { readonly: 0, noresize: null as any } })
+      const vnode1 = h('div', { attrs: { readonly: 0, noresize: null as any } })
       elm = patch(vnode0, vnode1).elm
       assert.ok(elm.hasAttribute('readonly'))
       assert.ok(elm.hasAttribute('noresize'))
@@ -86,11 +86,11 @@ describe('attributes', function () {
   })
   describe('Object.prototype property', function () {
     it('is not considered as a boolean attribute and shouldn\'t be omitted', function () {
-      var vnode1 = h('div', { attrs: { constructor: true } })
+      const vnode1 = h('div', { attrs: { constructor: true } })
       elm = patch(vnode0, vnode1).elm
       assert.strictEqual(elm.hasAttribute('constructor'), true)
       assert.strictEqual(elm.getAttribute('constructor'), '')
-      var vnode2 = h('div', { attrs: { constructor: false } })
+      const vnode2 = h('div', { attrs: { constructor: false } })
       elm = patch(vnode0, vnode2).elm
       assert.strictEqual(elm.hasAttribute('constructor'), false)
     })
