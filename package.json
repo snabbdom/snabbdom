@@ -51,7 +51,7 @@
     "eslint-plugin-standard": "4.0.1",
     "faker": "5.1.0",
     "globby": "11.0.2",
-    "husky": "4.3.0",
+    "husky": "^5.0.9",
     "is-path-inside": "3.0.2",
     "karma": "6.1.1",
     "karma-browserstack-launcher": "1.6.0",
@@ -66,6 +66,7 @@
     "npm-run-all": "4.1.5",
     "p-map-series": "2.1.0",
     "p-reduce": "2.1.0",
+    "pinst": "^2.1.4",
     "regenerator-runtime": "0.13.7",
     "remark-cli": "8.0.1",
     "remark-toc": "7.1.0",
@@ -78,6 +79,9 @@
     "webpack-cli": "3.3.12"
   },
   "scripts": {
+    "postinstall": "husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable",
     "docs": "remark . --output",
     "check-clean": "git diff --exit-code",
     "lint:js": "eslint --ext .ts,.tsx,.cjs,.md,.mjs --ignore-path .gitignore .",
@@ -88,8 +92,7 @@
     "make-release-commit": "standard-version",
     "test": "run-s lint compile bundle-tests unit",
     "compile": "ttsc --build src/test/tsconfig.json",
-    "bundle-tests": "webpack --config tests.webpack.config.cjs",
-    "prepublishOnly": "npm run compile"
+    "bundle-tests": "webpack --config tests.webpack.config.cjs"
   },
   "repository": {
     "type": "git",
@@ -123,12 +126,6 @@
     }
   },
   "homepage": "https://github.com/snabbdom/snabbdom#readme",
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint --config commitlint.config.json -E HUSKY_GIT_PARAMS",
-      "pre-commit": "run-s docs check-clean test"
-    }
-  },
   "files": [
     "/build/package/h.d.ts",
     "/build/package/h.js",

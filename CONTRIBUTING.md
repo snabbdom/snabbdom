@@ -29,4 +29,5 @@ For example:
 And then
 
     git push --tags
+    npm compile
     npm publish
