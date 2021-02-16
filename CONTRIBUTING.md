@@ -1,20 +1,5 @@
 # Contributing
 
-## Allowing CI builds of pull requests from forks
-
-Some secrets are included as environment variables in the CI build.
-Since code in forks is considered un-trusted,
-CI builds of pull requests from forks are run without secrets.
-This causes the CI build to fail.
-
-To mark the HEAD of a pull request as trusted
-— which would trigger a build that includes the secrets —
-run the following command:
-
-```sh
-npm run mark-pr-head-as-trusted -- <pr number>
-```
-
 ## Making a release
 
 Make sure you have permission to publish, by running
