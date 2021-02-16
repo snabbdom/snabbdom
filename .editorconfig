@@ -7,7 +7,7 @@ charset = utf-8
 indent_style = space
 indent_size = 2
 
-[*.min.js.map]
+[{*.min.js.map,.husky/.gitignore}]
 insert_final_newline = false
 
 [{graphics.svg,readme-title.svg}]
