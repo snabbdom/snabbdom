@@ -7,7 +7,7 @@
     "outDir": "../../build/package",
     "plugins": [
       {
-        "transform": "./ts-transform-js-extension.cjs",
+        "transform": "../ts-transform-js-extension.cjs",
         "import": "transform",
         "after": true,
         "type": "raw"

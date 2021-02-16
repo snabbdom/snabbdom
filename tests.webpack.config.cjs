@@ -5,6 +5,7 @@ const globby = require('globby')
 const outputPath = path.resolve(__dirname, 'build/test')
 const makeTestsWebpackConfig = async () => ({
   mode: 'development',
+  target: 'browserslist:defaults',
   entry: Object.fromEntries(
     (await globby(path.resolve(outputPath, '**/*.js')))
       .map((item) => [path.relative(outputPath, item), item])
@@ -34,11 +35,6 @@ const makeTestsWebpackConfig = async () => ({
         }
       }
     ]
-  },
-  resolve: {
-    alias: {
-      'latest-snabbdom-release/init': 'latest-snabbdom-release/build/package/init'
-    }
   }
 })
 module.exports = makeTestsWebpackConfig
