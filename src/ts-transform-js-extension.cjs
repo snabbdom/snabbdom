@@ -16,6 +16,7 @@ module.exports.transform = (ctx) => (sf) => ts.visitNode(sf, (node) => {
           : null
 
     if (originalPath === null) return node
+    if (!originalPath.startsWith('.')) return node
     const pathWithExtension = originalPath.endsWith('.js')
       ? originalPath
       : originalPath + '.js'

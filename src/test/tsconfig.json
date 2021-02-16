@@ -14,6 +14,14 @@
     "paths": {
       "latest-snabbdom-release/*": ["node_modules/latest-snabbdom-release/build/package/*"]
     },
+    "plugins": [
+      {
+        "transform": "../ts-transform-js-extension.cjs",
+        "import": "transform",
+        "after": true,
+        "type": "raw"
+      }
+    ],
     "jsx": "react",
     "jsxFactory": "jsx"
   },
