@@ -78,7 +78,6 @@
     "webpack-cli": "3.3.12"
   },
   "scripts": {
-    "mark-pr-head-as-trusted": "node --unhandled-rejections=strict mark-pr-head-as-trusted.cjs",
     "docs": "remark . --output",
     "check-clean": "git diff --exit-code",
     "lint:js": "eslint --ext .ts,.tsx,.cjs,.md,.mjs --ignore-path .gitignore .",
