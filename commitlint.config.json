@@ -1,29 +1,31 @@
 {
-  "extends": [
-    "@commitlint/config-conventional"
-  ],
+  "extends": ["@commitlint/config-conventional"],
   "rules": {
     "scope-empty": [2, "never"],
-    "scope-enum": [2, "always", [
-      "ci",
-      "commitlint",
-      "deps",
-      "docs",
-      "eslint",
-      "eventlisteners",
-      "examples",
-      "exports",
-      "format",
-      "git",
-      "github",
-      "karma",
-      "npm",
-      "package",
-      "relic",
-      "style",
-      "ttypescript",
-      "typescript",
-      "vscode"
-    ]]
+    "scope-enum": [
+      2,
+      "always",
+      [
+        "ci",
+        "commitlint",
+        "deps",
+        "docs",
+        "eslint",
+        "eventlisteners",
+        "examples",
+        "exports",
+        "format",
+        "git",
+        "github",
+        "karma",
+        "npm",
+        "package",
+        "relic",
+        "style",
+        "ttypescript",
+        "typescript",
+        "vscode"
+      ]
+    ]
   }
 }

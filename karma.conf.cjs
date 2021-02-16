@@ -1,50 +1,48 @@
-const ci = !!process.env.CI
-const watch = !!process.env.WATCH
-const live = !!process.env.LIVE
+const ci = !!process.env.CI;
+const watch = !!process.env.WATCH;
+const live = !!process.env.LIVE;
 
-const ip = 'bs-local.com'
+const ip = "bs-local.com";
 
-const browserstack = require('./browserstack-karma.cjs')
+const browserstack = require("./browserstack-karma.cjs");
 
 // https://www.browserstack.com/open-source (text search "parallels")
-const BROWSERSTACK_OPEN_SOURCE_CONCURRENCY = 5
+const BROWSERSTACK_OPEN_SOURCE_CONCURRENCY = 5;
 
 const browsers = ci
   ? Object.keys(browserstack)
   : live
-    ? undefined
-    : watch
-      ? ['Chrome']
-      : ['Chrome', 'Firefox']
+  ? undefined
+  : watch
+  ? ["Chrome"]
+  : ["Chrome", "Firefox"];
 
 module.exports = function (config) {
   config.set({
-    basePath: '.',
-    frameworks: ['mocha'],
+    basePath: ".",
+    frameworks: ["mocha"],
     // list of files / patterns to load in the browser
-    files: [
-      { pattern: process.env.FILES_PATTERN },
-    ],
+    files: [{ pattern: process.env.FILES_PATTERN }],
     plugins: [
-      'karma-mocha',
-      require('karma-mocha-reporter'),
-      require('./karma-benchmark-reporter.cjs'),
-      'karma-chrome-launcher',
-      'karma-firefox-launcher',
-      'karma-browserstack-launcher',
+      "karma-mocha",
+      require("karma-mocha-reporter"),
+      require("./karma-benchmark-reporter.cjs"),
+      "karma-chrome-launcher",
+      "karma-firefox-launcher",
+      "karma-browserstack-launcher",
     ],
-    hostname: ci ? ip : 'localhost',
+    hostname: ci ? ip : "localhost",
     browserStack: {
-      name: 'Snabbdom',
+      name: "Snabbdom",
       retryLimit: 1,
     },
     client: {
       captureConsole: true,
     },
     customLaunchers: browserstack,
-    reporters: ['mocha', 'benchmark', 'BrowserStack'],
+    reporters: ["mocha", "benchmark", "BrowserStack"],
     mochaReporter: {
-      showDiff: true
+      showDiff: true,
     },
     port: 9876,
     colors: true,
@@ -52,5 +50,5 @@ module.exports = function (config) {
     browsers: browsers,
     singleRun: !watch && !live,
     concurrency: ci ? BROWSERSTACK_OPEN_SOURCE_CONCURRENCY : Infinity,
-  })
-}
+  });
+};
