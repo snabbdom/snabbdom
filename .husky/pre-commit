@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx run-s docs check-clean test
+npm exec -- npm-run-all -s docs check-clean test
