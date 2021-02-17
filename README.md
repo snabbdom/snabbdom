@@ -805,6 +805,7 @@ Here are some approaches to building applications with Snabbdom.
 * [Rosmaro Snabbdom starter](https://github.com/lukaszmakuch/rosmaro-snabbdom-starter) - Building user interfaces with state machines and Snabbdom.
 * [Pureact](https://github.com/irony/pureact) - "65 lines implementation of React incl Redux and hooks with only one dependency - Snabbdom"
 * [Snabberb](https://github.com/tobymao/snabberb) - A minimalistic Ruby framework using [Opal](https://github.com/opal/opal) and Snabbdom for building reactive views.  
+* [WebCell](https://github.com/EasyWebApp/WebCell) - Web Components engine based on JSX & TypeScript
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
