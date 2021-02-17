@@ -9,5 +9,5 @@
     "target": "es6",
     "outDir": "build"
   },
-  "include": ["./src/package/**/*"]
+  "include": ["./src/**/*"]
 }
