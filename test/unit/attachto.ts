@@ -1,8 +1,6 @@
 import { assert } from 'chai'
-import { init } from '../../package/init'
-import { RemoveHook } from '../../package/hooks'
-import { attachTo } from '../../package/helpers/attachto'
-import { h } from '../../package/h'
+
+import { init, RemoveHook, attachTo, h } from '../../src/index';
 
 const patch = init([])
 

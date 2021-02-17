@@ -1,8 +1,6 @@
 import { assert } from 'chai'
 
-import { init } from '../../package/init'
-import { h } from '../../package/h'
-import { attributesModule } from '../../package/modules/attributes'
+import { init, h, attributesModule } from '../../src/index';
 
 const patch = init([
   attributesModule

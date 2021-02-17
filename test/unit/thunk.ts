@@ -1,9 +1,6 @@
 import { assert } from 'chai'
 
-import { init } from '../../package/init'
-import { h } from '../../package/h'
-import { thunk } from '../../package/thunk'
-import { VNode } from '../../package/vnode'
+import { init, h, thunk, VNode } from '../../src/index';
 
 const patch = init([
 ])

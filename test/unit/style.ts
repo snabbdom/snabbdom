@@ -1,9 +1,6 @@
 import { assert } from 'chai'
 
-import { init } from '../../package/init'
-import { styleModule } from '../../package/modules/style'
-import { h } from '../../package/h'
-import { toVNode } from '../../package/tovnode'
+import { init, styleModule, h, toVNode } from '../../src/index';
 
 const patch = init([
   styleModule

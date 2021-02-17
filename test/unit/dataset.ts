@@ -1,8 +1,6 @@
 import { assert } from 'chai'
 
-import { datasetModule } from '../../package/modules/dataset'
-import { init } from '../../package/init'
-import { h } from '../../package/h'
+import { datasetModule, init, h } from '../../src/index';
 
 const patch = init([
   datasetModule

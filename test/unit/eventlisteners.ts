@@ -1,9 +1,6 @@
 import { assert } from 'chai'
-import { VNode } from '../../package/vnode'
 
-import { init } from '../../package/init'
-import { eventListenersModule } from '../../package/modules/eventlisteners'
-import { h } from '../../package/h'
+import { VNode, init, eventListenersModule, h } from '../../src/index';
 
 const patch = init([
   eventListenersModule

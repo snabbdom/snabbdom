@@ -15,18 +15,23 @@ const browsers = ci
     ? undefined
     : watch
       ? ['Chrome']
-      : ['Chrome', 'Firefox']
+      : ['ChromeHeadless', 'FirefoxHeadless']
 
 module.exports = function (config) {
   config.set({
     basePath: '.',
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'karma-typescript'],
     // list of files / patterns to load in the browser
     files: [
+      { pattern: 'src/**/*.ts' },
       { pattern: process.env.FILES_PATTERN },
     ],
+    preprocessors: {
+      '**/*.ts': 'karma-typescript'
+    },
     plugins: [
       'karma-mocha',
+      'karma-typescript',
       require('karma-mocha-reporter'),
       require('./karma-benchmark-reporter.cjs'),
       'karma-chrome-launcher',
@@ -34,6 +39,12 @@ module.exports = function (config) {
       'karma-browserstack-launcher',
     ],
     hostname: ci ? ip : 'localhost',
+    karmaTypescriptConfig: {
+      compilerOptions: {
+        esModuleInterop: true
+      },
+      include: [process.env.FILES_PATTERN, 'src/**/*.ts']
+    },
     browserStack: {
       name: 'Snabbdom',
       retryLimit: 1,
@@ -42,7 +53,7 @@ module.exports = function (config) {
       captureConsole: true,
     },
     customLaunchers: browserstack,
-    reporters: ['mocha', 'benchmark', 'BrowserStack'],
+    reporters: ['karma-typescript', 'mocha', 'benchmark', 'BrowserStack'],
     mochaReporter: {
       showDiff: true
     },

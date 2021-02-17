@@ -1,16 +1,7 @@
 import { assert } from 'chai'
 import shuffle from 'lodash.shuffle'
 
-import { init } from '../../package/init'
-import { classModule } from '../../package/modules/class'
-import { propsModule } from '../../package/modules/props'
-import { styleModule } from '../../package/modules/style'
-import { eventListenersModule } from '../../package/modules/eventlisteners'
-import { h } from '../../package/h'
-import { toVNode } from '../../package/tovnode'
-import { vnode, VNode } from '../../package/vnode'
-import { htmlDomApi } from '../../package/htmldomapi'
-import { CreateHook, InsertHook, PrePatchHook, RemoveHook, InitHook, DestroyHook, UpdateHook } from '../../package/hooks'
+import { init, classModule, propsModule, styleModule, eventListenersModule, h, toVNode, vnode, VNode, htmlDomApi, CreateHook, InsertHook, PrePatchHook, RemoveHook, InitHook, DestroyHook, UpdateHook } from '../../src/index';
 
 const hasSvgClassList = 'classList' in SVGElement.prototype
 
