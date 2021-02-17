@@ -62,12 +62,7 @@ performance, small size and all the features listed below.
 ## Example
 
 ```mjs
-import { init } from 'snabbdom/init'
-import { classModule } from 'snabbdom/modules/class'
-import { propsModule } from 'snabbdom/modules/props'
-import { styleModule } from 'snabbdom/modules/style'
-import { eventListenersModule } from 'snabbdom/modules/eventlisteners'
-import { h } from 'snabbdom/h' // helper function for creating vnodes
+import { init, classModule, propsModule, styleModule, eventListenersModule, h } from 'snabbdom';
 
 const patch = init([ // Init patch function with chosen modules
   classModule, // makes it easy to toggle classes
@@ -109,8 +104,8 @@ patch(vnode, newVnode) // Snabbdom efficiently updates the old view to the new s
   * [`init`](#init)
   * [`patch`](#patch)
     * [Unmounting](#unmounting)
-  * [`snabbdom/h`](#snabbdomh)
-  * [`snabbdom/tovnode`](#snabbdomtovnode)
+  * [`h`](#h)
+  * [`tovnode`](#tovnode)
   * [Hooks](#hooks)
     * [Overview](#overview)
     * [Usage](#usage)
@@ -157,8 +152,7 @@ takes a list of modules and returns a `patch` function that uses the
 specified set of modules.
 
 ```mjs
-import { classModule } from 'snabbdom/modules/class'
-import { styleModule } from 'snabbdom/modules/style'
+import { classModule, styleModule } from 'snabbdom'
 
 const patch = init([classModule, styleModule])
 ```
@@ -194,14 +188,14 @@ patch(oldVnode, h('!', { hooks: { post: () => { /* patch complete */ } } }))
 
 Of course, then there is still a single comment node at the mount point.
 
-### `snabbdom/h`
+### `h`
 
-It is recommended that you use `snabbdom/h` to create vnodes. `h` accepts a
+It is recommended that you use `h` to create vnodes. It accepts a
 tag/selector as a string, an optional data object and an optional string or
 array of children.
 
 ```mjs
-import { h } from 'snabbdom/h'
+import { h } from 'snabbdom'
 
 const vnode = h('div', { style: { color: '#000' } }, [
   h('h1', 'Headline'),
@@ -209,19 +203,13 @@ const vnode = h('div', { style: { color: '#000' } }, [
 ])
 ```
 
-### `snabbdom/tovnode`
+### `tovnode`
 
 Converts a DOM node into a virtual node. Especially good for patching over an pre-existing, 
 server-side generated content.
 
 ```mjs
-import { init } from 'snabbdom/init'
-import { classModule } from 'snabbdom/modules/class'
-import { propsModule } from 'snabbdom/modules/props'
-import { styleModule } from 'snabbdom/modules/style'
-import { eventListenersModule } from 'snabbdom/modules/eventlisteners'
-import { h } from 'snabbdom/h' // helper function for creating vnodes
-import { toVNode } from 'snabbdom/tovnode'
+import { init, classModule, propsModule, styleModule, eventListenersModule, h, toVNode } from 'snabbdom'
 
 const patch = init([ // Init patch function with chosen modules
   classModule, // makes it easy to toggle classes
