@@ -2,6 +2,7 @@
   "name": "snabbdom",
   "version": "2.1.0",
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
+  "main": "build/snabbdom.cjs.js",
   "module": "build/index.js",
   "devDependencies": {
     "@babel/core": "7.12.16",
@@ -49,6 +50,7 @@
     "regenerator-runtime": "0.13.7",
     "remark-cli": "8.0.1",
     "remark-toc": "7.1.0",
+    "rollup": "^2.39.0",
     "standard-version": "9.1.0",
     "tty-table": "4.1.3",
     "typescript": "4.0.3",
@@ -56,6 +58,8 @@
     "webpack-cli": "4.5.0"
   },
   "scripts": {
+    "build": "tsc && npm run bundle:cjs",
+    "bundle:cjs": "rollup build/index.js --format cjs --file build/snabbdom.cjs.js",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable",
@@ -67,8 +71,7 @@
     "unit": "cross-env FILES_PATTERN=\"test-bundles/unit/**/*.js\" karma start karma.conf.cjs",
     "benchmark": "cross-env FILES_PATTERN=\"test-bundles/benchmark/**/*.js\" karma start karma.conf.cjs --concurrency=1",
     "make-release-commit": "standard-version",
-    "test": "run-s lint compile bundle-tests unit",
-    "compile": "tsc",
+    "test": "run-s lint build bundle-tests unit",
     "bundle-tests": "webpack --config tests.webpack.config.cjs"
   },
   "repository": {
