@@ -16,6 +16,7 @@
     "@types/mathjs": "6.0.5",
     "@types/mocha": "8.0.3",
     "@typescript-eslint/eslint-plugin": "4.15.1",
+    "@typescript-eslint/parser": "^4.15.1",
     "benchmark": "2.1.4",
     "chai": "4.2.0",
     "chalk": "4.1.0",
@@ -23,6 +24,7 @@
     "cross-env": "7.0.3",
     "editorconfig-checker": "3.2.0",
     "eslint": "7.20.0",
+    "eslint-config-prettier": "^7.2.0",
     "eslint-config-standard-with-typescript": "20.0.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-markdown": "2.0.0",
@@ -47,6 +49,7 @@
     "p-map-series": "2.1.0",
     "p-reduce": "2.1.0",
     "pinst": "2.1.4",
+    "prettier": "^2.2.1",
     "regenerator-runtime": "0.13.7",
     "remark-cli": "8.0.1",
     "remark-toc": "7.1.0",
@@ -58,12 +61,13 @@
   "scripts": {
     "build": "tsc && npm run bundle:cjs",
     "bundle:cjs": "rollup build/index.js --format cjs --file build/snabbdom.cjs.js",
+    "format": "prettier --write .",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable",
     "docs": "remark . --output",
     "check-clean": "git diff --exit-code",
-    "lint:js": "eslint --ext .ts,.tsx,.cjs,.md,.mjs --ignore-path .gitignore .",
+    "lint:js": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
     "lint:editorconfig": "editorconfig-checker",
     "lint": "run-s lint:editorconfig lint:js",
     "unit": "cross-env FILES_PATTERN=\"test/unit/*.ts\" karma start karma.conf.js",
@@ -87,6 +91,7 @@
   "bugs": {
     "url": "https://github.com/snabbdom/snabbdom/issues"
   },
+  "prettier": {},
   "remarkConfig": {
     "plugins": [
       [
