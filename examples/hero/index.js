@@ -1,16 +1,22 @@
-/* jshint esnext: true */
-import { init } from "../../build/package/init.js";
-import { classModule } from "../../build/package/modules/class.js";
-import { heroModule } from "../../build/package/modules/hero.js";
-import { styleModule } from "../../build/package/modules/style.js";
-import { eventListenersModule } from "../../build/package/modules/eventlisteners.js";
-import { h } from "../../build/package/h.js";
+import {
+  init,
+  classModule,
+  heroModule,
+  styleModule,
+  eventListenersModule,
+  h,
+} from "../../build/index.js";
 
-var patch = init([classModule, heroModule, styleModule, eventListenersModule]);
+const patch = init([
+  classModule,
+  heroModule,
+  styleModule,
+  eventListenersModule,
+]);
 
-var vnode;
+let vnode;
 
-var data = {
+const data = {
   selected: undefined,
   movies: [
     {
@@ -227,7 +233,7 @@ const view = (data) =>
   ]);
 
 window.addEventListener("DOMContentLoaded", () => {
-  var container = document.getElementById("container");
+  const container = document.getElementById("container");
   vnode = patch(container, view(data));
   render();
 });

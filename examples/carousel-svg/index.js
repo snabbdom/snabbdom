@@ -1,14 +1,16 @@
-import { init } from "../../build/package/init.js";
-import { attributesModule } from "../../build/package/modules/attributes.js";
-import { styleModule } from "../../build/package/modules/style.js";
-import { eventListenersModule } from "../../build/package/modules/eventlisteners.js";
-import { h } from "../../build/package/h.js";
+import {
+  init,
+  attributesModule,
+  styleModule,
+  eventListenersModule,
+  h,
+} from "../../build/index.js";
 
-var patch = init([attributesModule, styleModule, eventListenersModule]);
+const patch = init([attributesModule, styleModule, eventListenersModule]);
 
-var vnode;
+let vnode;
 
-var data = {
+let data = {
   degRotation: 0,
 };
 
@@ -111,7 +113,7 @@ const view = () =>
   ]);
 
 window.addEventListener("DOMContentLoaded", () => {
-  var container = document.getElementById("container");
+  const container = document.getElementById("container");
   vnode = patch(container, view(data));
   render();
 });

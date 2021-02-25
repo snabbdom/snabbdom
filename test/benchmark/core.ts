@@ -1,9 +1,7 @@
 import "core-js/stable/array/fill.js";
 import faker from "faker";
-import { VNode } from "../../package/vnode";
-import { h } from "../../package/h";
-import { init as curInit } from "../../package/init";
-import { init as refInit } from "latest-snabbdom-release/init";
+import { VNode, h, init as curInit } from "../../src/index";
+import { init as refInit } from "latest-snabbdom-release/build/package/init";
 import { assert } from "chai";
 import pReduce from "p-reduce";
 import pMapSeries from "p-map-series";

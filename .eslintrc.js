@@ -5,6 +5,9 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:markdown/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
     "prettier",
     "prettier/@typescript-eslint",
   ],
@@ -30,7 +33,6 @@ module.exports = {
         "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off",
       },
     },
     {
@@ -53,4 +55,10 @@ module.exports = {
       },
     },
   ],
+  rules: {
+    "max-statements-per-line": "error",
+    "no-var": "error",
+    "import/newline-after-import": "error",
+    "import/no-default-export": "error",
+  },
 };

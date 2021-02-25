@@ -1,12 +1,10 @@
-import { init } from "../../build/package/init.js";
-import { attributesModule } from "../../build/package/modules/attributes.js";
-import { h } from "../../build/package/h.js";
+import { init, attributesModule, h } from "../../build/index.js";
 
-var patch = init([attributesModule]);
+const patch = init([attributesModule]);
 
 window.addEventListener("DOMContentLoaded", () => {
-  var container = document.getElementById("container");
-  var vnode = h("div", [
+  const container = document.getElementById("container");
+  const vnode = h("div", [
     h("svg", { attrs: { width: 100, height: 100 } }, [
       h("circle", {
         attrs: {

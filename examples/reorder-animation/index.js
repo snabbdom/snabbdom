@@ -1,19 +1,26 @@
-import { init } from "../../build/package/init.js";
-import { classModule } from "../../build/package/modules/class.js";
-import { propsModule } from "../../build/package/modules/props.js";
-import { styleModule } from "../../build/package/modules/style.js";
-import { eventListenersModule } from "../../build/package/modules/eventlisteners.js";
-import { h } from "../../build/package/h.js";
+import {
+  init,
+  classModule,
+  propsModule,
+  styleModule,
+  eventListenersModule,
+  h,
+} from "../../build/index.js";
 
-var patch = init([classModule, propsModule, styleModule, eventListenersModule]);
+const patch = init([
+  classModule,
+  propsModule,
+  styleModule,
+  eventListenersModule,
+]);
 
-var vnode;
+let vnode;
 
-var nextKey = 11;
-var margin = 8;
-var sortBy = "rank";
-var totalHeight = 0;
-var originalData = [
+let nextKey = 11;
+const margin = 8;
+let sortBy = "rank";
+let totalHeight = 0;
+const originalData = [
   {
     rank: 1,
     title: "The Shawshank Redemption",
@@ -85,7 +92,7 @@ var originalData = [
     elmHeight: 0,
   },
 ];
-var data = [
+let data = [
   originalData[0],
   originalData[1],
   originalData[2],
@@ -113,7 +120,7 @@ function changeSort(prop) {
 }
 
 function add() {
-  var n = originalData[Math.floor(Math.random() * 10)];
+  const n = originalData[Math.floor(Math.random() * 10)];
   data = [
     { rank: nextKey++, title: n.title, desc: n.desc, elmHeight: 0 },
   ].concat(data);
@@ -169,7 +176,7 @@ function movieView(movie) {
 
 function render() {
   data = data.reduce((acc, m) => {
-    var last = acc[acc.length - 1];
+    const last = acc[acc.length - 1];
     m.offset = last ? last.offset + last.elmHeight + margin : margin;
     return acc.concat(m);
   }, []);
@@ -234,7 +241,7 @@ function view(data) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  var container = document.getElementById("container");
+  const container = document.getElementById("container");
   vnode = patch(container, view(data));
   render();
 });
