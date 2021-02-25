@@ -5,7 +5,7 @@
     "javascriptreact",
     "markdown",
     "typescript",
-    "typescriptreact",
+    "typescriptreact"
   ],
   "eslint.options.ignorePath": ".gitignore"
 }
