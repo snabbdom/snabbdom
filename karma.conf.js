@@ -29,7 +29,7 @@ module.exports = function (config) {
     plugins: [
       "karma-mocha",
       "karma-typescript",
-      require("karma-mocha-reporter"),
+      "karma-mocha-reporter",
       require("./karma-benchmark-reporter.cjs"),
       "karma-chrome-launcher",
       "karma-firefox-launcher",

@@ -16,11 +16,7 @@ function addNS(
     for (let i = 0; i < children.length; ++i) {
       const childData = children[i].data;
       if (childData !== undefined) {
-        addNS(
-          childData,
-          (children[i] as VNode).children as VNodes,
-          children[i].sel
-        );
+        addNS(childData, children[i].children as VNodes, children[i].sel);
       }
     }
   }

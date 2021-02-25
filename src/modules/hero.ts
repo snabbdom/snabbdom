@@ -41,7 +41,7 @@ function calcTransformOrigin(
         textRect.left + textRect.width / 2 - boundingRect.left;
       const relativeCenterY =
         textRect.top + textRect.height / 2 - boundingRect.top;
-      return relativeCenterX + "px " + relativeCenterY + "px";
+      return `${relativeCenterX}px ${relativeCenterY}px`;
     }
   }
   return "0 0"; // top left
@@ -168,18 +168,9 @@ function post() {
         newRect
       );
       newStyle.opacity = "0";
-      newStyle.transform =
-        origTransform +
-        "translate(" +
-        dx +
-        "px, " +
-        dy +
-        "px) " +
-        "scale(" +
-        1 / wRatio +
-        ", " +
-        1 / hRatio +
-        ")";
+      newStyle.transform = `${origTransform}translate(${dx}px, ${dy}px) scale(${
+        1 / wRatio
+      }, ${1 / hRatio})`;
       setNextFrame(newStyle, "transition", origTransition);
       setNextFrame(newStyle, "transform", origTransform);
       setNextFrame(newStyle, "opacity", "1");
@@ -197,10 +188,10 @@ function post() {
         }
       }
       oldStyle.position = "absolute";
-      oldStyle.top = oldRect.top + "px"; // start at existing position
-      oldStyle.left = oldRect.left + "px";
-      oldStyle.width = oldRect.width + "px"; // Needed for elements who were sized relative to their parents
-      oldStyle.height = oldRect.height + "px"; // Needed for elements who were sized relative to their parents
+      oldStyle.top = `${oldRect.top}px`; // start at existing position
+      oldStyle.left = `${oldRect.left}px`;
+      oldStyle.width = `${oldRect.width}px`; // Needed for elements who were sized relative to their parents
+      oldStyle.height = `${oldRect.height}px`; // Needed for elements who were sized relative to their parents
       oldStyle.margin = "0"; // Margin on hero element leads to incorrect positioning
       oldStyle.transformOrigin = calcTransformOrigin(
         isTextNode,
@@ -213,15 +204,7 @@ function post() {
       setNextFrame(
         oldStyle,
         "transform",
-        "translate(" +
-          -dx +
-          "px, " +
-          -dy +
-          "px) scale(" +
-          wRatio +
-          ", " +
-          hRatio +
-          ")"
+        `translate(${-dx}px, ${-dy}px) scale(${wRatio}, ${hRatio})`
       ); // scale must be on far right for translate to be correct
       setNextFrame(oldStyle, "opacity", "0");
       oldElm.addEventListener("transitionend", function (ev: TransitionEvent) {

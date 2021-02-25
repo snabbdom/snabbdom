@@ -3,5 +3,5 @@
   "compilerOptions": {
     "esModuleInterop": true
   },
-  "include": ["./unit/*.ts"]
+  "include": ["./**/*.ts"]
 }

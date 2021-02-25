@@ -11,7 +11,7 @@ describe("thunk", function () {
   });
   it("returns vnode with data and render function", function () {
     function numberInSpan(n: number) {
-      return h("span", "Number is " + n);
+      return h("span", `Number is ${n}`);
     }
     const vnode = thunk("span", "num", numberInSpan, [22]);
     assert.deepEqual(vnode.sel, "span");
@@ -22,7 +22,7 @@ describe("thunk", function () {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
-      return h("span", { key: "num" }, "Number is " + n);
+      return h("span", { key: "num" }, `Number is ${n}`);
     }
     const vnode1 = h("div", [thunk("span", "num", numberInSpan, [1])]);
     const vnode2 = h("div", [thunk("span", "num", numberInSpan, [2])]);
@@ -35,7 +35,7 @@ describe("thunk", function () {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
-      return h("span", { key: "num" }, "Number is " + n);
+      return h("span", { key: "num" }, `Number is ${n}`);
     }
     const vnode1 = h("div", [thunk("span", "num", numberInSpan, [1])]);
     const vnode2 = h("div", [thunk("span", "num", numberInSpan, [1])]);
@@ -48,7 +48,7 @@ describe("thunk", function () {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
-      return h("span", { key: "num" }, "Number is " + n);
+      return h("span", { key: "num" }, `Number is ${n}`);
     }
     const vnode1 = h("div", [thunk("span", "num", numberInSpan, [1])]);
     const vnode2 = h("div", [thunk("span", "num", numberInSpan, [1, 2])]);
@@ -61,11 +61,11 @@ describe("thunk", function () {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
-      return h("span", { key: "num" }, "Number is " + n);
+      return h("span", { key: "num" }, `Number is ${n}`);
     }
     function numberInSpan2(n: number) {
       called++;
-      return h("span", { key: "num" }, "Number really is " + n);
+      return h("span", { key: "num" }, `Number really is ${n}`);
     }
     const vnode1 = h("div", [thunk("span", "num", numberInSpan, [1])]);
     const vnode2 = h("div", [thunk("span", "num", numberInSpan2, [1])]);
@@ -78,7 +78,7 @@ describe("thunk", function () {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
-      return h("span", { key: "num" }, "Number is " + n);
+      return h("span", { key: "num" }, `Number is ${n}`);
     }
     const vnode1 = h("div", [thunk("span", "num", numberInSpan, [1])]);
     const vnode2 = h("div", [thunk("span", "num", numberInSpan, [1])]);
@@ -106,7 +106,7 @@ describe("thunk", function () {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
-      return h("span", { key: "num" }, "Number is " + n);
+      return h("span", { key: "num" }, `Number is ${n}`);
     }
     const vnode1 = thunk("span", "num", numberInSpan, [1]);
     const vnode2 = thunk("span", "num", numberInSpan, [1]);
@@ -127,11 +127,11 @@ describe("thunk", function () {
   });
   it("can be replaced and removed", function () {
     function numberInSpan(n: number) {
-      return h("span", { key: "num" }, "Number is " + n);
+      return h("span", { key: "num" }, `Number is ${n}`);
     }
     function oddEven(n: number): VNode {
       const prefix = n % 2 === 0 ? "Even" : "Odd";
-      return h("div", { key: oddEven as any }, prefix + ": " + n);
+      return h("div", { key: oddEven as any }, `${prefix}: ${n}`);
     }
     const vnode1 = h("div", [thunk("span", "num", numberInSpan, [1])]);
     const vnode2 = h("div", [thunk("div", "oddEven", oddEven, [4])]);
@@ -146,11 +146,11 @@ describe("thunk", function () {
   });
   it("can be replaced and removed when root", function () {
     function numberInSpan(n: number) {
-      return h("span", { key: "num" }, "Number is " + n);
+      return h("span", { key: "num" }, `Number is ${n}`);
     }
     function oddEven(n: number): VNode {
       const prefix = n % 2 === 0 ? "Even" : "Odd";
-      return h("div", { key: oddEven as any }, prefix + ": " + n);
+      return h("div", { key: oddEven as any }, `${prefix}: ${n}`);
     }
     const vnode1 = thunk("span", "num", numberInSpan, [1]);
     const vnode2 = thunk("div", "oddEven", oddEven, [4]);
@@ -172,7 +172,7 @@ describe("thunk", function () {
       return h(
         "span",
         { key: "num", hook: { destroy: destroyHook } },
-        "Number is " + n
+        `Number is ${n}`
       );
     }
     const vnode1 = h("div", [
@@ -194,7 +194,7 @@ describe("thunk", function () {
       return h(
         "span",
         { key: "num", hook: { remove: hook } },
-        "Number is " + n
+        `Number is ${n}`
       );
     }
     const vnode1 = h("div", [

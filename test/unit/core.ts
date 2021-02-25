@@ -769,8 +769,7 @@ describe("snabbdom", function () {
               elm.children[i].innerHTML,
               shufArr[i].toString()
             );
-            const opacity = (elm.children[i] as HTMLSpanElement).style
-              .opacity as string;
+            const opacity = (elm.children[i] as HTMLSpanElement).style.opacity;
             assert.strictEqual(opacities[i].indexOf(opacity), 0);
           }
         }

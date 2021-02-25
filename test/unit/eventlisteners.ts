@@ -29,7 +29,7 @@ describe("event listeners", function () {
       "div",
       {
         on: {
-          click: function (ev) {
+          click: function () {
             result.push(1);
           },
         },
@@ -40,7 +40,7 @@ describe("event listeners", function () {
       "div",
       {
         on: {
-          click: function (ev) {
+          click: function () {
             result.push(2);
           },
         },
