@@ -16,17 +16,6 @@ type VNodeQueue = VNode[]
 
 const emptyNode = vnode('', {}, [], undefined, undefined)
 
-function sameVnodeSel (vnode1: VNode, vnode2: VNode): boolean {
-  return vnode1.sel === vnode2.sel
-}
-
-function sameVnodeKey (vnode1: VNode, vnode2: VNode): boolean {
-  return vnode1.key === vnode2.key
-}
-
-function sameVnodeIs (vnode1: VNode, vnode2: VNode): boolean {
-  return vnode1.data?.is === vnode2.data?.is
-}
 function sameVnode (vnode1: VNode, vnode2: VNode): boolean {
   const isSameKey = vnode1.key === vnode2.key
   const isSameIs = vnode1.data?.is === vnode2.data?.is
