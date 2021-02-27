@@ -8,14 +8,15 @@ module.exports.transform = (ctx) => (sf) => ts.visitNode(sf, (node) => {
       node.moduleSpecifier
       ? node.moduleSpecifier.getText(sf).slice(1, -1)
       : (
-        ts.isImportTypeNode(node) &&
+          ts.isImportTypeNode(node) &&
         ts.isLiteralTypeNode(node.argument) &&
         ts.isStringLiteral(node.argument.literal)
-      )
-        ? node.argument.literal.text
-        : null
+        )
+          ? node.argument.literal.text
+          : null
 
     if (originalPath === null) return node
+    if (!originalPath.startsWith('.')) return node
     const pathWithExtension = originalPath.endsWith('.js')
       ? originalPath
       : originalPath + '.js'

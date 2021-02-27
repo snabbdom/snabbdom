@@ -9,10 +9,10 @@ const colonChar = 58
 const xChar = 120
 
 function updateAttrs (oldVnode: VNode, vnode: VNode): void {
-  var key: string
-  var elm: Element = vnode.elm as Element
-  var oldAttrs = (oldVnode.data as VNodeData).attrs
-  var attrs = (vnode.data as VNodeData).attrs
+  let key: string
+  const elm: Element = vnode.elm as Element
+  let oldAttrs = (oldVnode.data as VNodeData).attrs
+  let attrs = (vnode.data as VNodeData).attrs
 
   if (!oldAttrs && !attrs) return
   if (oldAttrs === attrs) return

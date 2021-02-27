@@ -4,11 +4,11 @@ import { Module } from './module'
 export type Classes = Record<string, boolean>
 
 function updateClass (oldVnode: VNode, vnode: VNode): void {
-  var cur: any
-  var name: string
-  var elm: Element = vnode.elm as Element
-  var oldClass = (oldVnode.data as VNodeData).class
-  var klass = (vnode.data as VNodeData).class
+  let cur: any
+  let name: string
+  const elm: Element = vnode.elm as Element
+  let oldClass = (oldVnode.data as VNodeData).class
+  let klass = (vnode.data as VNodeData).class
 
   if (!oldClass && !klass) return
   if (oldClass === klass) return

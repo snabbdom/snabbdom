@@ -4,16 +4,16 @@ import { RemoveHook } from '../../package/hooks'
 import { attachTo } from '../../package/helpers/attachto'
 import { h } from '../../package/h'
 
-var patch = init([])
+const patch = init([])
 
 describe('attachTo', function () {
-  var elm: any, vnode0: any
+  let elm: any, vnode0: any
   beforeEach(function () {
     elm = document.createElement('div')
     vnode0 = elm
   })
   it('adds element to target', function () {
-    var vnode1 = h('div', [
+    const vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
         attachTo(elm, h('div#attached', 'Test')),
@@ -23,13 +23,13 @@ describe('attachTo', function () {
     assert.strictEqual(elm.children.length, 2)
   })
   it('updates element at target', function () {
-    var vnode1 = h('div', [
+    const vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
         attachTo(elm, h('div#attached', 'First text')),
       ]),
     ])
-    var vnode2 = h('div', [
+    const vnode2 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
         attachTo(elm, h('div#attached', 'New text')),
@@ -41,13 +41,13 @@ describe('attachTo', function () {
     assert.strictEqual(elm.children[0].innerHTML, 'New text')
   })
   it('element can be inserted before modal', function () {
-    var vnode1 = h('div', [
+    const vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
         attachTo(elm, h('div#attached', 'Text')),
       ]),
     ])
-    var vnode2 = h('div', [
+    const vnode2 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
         h('div', 'A new element'),
@@ -60,13 +60,13 @@ describe('attachTo', function () {
     assert.strictEqual(elm.children[0].innerHTML, 'Text')
   })
   it('removes element at target', function () {
-    var vnode1 = h('div', [
+    const vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
         attachTo(elm, h('div#attached', 'First text')),
       ]),
     ])
-    var vnode2 = h('div', [
+    const vnode2 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
       ]),
@@ -83,13 +83,13 @@ describe('attachTo', function () {
       assert.strictEqual(elm.innerHTML, 'First text')
       cb()
     }
-    var vnode1 = h('div', [
+    const vnode1 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
         attachTo(elm, h('div#attached', { hook: { remove: rm } }, 'First text')),
       ]),
     ])
-    var vnode2 = h('div', [
+    const vnode2 = h('div', [
       h('div#wrapper', [
         h('div', 'Some element'),
       ]),

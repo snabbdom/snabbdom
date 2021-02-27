@@ -1,4 +1,4 @@
-import 'core-js/stable/array/fill'
+import 'core-js/stable/array/fill.js'
 import faker from 'faker'
 import { VNode } from '../../package/vnode'
 import { h } from '../../package/h'

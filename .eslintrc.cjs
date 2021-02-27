@@ -26,6 +26,7 @@ module.exports = {
   rules: {
     'import/newline-after-import': 'error',
     'max-statements-per-line': 'error',
+    'no-var': 'error',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
