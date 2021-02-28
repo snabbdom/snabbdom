@@ -33,6 +33,7 @@ export interface VNodeData {
   ns?: string // for SVGs
   fn?: () => VNode // for thunks
   args?: any[] // for thunks
+  is?: string // for custom elements v1
   [key: string]: any // for any other 3rd party module
 }
 

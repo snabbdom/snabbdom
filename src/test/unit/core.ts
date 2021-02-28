@@ -36,12 +36,21 @@ function map (fn: any, list: any[]) {
 
 const inner = prop('innerHTML')
 
+class A extends HTMLParagraphElement {}
+class B extends HTMLParagraphElement {}
+
 describe('snabbdom', function () {
+  before(function () {
+    customElements.define('p-a', A, { extends: 'p' })
+    customElements.define('p-b', B, { extends: 'p' })
+  })
+
   let elm: any, vnode0: any
   beforeEach(function () {
     elm = document.createElement('div')
     vnode0 = elm
   })
+
   describe('hyperscript', function () {
     it('can create vnode with proper tag', function () {
       assert.strictEqual(h('div').sel, 'div')
@@ -180,6 +189,11 @@ describe('snabbdom', function () {
       elm = patch(vnode0, h('div', [h('i.has', { class: { classes: true } })])).elm
       assert(elm.firstChild.classList.contains('has'))
       assert(elm.firstChild.classList.contains('classes'))
+    })
+    it('can create custom elements', function () {
+      const vnode1 = h('p', { is: 'p-a' })
+      elm = patch(vnode0, vnode1).elm
+      assert(elm instanceof A)
     })
     it('can create elements with text content', function () {
       elm = patch(vnode0, h('div', ['I am a string'])).elm
@@ -343,6 +357,15 @@ describe('snabbdom', function () {
       assert.strictEqual((elm as any).a, 'foo')
       patch(vnode1, vnode2)
       assert.strictEqual((elm as any).a, 'foo')
+    })
+    it('handles changing is attribute', function () {
+      const vnode1 = h('p', { is: 'p-a' })
+      const vnode2 = h('p', { is: 'p-b' })
+
+      elm = patch(vnode0, vnode1).elm
+      assert(elm instanceof A)
+      elm = patch(vnode1, vnode2).elm
+      assert(elm instanceof B)
     })
     describe('using toVNode()', function () {
       it('can remove previous children of the root element', function () {
