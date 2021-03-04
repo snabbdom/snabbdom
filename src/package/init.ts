@@ -21,7 +21,7 @@ function sameVnode (vnode1: VNode, vnode2: VNode): boolean {
   const isSameIs = vnode1.data?.is === vnode2.data?.is
   const isSameSel = vnode1.sel === vnode2.sel
 
-  return isSameSel || isSameKey || isSameIs
+  return isSameSel && isSameKey && isSameIs
 }
 
 function isVnode (vnode: any): vnode is VNode {
