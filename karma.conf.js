@@ -5,7 +5,6 @@ const live = !!process.env.LIVE;
 const ip = "bs-local.com";
 
 const browserstack = require("./browserstack-karma.cjs");
-const tsconfig = require("./test/tsconfig.json");
 
 // https://www.browserstack.com/open-source (text search "parallels")
 const BROWSERSTACK_OPEN_SOURCE_CONCURRENCY = 5;
@@ -41,7 +40,10 @@ module.exports = function (config) {
     ],
     hostname: ci ? ip : "localhost",
     karmaTypescriptConfig: {
-      compilerOptions: tsconfig.compilerOptions,
+      compilerOptions: {
+        ...require("./tsconfig.json").compilerOptions,
+        ...require("./test/tsconfig.json").compilerOptions,
+      },
       include: process.env.FILES_PATTERN.split(",").concat("src/**/*.ts"),
     },
     browserStack: {
