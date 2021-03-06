@@ -28,3 +28,6 @@ export { On, eventListenersModule } from "./modules/eventlisteners";
 export { Hero, heroModule } from "./modules/hero";
 export { Props, propsModule } from "./modules/props";
 export { VNodeStyle, styleModule } from "./modules/style";
+
+// JSX
+export { JsxVNodeChild, JsxVNodeChildren, FunctionComponent, jsx } from "./jsx";

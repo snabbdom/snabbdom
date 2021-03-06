@@ -70,7 +70,7 @@
     "lint:js": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
     "lint:editorconfig": "editorconfig-checker",
     "lint": "run-s lint:editorconfig lint:js",
-    "unit": "cross-env FILES_PATTERN=\"test/unit/*.ts\" karma start karma.conf.js",
+    "unit": "cross-env FILES_PATTERN=\"test/unit/*.ts,test/unit/*.tsx\" karma start karma.conf.js",
     "benchmark": "cross-env FILES_PATTERN=\"test-bundles/benchmark/**/*.js\" karma start karma.conf.cjs --concurrency=1",
     "make-release-commit": "standard-version",
     "test": "run-s lint build bundle-tests unit"

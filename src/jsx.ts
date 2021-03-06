@@ -1,5 +1,14 @@
+/* eslint-disable @typescript-eslint/no-namespace, import/export */
 import { vnode, VNode, VNodeData } from "./vnode";
 import { h, ArrayOrElement } from "./h";
+
+// See https://www.typescriptlang.org/docs/handbook/jsx.html#type-checking
+namespace JSXInternal {
+  export type Element = VNode;
+  export interface IntrinsicElements {
+    [elemName: string]: VNodeData;
+  }
+}
 
 // for conditional rendering we support boolean child element e.g cond && <tag />
 export type JsxVNodeChild =
@@ -71,4 +80,8 @@ export function jsx(
       return h(tag, data, flatChildren);
     }
   }
+}
+
+export namespace jsx {
+  export import JSX = JSXInternal; // eslint-disable-line @typescript-eslint/no-unused-vars
 }

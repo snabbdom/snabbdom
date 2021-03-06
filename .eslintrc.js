@@ -36,7 +36,7 @@ module.exports = {
       },
     },
     {
-      files: ["test/**/*.ts"],
+      files: ["test/**/*.ts", "test/unit/*.tsx"],
       env: {
         browser: true,
         node: true,

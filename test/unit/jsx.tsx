@@ -1,8 +1,5 @@
 import { assert } from "chai";
-// workaround linter issue
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { jsx } from "../../package/jsx";
-import "../../package/jsx-global";
+import { jsx } from "../../src/index";
 
 describe("snabbdom", function () {
   describe("jsx", function () {
