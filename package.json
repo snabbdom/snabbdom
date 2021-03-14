@@ -7,9 +7,6 @@
   "devDependencies": {
     "@babel/core": "7.12.16",
     "@babel/preset-env": "7.12.16",
-    "@commitlint/cli": "11.0.0",
-    "@commitlint/config-conventional": "11.0.0",
-    "@commitlint/travis-cli": "11.0.0",
     "@types/chai": "4.2.12",
     "@types/faker": "5.1.6",
     "@types/lodash.shuffle": "4.2.6",
@@ -20,6 +17,7 @@
     "benchmark": "2.1.4",
     "chai": "4.2.0",
     "chalk": "4.1.0",
+    "commithelper": "^1.1.1",
     "core-js": "3.8.3",
     "cross-env": "7.0.3",
     "editorconfig-checker": "3.2.0",
@@ -49,7 +47,6 @@
     "npm-run-all": "4.1.5",
     "p-map-series": "2.1.0",
     "p-reduce": "2.1.0",
-    "pinst": "2.1.4",
     "prettier": "^2.2.1",
     "regenerator-runtime": "0.13.7",
     "remark-cli": "8.0.1",
@@ -63,9 +60,7 @@
     "build": "tsc && npm run bundle:cjs",
     "bundle:cjs": "rollup build/index.js --format cjs --file build/snabbdom.cjs.js",
     "format": "prettier --write .",
-    "postinstall": "husky install",
-    "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable",
+    "prepare": "husky install",
     "docs": "remark . --output",
     "check-docs": "npm run docs && git diff --exit-code",
     "lint:js": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
@@ -95,7 +90,23 @@
   "prettier": {},
   "lint-staged": {
     "*.(ts|tsx|js)": "prettier --write",
-    "*.md": ["npm run check-docs", "prettier --write"]
+    "*.md": [
+      "npm run check-docs",
+      "prettier --write"
+    ]
+  },
+  "commithelper": {
+    "scopeOverrides": {
+      "chore": [
+        "tools",
+        "refactor",
+        "release",
+        "test",
+        "deps",
+        "docs",
+        "examples"
+      ]
+    }
   },
   "remarkConfig": {
     "plugins": [

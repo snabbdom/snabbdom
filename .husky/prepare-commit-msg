@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+exec < /dev/tty && npm exec commithelper -- prompt --file $1
