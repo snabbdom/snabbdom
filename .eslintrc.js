@@ -9,7 +9,6 @@ module.exports = {
     "plugin:import/recommended",
     "plugin:import/typescript",
     "prettier",
-    "prettier/@typescript-eslint",
   ],
   env: {
     browser: true,

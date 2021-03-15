@@ -330,7 +330,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
   ) {
     const hook = vnode.data?.hook;
     hook?.prepatch?.(oldVnode, vnode);
-    const elm = (vnode.elm = oldVnode.elm!);
+    const elm = (vnode.elm = oldVnode.elm)!;
     const oldCh = oldVnode.children as VNode[];
     const ch = vnode.children as VNode[];
     if (oldVnode === vnode) return;
