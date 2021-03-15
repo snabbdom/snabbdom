@@ -52,8 +52,8 @@ performance, small size and all the features listed below.
   - Features for doing complex CSS animations.
   - Powerful event listener functionality.
   - [Thunks](#thunks) to optimize the diff and patch process even further.
+  - [JSX support, including TypeScript types](#jsx)
 - Third party features
-  - JSX support thanks to [snabbdom-pragma](https://github.com/Swizz/snabbdom-pragma).
   - Server-side HTML output provided by [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html).
   - Compact virtual DOM creation with [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers).
   - Template string support using [snabby](https://github.com/jamen/snabby).
@@ -144,6 +144,9 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 - [SVG](#svg)
   - [Classes in SVG Elements](#classes-in-svg-elements)
 - [Thunks](#thunks)
+- [JSX](#jsx)
+  - [TypeScript](#typescript)
+  - [Babel](#babel)
 - [Virtual Node](#virtual-node)
   - [sel : String](#sel--string)
   - [data : Object](#data--object)
@@ -742,6 +745,62 @@ avoids recreating the number view and the diff process altogether.
 The view function here is only an example. In practice thunks are only
 relevant if you are rendering a complicated view that takes
 significant computational time to generate.
+
+## JSX
+
+### TypeScript
+
+Add the following options to your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "jsx"
+  }
+}
+```
+
+Then make sure that you use the `.tsx` file extension and import the `jsx` function at the top of the file:
+
+```tsx
+import { jsx, VNode } from "snabbdom";
+
+const node: VNode = (
+  <div>
+    <span>I was created with JSX</span>
+  </div>
+);
+```
+
+### Babel
+
+Add the following options to your babel configuration:
+
+```json
+{
+  "plugins": [
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "jsx"
+      }
+    ]
+  ]
+}
+```
+
+Then make sure that you use the `.jsx` file extension and import the `jsx` function at the top of the file:
+
+```jsx
+import { jsx } from "snabbdom";
+
+const node = (
+  <div>
+    <span>I was created with JSX</span>
+  </div>
+);
+```
 
 ## Virtual Node
 
