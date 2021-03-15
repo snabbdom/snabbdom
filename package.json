@@ -5,8 +5,6 @@
   "main": "build/snabbdom.cjs.js",
   "module": "build/index.js",
   "devDependencies": {
-    "@babel/core": "7.12.16",
-    "@babel/preset-env": "7.12.16",
     "@types/chai": "4.2.12",
     "@types/faker": "5.1.6",
     "@types/lodash.shuffle": "4.2.6",
@@ -20,19 +18,14 @@
     "commithelper": "^1.1.1",
     "core-js": "3.8.3",
     "cross-env": "7.0.3",
-    "editorconfig-checker": "3.2.0",
     "eslint": "7.20.0",
     "eslint-config-prettier": "^7.2.0",
-    "eslint-config-standard-with-typescript": "20.0.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-markdown": "2.0.0",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "4.3.1",
     "faker": "5.4.0",
-    "globby": "11.0.2",
-    "husky": "5.0.9",
-    "is-path-inside": "3.0.2",
-    "karma": "6.1.1",
+    "husky": "5.1.3",
+    "karma": "6.2.0",
     "karma-browserstack-launcher": "1.6.0",
     "karma-chrome-launcher": "3.1.0",
     "karma-firefox-launcher": "2.1.0",
@@ -44,11 +37,9 @@
     "lodash.shuffle": "4.2.0",
     "mathjs": "9.2.0",
     "mocha": "8.1.3",
-    "npm-run-all": "4.1.5",
     "p-map-series": "2.1.0",
     "p-reduce": "2.1.0",
     "prettier": "^2.2.1",
-    "regenerator-runtime": "0.13.7",
     "remark-cli": "8.0.1",
     "remark-toc": "7.1.0",
     "rollup": "^2.39.0",
@@ -62,14 +53,11 @@
     "format": "prettier --write .",
     "prepare": "husky install",
     "docs": "remark . --output",
-    "check-docs": "npm run docs && git diff --exit-code",
-    "lint:js": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
-    "lint:editorconfig": "editorconfig-checker",
-    "lint": "run-s lint:editorconfig lint:js",
+    "lint": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
     "unit": "cross-env FILES_PATTERN=\"test/unit/*.ts,test/unit/*.tsx\" karma start karma.conf.js",
     "benchmark": "cross-env FILES_PATTERN=\"test-bundles/benchmark/**/*.js\" karma start karma.conf.cjs --concurrency=1",
     "make-release-commit": "standard-version",
-    "test": "run-s lint build bundle-tests unit"
+    "test": "npm run build && npm run lint && npm run unit"
   },
   "repository": {
     "type": "git",
@@ -91,7 +79,7 @@
   "lint-staged": {
     "*.(ts|tsx|js)": "prettier --write",
     "*.md": [
-      "npm run check-docs",
+      "npm run docs",
       "prettier --write"
     ]
   },
