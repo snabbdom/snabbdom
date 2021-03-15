@@ -32,10 +32,11 @@
     "lint": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
     "unit": "cross-env FILES_PATTERN=\"test/unit/*.ts,test/unit/*.tsx\" karma start karma.conf.js",
     "benchmark": "cross-env FILES_PATTERN=\"test-bundles/benchmark/**/*.js\" karma start karma.conf.cjs --concurrency=1",
-    "make-release-commit": "standard-version",
+    "release": "release-it",
     "test": "npm run build && npm run lint && npm run unit"
   },
   "devDependencies": {
+    "@release-it/conventional-changelog": "^2.0.1",
     "@types/chai": "4.2.15",
     "@types/faker": "5.1.7",
     "@types/lodash.shuffle": "4.2.6",
@@ -47,6 +48,7 @@
     "chai": "4.3.4",
     "chalk": "4.1.0",
     "commithelper": "^1.1.1",
+    "conventional-changelog-angular": "^5.0.12",
     "core-js": "3.9.1",
     "cross-env": "7.0.3",
     "eslint": "7.22.0",
@@ -71,14 +73,28 @@
     "p-map-series": "2.1.0",
     "p-reduce": "2.1.0",
     "prettier": "^2.2.1",
+    "release-it": "^14.4.1",
     "rollup": "^2.41.2",
-    "standard-version": "9.1.1",
     "tty-table": "4.1.3",
     "typescript": "4.2.3"
   },
   "prettier": {},
   "lint-staged": {
     "*.(ts|tsx|js|md)": "prettier --write"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore(release): v${version}"
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular",
+        "infile": "CHANGELOG.md"
+      }
+    }
   },
   "commithelper": {
     "scopeOverrides": {
