@@ -2,8 +2,37 @@
   "name": "snabbdom",
   "version": "2.1.0",
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
+  "homepage": "https://github.com/snabbdom/snabbdom#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snabbdom/snabbdom.git"
+  },
+  "keywords": [
+    "virtual",
+    "dom",
+    "light",
+    "kiss",
+    "performance"
+  ],
+  "author": "Simon Friis Vindum",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/snabbdom/snabbdom/issues"
+  },
   "main": "build/snabbdom.cjs.js",
   "module": "build/index.js",
+  "scripts": {
+    "build": "tsc && npm run bundle:cjs",
+    "bundle:cjs": "rollup build/index.js --format cjs --file build/snabbdom.cjs.js",
+    "format": "prettier --write .",
+    "prepare": "husky install",
+    "docs": "remark . --output",
+    "lint": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
+    "unit": "cross-env FILES_PATTERN=\"test/unit/*.ts,test/unit/*.tsx\" karma start karma.conf.js",
+    "benchmark": "cross-env FILES_PATTERN=\"test-bundles/benchmark/**/*.js\" karma start karma.conf.cjs --concurrency=1",
+    "make-release-commit": "standard-version",
+    "test": "npm run build && npm run lint && npm run unit"
+  },
   "devDependencies": {
     "@types/chai": "4.2.12",
     "@types/faker": "5.1.6",
@@ -47,34 +76,6 @@
     "tty-table": "4.1.3",
     "typescript": "4.0.3"
   },
-  "scripts": {
-    "build": "tsc && npm run bundle:cjs",
-    "bundle:cjs": "rollup build/index.js --format cjs --file build/snabbdom.cjs.js",
-    "format": "prettier --write .",
-    "prepare": "husky install",
-    "docs": "remark . --output",
-    "lint": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
-    "unit": "cross-env FILES_PATTERN=\"test/unit/*.ts,test/unit/*.tsx\" karma start karma.conf.js",
-    "benchmark": "cross-env FILES_PATTERN=\"test-bundles/benchmark/**/*.js\" karma start karma.conf.cjs --concurrency=1",
-    "make-release-commit": "standard-version",
-    "test": "npm run build && npm run lint && npm run unit"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/snabbdom/snabbdom.git"
-  },
-  "keywords": [
-    "virtual",
-    "dom",
-    "light",
-    "kiss",
-    "performance"
-  ],
-  "author": "Simon Friis Vindum",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/snabbdom/snabbdom/issues"
-  },
   "prettier": {},
   "lint-staged": {
     "*.(ts|tsx|js)": "prettier --write",
@@ -110,6 +111,5 @@
       "bullet": "*",
       "tablePipeAlign": false
     }
-  },
-  "homepage": "https://github.com/snabbdom/snabbdom#readme"
+  }
 }
