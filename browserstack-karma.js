@@ -90,6 +90,7 @@ module.exports = {
     browser_version: "11.0",
     os: "Windows",
     os_version: "7",
+    es5: true,
   },
   BS_IE_10: {
     base: "BrowserStack",
@@ -97,5 +98,6 @@ module.exports = {
     browser_version: "10.0",
     os: "Windows",
     os_version: "7",
+    es5: true,
   },
 };

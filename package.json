@@ -33,6 +33,7 @@
     "unit": "cross-env FILES_PATTERN=\"test/unit/*.ts,test/unit/*.tsx\" karma start karma.conf.js",
     "benchmark": "cross-env FILES_PATTERN=\"test-bundles/benchmark/**/*.js\" karma start karma.conf.cjs --concurrency=1",
     "release": "release-it",
+    "test:ci": "npm test && cross-env ES5=true npm run unit",
     "test": "npm run build && npm run lint && npm run unit"
   },
   "devDependencies": {

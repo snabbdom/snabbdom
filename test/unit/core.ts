@@ -41,15 +41,7 @@ function map(fn: any, list: any[]) {
 
 const inner = prop("innerHTML");
 
-class A extends HTMLParagraphElement {}
-class B extends HTMLParagraphElement {}
-
 describe("snabbdom", function () {
-  before(function () {
-    customElements.define("p-a", A, { extends: "p" });
-    customElements.define("p-b", B, { extends: "p" });
-  });
-
   let elm: any, vnode0: any;
   beforeEach(function () {
     elm = document.createElement("div");
@@ -199,13 +191,11 @@ describe("snabbdom", function () {
     it("handles classes from both selector and property", function () {
       elm = patch(vnode0, h("div", [h("i.has", { class: { classes: true } })]))
         .elm;
-      assert(elm.firstChild.classList.contains("has"));
-      assert(elm.firstChild.classList.contains("classes"));
-    });
-    it("can create custom elements", function () {
-      const vnode1 = h("p", { is: "p-a" });
-      elm = patch(vnode0, vnode1).elm;
-      assert(elm instanceof A);
+      assert(elm.firstChild.classList.contains("has"), "has `has` class");
+      assert(
+        elm.firstChild.classList.contains("classes"),
+        "has `classes` class"
+      );
     });
     it("can create elements with text content", function () {
       elm = patch(vnode0, h("div", ["I am a string"])).elm;
@@ -378,14 +368,52 @@ describe("snabbdom", function () {
       patch(vnode1, vnode2);
       assert.strictEqual((elm as any).a, "foo");
     });
-    it("handles changing is attribute", function () {
-      const vnode1 = h("p", { is: "p-a" });
-      const vnode2 = h("p", { is: "p-b" });
+    describe("custom elements", function () {
+      if ("customElements" in window) {
+        describe("customized built-in element", function () {
+          const isSafari = /^((?!chrome|android).)*safari/i.test(
+            navigator.userAgent
+          );
 
-      elm = patch(vnode0, vnode1).elm;
-      assert(elm instanceof A);
-      elm = patch(vnode1, vnode2).elm;
-      assert(elm instanceof B);
+          if (!isSafari) {
+            class A extends HTMLParagraphElement {}
+            class B extends HTMLParagraphElement {}
+
+            before(function () {
+              if ("customElements" in window) {
+                customElements.define("p-a", A, { extends: "p" });
+                customElements.define("p-b", B, { extends: "p" });
+              }
+            });
+            it("can create custom elements", function () {
+              if ("customElements" in window) {
+                const vnode1 = h("p", { is: "p-a" });
+                elm = patch(vnode0, vnode1).elm;
+                assert(elm instanceof A);
+              } else {
+                this.skip();
+              }
+            });
+            it("handles changing is attribute", function () {
+              const vnode1 = h("p", { is: "p-a" });
+              const vnode2 = h("p", { is: "p-b" });
+
+              elm = patch(vnode0, vnode1).elm;
+              assert(elm instanceof A);
+              elm = patch(vnode1, vnode2).elm;
+              assert(elm instanceof B);
+            });
+          } else {
+            it.skip("safari does not support customized built-in elements", () => {
+              assert(false);
+            });
+          }
+        });
+      } else {
+        it.skip("browser does not support custom elements", () => {
+          assert(false);
+        });
+      }
     });
     describe("using toVNode()", function () {
       it("can remove previous children of the root element", function () {

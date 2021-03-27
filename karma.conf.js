@@ -1,6 +1,7 @@
 const ci = !!process.env.CI;
 const watch = !!process.env.WATCH;
 const live = !!process.env.LIVE;
+const es5 = !!process.env.ES5;
 
 const ip = "bs-local.com";
 
@@ -9,8 +10,11 @@ const browserstack = require("./browserstack-karma.js");
 // https://www.browserstack.com/open-source (text search "parallels")
 const BROWSERSTACK_OPEN_SOURCE_CONCURRENCY = 5;
 
+const getBrowserstackBrowsers = () =>
+  Object.keys(browserstack).filter((k) => !!browserstack[k].es5 === es5);
+
 const browsers = ci
-  ? Object.keys(browserstack)
+  ? getBrowserstackBrowsers()
   : live
   ? undefined
   : watch
@@ -43,6 +47,12 @@ module.exports = function (config) {
       compilerOptions: {
         ...require("./tsconfig.json").compilerOptions,
         ...require("./test/tsconfig.json").compilerOptions,
+        sourceMap: false,
+        inlineSourceMap: true,
+        target: es5 ? "es5" : "es6",
+      },
+      bundlerOptions: {
+        sourceMap: true,
       },
       include: process.env.FILES_PATTERN.split(",").concat("src/**/*.ts"),
     },
