@@ -4,7 +4,7 @@ const live = !!process.env.LIVE;
 
 const ip = "bs-local.com";
 
-const browserstack = require("./browserstack-karma.cjs");
+const browserstack = require("./browserstack-karma.js");
 
 // https://www.browserstack.com/open-source (text search "parallels")
 const BROWSERSTACK_OPEN_SOURCE_CONCURRENCY = 5;
