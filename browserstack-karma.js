@@ -31,15 +31,13 @@ module.exports = {
   },
 
   // Older mainstream
-  /* https://github.com/snabbdom/snabbdom/issues/468
-  BS_Chrome_49: {
-    base: 'BrowserStack',
-    browser: 'chrome',
-    browser_version: '49',
-    os: 'Windows',
-    os_version: '10',
+  BS_Chrome_50: {
+    base: "BrowserStack",
+    browser: "chrome",
+    browser_version: "50",
+    os: "Windows",
+    os_version: "10",
   },
-  */
   BS_Firefox_52: {
     base: "BrowserStack",
     browser: "firefox",
