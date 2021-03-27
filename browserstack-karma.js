@@ -62,17 +62,15 @@ module.exports = {
     os_version: "4.4",
     real_mobile: true,
   },
-  /* https://github.com/snabbdom/snabbdom/issues/470
   BS_iphone_10: {
-    base: 'BrowserStack',
-    browser: 'Mobile Safari',
+    base: "BrowserStack",
+    browser: "Mobile Safari",
     browser_version: null,
-    device: 'iPhone 7',
+    device: "iPhone 7",
     real_mobile: true,
-    os: 'ios',
-    os_version: '10.3',
+    os: "ios",
+    os_version: "10.3",
   },
-  */
   BS_MS_Edge: {
     base: "BrowserStack",
     browser: "edge",
