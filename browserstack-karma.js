@@ -19,7 +19,7 @@ module.exports = {
     browser: "safari",
     browser_version: "latest",
     os: "OS X",
-    os_version: "High Sierra",
+    os_version: "Big Sur",
   },
   BS_Android_8: {
     base: "BrowserStack",
@@ -45,15 +45,13 @@ module.exports = {
     os: "Windows",
     os_version: "10",
   },
-  /* https://github.com/snabbdom/snabbdom/issues/469
-  BS_Safari_9: {
-    base: 'BrowserStack',
-    browser: 'safari',
-    browser_version: '9.1',
-    os: 'OS X',
-    os_version: 'El Capitan',
+  BS_Safari_10: {
+    base: "BrowserStack",
+    browser: "safari",
+    browser_version: "10.1",
+    os: "OS X",
+    os_version: "Sierra",
   },
-  */
 
   // Misc
   BS_Android_4_4: {
