@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "removeComments": false,
+    "sourceMap": true,
+    "declaration": true,
+    "strict": true,
+    "strictFunctionTypes": false,
+    "moduleResolution": "node",
+    "target": "es6",
+    "outDir": "build"
+  },
+  "include": ["./src/index.ts"]
+}

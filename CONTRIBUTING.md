@@ -2,32 +2,14 @@
 
 ## Making a release
 
-Make sure you have permission to publish, by running
+You will need a personal GitHub API token (this is used to create the release on GitHub). You can obtain one [here](https://github.com/settings/tokens/new?scopes=repo&description=release-it) (it only needs "repo" access, not "admin" or other scopes).
 
-    npm access ls-collaborators
+Make sure the token is available with an environment variable. It's best to put this in `~/.profile`:
 
-While on the `master` branch, switch to a new branch, possibly called `release`:
+```sh
+export GITHUB_TOKEN="<token from step 1>"
+```
 
-    git switch --create release
-    npm run make-release-commit
+If you saved the token to `~/.profile` you will not have to repeat this in the future.
 
-Create a new pull request from this branch. The name of the pull request possibly identical to the commit message.
-
-"Rebase and merge" the pull request.
-
-    git switch master
-    git pull
-
-Where `$VERSION` is the new version, run
-
-    git tag v$VERSION
-
-For example:
-
-    git tag v5.2.4
-
-And then
-
-    git push --tags
-    npm compile
-    npm publish
+Then simply run `npm run release`. This will automatically determine the new version number based on the commit messages, create the commit, tag, github release and publish to npm.

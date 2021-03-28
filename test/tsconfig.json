@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "react",
+    "jsxFactory": "jsx"
+  },
+  "include": ["./**/*.ts", "./unit/*.tsx", "../src/index.ts"]
+}

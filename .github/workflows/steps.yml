@@ -1,26 +1,21 @@
 name: CI
 
-on: pull_request
+on:
+  pull_request:
+  push:
+    branches:
+      - main
 
 jobs:
   ci:
     runs-on: ubuntu-latest
-    environment: ci
 
     steps:
       - uses: actions/checkout@v2
-      - name: Turnstyle
-        uses: softprops/turnstyle@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Read .nvmrc
-        run: echo ::set-output name=node-version::$(cat .nvmrc)
-        id: nvm
-      - uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.nvm.outputs.node-version }}
+
       - run: npm ci
-      - run: npx run-s test docs check-clean
+
+      - run: npm run test:ci
         env:
           BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}
           BROWSER_STACK_ACCESS_KEY: ${{ secrets. BROWSER_STACK_ACCESS_KEY }}
