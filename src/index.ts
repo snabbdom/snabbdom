@@ -25,7 +25,6 @@ export { Attrs, attributesModule } from "./modules/attributes";
 export { Classes, classModule } from "./modules/class";
 export { Dataset, datasetModule } from "./modules/dataset";
 export { On, eventListenersModule } from "./modules/eventlisteners";
-export { Hero, heroModule } from "./modules/hero";
 export { Props, propsModule } from "./modules/props";
 export { VNodeStyle, styleModule } from "./modules/style";
 

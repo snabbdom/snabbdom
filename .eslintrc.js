@@ -42,6 +42,12 @@ module.exports = {
       },
     },
     {
+      files: ["examples/**/*.js"],
+      rules: {
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+      },
+    },
+    {
       files: ["*.js"],
       excludedFiles: ["examples/**"],
       extends: ["plugin:node/recommended"],

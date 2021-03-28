@@ -1,11 +1,12 @@
 import {
   init,
   classModule,
-  heroModule,
   styleModule,
   eventListenersModule,
   h,
 } from "../../build/index.js";
+
+import { heroModule } from "./hero";
 
 const patch = init([
   classModule,
