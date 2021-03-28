@@ -45,7 +45,7 @@ function createKeyToOldIdx(
   for (let i = beginIdx; i <= endIdx; ++i) {
     const key = children[i]?.key;
     if (key !== undefined) {
-      map[key] = i;
+      map[key as string] = i;
     }
   }
   return map;
