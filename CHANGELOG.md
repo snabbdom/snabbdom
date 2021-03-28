@@ -1,3 +1,42 @@
+# [3.0.0](https://github.com/snabbdom/snabbdom/compare/v2.1.0...v3.0.0) (2021-03-28)
+
+### Bug Fixes
+
+- node similarity checking ([#949](https://github.com/snabbdom/snabbdom/issues/949)) ([d669054](https://github.com/snabbdom/snabbdom/commit/d66905438dc6866b2a7ab21d719c45a156d1252e))
+- remove the hero module ([#953](https://github.com/snabbdom/snabbdom/issues/953)) ([30b7df6](https://github.com/snabbdom/snabbdom/commit/30b7df61ab45c2c4b1c52e36b07274011eb1d9af)), closes [#517](https://github.com/snabbdom/snabbdom/issues/517)
+- **package:** rm script mark-pr-head-as-trusted ([d74b847](https://github.com/snabbdom/snabbdom/commit/d74b8478cd4fb7cd59305beb92b4ee4d4186906f))
+
+### Features
+
+- add JSX namespace to jsx factory ([5d5fc5a](https://github.com/snabbdom/snabbdom/commit/5d5fc5a362384b3d6377b2671a20f16d89e1006b))
+- allow symbols as keys ([#954](https://github.com/snabbdom/snabbdom/issues/954)) ([ad80c6e](https://github.com/snabbdom/snabbdom/commit/ad80c6ea530a058501465cfcb45698e380ceb96a)), closes [#124](https://github.com/snabbdom/snabbdom/issues/124)
+- export everything from 'snabbdom' ([7af7e3f](https://github.com/snabbdom/snabbdom/commit/7af7e3f684f0854a3466a94ac4d1bb7737993875)), closes [#913](https://github.com/snabbdom/snabbdom/issues/913) [#748](https://github.com/snabbdom/snabbdom/issues/748)
+- mark the snabbdom package as side effect free ([8524013](https://github.com/snabbdom/snabbdom/commit/852401345e9b0e66ae5b450915067488ceb0aae1))
+- offer esm and commonjs bundles ([ebf6915](https://github.com/snabbdom/snabbdom/commit/ebf6915794fc4b13a149f8d762372d7b412ab469))
+
+### BREAKING CHANGES
+
+- Snabbdom does not export the hero module any more. If you require this
+  module, copy the code from examples/hero/hero.js and add it to your
+  project
+- The imports of snabbdom functions have changed. Every file in the
+  project had to be imported on its own, e.g.
+
+```
+import { h } from 'snabbdom/h'
+import { VNode } from 'snabbdom/vnode'
+```
+
+Now, the main snabbdom package exports all of the public API like
+
+```
+import { h, VNode } from 'snabbdom'
+```
+
+This means consumers of the snabbdom package need to update their
+imports. The change makes the use of the `exports` field in
+`package.json` unnecessary, which caused issues for TypeScript users
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.

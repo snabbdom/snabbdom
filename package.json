@@ -1,6 +1,6 @@
 {
   "name": "snabbdom",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "A virtual DOM library with focus on simplicity, modularity, powerful features and performance.",
   "homepage": "https://github.com/snabbdom/snabbdom#readme",
   "repository": {
