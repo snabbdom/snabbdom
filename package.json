@@ -24,6 +24,7 @@
   },
   "main": "build/snabbdom.cjs.js",
   "module": "build/index.js",
+  "sideEffects": false,
   "scripts": {
     "build": "tsc && npm run bundle:cjs",
     "bundle:cjs": "rollup build/index.js --format cjs --file build/snabbdom.cjs.js",
