@@ -8,7 +8,7 @@ import { Props } from "./modules/props";
 import { Dataset } from "./modules/dataset";
 import { Hero } from "./modules/hero";
 
-export type Key = string | number;
+export type Key = string | number | symbol;
 
 export interface VNode {
   sel: string | undefined;
