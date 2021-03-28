@@ -1,3 +1,9 @@
+## [3.0.1](https://github.com/snabbdom/snabbdom/compare/v3.0.0...v3.0.1) (2021-03-28)
+
+### Bug Fixes
+
+- reference type declarations in package.json ([995b983](https://github.com/snabbdom/snabbdom/commit/995b983f04f3f2a888c290ac485aa5b49478a1b9))
+
 # [3.0.0](https://github.com/snabbdom/snabbdom/compare/v2.1.0...v3.0.0) (2021-03-28)
 
 ### Bug Fixes
