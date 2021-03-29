@@ -8,7 +8,8 @@ const ip = "bs-local.com";
 const browserstack = require("./browserstack-karma.js");
 
 // https://www.browserstack.com/open-source (text search "parallels")
-const BROWSERSTACK_OPEN_SOURCE_CONCURRENCY = 5;
+// Instead of the 5 available we only use 2, so two commits can run CI at the same time
+const BROWSERSTACK_OPEN_SOURCE_CONCURRENCY = 2;
 
 const getBrowserstackBrowsers = () =>
   Object.keys(browserstack).filter((k) => !!browserstack[k].es5 === es5);
