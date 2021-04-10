@@ -25,8 +25,6 @@ function updateProps(oldVnode: VNode, vnode: VNode): void {
     cur = props[key];
     old = oldProps[key];
 
-    shouldUpdate = false;
-
     // DOM INPUT.value should never be updated when it matches the new vnode.
     // typing into an INPUT with a sync event handler cause a render (such as for
     // validation feedback) where setting INPUT.value also pushes the cursor to the end
