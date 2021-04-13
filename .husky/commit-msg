@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm exec commithelper -- check --file $1 --fix
+./node_modules/.bin/commithelper check --file $1 --fix
