@@ -86,7 +86,12 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
 
   function emptyNodeAt(elm: Element) {
     const id = elm.id ? "#" + elm.id : "";
-    const c = elm.className ? "." + elm.className.split(" ").join(".") : "";
+
+    // elm.className doesn't return a string when elm is an SVG element inside a shadowRoot.
+    // https://stackoverflow.com/questions/29454340/detecting-classname-of-svganimatedstring
+    const classes = elm.getAttribute("class");
+
+    const c = classes ? "." + classes.split(" ").join(".") : "";
     return vnode(
       api.tagName(elm).toLowerCase() + id + c,
       {},
