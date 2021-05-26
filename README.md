@@ -614,7 +614,7 @@ express that by supplying an array at the named event property. The
 first element in the array should be a function that will be invoked
 with the value in the second element once the event occurs.
 
-```mjse
+```mjs
 function clickHandler(number) {
   console.log("button " + number + " was clicked!");
 }
@@ -865,6 +865,8 @@ For example `h('div', {props: {className: 'container'}}, [...])` will produce a 
   },
 });
 ```
+
+as its `.data` object.
 
 ### children : Array<vnode>
 
