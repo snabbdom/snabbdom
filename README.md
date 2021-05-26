@@ -395,7 +395,7 @@ not the class should stay or go on the vnode.
 h("a", { class: { active: true, selected: false } }, "Toggle");
 ```
 
-In JSX, you can use the `class` key.
+In JSX, you can use the `class` prop.
 
 ```jsx
 <div class={{ "foo": true, "bar": true }} />
@@ -410,7 +410,7 @@ Allows you to set properties on DOM elements.
 h("a", { props: { href: "/foo" } }, "Go to Foo");
 ```
 
-In JSX, you can use the `props` key.
+In JSX, you can use the `props` prop.
 
 ```jsx
 <input props={{ name: "foo" }} />
@@ -433,7 +433,7 @@ Same as props, but set attributes instead of properties on DOM elements.
 h("a", { attrs: { href: "/foo" } }, "Go to Foo");
 ```
 
-In JSX, you can use the `attrs` key.
+In JSX, you can use the `attrs` prop.
 
 ```jsx
 <div attrs={{ 'aria-label': "I'm a div" }} />
@@ -463,7 +463,7 @@ Allows you to set custom data attributes (`data-*`) on DOM elements. These can t
 h("button", { dataset: { action: "reset" } }, "Reset");
 ```
 
-In JSX, you can use the `dataset` key.
+In JSX, you can use the `dataset` prop.
 
 ```jsx
 <div dataset={{ foo: "bar" }} />
@@ -825,7 +825,7 @@ import { jsx } from "snabbdom";
 
 const node = (
   <div>
-    <span>I was created with JSX.</span>
+    <span>I was created with JSX</span>
   </div>
 );
 ```
