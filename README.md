@@ -382,7 +382,7 @@ modules.
 
 ## Modules documentation
 
-This describes the core modules. All modules are optional.
+This describes the core modules. All modules are optional. JSX examples assume you're using the [`jsx` pragma](#jsx) provided by this library.
 
 ### The class module
 
@@ -395,12 +395,26 @@ not the class should stay or go on the vnode.
 h("a", { class: { active: true, selected: false } }, "Toggle");
 ```
 
+In JSX, you can use the `class` key.
+
+```jsx
+<div class={{ "foo": true, "bar": true }} />
+// Renders as: <div class="foo bar"></div>
+```
+
 ### The props module
 
 Allows you to set properties on DOM elements.
 
 ```mjs
 h("a", { props: { href: "/foo" } }, "Go to Foo");
+```
+
+In JSX, you can use the `props` key.
+
+```jsx
+<input props={{ name: "foo" }} />
+// Renders as: <input name="foo" /> with input.name === "foo"
 ```
 
 Properties can only be set. Not removed. Even though browsers allow addition and
@@ -417,6 +431,13 @@ Same as props, but set attributes instead of properties on DOM elements.
 
 ```mjs
 h("a", { attrs: { href: "/foo" } }, "Go to Foo");
+```
+
+In JSX, you can use the `attrs` key.
+
+```jsx
+<div attrs={{ 'aria-label': "I'm a div" }} />
+// Renders as: <div aria-label="I'm a div"></div>
 ```
 
 Attributes are added and updated using `setAttribute`. In case of an
@@ -440,6 +461,13 @@ Allows you to set custom data attributes (`data-*`) on DOM elements. These can t
 
 ```mjs
 h("button", { dataset: { action: "reset" } }, "Reset");
+```
+
+In JSX, you can use the `dataset` key.
+
+```jsx
+<div dataset={{ foo: "bar" }} />
+// Renders as: <div data-foo="bar"></div>
 ```
 
 ### The style module
@@ -586,7 +614,7 @@ express that by supplying an array at the named event property. The
 first element in the array should be a function that will be invoked
 with the value in the second element once the event occurs.
 
-```mjs
+```mjse
 function clickHandler(number) {
   console.log("button " + number + " was clicked!");
 }
@@ -790,14 +818,14 @@ Add the following options to your babel configuration:
 }
 ```
 
-Then make sure that you use the `.jsx` file extension and import the `jsx` function at the top of the file:
+Then import the `jsx` function at the top of the file:
 
 ```jsx
 import { jsx } from "snabbdom";
 
 const node = (
   <div>
-    <span>I was created with JSX</span>
+    <span>I was created with JSX.</span>
   </div>
 );
 ```
@@ -837,8 +865,6 @@ For example `h('div', {props: {className: 'container'}}, [...])` will produce a 
   },
 });
 ```
-
-as its `.data` object.
 
 ### children : Array<vnode>
 
