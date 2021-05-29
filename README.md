@@ -395,7 +395,7 @@ not the class should stay or go on the vnode.
 h("a", { class: { active: true, selected: false } }, "Toggle");
 ```
 
-In JSX, you can use the `class` prop.
+In JSX, you can use `class` like this:
 
 ```jsx
 <div class={{ "foo": true, "bar": true }} />
@@ -410,7 +410,7 @@ Allows you to set properties on DOM elements.
 h("a", { props: { href: "/foo" } }, "Go to Foo");
 ```
 
-In JSX, you can use the `props` prop.
+In JSX, you can use `props` like this:
 
 ```jsx
 <input props={{ name: "foo" }} />
@@ -433,7 +433,7 @@ Same as props, but set attributes instead of properties on DOM elements.
 h("a", { attrs: { href: "/foo" } }, "Go to Foo");
 ```
 
-In JSX, you can use the `attrs` prop.
+In JSX, you can use `attrs` like this:
 
 ```jsx
 <div attrs={{ 'aria-label': "I'm a div" }} />
@@ -463,7 +463,7 @@ Allows you to set custom data attributes (`data-*`) on DOM elements. These can t
 h("button", { dataset: { action: "reset" } }, "Reset");
 ```
 
-In JSX, you can use the `dataset` prop.
+In JSX, you can use `dataset` like this:
 
 ```jsx
 <div dataset={{ foo: "bar" }} />
@@ -487,6 +487,17 @@ h(
   },
   "Say my name, and every colour illuminates"
 );
+```
+
+In JSX, you can use `style` like this:
+
+```jsx
+<div style={{
+  border: "1px solid #bada55",
+  color: "#c0ffee",
+  fontWeight: "bold",
+}} />
+// Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
 ```
 
 Note that the style module does not remove style attributes if they
@@ -599,6 +610,12 @@ function clickHandler(ev) {
   console.log("got clicked");
 }
 h("div", { on: { click: clickHandler } });
+```
+
+In JSX, you can use `on` like this:
+
+```js
+<div on={{ click: clickHandler }} />
 ```
 
 Very often, however, you're not really interested in the event object
