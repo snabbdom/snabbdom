@@ -382,7 +382,7 @@ modules.
 
 ## Modules documentation
 
-This describes the core modules. All modules are optional.
+This describes the core modules. All modules are optional. JSX examples assume you're using the [`jsx` pragma](#jsx) provided by this library.
 
 ### The class module
 
@@ -395,12 +395,26 @@ not the class should stay or go on the vnode.
 h("a", { class: { active: true, selected: false } }, "Toggle");
 ```
 
+In JSX, you can use `class` like this:
+
+```jsx
+<div class={{ "foo": true, "bar": true }} />
+// Renders as: <div class="foo bar"></div>
+```
+
 ### The props module
 
 Allows you to set properties on DOM elements.
 
 ```mjs
 h("a", { props: { href: "/foo" } }, "Go to Foo");
+```
+
+In JSX, you can use `props` like this:
+
+```jsx
+<input props={{ name: "foo" }} />
+// Renders as: <input name="foo" /> with input.name === "foo"
 ```
 
 Properties can only be set. Not removed. Even though browsers allow addition and
@@ -417,6 +431,13 @@ Same as props, but set attributes instead of properties on DOM elements.
 
 ```mjs
 h("a", { attrs: { href: "/foo" } }, "Go to Foo");
+```
+
+In JSX, you can use `attrs` like this:
+
+```jsx
+<div attrs={{ 'aria-label': "I'm a div" }} />
+// Renders as: <div aria-label="I'm a div"></div>
 ```
 
 Attributes are added and updated using `setAttribute`. In case of an
@@ -442,6 +463,13 @@ Allows you to set custom data attributes (`data-*`) on DOM elements. These can t
 h("button", { dataset: { action: "reset" } }, "Reset");
 ```
 
+In JSX, you can use `dataset` like this:
+
+```jsx
+<div dataset={{ foo: "bar" }} />
+// Renders as: <div data-foo="bar"></div>
+```
+
 ### The style module
 
 The style module is for making your HTML look slick and animate smoothly. At
@@ -459,6 +487,17 @@ h(
   },
   "Say my name, and every colour illuminates"
 );
+```
+
+In JSX, you can use `style` like this:
+
+```jsx
+<div style={{
+  border: "1px solid #bada55",
+  color: "#c0ffee",
+  fontWeight: "bold",
+}} />
+// Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
 ```
 
 Note that the style module does not remove style attributes if they
@@ -571,6 +610,12 @@ function clickHandler(ev) {
   console.log("got clicked");
 }
 h("div", { on: { click: clickHandler } });
+```
+
+In JSX, you can use `on` like this:
+
+```js
+<div on={{ click: clickHandler }} />
 ```
 
 Very often, however, you're not really interested in the event object
@@ -790,7 +835,7 @@ Add the following options to your babel configuration:
 }
 ```
 
-Then make sure that you use the `.jsx` file extension and import the `jsx` function at the top of the file:
+Then import the `jsx` function at the top of the file:
 
 ```jsx
 import { jsx } from "snabbdom";
