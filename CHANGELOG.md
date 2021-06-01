@@ -1,3 +1,9 @@
+## [3.0.2](https://github.com/snabbdom/snabbdom/compare/v3.0.1...v3.0.2) (2021-06-01)
+
+### Bug Fixes
+
+- avoid className check to handle SVG elements within shadow DOM ([#966](https://github.com/snabbdom/snabbdom/issues/966)) ([95fa8ad](https://github.com/snabbdom/snabbdom/commit/95fa8ad6b6957adfbbd6d080ffc82a9381ae19fc)), closes [#965](https://github.com/snabbdom/snabbdom/issues/965)
+
 ## [3.0.1](https://github.com/snabbdom/snabbdom/compare/v3.0.0...v3.0.1) (2021-03-28)
 
 ### Bug Fixes
