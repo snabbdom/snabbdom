@@ -1,3 +1,9 @@
+## [3.0.3](https://github.com/snabbdom/snabbdom/compare/v3.0.2...v3.0.3) (2021-06-04)
+
+### Bug Fixes
+
+- build and test code before release ([b8707ad](https://github.com/snabbdom/snabbdom/commit/b8707ad68e2cb7257528f22157a18ded53379d0a))
+
 ## [3.0.2](https://github.com/snabbdom/snabbdom/compare/v3.0.1...v3.0.2) (2021-06-01)
 
 ### Bug Fixes
