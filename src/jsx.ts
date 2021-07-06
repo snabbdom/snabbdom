@@ -25,6 +25,30 @@ export type FunctionComponent = (
   children?: VNode[]
 ) => VNode;
 
+export function Fragment(
+  _: Record<string, never>,
+  children: Array<string | VNode>
+): VNode {
+  const flatChildren = flattenAndFilter(children, []);
+
+  if (
+    flatChildren.length === 1 &&
+    !flatChildren[0].sel &&
+    flatChildren[0].text
+  ) {
+    // only child is a simple text node, pass as text for a simpler vtree
+    return vnode(
+      undefined,
+      undefined,
+      undefined,
+      flatChildren[0].text,
+      undefined
+    );
+  } else {
+    return vnode(undefined, undefined, flatChildren, undefined, undefined);
+  }
+}
+
 function flattenAndFilter(
   children: JsxVNodeChildren[],
   flattened: VNode[]
