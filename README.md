@@ -398,7 +398,7 @@ h("a", { class: { active: true, selected: false } }, "Toggle");
 In JSX, you can use `class` like this:
 
 ```jsx
-<div class={{ "foo": true, "bar": true }} />
+<div class={{ foo: true, bar: true }} />
 // Renders as: <div class="foo bar"></div>
 ```
 
@@ -436,7 +436,7 @@ h("a", { attrs: { href: "/foo" } }, "Go to Foo");
 In JSX, you can use `attrs` like this:
 
 ```jsx
-<div attrs={{ 'aria-label': "I'm a div" }} />
+<div attrs={{ "aria-label": "I'm a div" }} />
 // Renders as: <div aria-label="I'm a div"></div>
 ```
 
@@ -492,11 +492,13 @@ h(
 In JSX, you can use `style` like this:
 
 ```jsx
-<div style={{
-  border: "1px solid #bada55",
-  color: "#c0ffee",
-  fontWeight: "bold",
-}} />
+<div
+  style={{
+    border: "1px solid #bada55",
+    color: "#c0ffee",
+    fontWeight: "bold",
+  }}
+/>
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
 ```
 
@@ -801,20 +803,28 @@ Add the following options to your `tsconfig.json`:
 {
   "compilerOptions": {
     "jsx": "react",
-    "jsxFactory": "jsx"
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "Fragment"
   }
 }
 ```
 
-Then make sure that you use the `.tsx` file extension and import the `jsx` function at the top of the file:
+Then make sure that you use the `.tsx` file extension and import the `jsx` function and the `Fragment` function at the top of the file:
 
 ```tsx
-import { jsx, VNode } from "snabbdom";
+import { Fragment, jsx, VNode } from "snabbdom";
 
 const node: VNode = (
   <div>
     <span>I was created with JSX</span>
   </div>
+);
+
+const fragment: VNode = (
+  <>
+    <span>JSX fragments</span>
+    are also supported
+  </>
 );
 ```
 
@@ -828,22 +838,30 @@ Add the following options to your babel configuration:
     [
       "@babel/plugin-transform-react-jsx",
       {
-        "pragma": "jsx"
+        "pragma": "jsx",
+        "pragmaFrag": "Fragment"
       }
     ]
   ]
 }
 ```
 
-Then import the `jsx` function at the top of the file:
+Then import the `jsx` function and the `Fragment` function at the top of the file:
 
 ```jsx
-import { jsx } from "snabbdom";
+import { Fragment, jsx } from "snabbdom";
 
 const node = (
   <div>
     <span>I was created with JSX</span>
   </div>
+);
+
+const fragment = (
+  <>
+    <span>JSX fragments</span>
+    are also supported
+  </>
 );
 ```
 
