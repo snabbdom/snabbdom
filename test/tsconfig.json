@@ -3,7 +3,8 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "jsx": "react",
-    "jsxFactory": "jsx"
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "Fragment"
   },
   "include": ["./**/*.ts", "./unit/*.tsx", "../src/index.ts"]
 }

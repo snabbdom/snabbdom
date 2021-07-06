@@ -780,6 +780,9 @@ significant computational time to generate.
 
 ## JSX
 
+Note that JSX fragments are still experimental and must be opted in.
+See [`fragment`](#fragment-experimental) section for details.
+
 ### TypeScript
 
 Add the following options to your `tsconfig.json`:
@@ -788,20 +791,28 @@ Add the following options to your `tsconfig.json`:
 {
   "compilerOptions": {
     "jsx": "react",
-    "jsxFactory": "jsx"
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "Fragment"
   }
 }
 ```
 
-Then make sure that you use the `.tsx` file extension and import the `jsx` function at the top of the file:
+Then make sure that you use the `.tsx` file extension and import the `jsx` function and the `Fragment` function at the top of the file:
 
 ```tsx
-import { jsx, VNode } from "snabbdom";
+import { Fragment, jsx, VNode } from "snabbdom";
 
 const node: VNode = (
   <div>
     <span>I was created with JSX</span>
   </div>
+);
+
+const fragment: VNode = (
+  <>
+    <span>JSX fragments</span>
+    are experimentally supported
+  </>
 );
 ```
 
@@ -815,22 +826,30 @@ Add the following options to your babel configuration:
     [
       "@babel/plugin-transform-react-jsx",
       {
-        "pragma": "jsx"
+        "pragma": "jsx",
+        "pragmaFrag": "Fragment"
       }
     ]
   ]
 }
 ```
 
-Then import the `jsx` function at the top of the file:
+Then import the `jsx` function and the `Fragment` function at the top of the file:
 
 ```jsx
-import { jsx } from "snabbdom";
+import { Fragment, jsx } from "snabbdom";
 
 const node = (
   <div>
     <span>I was created with JSX</span>
   </div>
+);
+
+const fragment = (
+  <>
+    <span>JSX fragments</span>
+    are experimentally supported
+  </>
 );
 ```
 

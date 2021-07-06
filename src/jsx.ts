@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace, import/export */
-import { vnode, VNode, VNodeData } from "./vnode";
+import { Key, vnode, VNode, VNodeData } from "./vnode";
 import { h, ArrayOrElement } from "./h";
 
 // See https://www.typescriptlang.org/docs/handbook/jsx.html#type-checking
@@ -24,6 +24,30 @@ export type FunctionComponent = (
   props: { [prop: string]: any } | null,
   children?: VNode[]
 ) => VNode;
+
+export function Fragment(
+  data: { key?: Key } | null,
+  ...children: JsxVNodeChildren[]
+): VNode {
+  const flatChildren = flattenAndFilter(children, []);
+
+  if (
+    flatChildren.length === 1 &&
+    !flatChildren[0].sel &&
+    flatChildren[0].text
+  ) {
+    // only child is a simple text node, pass as text for a simpler vtree
+    return vnode(
+      undefined,
+      undefined,
+      undefined,
+      flatChildren[0].text,
+      undefined
+    );
+  } else {
+    return vnode(undefined, data ?? {}, flatChildren, undefined, undefined);
+  }
+}
 
 function flattenAndFilter(
   children: JsxVNodeChildren[],
