@@ -24,8 +24,8 @@ function sameVnode(vnode1: VNode, vnode2: VNode): boolean {
   return isSameSel && isSameKey && isSameIs;
 }
 
-function isVnode(vnode: any): vnode is VNode {
-  return vnode.sel !== undefined;
+function isElement(api: DOMAPI, vnode: Element | VNode): vnode is Element {
+  return api.isElement(vnode as any);
 }
 
 type KeyToIndexMap = { [key: string]: number };
@@ -160,6 +160,19 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
         hook.create?.(emptyNode, vnode);
         if (hook.insert) {
           insertedVnodeQueue.push(vnode);
+        }
+      }
+    } else if (vnode.children) {
+      const children = vnode.children;
+      vnode.elm = api.createDocumentFragment();
+      for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
+      for (i = 0; i < children.length; ++i) {
+        const ch = children[i];
+        if (ch != null) {
+          api.appendChild(
+            vnode.elm,
+            createElm(ch as VNode, insertedVnodeQueue)
+          );
         }
       }
     } else {
@@ -369,7 +382,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     const insertedVnodeQueue: VNodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
 
-    if (!isVnode(oldVnode)) {
+    if (isElement(api, oldVnode)) {
       oldVnode = emptyNodeAt(oldVnode);
     }
 
