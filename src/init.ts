@@ -24,8 +24,15 @@ function sameVnode(vnode1: VNode, vnode2: VNode): boolean {
   return isSameSel && isSameKey && isSameIs;
 }
 
-function isVnode(vnode: any): vnode is VNode {
-  return vnode.sel !== undefined;
+/**
+ * @todo Remove this function when the document fragment is considered stable.
+ */
+function documentFragmentIsNotSupported(): never {
+  throw new Error("The document fragment is not supported on this platform.");
+}
+
+function isElement(api: DOMAPI, vnode: Element | VNode): vnode is Element {
+  return api.isElement(vnode as any);
 }
 
 type KeyToIndexMap = { [key: string]: number };
@@ -60,7 +67,18 @@ const hooks: Array<keyof Module> = [
   "post",
 ];
 
-export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
+// TODO Should `domApi` be put into this in the next major version bump?
+type Options = {
+  experimental?: {
+    fragments?: boolean;
+  };
+};
+
+export function init(
+  modules: Array<Partial<Module>>,
+  domApi?: DOMAPI,
+  options?: Options
+) {
   const cbs: ModuleHooks = {
     create: [],
     update: [],
@@ -157,6 +175,21 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
         hook.create?.(emptyNode, vnode);
         if (hook.insert) {
           insertedVnodeQueue.push(vnode);
+        }
+      }
+    } else if (options?.experimental?.fragments && vnode.children) {
+      const children = vnode.children;
+      vnode.elm = (
+        api.createDocumentFragment ?? documentFragmentIsNotSupported
+      )();
+      for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
+      for (i = 0; i < children.length; ++i) {
+        const ch = children[i];
+        if (ch != null) {
+          api.appendChild(
+            vnode.elm,
+            createElm(ch as VNode, insertedVnodeQueue)
+          );
         }
       }
     } else {
@@ -366,7 +399,7 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
     const insertedVnodeQueue: VNodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
 
-    if (!isVnode(oldVnode)) {
+    if (isElement(api, oldVnode)) {
       oldVnode = emptyNodeAt(oldVnode);
     }
 

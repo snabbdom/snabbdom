@@ -86,3 +86,28 @@ export function h(sel: any, b?: any, c?: any): VNode {
   }
   return vnode(sel, data, children, text, undefined);
 }
+
+/**
+ * @experimental
+ */
+export function fragment(children: VNodeChildren): VNode {
+  let c: any;
+  let text: any;
+
+  if (is.array(children)) {
+    c = children;
+  } else if (is.primitive(c)) {
+    text = children;
+  } else if (c && c.sel) {
+    c = [children];
+  }
+
+  if (c !== undefined) {
+    for (let i = 0; i < c.length; ++i) {
+      if (is.primitive(c[i]))
+        c[i] = vnode(undefined, undefined, undefined, c[i], undefined);
+    }
+  }
+
+  return vnode(undefined, {}, c, text, undefined);
+}
