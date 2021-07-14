@@ -31,8 +31,18 @@ function documentFragmentIsNotSupported(): never {
   throw new Error("The document fragment is not supported on this platform.");
 }
 
-function isElement(api: DOMAPI, vnode: Element | VNode): vnode is Element {
+function isElement(
+  api: DOMAPI,
+  vnode: Element | DocumentFragment | VNode
+): vnode is Element {
   return api.isElement(vnode as any);
+}
+
+function isDocumentFragment(
+  api: DOMAPI,
+  vnode: DocumentFragment | VNode
+): vnode is DocumentFragment {
+  return api.isDocumentFragment(vnode as any);
 }
 
 type KeyToIndexMap = { [key: string]: number };
@@ -114,6 +124,10 @@ export function init(
       undefined,
       elm
     );
+  }
+
+  function emptyDocumentFragmentAt(frag: DocumentFragment) {
+    return vnode(undefined, {}, [], undefined, frag);
   }
 
   function createRmCb(childElm: Node, listeners: number) {
@@ -394,13 +408,18 @@ export function init(
     hook?.postpatch?.(oldVnode, vnode);
   }
 
-  return function patch(oldVnode: VNode | Element, vnode: VNode): VNode {
+  return function patch(
+    oldVnode: VNode | Element | DocumentFragment,
+    vnode: VNode
+  ): VNode {
     let i: number, elm: Node, parent: Node;
     const insertedVnodeQueue: VNodeQueue = [];
     for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
 
     if (isElement(api, oldVnode)) {
       oldVnode = emptyNodeAt(oldVnode);
+    } else if (isDocumentFragment(api, oldVnode)) {
+      oldVnode = emptyDocumentFragmentAt(oldVnode);
     }
 
     if (sameVnode(oldVnode, vnode)) {
