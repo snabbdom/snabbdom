@@ -26,6 +26,7 @@ export interface DOMAPI {
   isElement: (node: Node) => node is Element;
   isText: (node: Node) => node is Text;
   isComment: (node: Node) => node is Comment;
+  isDocumentFragment: (node: Node) => node is DocumentFragment;
 }
 
 function createElement(
@@ -103,6 +104,10 @@ function isComment(node: Node): node is Comment {
   return node.nodeType === 8;
 }
 
+function isDocumentFragment(node: Node): node is DocumentFragment {
+  return node.nodeType === 11;
+}
+
 export const htmlDomApi: DOMAPI = {
   createElement,
   createElementNS,
@@ -120,4 +125,5 @@ export const htmlDomApi: DOMAPI = {
   isElement,
   isText,
   isComment,
+  isDocumentFragment,
 };
