@@ -1101,6 +1101,17 @@ describe("snabbdom", function () {
       assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
       assert.strictEqual(elm.textContent, "fragment again");
     });
+    it("allows a document fragment as a container", function () {
+      const vnode0 = document.createDocumentFragment();
+      const vnode1 = fragment(["I", "am", "a", h("span", ["fragment"])]);
+      const vnode2 = h("div", "I am an element");
+
+      elm = patch(vnode0, vnode1).elm;
+      assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
+
+      elm = patch(vnode1, vnode2).elm;
+      assert.strictEqual(elm.tagName, "DIV");
+    });
   });
   describe("hooks", function () {
     describe("element hooks", function () {
