@@ -8,6 +8,7 @@ export interface DOMAPI {
     qualifiedName: string,
     options?: ElementCreationOptions
   ) => Element;
+  createDocumentFragment: () => DocumentFragment;
   createTextNode: (text: string) => Text;
   createComment: (text: string) => Comment;
   insertBefore: (
@@ -25,6 +26,7 @@ export interface DOMAPI {
   isElement: (node: Node) => node is Element;
   isText: (node: Node) => node is Text;
   isComment: (node: Node) => node is Comment;
+  isDocumentFragment: (node: Node) => node is DocumentFragment;
 }
 
 function createElement(
@@ -40,6 +42,10 @@ function createElementNS(
   options?: ElementCreationOptions
 ): Element {
   return document.createElementNS(namespaceURI, qualifiedName, options);
+}
+
+function createDocumentFragment(): DocumentFragment {
+  return document.createDocumentFragment();
 }
 
 function createTextNode(text: string): Text {
@@ -98,10 +104,15 @@ function isComment(node: Node): node is Comment {
   return node.nodeType === 8;
 }
 
+function isDocumentFragment(node: Node): node is DocumentFragment {
+  return node.nodeType === 11;
+}
+
 export const htmlDomApi: DOMAPI = {
   createElement,
   createElementNS,
   createTextNode,
+  createDocumentFragment,
   createComment,
   insertBefore,
   removeChild,
@@ -114,4 +125,5 @@ export const htmlDomApi: DOMAPI = {
   isElement,
   isText,
   isComment,
+  isDocumentFragment,
 };

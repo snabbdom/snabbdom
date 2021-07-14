@@ -20,6 +20,7 @@ import {
   DestroyHook,
   UpdateHook,
   Key,
+  fragment,
 } from "../../src/index";
 
 const hasSvgClassList = "classList" in SVGElement.prototype;
@@ -190,8 +191,10 @@ describe("snabbdom", function () {
       }
     });
     it("handles classes from both selector and property", function () {
-      elm = patch(vnode0, h("div", [h("i.has", { class: { classes: true } })]))
-        .elm;
+      elm = patch(
+        vnode0,
+        h("div", [h("i.has", { class: { classes: true } })])
+      ).elm;
       assert(elm.firstChild.classList.contains("has"), "has `has` class");
       assert(
         elm.firstChild.classList.contains("classes"),
@@ -248,6 +251,15 @@ describe("snabbdom", function () {
       elm = patch(vnode0, h("!", "test")).elm;
       assert.strictEqual(elm.nodeType, document.COMMENT_NODE);
       assert.strictEqual(elm.textContent, "test");
+    });
+  });
+  describe("created document fragment", function () {
+    it("is an instance of DocumentFragment", function () {
+      const vnode1 = fragment(["I am", h("span", [" a", " fragment"])]);
+
+      elm = patch(vnode0, vnode1).elm;
+      assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
+      assert.strictEqual(elm.textContent, "I am a fragment");
     });
   });
   describe("patching an element", function () {
@@ -793,9 +805,8 @@ describe("snabbdom", function () {
             })
           );
           const shufArr = shuffle(arr.slice(0));
-          let elm: HTMLDivElement | HTMLSpanElement = document.createElement(
-            "div"
-          );
+          let elm: HTMLDivElement | HTMLSpanElement =
+            document.createElement("div");
           elm = patch(elm, vnode1).elm as HTMLSpanElement;
           for (i = 0; i < elms; ++i) {
             assert.strictEqual(elm.children[i].innerHTML, i.toString());
@@ -1051,6 +1062,35 @@ describe("snabbdom", function () {
         elm = patch(vnode2, vnode3).elm;
         assert.deepEqual(map(inner, elm.children), ["2", "1"]);
       });
+    });
+  });
+  describe("patching a fragment", function () {
+    it("can patch on document fragments", function () {
+      const vnode1 = fragment(["I am", h("span", [" a", " fragment"])]);
+      const vnode2 = h("div", ["I am an element"]);
+      const vnode3 = fragment(["fragment ", "again"]);
+
+      elm = patch(vnode0, vnode1).elm;
+      assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
+
+      elm = patch(vnode1, vnode2).elm;
+      assert.strictEqual(elm.tagName, "DIV");
+      assert.strictEqual(elm.textContent, "I am an element");
+
+      elm = patch(vnode2, vnode3).elm;
+      assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
+      assert.strictEqual(elm.textContent, "fragment again");
+    });
+    it("allows a document fragment as a container", function () {
+      const vnode0 = document.createDocumentFragment();
+      const vnode1 = fragment(["I", "am", "a", h("span", ["fragment"])]);
+      const vnode2 = h("div", "I am an element");
+
+      elm = patch(vnode0, vnode1).elm;
+      assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
+
+      elm = patch(vnode1, vnode2).elm;
+      assert.strictEqual(elm.tagName, "DIV");
     });
   });
   describe("hooks", function () {
