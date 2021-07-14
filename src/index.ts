@@ -14,6 +14,7 @@ export {
   ArrayOrElement,
   VNodeChildren,
   h,
+  fragment,
 } from "./h";
 
 // types

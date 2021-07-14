@@ -20,11 +20,16 @@ import {
   DestroyHook,
   UpdateHook,
   Key,
+  fragment,
 } from "../../src/index";
 
 const hasSvgClassList = "classList" in SVGElement.prototype;
 
-const patch = init([classModule, propsModule, eventListenersModule]);
+const patch = init(
+  [classModule, propsModule, eventListenersModule],
+  undefined,
+  { experimental: { fragments: true } }
+);
 
 function prop<T>(name: string) {
   return function (obj: { [index: string]: T }) {
@@ -266,6 +271,15 @@ describe("snabbdom", function () {
       elm = patch(vnode0, h("!", "test")).elm;
       assert.strictEqual(elm.nodeType, document.COMMENT_NODE);
       assert.strictEqual(elm.textContent, "test");
+    });
+  });
+  describe("created document fragment", function () {
+    it("is an instance of DocumentFragment", function () {
+      const vnode1 = fragment(["I am", h("span", [" a", " fragment"])]);
+
+      elm = patch(vnode0, vnode1).elm;
+      assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
+      assert.strictEqual(elm.textContent, "I am a fragment");
     });
   });
   describe("patching an element", function () {
@@ -1068,6 +1082,24 @@ describe("snabbdom", function () {
         elm = patch(vnode2, vnode3).elm;
         assert.deepEqual(map(inner, elm.children), ["2", "1"]);
       });
+    });
+  });
+  describe("patching a fragment", function () {
+    it("can patch on document fragments", function () {
+      const vnode1 = fragment(["I am", h("span", [" a", " fragment"])]);
+      const vnode2 = h("div", ["I am an element"]);
+      const vnode3 = fragment(["fragment ", "again"]);
+
+      elm = patch(vnode0, vnode1).elm;
+      assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
+
+      elm = patch(vnode1, vnode2).elm;
+      assert.strictEqual(elm.tagName, "DIV");
+      assert.strictEqual(elm.textContent, "I am an element");
+
+      elm = patch(vnode2, vnode3).elm;
+      assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
+      assert.strictEqual(elm.textContent, "fragment again");
     });
   });
   describe("hooks", function () {

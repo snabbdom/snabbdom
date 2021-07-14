@@ -8,6 +8,11 @@ export interface DOMAPI {
     qualifiedName: string,
     options?: ElementCreationOptions
   ) => Element;
+  /**
+   * @experimental
+   * @todo Make it required when the fragment is considered stable.
+   */
+  createDocumentFragment?: () => DocumentFragment;
   createTextNode: (text: string) => Text;
   createComment: (text: string) => Comment;
   insertBefore: (
@@ -40,6 +45,10 @@ function createElementNS(
   options?: ElementCreationOptions
 ): Element {
   return document.createElementNS(namespaceURI, qualifiedName, options);
+}
+
+function createDocumentFragment(): DocumentFragment {
+  return document.createDocumentFragment();
 }
 
 function createTextNode(text: string): Text {
@@ -102,6 +111,7 @@ export const htmlDomApi: DOMAPI = {
   createElement,
   createElementNS,
   createTextNode,
+  createDocumentFragment,
   createComment,
   insertBefore,
   removeChild,
