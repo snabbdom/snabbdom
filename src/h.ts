@@ -26,11 +26,11 @@ export function h(sel: any, b?: any, c?: any): VNode {
   if (c !== undefined) {
     if (b !== null) { data = b; }
     if (is.array(c)) { children = c; }
-    else if (is.primitive(c)) { text = c; }
+    else if (is.primitive(c)) { text = c.toString(); }
     else if (c && c.sel) { children = [c]; }
   } else if (b !== undefined && b !== null) {
     if (is.array(b)) { children = b; }
-    else if (is.primitive(b)) { text = b; }
+    else if (is.primitive(b)) { text = b.toString(); }
     else if (b && b.sel) { children = [b]; }
     else { data = b; }
   }
