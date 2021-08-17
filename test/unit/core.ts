@@ -86,6 +86,22 @@ describe("snabbdom", function () {
       const vnode = h("a", {}, "I am a string");
       assert.strictEqual(vnode.text, "I am a string");
     });
+    it("can create vnode with String obj content", function() {
+      var vnode = h("a", new String("b"));
+      assert.equal(vnode.text, "b");
+    });
+    it("can create vnode with props and String obj content", function() {
+      var vnode = h("a", {}, new String("b"));
+      assert.equal(vnode.text, "b");
+    });
+    it("can create vnode with array String obj content", function() {
+      var vnode = h("a", ["b", new String("c")]);
+      assert.equal(vnode.text, "bc");
+    });
+    it("can create vnode with Number obj content", function() {
+      var vnode = h("a", new Number(1));
+      assert.equal(vnode.text, "1");
+    });
     it("can create vnode with null props", function () {
       let vnode = h("a", null);
       assert.deepEqual(vnode.data, {});
