@@ -61,8 +61,6 @@ const hooks: Array<keyof Module> = [
 ];
 
 export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
-  let i: number;
-  let j: number;
   const cbs: ModuleHooks = {
     create: [],
     update: [],
@@ -74,12 +72,11 @@ export function init(modules: Array<Partial<Module>>, domApi?: DOMAPI) {
 
   const api: DOMAPI = domApi !== undefined ? domApi : htmlDomApi;
 
-  for (i = 0; i < hooks.length; ++i) {
-    cbs[hooks[i]] = [];
-    for (j = 0; j < modules.length; ++j) {
-      const hook = modules[j][hooks[i]];
-      if (hook !== undefined) {
-        (cbs[hooks[i]] as any[]).push(hook);
+  for (const hook of hooks) {
+    for (const module of modules) {
+      const currentHook = module[hook];
+      if (currentHook !== undefined) {
+        (cbs[hook] as any[]).push(currentHook);
       }
     }
   }
