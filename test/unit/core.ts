@@ -86,20 +86,16 @@ describe("snabbdom", function () {
       const vnode = h("a", {}, "I am a string");
       assert.strictEqual(vnode.text, "I am a string");
     });
-    it("can create vnode with String obj content", function() {
-      var vnode = h("a", new String("b"));
+    it("can create vnode with String obj content", function () {
+      const vnode = h("a", new String("b"));
       assert.equal(vnode.text, "b");
     });
-    it("can create vnode with props and String obj content", function() {
-      var vnode = h("a", {}, new String("b"));
+    it("can create vnode with props and String obj content", function () {
+      const vnode = h("a", {}, new String("b"));
       assert.equal(vnode.text, "b");
     });
-    it("can create vnode with array String obj content", function() {
-      var vnode = h("a", ["b", new String("c")]);
-      assert.equal(vnode.text, "bc");
-    });
-    it("can create vnode with Number obj content", function() {
-      var vnode = h("a", new Number(1));
+    it("can create vnode with Number obj content", function () {
+      const vnode = h("a", new Number(1));
       assert.equal(vnode.text, "1");
     });
     it("can create vnode with null props", function () {
@@ -206,8 +202,10 @@ describe("snabbdom", function () {
       }
     });
     it("handles classes from both selector and property", function () {
-      elm = patch(vnode0, h("div", [h("i.has", { class: { classes: true } })]))
-        .elm;
+      elm = patch(
+        vnode0,
+        h("div", [h("i.has", { class: { classes: true } })])
+      ).elm;
       assert(elm.firstChild.classList.contains("has"), "has `has` class");
       assert(
         elm.firstChild.classList.contains("classes"),
@@ -222,6 +220,10 @@ describe("snabbdom", function () {
       elm = patch(vnode0, h("a", [h("span"), "I am a string"])).elm;
       assert.strictEqual(elm.childNodes[0].tagName, "SPAN");
       assert.strictEqual(elm.childNodes[1].textContent, "I am a string");
+    });
+    it("can create vnode with array String obj content", function () {
+      elm = patch(vnode0, h("a", ["b", new String("c")])).elm;
+      assert.strictEqual(elm.innerHTML, "bc");
     });
     it("can create elements with props", function () {
       elm = patch(vnode0, h("a", { props: { src: "http://localhost/" } })).elm;
@@ -809,9 +811,8 @@ describe("snabbdom", function () {
             })
           );
           const shufArr = shuffle(arr.slice(0));
-          let elm: HTMLDivElement | HTMLSpanElement = document.createElement(
-            "div"
-          );
+          let elm: HTMLDivElement | HTMLSpanElement =
+            document.createElement("div");
           elm = patch(elm, vnode1).elm as HTMLSpanElement;
           for (i = 0; i < elms; ++i) {
             assert.strictEqual(elm.children[i].innerHTML, i.toString());
