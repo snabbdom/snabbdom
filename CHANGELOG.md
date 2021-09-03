@@ -1,3 +1,9 @@
+# [3.1.0](https://github.com/snabbdom/snabbdom/compare/v3.0.3...v3.1.0) (2021-09-03)
+
+### Features
+
+- allow String and Number objects to be used as children ([#979](https://github.com/snabbdom/snabbdom/issues/979)) ([19d1d29](https://github.com/snabbdom/snabbdom/commit/19d1d29260e63e49b619e7a2abe2e1def08dda57)), closes [#977](https://github.com/snabbdom/snabbdom/issues/977)
+
 ## [3.0.3](https://github.com/snabbdom/snabbdom/compare/v3.0.2...v3.0.3) (2021-06-04)
 
 ### Bug Fixes
