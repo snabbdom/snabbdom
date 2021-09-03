@@ -2,7 +2,14 @@ import { vnode, VNode, VNodeData } from "./vnode";
 import * as is from "./is";
 
 export type VNodes = VNode[];
-export type VNodeChildElement = VNode | string | number | undefined | null;
+export type VNodeChildElement =
+  | VNode
+  | string
+  | number
+  | String
+  | Number
+  | undefined
+  | null;
 export type ArrayOrElement<T> = T | T[];
 export type VNodeChildren = ArrayOrElement<VNodeChildElement>;
 
