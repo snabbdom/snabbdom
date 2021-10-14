@@ -618,43 +618,6 @@ In JSX, you can use `on` like this:
 <div on={{ click: clickHandler }} />
 ```
 
-Very often, however, you're not really interested in the event object
-itself. Often you have some data associated with the element that
-triggers an event and you want that data passed along instead.
-
-Consider a counter application with three buttons, one to increment
-the counter by 1, one to increment the counter by 2 and one to
-increment the counter by 3. You don't really care exactly which button
-was pressed. Instead you're interested in what number was associated
-with the clicked button. The event listeners module allows one to
-express that by supplying an array at the named event property. The
-first element in the array should be a function that will be invoked
-with the value in the second element once the event occurs.
-
-```mjs
-function clickHandler(number) {
-  console.log("button " + number + " was clicked!");
-}
-h("div", [
-  h("a", { on: { click: [clickHandler, 1] } }),
-  h("a", { on: { click: [clickHandler, 2] } }),
-  h("a", { on: { click: [clickHandler, 3] } }),
-]);
-```
-
-Each handler is called not only with the given arguments but also with the current event and vnode appended to the argument list. It also supports using multiple listeners per event by specifying an array of handlers:
-
-```mjs
-stopPropagation = function (ev) {
-  ev.stopPropagation();
-};
-sendValue = function (func, ev, vnode) {
-  func(vnode.elm.value);
-};
-
-h("a", { on: { click: [[sendValue, console.log], stopPropagation] } });
-```
-
 Snabbdom allows swapping event handlers between renders. This happens without
 actually touching the event handlers attached to the DOM.
 
