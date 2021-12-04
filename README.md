@@ -121,6 +121,7 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
   - [`patch`](#patch)
     - [Unmounting](#unmounting)
   - [`h`](#h)
+  - [`fragment`](#fragment-experimental) (experimental)
   - [`tovnode`](#tovnode)
   - [Hooks](#hooks)
     - [Overview](#overview)
@@ -229,6 +230,27 @@ const vnode = h("div", { style: { color: "#000" } }, [
   h("h1", "Headline"),
   h("p", "A paragraph"),
 ]);
+```
+
+### `fragment` (experimental)
+
+Caution: This feature is currently experimental and must be opted in.
+Its API may be changed without an major version bump.
+
+```mjs
+const patch = init(modules, undefined, {
+  experimental: {
+    fragments: true,
+  },
+});
+```
+
+Creates a virtual node that will be converted to a document fragment containing the given children.
+
+```mjs
+import { fragment, h } from "snabbdom";
+
+const vnode = fragment(["I am", h("span", [" a", " fragment"])]);
 ```
 
 ### `tovnode`
@@ -398,7 +420,7 @@ h("a", { class: { active: true, selected: false } }, "Toggle");
 In JSX, you can use `class` like this:
 
 ```jsx
-<div class={{ "foo": true, "bar": true }} />
+<div class={{ foo: true, bar: true }} />
 // Renders as: <div class="foo bar"></div>
 ```
 
@@ -436,7 +458,7 @@ h("a", { attrs: { href: "/foo" } }, "Go to Foo");
 In JSX, you can use `attrs` like this:
 
 ```jsx
-<div attrs={{ 'aria-label': "I'm a div" }} />
+<div attrs={{ "aria-label": "I'm a div" }} />
 // Renders as: <div aria-label="I'm a div"></div>
 ```
 
@@ -492,11 +514,13 @@ h(
 In JSX, you can use `style` like this:
 
 ```jsx
-<div style={{
-  border: "1px solid #bada55",
-  color: "#c0ffee",
-  fontWeight: "bold",
-}} />
+<div
+  style={{
+    border: "1px solid #bada55",
+    color: "#c0ffee",
+    fontWeight: "bold",
+  }}
+/>
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
 ```
 
