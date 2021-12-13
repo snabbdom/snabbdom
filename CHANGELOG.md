@@ -1,3 +1,14 @@
+# [3.2.0](https://github.com/snabbdom/snabbdom/compare/v3.1.0...v3.2.0) (2021-12-13)
+
+### Bug Fixes
+
+- assert that fragment functions are implemented ([df0f031](https://github.com/snabbdom/snabbdom/commit/df0f031255f3dafa6b30522fc5c2f3d8234ca5d6))
+
+### Features
+
+- allow DocumentFragment as a container ([3505879](https://github.com/snabbdom/snabbdom/commit/35058798ae0aac46c0f4252a9c54497c44eff243))
+- support DocumentFragment ([7e86386](https://github.com/snabbdom/snabbdom/commit/7e863862929bd2ed0b01a778a90e5458180ac925)), closes [#560](https://github.com/snabbdom/snabbdom/issues/560)
+
 # [3.1.0](https://github.com/snabbdom/snabbdom/compare/v3.0.3...v3.1.0) (2021-09-03)
 
 ### Features
