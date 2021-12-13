@@ -355,20 +355,20 @@ export function init(
         newStartVnode = newCh[++newStartIdx];
       }
     }
-    if (oldStartIdx <= oldEndIdx || newStartIdx <= newEndIdx) {
-      if (oldStartIdx > oldEndIdx) {
-        before = newCh[newEndIdx + 1] == null ? null : newCh[newEndIdx + 1].elm;
-        addVnodes(
-          parentElm,
-          before,
-          newCh,
-          newStartIdx,
-          newEndIdx,
-          insertedVnodeQueue
-        );
-      } else {
-        removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
-      }
+
+    if (newStartIdx <= newEndIdx) {
+      before = newCh[newEndIdx + 1] == null ? null : newCh[newEndIdx + 1].elm;
+      addVnodes(
+        parentElm,
+        before,
+        newCh,
+        newStartIdx,
+        newEndIdx,
+        insertedVnodeQueue
+      );
+    }
+    if (oldStartIdx <= oldEndIdx) {
+      removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
     }
   }
 
