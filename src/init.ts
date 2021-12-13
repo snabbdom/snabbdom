@@ -42,7 +42,7 @@ function isDocumentFragment(
   api: DOMAPI,
   vnode: DocumentFragment | VNode
 ): vnode is DocumentFragment {
-  return api.isDocumentFragment(vnode as any);
+  return api.isDocumentFragment!(vnode as any);
 }
 
 type KeyToIndexMap = { [key: string]: number };
