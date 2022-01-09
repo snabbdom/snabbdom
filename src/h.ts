@@ -13,17 +13,19 @@ export type VNodeChildElement =
 export type ArrayOrElement<T> = T | T[];
 export type VNodeChildren = ArrayOrElement<VNodeChildElement>;
 
-function addNS(
+export function addNS(
   data: any,
-  children: VNodes | undefined,
+  children: Array<VNode | string> | undefined,
   sel: string | undefined
 ): void {
   data.ns = "http://www.w3.org/2000/svg";
   if (sel !== "foreignObject" && children !== undefined) {
     for (let i = 0; i < children.length; ++i) {
-      const childData = children[i].data;
+      const child = children[i];
+      if (typeof child === "string") continue;
+      const childData = child.data;
       if (childData !== undefined) {
-        addNS(childData, children[i].children as VNodes, children[i].sel);
+        addNS(childData, child.children as VNodes, child.sel);
       }
     }
   }
