@@ -37,11 +37,11 @@ customize the functionality you want. Alternatively you can just use
 the default extensions and get a virtual DOM library with high
 performance, small size and all the features listed below.
 
-虚拟DOM非常有趣。他允许我们以对象的形式来表达程序视图，但现有的解决方式基本都过于臃肿、性能不佳、功能缺乏、API偏向于OOP或者缺少一些我所需要的功能。
+虚拟DOM非常有趣，他允许我们以对象的形式来表达程序视图，但现有的解决方式基本都过于臃肿、性能不佳、功能缺乏、API偏向于OOP或者缺少一些我所需要的功能。
 
-Snabbdom 则极其简单、高效并且可拓展，同时核心代码仅200行。他提供了一个具有丰富功能同时支持自定义拓展的模块化结构。为了使核心代码更简洁，所有非必要的功能都由模块提供。
+Snabbdom 则极其简单、高效并且可拓展，同时核心代码仅200行。我们提供了一个具有丰富功能同时支持自定义拓展的模块化结构。为了使核心代码更简洁，所有非必要的功能都将模块化引入。
 
-你可以将 Snabbdom 改造成任何你想要的样子！选择或自定义任何你需要的功能。如果嫌麻烦的话可以使用默认配置，便能获得一个高性能、体积小、拥有下列所有功能的虚拟 DOM 库。
+你可以将 Snabbdom 改造成任何你想要的样子！选择或自定义任何你需要的功能。如果嫌麻烦的话可以使用默认配置，便能获得一个高性能、体积小、拥有下列所有特性的虚拟 DOM 库。
 
 ## 特性
 
@@ -142,7 +142,7 @@ patch(vnode, newVnode); // 将旧节点更新为新节点
 - [核心功能](#核心功能)
   - [`init`](#init)
   - [`patch`](#patch)
-    - [Unmounting](#unmounting)
+    - [卸载](#卸载)
   - [`h`](#h)
   - [`fragment`](#fragment-experimental) (experimental)
   - [`tovnode`](#tovnode)
@@ -228,7 +228,7 @@ vnode. This makes it possible to implement a simpler and more
 performant architecture. This also avoids the creation of a new old
 vnode tree.
 
-所有传入的 `oldvnode` 都必须是被传入过 `patch` 函数， 因为 Snabbdom 将信息存储在 vnode 中， 这避免了重复创建新的 vnode 树
+所有传入的 `oldvnode` 都必须被传入过 `patch` 函数， 因为 Snabbdom 将信息存储在 vnode 中， 这避免了重复创建新的 vnode 树
 
 ```mjs
 patch(oldVnode, newVnode);
@@ -238,7 +238,7 @@ patch(oldVnode, newVnode);
 
 While there is no API specifically for removing a VNode tree from its mount point element, one way of almost achieving this is providing a comment VNode as the second argument to `patch`, such as:
 
-虽然没有专门为移除 vnode 树中的节点提供 API，
+虽然没有专门为移除 vnode 树中的节点提供 API，但是依然可以通过给 `patch` 函数传入一个 html注释vnode 作为第二个参数来实现相同的效果，如：
 
 ```mjs
 patch(
@@ -255,11 +255,15 @@ patch(
 
 Of course, then there is still a single comment node at the mount point.
 
+当然，那里依然会有一个注释节点被挂载
+
 ### `h`
 
 It is recommended that you use `h` to create vnodes. It accepts a
 tag/selector as a string, an optional data object and an optional string or
 array of children.
+
+我们推荐您使用函数 `h` 来创建 vnodes，这个函数接收一个字符串类型的 tag/selector、一个数据对象（可选）、一个子节点数组或字符串（可选）
 
 ```mjs
 import { h } from "snabbdom";
@@ -270,10 +274,12 @@ const vnode = h("div", { style: { color: "#000" } }, [
 ]);
 ```
 
-### `fragment` (experimental)
+### `fragment` (试验性)
 
 Caution: This feature is currently experimental and must be opted in.
 Its API may be changed without an major version bump.
+
+警告：此功能目前处于试验阶段必须手动开启，并且这个API可能会在未来小版本更新中被修改
 
 ```mjs
 const patch = init(modules, undefined, {
@@ -285,6 +291,8 @@ const patch = init(modules, undefined, {
 
 Creates a virtual node that will be converted to a document fragment containing the given children.
 
+创建一个虚拟节点并转换为一个包含子元素的 document fragment（文档碎片）
+
 ```mjs
 import { fragment, h } from "snabbdom";
 
@@ -295,6 +303,8 @@ const vnode = fragment(["I am", h("span", [" a", " fragment"])]);
 
 Converts a DOM node into a virtual node. Especially good for patching over an pre-existing,
 server-side generated content.
+
+将一个DOM节点转换为一个虚拟节点，这非常有利于服务端渲染
 
 ```mjs
 import {
@@ -330,32 +340,40 @@ offers a rich selection of hooks. Hooks are used both by modules to
 extend Snabbdom, and in normal code for executing arbitrary code at
 desired points in the life of a virtual node.
 
-#### Overview
+Snabbdom 提供了一系列丰富的生命周期函数，这些生命周期函数适用于拓展 Snabbdom 模块或者在 virtual node 生命周期中的任意节点执行任意代码
 
-| Name        | Triggered when                                     | Arguments to callback   |
-| ----------- | -------------------------------------------------- | ----------------------- |
-| `pre`       | the patch process begins                           | none                    |
-| `init`      | a vnode has been added                             | `vnode`                 |
-| `create`    | a DOM element has been created based on a vnode    | `emptyVnode, vnode`     |
-| `insert`    | an element has been inserted into the DOM          | `vnode`                 |
-| `prepatch`  | an element is about to be patched                  | `oldVnode, vnode`       |
-| `update`    | an element is being updated                        | `oldVnode, vnode`       |
-| `postpatch` | an element has been patched                        | `oldVnode, vnode`       |
-| `destroy`   | an element is directly or indirectly being removed | `vnode`                 |
-| `remove`    | an element is directly being removed from the DOM  | `vnode, removeCallback` |
-| `post`      | the patch process is done                          | none                    |
+#### 概览
+
+| 名称        | 触发节点                         | 回调参数                |
+| ----------- | -------------------------------- | ----------------------- |
+| `pre`       | patch 开始执行                   | none                    |
+| `init`      | vnode 被添加                     | `vnode`                 |
+| `create`    | 一个基于 vnode 的 DOM 元素被创建 | `emptyVnode, vnode`     |
+| `insert`    | 元素被插入到 DOM                 | `vnode`                 |
+| `prepatch`  | 元素即将 patch                   | `oldVnode, vnode`       |
+| `update`    | 元素已更新                       | `oldVnode, vnode`       |
+| `postpatch` | 元素已被 patch                   | `oldVnode, vnode`       |
+| `destroy`   | 元素被直接或间接得移除           | `vnode`                 |
+| `remove`    | 元素已从 DOM 中移除              | `vnode, removeCallback` |
+| `post`      | 已完成 patch 过程                | none                    |
 
 The following hooks are available for modules: `pre`, `create`,
 `update`, `destroy`, `remove`, `post`.
+
+适用于模块：`pre`, `create`,`update`, `destroy`, `remove`, `post`.
 
 The following hooks are available in the `hook` property of individual
 elements: `init`, `create`, `insert`, `prepatch`, `update`,
 `postpatch`, `destroy`, `remove`.
 
-#### Usage
+适用于单个元素：`init`, `create`, `insert`, `prepatch`, `update`,`postpatch`, `destroy`, `remove`
+
+#### 使用
 
 To use hooks, pass them as an object to `hook` field of the data
 object argument.
+
+使用 hooks 时， 请将所需要的 `hook` 以对象的形式（key 为对应 `hook` 字段）作为参数传入
 
 ```mjs
 h("div.row", {
@@ -375,6 +393,8 @@ has been found. The hook is called before Snabbdom has processed the
 node in any way. I.e., before it has created a DOM node based on the
 vnode.
 
+这个钩子函数会在新的 vnode 创建后被调用，在 Snabbdom 以任何方式处理该节点前被调用，即：在 `create` 之前被调用
+
 #### The `insert` hook
 
 This hook is invoked once the DOM element for a vnode has been
@@ -383,6 +403,8 @@ This means that you can do DOM measurements (like using
 [getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
 in this hook safely, knowing that no elements will be changed
 afterwards that could affect the position of the inserted elements.
+
+当基于 vnode 的 元素被插入到文档后并且 patch 其余过程完成后调用，这意味着你可以在这个 `hook` 中更可靠地计算元素位置坐标信息（如：[getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)），这种操作不会影响任何被插入元素的位置
 
 #### The `remove` hook
 
@@ -393,9 +415,13 @@ removal with the callback. The callback should be invoked once the
 hook is done doing its business, and the element will only be removed
 once all `remove` hooks have invoked their callback.
 
+一旦从 DOM 中移除了 vnode 就会调用该函数，函数需要传入 vnode 和 回调函数 作为参数，你可以通过回调来控制或延迟移除，这个回调函数将会在 hook 执行完成后调用，需要注意的是只有当所有 `remove` hooks 执行完所有回调之后元素才会被一次性删除
+
 The hook is only triggered when an element is to be removed from its
 parent – not if it is the child of an element that is removed. For
 that, see the `destroy` hook.
+
+这个 hook 只有在当前元素从父级中删除才会触发，从元素中移除子元素则不会触发
 
 #### The `destroy` hook
 
