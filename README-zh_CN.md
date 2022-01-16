@@ -61,7 +61,7 @@ Snabbdom 则极其简单、高效并且可拓展，同时核心代码仅200行�
   - Patch 函数有一个相当于 reduce/scan 函数的函数签名，这将更容易集成其他函数式库。
 - 模块特点
   - `h` function for easily creating virtual DOM nodes.
-  - 函数`h`： 通过该创建虚拟 DOM 节点
+  - 函数`h`： 通过该创建虚拟 DOM nodes
   - [SVG _just works_ with the `h` helper](#svg).
   - [SVG 需要与 `h` 函数结合使用](#svg)
   - Features for doing complex CSS animations.
@@ -212,7 +212,7 @@ is a vnode representing the new, updated view.
 
 通过调用 `init` 函数返回的 `patch` 函数具有两个参数:
 
-1. 一个 DOM 元素 或者 一个表示当前视图的 `vnode` 元素
+1. 一个 DOM element 或者 一个表示当前视图的 `vnode` 元素
 2. 一个表示新的、需要更新的 `vnode` 元素
 
 If a DOM element with a parent is passed, `newVnode` will be turned
@@ -220,7 +220,7 @@ into a DOM node, and the passed element will be replaced by the
 created DOM node. If an old vnode is passed, Snabbdom will efficiently
 modify it to match the description in the new vnode.
 
-如果第一个参数传入一个包含父节点的 DOM 元素，那么 `newVnode`  将转换为一个 DOM 节点并替换传入的元素。如果第一个参数传入的是一个 `vnode` 则根据新的 `vnode` 相关描述进行修改
+如果第一个参数传入一个包含父节点的 DOM element，那么 `newVnode`  将转换为一个 DOM node 并替换传入的元素。如果第一个参数传入的是一个 `vnode` 则根据新的 `vnode` 相关描述进行修改
 
 Any old vnode passed must be the resulting vnode from a previous call
 to `patch`. This is necessary since Snabbdom stores information in the
@@ -304,7 +304,7 @@ const vnode = fragment(["I am", h("span", [" a", " fragment"])]);
 Converts a DOM node into a virtual node. Especially good for patching over an pre-existing,
 server-side generated content.
 
-将一个DOM节点转换为一个虚拟节点，这非常有利于服务端渲染
+将一个 DOM node 转换为一个虚拟节点，这非常有利于服务端渲染
 
 ```mjs
 import {
@@ -344,18 +344,18 @@ Snabbdom 提供了一系列丰富的生命周期函数，这些生命周期函�
 
 #### 概览
 
-| 名称        | 触发节点                         | 回调参数                |
-| ----------- | -------------------------------- | ----------------------- |
-| `pre`       | patch 开始执行                   | none                    |
-| `init`      | vnode 被添加                     | `vnode`                 |
-| `create`    | 一个基于 vnode 的 DOM 元素被创建 | `emptyVnode, vnode`     |
-| `insert`    | 元素被插入到 DOM                 | `vnode`                 |
-| `prepatch`  | 元素即将 patch                   | `oldVnode, vnode`       |
-| `update`    | 元素已更新                       | `oldVnode, vnode`       |
-| `postpatch` | 元素已被 patch                   | `oldVnode, vnode`       |
-| `destroy`   | 元素被直接或间接得移除           | `vnode`                 |
-| `remove`    | 元素已从 DOM 中移除              | `vnode, removeCallback` |
-| `post`      | 已完成 patch 过程                | none                    |
+| 名称        | 触发节点                             | 回调参数                |
+| ----------- | ------------------------------------ | ----------------------- |
+| `pre`       | patch 开始执行                       | none                    |
+| `init`      | vnode 被添加                         | `vnode`                 |
+| `create`    | 一个基于 vnode 的 DOM element 被创建 | `emptyVnode, vnode`     |
+| `insert`    | element 被插入到 DOM                 | `vnode`                 |
+| `prepatch`  | element 即将 patch                   | `oldVnode, vnode`       |
+| `update`    | element 已更新                       | `oldVnode, vnode`       |
+| `postpatch` | element 已被 patch                   | `oldVnode, vnode`       |
+| `destroy`   | element 被直接或间接得移除           | `vnode`                 |
+| `remove`    | element 已从 DOM 中移除              | `vnode, removeCallback` |
+| `post`      | 已完成 patch 过程                    | none                    |
 
 The following hooks are available for modules: `pre`, `create`,
 `update`, `destroy`, `remove`, `post`.
@@ -404,7 +404,7 @@ This means that you can do DOM measurements (like using
 in this hook safely, knowing that no elements will be changed
 afterwards that could affect the position of the inserted elements.
 
-当基于 vnode 的 元素被插入到文档后并且 patch 其余过程完成后调用，这意味着你可以在这个 `hook` 中更可靠地计算元素位置坐标信息（如：[getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)），这种操作不会影响任何被插入元素的位置
+当基于 vnode 的 DOM element 被插入到文档后并且 patch 其余过程完成后调用，这意味着你可以在这个 `hook` 中更可靠地计算元素位置坐标信息（如：[getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)），这种操作不会影响任何被插入元素的位置
 
 #### The `remove` hook
 
@@ -415,21 +415,25 @@ removal with the callback. The callback should be invoked once the
 hook is done doing its business, and the element will only be removed
 once all `remove` hooks have invoked their callback.
 
-一旦从 DOM 中移除了 vnode 就会调用该函数，函数需要传入 vnode 和 回调函数 作为参数，你可以通过回调来控制或延迟移除，这个回调函数将会在 hook 执行完成后调用，需要注意的是只有当所有 `remove` hooks 执行完所有回调之后元素才会被一次性删除
+一旦从 DOM 中移除了 vnode 就会调用该函数，函数需要传入 vnode 和 回调函数 作为参数，你可以通过回调来控制或延迟移除，这个回调函数将会在 hook 执行完成后调用，需要注意的是只有当所有 `remove` hooks 执行完所有回调之后元素才会被一次性删除。
 
 The hook is only triggered when an element is to be removed from its
 parent – not if it is the child of an element that is removed. For
 that, see the `destroy` hook.
 
-这个 hook 只有在当前元素从父级中删除才会触发，从元素中移除子元素则不会触发
+这个 hook 只有在当前元素从父级中删除才会触发，从元素中移除子元素则不会触发。
 
 #### The `destroy` hook
 
 This hook is invoked on a virtual node when its DOM element is removed
 from the DOM or if its parent is being removed from the DOM.
 
+当虚拟节点的DOM元素从DOM中移除或者元素父级从DOM中移除时将触发该 hook。
+
 To see the difference between this hook and the `remove` hook,
 consider an example.
+
+这个 hook 和 `remove` hook 的区别，先看看这个示例
 
 ```mjs
 const vnode1 = h("div", [h("div", [h("span", "Hello")])]);
@@ -442,6 +446,8 @@ Here `destroy` is triggered for both the inner `div` element _and_ the
 `span` element it contains. `remove`, on the other hand, is only
 triggered on the `div` element because it is the only element being
 detached from its parent.
+
+这里内部 `div` 元素及其包含的 `span` 元素都会触发 `destroy`， 另一方面，
 
 You can, for instance, use `remove` to trigger an animation when an
 element is being removed and use the `destroy` hook to additionally
@@ -1081,3 +1087,4 @@ const vnode1 = h("div", [
 
 Pull requests that the community may care to provide feedback on should be
 merged after such opportunity of a few days was provided.
+
