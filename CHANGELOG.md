@@ -1,3 +1,9 @@
+# [3.3.0](https://github.com/snabbdom/snabbdom/compare/v3.2.0...v3.3.0) (2022-01-17)
+
+### Features
+
+- support JSX fragments ([#974](https://github.com/snabbdom/snabbdom/issues/974)) ([50ff2db](https://github.com/snabbdom/snabbdom/commit/50ff2db40701380cd49b854ab27e475783b543a9)), closes [#560](https://github.com/snabbdom/snabbdom/issues/560)
+
 # [3.2.0](https://github.com/snabbdom/snabbdom/compare/v3.1.0...v3.2.0) (2021-12-13)
 
 ### Bug Fixes
