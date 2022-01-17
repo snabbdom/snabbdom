@@ -1,3 +1,4 @@
+import { addNS } from "./h";
 import { vnode, VNode } from "./vnode";
 import { htmlDomApi, DOMAPI } from "./htmldomapi";
 
@@ -24,7 +25,16 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
     for (i = 0, n = elmChildren.length; i < n; i++) {
       children.push(toVNode(elmChildren[i], domApi));
     }
-    return vnode(sel, { attrs }, children, undefined, node);
+    const data = { attrs };
+    if (
+      sel[0] === "s" &&
+      sel[1] === "v" &&
+      sel[2] === "g" &&
+      (sel.length === 3 || sel[3] === "." || sel[3] === "#")
+    ) {
+      addNS(data, children, sel);
+    }
+    return vnode(sel, data, children, undefined, node);
   } else if (api.isText(node)) {
     text = api.getTextContent(node) as string;
     return vnode(undefined, undefined, undefined, text, node);
