@@ -16,7 +16,7 @@ export interface ThunkFn {
 }
 
 function copyToThunk(vnode: VNode, thunk: VNode): void {
-  const ns = thunk.data ? thunk.data.ns : null;
+  const ns = thunk.data?.ns;
   (vnode.data as VNodeData).fn = (thunk.data as VNodeData).fn;
   (vnode.data as VNodeData).args = (thunk.data as VNodeData).args;
   thunk.data = vnode.data;
