@@ -30,4 +30,10 @@ export { Props, propsModule } from "./modules/props";
 export { VNodeStyle, styleModule } from "./modules/style";
 
 // JSX
-export { JsxVNodeChild, JsxVNodeChildren, FunctionComponent, jsx } from "./jsx";
+export {
+  JsxVNodeChild,
+  JsxVNodeChildren,
+  FunctionComponent,
+  jsx,
+  Fragment,
+} from "./jsx";
