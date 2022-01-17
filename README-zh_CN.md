@@ -792,7 +792,7 @@ to avoid re-binding event handlers to the DOM. (And in general,
 sharing data between vnodes is not guaranteed to work, because modules
 are allowed to mutate the given data).
 
-In particular, you should **not** do something like this:
+In particular, you should **not** do something like this: 
 
 ```mjs
 // Does not work
