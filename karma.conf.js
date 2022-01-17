@@ -38,7 +38,6 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-typescript",
       "karma-mocha-reporter",
-      require("./karma-benchmark-reporter.cjs"),
       "karma-chrome-launcher",
       "karma-firefox-launcher",
       "karma-browserstack-launcher",
@@ -65,7 +64,7 @@ module.exports = function (config) {
       captureConsole: true,
     },
     customLaunchers: browserstack,
-    reporters: ["karma-typescript", "mocha", "benchmark", "BrowserStack"],
+    reporters: ["karma-typescript", "mocha", "BrowserStack"],
     mochaReporter: {
       showDiff: true,
     },

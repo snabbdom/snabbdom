@@ -33,10 +33,11 @@ module.exports = {
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
       },
     },
     {
-      files: ["test/**/*.ts", "test/unit/*.tsx"],
+      files: ["test/unit/**/*.ts", "test/unit/*.tsx"],
       env: {
         browser: true,
         node: true,
