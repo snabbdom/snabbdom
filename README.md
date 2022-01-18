@@ -524,20 +524,6 @@ In JSX, you can use `style` like this:
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
 ```
 
-Note that the style module does not remove style attributes if they
-are removed as properties from the style object. To remove a style,
-you should instead set it to the empty string.
-
-```mjs
-h(
-  "div",
-  {
-    style: { position: shouldFollow ? "fixed" : "" },
-  },
-  "I, I follow, I follow you"
-);
-```
-
 #### Custom properties (CSS variables)
 
 CSS custom properties (aka CSS variables) are supported, they must be prefixed
