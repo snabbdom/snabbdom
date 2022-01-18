@@ -11,6 +11,9 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
     const c = cn ? "." + cn.split(" ").join(".") : "";
     const sel = api.tagName(node).toLowerCase() + id + c;
     const attrs: any = {};
+    const datasets: Record<string, string> = {};
+    const data: Record<string, any> = {};
+
     const children: VNode[] = [];
     let name: string;
     let i: number, n: number;
@@ -18,14 +21,19 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
     const elmChildren = node.childNodes;
     for (i = 0, n = elmAttrs.length; i < n; i++) {
       name = elmAttrs[i].nodeName;
-      if (name !== "id" && name !== "class") {
+      if (name.startsWith("data-")) {
+        datasets[name.slice(5)] = elmAttrs[i].nodeValue || "";
+      } else if (name !== "id" && name !== "class") {
         attrs[name] = elmAttrs[i].nodeValue;
       }
     }
     for (i = 0, n = elmChildren.length; i < n; i++) {
       children.push(toVNode(elmChildren[i], domApi));
     }
-    const data = { attrs };
+
+    if (Object.keys(attrs).length > 0) data.attrs = attrs;
+    if (Object.keys(datasets).length > 0) data.datasets = datasets;
+
     if (
       sel[0] === "s" &&
       sel[1] === "v" &&
