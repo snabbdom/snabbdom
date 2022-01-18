@@ -641,20 +641,6 @@ In JSX, you can use `style` like this:
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
 ```
 
-Note that the style module does not remove style attributes if they
-are removed as properties from the style object. To remove a style,
-you should instead set it to the empty string.
-
-```mjs
-h(
-  "div",
-  {
-    style: { position: shouldFollow ? "fixed" : "" },
-  },
-  "I, I follow, I follow you"
-);
-```
-
 #### 自定义属性(CSS变量)
 
 CSS custom properties (aka CSS variables) are supported, they must be prefixed
@@ -792,60 +778,15 @@ to avoid re-binding event handlers to the DOM. (And in general,
 sharing data between vnodes is not guaranteed to work, because modules
 are allowed to mutate the given data).
 
-In particular, you should **not** do something like this: 
-
-```mjs
-// Does not work
-const sharedHandler = {
-  change: function (e) {
-    console.log("you chose: " + e.target.value);
-  },
-};
-h("div", [
-  h("input", {
-    props: { type: "radio", name: "test", value: "0" },
-    on: sharedHandler,
-  }),
-  h("input", {
-    props: { type: "radio", name: "test", value: "1" },
-    on: sharedHandler,
-  }),
-  h("input", {
-    props: { type: "radio", name: "test", value: "2" },
-    on: sharedHandler,
-  }),
-]);
-```
-
-For many such cases, you can use array-based handlers instead (described above).
-Alternatively, simply make sure each node is passed unique `on` values:
-
-```mjs
-// Works
-const sharedHandler = function (e) {
-  console.log("you chose: " + e.target.value);
-};
-h("div", [
-  h("input", {
-    props: { type: "radio", name: "test", value: "0" },
-    on: { change: sharedHandler },
-  }),
-  h("input", {
-    props: { type: "radio", name: "test", value: "1" },
-    on: { change: sharedHandler },
-  }),
-  h("input", {
-    props: { type: "radio", name: "test", value: "2" },
-    on: { change: sharedHandler },
-  }),
-]);
-```
+但是，当你在 vnode 之间共享事件函数时需要谨慎一点，因为从技术层面上我们避免了事件处理函数重复绑定到DOM上。（总的来说，我们无法保证在 vnode 间共享数据一定能正常工作，因为模块允许对给定的数据进行修改）。
 
 ## SVG
 
 SVG just works when using the `h` function for creating virtual
 nodes. SVG elements are automatically created with the appropriate
 namespaces.
+
+SVG 需要与 `h` 函数配合使用，使用恰当的命名来自动创建 SVG 元素。
 
 ```mjs
 const vnode = h("div", [
@@ -866,11 +807,15 @@ const vnode = h("div", [
 
 See also the [SVG example](./examples/svg) and the [SVG Carousel example](./examples/carousel-svg/).
 
+更多示例： [SVG example](./examples/svg) 、  [SVG Carousel example](./examples/carousel-svg/)。
+
 ### Classes in SVG Elements
 
 Certain browsers (like IE &lt;=11) [do not support `classList` property in SVG elements](http://caniuse.com/#feat=classlist).
 Because the _class_ module internally uses `classList`, it will not work in this case unless you use a [classList polyfill](https://www.npmjs.com/package/classlist-polyfill).
 (If you don't want to use a polyfill, you can use the `class` attribute with the _attributes_ module).
+
+某些浏览器（如IE<=11）[不支持SVG元素中的 `classList` 属性](http://caniuse.com/#feat=classlist)。因为类模块在内部使用了 classList，所以在这种情况下将不起作用，除非您使用 classList 的polyfill。（如果你不想使用 polyfill，你可以使用 _attributes_ 模块的 `class` 属性）
 
 ## Thunks
 
@@ -879,18 +824,28 @@ a function that returns a vnode and a variable amount of state
 parameters. If invoked, the render function will receive the state
 arguments.
 
+`thunk` 函数传入 一个选择器，一个key作为thunk的身份标识，一个返回 vnode 的函数，和一个 state 数组参数。如果调用，那么 render 函数将会接收 state 作为参数。
+
 `thunk(selector, key, renderFn, [stateArguments])`
 
 The `renderFn` is invoked only if the `renderFn` is changed or `[stateArguments]` array length or it's elements are changed.
+
+当 `renderFn` 改变 或  `[state]` 数组长度改变 亦或者 元素改变时 将调用 `renderFn`。
 
 The `key` is optional. It should be supplied when the `selector` is
 not unique among the thunks siblings. This ensures that the thunk is
 always matched correctly when diffing.
 
+`key` 是可选的，但是当 `selector` 在同级 thunks 中不是唯一的时候则需要提供。这确保了在 diff 过程中 thunk 始终正确匹配。
+
 Thunks are an optimization strategy that can be used when one is
 dealing with immutable data.
 
+Thunks 是一种优化方法，用于数据的不可变性
+
 Consider a simple function for creating a virtual node based on a number.
+
+参考这个基于数字创建 virtual node 的函数。
 
 ```mjs
 function numberView(n) {
@@ -902,6 +857,8 @@ The view depends only on `n`. This means that if `n` is unchanged,
 then creating the virtual DOM node and patching it against the old
 vnode is wasteful. To avoid the overhead we can use the `thunk` helper
 function.
+
+这里的视图仅仅依赖于`n`，这意味着 `n` 是不变的，随后通过创建虚拟 DOM 节点来 patch 旧节点，这种操作是不必要的。我们可以使用 `thunk` 函数来避免上述操作。
 
 ```mjs
 function render(state) {
@@ -915,15 +872,21 @@ dummy vnode against a previous vnode, it will compare the value of
 `n`. If `n` is unchanged it will simply reuse the old vnode. This
 avoids recreating the number view and the diff process altogether.
 
+这与直接调用 `numberView` 函数不同的是，只会在虚拟树中添加一个 伪节点。当 Snabbdom 对照旧节点 patch 这个伪节点时，它会比较 `n` 的值，如果 `n` 不变则复用旧的 vnode。这避免了在 diff 过程中重复创建数字视图。
+
 The view function here is only an example. In practice thunks are only
 relevant if you are rendering a complicated view that takes
 significant computational time to generate.
+
+这里的 view 函数仅仅是一个简单的示例，在实际使用中，thunks 在渲染一个需要耗费大量计算才能生成的复杂的视图时才能充分发挥它的价值。
 
 ## JSX
 
 ### TypeScript
 
 Add the following options to your `tsconfig.json`:
+
+在你的 `tsconfig.json` 文件中添加下列配置：
 
 ```json
 {
@@ -935,6 +898,8 @@ Add the following options to your `tsconfig.json`:
 ```
 
 Then make sure that you use the `.tsx` file extension and import the `jsx` function at the top of the file:
+
+然后确保文件后缀名`.tsx` 并在文件头部引入 `jsx`：
 
 ```tsx
 import { jsx, VNode } from "snabbdom";
@@ -949,6 +914,8 @@ const node: VNode = (
 ### Babel
 
 Add the following options to your babel configuration:
+
+添加下列代码到你的 babel 配置中：
 
 ```json
 {
@@ -965,6 +932,8 @@ Add the following options to your babel configuration:
 
 Then import the `jsx` function at the top of the file:
 
+然后在文件头部引入 `jsx`：
+
 ```jsx
 import { jsx } from "snabbdom";
 
@@ -977,7 +946,7 @@ const node = (
 
 ## Virtual Node
 
-**Properties**
+**属性**
 
 - [sel](#sel--string)
 - [data](#data--object)
@@ -992,6 +961,8 @@ The `.sel` property of a virtual node is the CSS selector passed to
 [`h()`](#snabbdomh) during creation. For example: `h('div#container', {}, [...])` will create a a virtual node which has `div#container` as
 its `.sel` property.
 
+虚拟节点的 `.sel` 属性通过对 [`h()`](#snabbdomh)  传入一个 CSS 选择器生成。比如： `h('div#container', {}, [...])` 将会创建一个虚拟节点并以 `div#container` 作为其 `.sel` 属性的值。
+
 ### data : Object
 
 The `.data` property of a virtual node is the place to add information
@@ -999,9 +970,15 @@ for [modules](#modules-documentation) to access and manipulate the
 real DOM element when it is created; Add styles, CSS classes,
 attributes, etc.
 
+`.data` 属性是虚拟节点用于添加 [模块](#modules-documentation) 信息以便在创建时访问或操作 DOM 元素、添加样式、操作 CSS classes、attributes 等
+
 The data object is the (optional) second parameter to [`h()`](#snabbdomh)
 
+data 对象是 [`h()`](#snabbdomh) 的第二个参数（可选）
+
 For example `h('div', {props: {className: 'container'}}, [...])` will produce a virtual node with
+
+比如： `h('div', {props: {className: 'container'}}, [...])`  将会生成一个虚拟节点，其属性 `.data` 的值为
 
 ```mjs
 ({
@@ -1020,8 +997,12 @@ parameter to [`h()`](#snabbdomh) during creation. `.children` is
 simply an Array of virtual nodes that should be added as children of
 the parent DOM node upon creation.
 
+虚拟节点的 `.children` 属性通过  [`h()`](#snabbdomh) 传入的第三个参数（可选）生成。`.children` 仅仅是一个虚拟节点数组，在创建时将其作为子节点添加到父级 DOM 节点中。
+
 For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will
 create a virtual node with
+
+比如： `h('div', {}, [ h('h1', {}, 'Hello, World') ])` 将会创建一个虚拟节点，其 `.children` 的值为
 
 ```mjs
 [
@@ -1044,8 +1025,12 @@ The `.text` property is created when a virtual node is created with
 only a single child that possesses text and only requires
 `document.createTextNode()` to be used.
 
+当仅使用文本作为子节点并通过 `document.createTextNode()` 创建虚拟节点时，生成 `.text`。
+
 For example: `h('h1', {}, 'Hello')` will create a virtual node with
 `Hello` as its `.text` property.
+
+比如：`h('h1', {}, 'Hello')` 将会创建一个虚拟节点，其 `.text` 的值为 `Hello` 
 
 ### elm : Element
 
@@ -1053,6 +1038,8 @@ The `.elm` property of a virtual node is a pointer to the real DOM
 node created by snabbdom. This property is very useful to do
 calculations in [hooks](#hooks) as well as
 [modules](#modules-documentation).
+
+`.elm` 属性指向由 snabbdom 创建的真实 DOM 节点，这个属性在  [hooks](#hooks) 和 [modules](#modules-documentation) 中做计算都非常有用。
 
 ### key : string | number
 
@@ -1065,10 +1052,16 @@ proper lookup as it is stored internally as a key/value pair inside of
 an object, where `.key` is the key and the value is the
 [`.elm`](#elm--element) property created.
 
+当你在 [`.data`](#data--object) 对象中提供了 key 时将会创建 `.key` 属性，`.key` 属性用于给旧的、已存在的 DOM 节点提供一个标识，有效避免了不必要的重建操作。这对于像列表重排这类操作非常有用。key 必须是 `string ` 或者 `number ` 以便用于查找，因为是以键值对的形式存储在内存中，这里 键为 `.key` 而 值则为 `.elm`
+
 If provided, the `.key` property must be unique among sibling elements.
+
+这里 `.key` 在同级元素之间必须是唯一的。
 
 For example: `h('div', {key: 1}, [])` will create a virtual node
 object with a `.key` property with the value of `1`.
+
+比如： `h('div', {key: 1}, [])` 会创建一个虚拟节点并以值 `1` 作为 `.key` 的值。
 
 ## Structuring applications
 
