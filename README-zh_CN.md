@@ -1,6 +1,6 @@
 <img alt="Snabbdom" src="readme-title.svg" width="356px">
 
-一个精简化、模块化、功能强大、性能卓越的虚拟 DOM 库。
+一个精简化、模块化、功能强大、性能卓越的虚拟 DOM 库
 
 ---
 
@@ -12,7 +12,7 @@
 
 [![Donate to our collective](https://opencollective.com/snabbdom/donate/button@2x.png?color=blue)](https://opencollective.com/snabbdom#section-contribute)
 
-感谢  [Browserstack](https://www.browserstack.com/) 对跨浏览器测试提供支持。
+感谢  [Browserstack](https://www.browserstack.com/) 对跨浏览器测试提供支持
 
 ---
 
