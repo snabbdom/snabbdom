@@ -1,8 +1,5 @@
 <img alt="Snabbdom" src="readme-title.svg" width="356px">
 
-A virtual DOM library with focus on simplicity, modularity, powerful features
-and performance.
-
 一个精简化、模块化、功能强大、性能卓越的虚拟 DOM 库。
 
 ---
@@ -14,29 +11,11 @@ and performance.
 [![Join the chat at https://gitter.im/snabbdom/snabbdom](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/snabbdom/snabbdom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Donate to our collective](https://opencollective.com/snabbdom/donate/button@2x.png?color=blue)](https://opencollective.com/snabbdom#section-contribute)
-
-Thanks to [Browserstack](https://www.browserstack.com/) for providing access to
-their great cross-browser testing tools.
 感谢  [Browserstack](https://www.browserstack.com/) 对跨浏览器测试提供支持。
 
 ---
 
 ## 介绍
-
-Virtual DOM is awesome. It allows us to express our application's view
-as a function of its state. But existing solutions were way way too
-bloated, too slow, lacked features, had an API biased towards OOP
-and/or lacked features I needed.
-
-Snabbdom consists of an extremely simple, performant and extensible
-core that is only ≈ 200 SLOC. It offers a modular architecture with
-rich functionality for extensions through custom modules. To keep the
-core simple, all non-essential functionality is delegated to modules.
-
-You can mold Snabbdom into whatever you desire! Pick, choose and
-customize the functionality you want. Alternatively you can just use
-the default extensions and get a virtual DOM library with high
-performance, small size and all the features listed below.
 
 虚拟DOM非常有趣，他允许我们以函数的形式来表达程序视图，但现有的解决方式基本都过于臃肿、性能不佳、功能缺乏、API偏向于OOP或者缺少一些我所需要的功能。
 
@@ -47,40 +26,22 @@ Snabbdom 则极其简单、高效并且可拓展，同时核心代码 ≈ 200行
 ## 特性
 
 - 主要特点
-  - About 200 SLOC – you could easily read through the entire core and fully
-    understand how it works.
   - 200行 - 你可以通过简单地阅读所有核心代码来充分理解其工作原理。
-  - Extendable through modules.
   - 通过模块化实现可拓展。
-  - A rich set of hooks available, both per vnode and globally for modules,
-    to hook into any part of the diff and patch process.
   - 对于vnode和全局模块都提供了 hook，你可以在 patch 过程或者其他地方调用 hook。
-  - Splendid performance. Snabbdom is among the fastest virtual DOM libraries.
   - 性能卓越：Snabbdom 是目前最高效的虚拟DOM库之一。
-  - Patch function with a function signature equivalent to a reduce/scan
-    function. Allows for easier integration with a FRP library.
   - Patch 函数有一个相当于 reduce/scan 函数的函数声明，这将更容易集成其他函数式库。
 - 模块特点
-  - `h` function for easily creating virtual DOM nodes.
   - 函数`h`： 轻松创建虚拟 DOM 节点
-  - [SVG _just works_ with the `h` helper](#svg).
   - [SVG 需要与 `h` 函数结合使用](#svg)
-  - Features for doing complex CSS animations.
   - 支持复杂的CSS动画实现
-  - Powerful event listener functionality.
   - 提供强大的事件监听功能
-  - [Thunks](#thunks) to optimize the diff and patch process even further.
   - 通过 [Thunks](#thunks) 进一步优化 diff 和 patch 过程
-  - [JSX support, including TypeScript types](#jsx)
   - [支持 JSX 及 Typrscript ](#jsx)
 - 第三方功能
-  - Server-side HTML output provided by [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html).
-  -  [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html) 提供服务端渲染功能
-  - Compact virtual DOM creation with [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers).
-  -  [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers) 精简版虚拟DOM创建
-  - Template string support using [snabby](https://github.com/jamen/snabby).
-  -  [snabby](https://github.com/jamen/snabby) 提供 HTML 模板字符串支持
-  - Virtual DOM assertion with [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like)
+  - [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html) 提供服务端渲染功能
+  - [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers) 精简版虚拟DOM创建
+  - [snabby](https://github.com/jamen/snabby) 提供 HTML 模板字符串支持
   -  [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like) 提供虚拟 DOM 断言
 
 ## 示例
@@ -185,17 +146,9 @@ patch(vnode, newVnode); // 将旧节点更新为新节点
 
 ## 核心功能
 
-The core of Snabbdom provides only the most essential functionality.
-It is designed to be as simple as possible while still being fast and
-extendable.
-
  Snabbdom 仅提供通用的核心部分，这种设计保证了核心代码的纯粹，与此同时又使其更快并且对可拓展性提供更好的支持。
 
 ### `init`
-
-The core exposes only one single function `init`. This `init`
-takes a list of modules and returns a `patch` function that uses the
-specified set of modules.
 
 核心功能暴露一个 `init` 函数， `init` 函数接收一个包含模块的数组并返回一个具有指定功能的 `patch` 函数 。
 
@@ -207,27 +160,12 @@ const patch = init([classModule, styleModule]);
 
 ### `patch`
 
-The `patch` function returned by `init` takes two arguments. The first
-is a DOM element or a vnode representing the current view. The second
-is a vnode representing the new, updated view.
-
 通过调用 `init` 函数返回的 `patch` 函数接收两个参数：
 
 1. 一个 DOM 元素或者 一个表示当前视图的 `vnode` 
 2. 一个表示新的、需要更新的 `vnode` 
 
-If a DOM element with a parent is passed, `newVnode` will be turned
-into a DOM node, and the passed element will be replaced by the
-created DOM node. If an old vnode is passed, Snabbdom will efficiently
-modify it to match the description in the new vnode.
-
 如果第一个参数传入一个包含父节点的 DOM 元素，那么新的 vnode 将转换为一个 DOM 节点并替换传入的元素。如果第一个参数传入的是一个 `vnode` 则根据新的 `vnode` 相关描述进行修改。
-
-Any old vnode passed must be the resulting vnode from a previous call
-to `patch`. This is necessary since Snabbdom stores information in the
-vnode. This makes it possible to implement a simpler and more
-performant architecture. This also avoids the creation of a new old
-vnode tree.
 
 所有传入的  `oldvnode` 都必须被传入过 `patch` 函数， 因为 Snabbdom 将信息存储在 vnode 中， 这避免了重复创建新的 vnode 树。
 
@@ -236,8 +174,6 @@ patch(oldVnode, newVnode);
 ```
 
 #### 卸载
-
-While there is no API specifically for removing a VNode tree from its mount point element, one way of almost achieving this is providing a comment VNode as the second argument to `patch`, such as:
 
 虽然没有专门为移除 vnode 树中的节点提供 API，但是依然可以通过给 `patch` 函数传入一个 HTML注释的 vnode 作为第二个参数来实现相同的效果，如：
 
@@ -254,15 +190,9 @@ patch(
 );
 ```
 
-Of course, then there is still a single comment node at the mount point.
-
 当然，那里依然会有一个注释节点被挂载。
 
 ### `h`
-
-It is recommended that you use `h` to create vnodes. It accepts a
-tag/selector as a string, an optional data object and an optional string or
-array of children.
 
 我们推荐您使用函数 `h` 来创建 vnodes，这个函数接收一个字符串类型的 标签或选择器、一个数据对象（可选）、一个子节点数组或字符串（可选）。
 
@@ -277,9 +207,6 @@ const vnode = h("div", { style: { color: "#000" } }, [
 
 ### `fragment` (试验性)
 
-Caution: This feature is currently experimental and must be opted in.
-Its API may be changed without an major version bump.
-
 警告：此功能目前处于试验阶段必须手动开启，并且这个API可能会在未来小版本更新中被修改。
 
 ```mjs
@@ -290,8 +217,6 @@ const patch = init(modules, undefined, {
 });
 ```
 
-Creates a virtual node that will be converted to a document fragment containing the given children.
-
 创建一个虚拟节点并转换为一个包含子元素的 document fragment（文档碎片）。
 
 ```mjs
@@ -301,9 +226,6 @@ const vnode = fragment(["I am", h("span", [" a", " fragment"])]);
 ```
 
 ### `tovnode`
-
-Converts a DOM node into a virtual node. Especially good for patching over an pre-existing,
-server-side generated content.
 
 将一个 DOM 节点转换为一个虚拟节点，这非常有利于服务端渲染。
 
@@ -336,11 +258,6 @@ patch(toVNode(document.querySelector(".container")), newVNode);
 
 ### Hooks
 
-Hooks are a way to hook into the lifecycle of DOM nodes. Snabbdom
-offers a rich selection of hooks. Hooks are used both by modules to
-extend Snabbdom, and in normal code for executing arbitrary code at
-desired points in the life of a virtual node.
-
 Snabbdom 提供了一系列丰富的生命周期函数，这些生命周期函数适用于拓展 Snabbdom 模块或者在虚拟节点生命周期中执行任意代码。
 
 #### 概览
@@ -358,21 +275,11 @@ Snabbdom 提供了一系列丰富的生命周期函数，这些生命周期函�
 | `remove`    | 元素 已从 DOM 中移除             | `vnode, removeCallback` |
 | `post`      | 已完成 patch 过程                | none                    |
 
-The following hooks are available for modules: `pre`, `create`,
-`update`, `destroy`, `remove`, `post`.
-
 适用于模块：`pre`, `create`,`update`, `destroy`, `remove`, `post`。
-
-The following hooks are available in the `hook` property of individual
-elements: `init`, `create`, `insert`, `prepatch`, `update`,
-`postpatch`, `destroy`, `remove`.
 
 适用于单个元素：`init`, `create`, `insert`, `prepatch`, `update`,`postpatch`, `destroy`, `remove`。
 
 #### 使用
-
-To use hooks, pass them as an object to `hook` field of the data
-object argument.
 
 使用 hooks 时， 请将所需要的 `hook` 以对象的形式（key 为对应 `hook` 字段）作为参数传入。
 
@@ -389,50 +296,21 @@ h("div.row", {
 
 #### `init` 
 
-This hook is invoked during the patch process when a new virtual node
-has been found. The hook is called before Snabbdom has processed the
-node in any way. I.e., before it has created a DOM node based on the
-vnode.
-
 这个钩子函数会在新的 vnode 创建后被调用并在 Snabbdom 以任何方式处理该节点前被调用，即：在 `create` 之前被调用。
 
 #### `insert` 
-
-This hook is invoked once the DOM element for a vnode has been
-inserted into the document _and_ the rest of the patch cycle is done.
-This means that you can do DOM measurements (like using
-[getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
-in this hook safely, knowing that no elements will be changed
-afterwards that could affect the position of the inserted elements.
 
 当基于 vnode 的 DOM 元素被插入到 DOM 后并且 patch 其余过程完成后调用，这意味着你可以在这个 `hook` 中更可靠地计算元素位置坐标信息（如：[getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)），这种操作不会影响任何被插入元素的位置。
 
 ####  `remove` 
 
-Allows you to hook into the removal of an element. The hook is called
-once a vnode is to be removed from the DOM. The handling function
-receives both the vnode and a callback. You can control and delay the
-removal with the callback. The callback should be invoked once the
-hook is done doing its business, and the element will only be removed
-once all `remove` hooks have invoked their callback.
-
 一旦从 DOM 中移除了 vnode 就会调用该函数，函数传入两个参数 vnode 和 回调函数，你可以通过回调来控制或延迟移除，这个回调函数将会在 hook 执行完成后调用，需要注意的是只有当所有 `remove` 钩子函数执行回调之后元素才会被一次性删除（即：回调必须执行否则元素不会删除）。
-
-The hook is only triggered when an element is to be removed from its
-parent – not if it is the child of an element that is removed. For
-that, see the `destroy` hook.
 
 这个 hook 只有在当前元素从它的父级中删除才会触发，被移除的元素中的子元素则不会触发。为此，我们提供了 `destroy` 钩子函数。
 
 #### `destroy` 
 
-This hook is invoked on a virtual node when its DOM element is removed
-from the DOM or if its parent is being removed from the DOM.
-
 当虚拟节点的DOM元素从DOM中移除或者元素父级从DOM中移除时都将调用该 hook。
-
-To see the difference between this hook and the `remove` hook,
-consider an example.
 
 要知道这个 hook 和 `remove` hook 的区别，先看看这个示例
 
@@ -456,22 +334,11 @@ patch(container, vnode1);
 patch(vnode1, vnode2);
 ```
 
-Here `destroy` is triggered for both the inner `div` element _and_ the
-`span` element it contains. `remove`, on the other hand, is only
-triggered on the `div` element because it is the only element being
-detached from its parent.
-
 这里内部 `div` 元素及其包含的 `span` 元素都会触发 `destroy`， 另一方面，`remove` 则只会在 `div`  上触发，因为他是唯一一个直接脱离父级的元素，也就是说，对于 `section` 来说这个 `div` 是它的二级节点，那么就只有二级节点移除会触发 `remove`。
-
-You can, for instance, use `remove` to trigger an animation when an
-element is being removed and use the `destroy` hook to additionally
-animate the disappearance of the removed element's children.
 
 比如，你可以使用 `remove` 在元素被移除时触发动画，再使用 `destroy` 为子元素添加消失动画。
 
 ### 创建模块
-
-Modules works by registering global listeners for [hooks](#hooks). A module is simply a dictionary mapping hook names to functions.
 
 模块是通过全局注册 hook 监听实现，一个模块就相当于是 hook 的映射。
 
@@ -486,32 +353,19 @@ const myModule = {
 };
 ```
 
-With this mechanism you can easily augment the behaviour of Snabbdom.
-For demonstration, take a look at the implementations of the default
-modules.
-
 通过这种方法你可以很容易得增加 Snabbdom 的行为。为了更好的展示，请查看默认模块的实现。
 
 ## 模块文档
 
-This describes the core modules. All modules are optional. JSX examples assume you're using the [`jsx` pragma](#jsx) provided by this library.
-
 本章节将描述核心模块，所有模块都是可选的，关于 JSX 示例我们将假定你使用的 [`jsx` pragma](#jsx)  与本库一致。
 
 ### class 模块 
-
-The class module provides an easy way to dynamically toggle classes on
-elements. It expects an object in the `class` data property. The
-object should map class names to booleans that indicates whether or
-not the class should stay or go on the vnode.
 
 class 模块提供了一种简单的方式来动态配置元素的 class 属性，这个模块值为一个对象形式的 class 数据，对象中类名需要映射为布尔值，以此来表示该类名是否应该出现在节点上。
 
 ```mjs
 h("a", { class: { active: true, selected: false } }, "Toggle");
 ```
-
-In JSX, you can use `class` like this:
 
 在 JSX 中，你可以这样使用 `class`：
 
@@ -522,15 +376,11 @@ In JSX, you can use `class` like this:
 
 ###  props 模块
 
-Allows you to set properties on DOM elements.
-
 该模块允许你设置 DOM 元素的属性。
 
 ```mjs
 h("a", { props: { href: "/foo" } }, "Go to Foo");
 ```
-
-In JSX, you can use `props` like this:
 
 在 JSX 中，你可以这样使用 `props`：
 
@@ -539,27 +389,15 @@ In JSX, you can use `props` like this:
 // Renders as: <input name="foo" /> with input.name === "foo"
 ```
 
-Properties can only be set. Not removed. Even though browsers allow addition and
-deletion of custom properties, deletion will not be attempted by this module.
-This makes sense, because native DOM properties cannot be removed. And
-if you are using custom properties for storing values or referencing
-objects on the DOM, then please consider using
-[data-\* attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes)
-instead. Perhaps via [the dataset module](#the-dataset-module).
-
 属性只能被设置不能被移除，即使浏览器允许自定义添加或删除属性，该模块也不会尝试删除。这是因为原生 DOM 的属性也同样不支持被移除，如果你是通过自定义属性来存储信息或者引用对象，那么请考虑使用 [data-\* attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) 代替，为此我们提供了 [dataset](#dataset-%E6%A8%A1%E5%9D%97) 模块。
 
 ### attributes 模块 
-
-Same as props, but set attributes instead of properties on DOM elements.
 
 与 props 相同，但是是使用 attr 替代 prop。
 
 ```mjs
 h("a", { attrs: { href: "/foo" } }, "Go to Foo");
 ```
-
-In JSX, you can use `attrs` like this:
 
 在 JSX 中，你可以这样使用 `attrs`：
 
@@ -568,36 +406,17 @@ In JSX, you can use `attrs` like this:
 // Renders as: <div aria-label="I'm a div"></div>
 ```
 
-Attributes are added and updated using `setAttribute`. In case of an
-attribute that had been previously added/set and is no longer present
-in the `attrs` object, it is removed from the DOM element's attribute
-list using `removeAttribute`.
-
 Attr 通过 `setAttribute` 实现添加及更新操作，对于已经添加过的属性，如果该属性不存在于 `attrs` 对象中那么将通过 `removeAttribute` 将其从 DOM 元素的 attribute 列表中移除。
-
-In the case of boolean attributes (e.g. `disabled`, `hidden`,
-`selected` ...), the meaning doesn't depend on the attribute value
-(`true` or `false`) but depends instead on the presence/absence of the
-attribute itself in the DOM element. Those attributes are handled
-differently by the module: if a boolean attribute is set to a
-[falsy value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)
-(`0`, `-0`, `null`, `false`,`NaN`, `undefined`, or the empty string
-(`""`)), then the attribute will be removed from the attribute list of
-the DOM element.
 
 对于布尔值属性（如：`disabled`, `hidden`,`selected` ...），这一类属性并不依赖于 Attr 的值(`true` 或 `false`)，而是取决于 DOM 元素本身是否存在该属性。模块对于这类属性的处理方式有些许不同，当一个布尔值属性被赋为 [假值](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean) (`0`, `-0`, `null`, `false`,`NaN`, `undefined`, or the empty string(`""`))，那么该属性同样会直接从 DOM 元素的 attribute 列表中移除。
 
 ### dataset 模块 
-
-Allows you to set custom data attributes (`data-*`) on DOM elements. These can then be accessed with the [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) property.
 
 这个模块允许你在 DOM 元素上设置自定义 data 属性，然后通过 [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) 来访问这些属性。
 
 ```mjs
 h("button", { dataset: { action: "reset" } }, "Reset");
 ```
-
-In JSX, you can use `dataset` like this:
 
 在 JSX 中，你可以这样使用 `dataset`：
 
@@ -607,9 +426,6 @@ In JSX, you can use `dataset` like this:
 ```
 
 ###  style 模块
-
-The style module is for making your HTML look slick and animate smoothly. At
-its core it allows you to set CSS properties on elements.
 
 style 模块用于让动画更加平滑，它的核心是允许你再元素上设置 CSS 属性。
 
@@ -627,8 +443,6 @@ h(
 );
 ```
 
-In JSX, you can use `style` like this:
-
 在 JSX 中，你可以这样使用 `style`：
 
 ```jsx
@@ -644,9 +458,6 @@ In JSX, you can use `style` like this:
 
 #### 自定义属性(CSS变量)
 
-CSS custom properties (aka CSS variables) are supported, they must be prefixed
-with `--`
-
 已支持 CSS 自定义属性（又称 CSS 变量或者级联变量），属性名需要以 `--` 为前缀。
 
 ```mjs
@@ -660,9 +471,6 @@ h(
 ```
 
 #### `delayed`
-
-You can specify properties as being delayed. Whenever these properties
-change, the change is not applied until after the next frame.
 
 你可以指定延迟参数，每当这些属性变动时需要到下一帧之后才会应用更改。
 
@@ -680,20 +488,11 @@ h(
 );
 ```
 
-This makes it easy to declaratively animate the entry of elements.
-
 这使得声明方式设置元素入场动画变得容易。
-
-The `all` value of `transition-property` is not supported.
 
 不支持 `transition-property` 的所有值。
 
 #### `remove`
-
-Styles set in the `remove` property will take effect once the element
-is about to be removed from the DOM. The applied styles should be
-animated with CSS transitions. Only once all the styles are done
-animating will the element be removed from the DOM.
 
 设置到 `remove` 中的样式属性将会在元素即将从 DOM 中移除时生效，应用的样式应该通过 CSS transition 设置，只有当所有动画执行完成后元素才会从 DOM 中移除。
 
@@ -711,11 +510,7 @@ h(
 );
 ```
 
-This makes it easy to declaratively animate the removal of elements.
-
 这使得声明方式设置元素出场动画变得容易。
-
-The `all` value of `transition-property` is not supported.
 
 不支持 `transition-property` 的所有值。
 
@@ -735,21 +530,11 @@ h(
 );
 ```
 
-The `all` value of `transition-property` is not supported.
-
 不支持 `transition-property` 的所有值。
 
 ### eventlisteners 模块 
 
-The event listeners module gives powerful capabilities for attaching
-event listeners.
-
 eventlisteners 模块提供了一个功能强大的事件监听器。
-
-You can attach a function to an event on a vnode by supplying an
-object at `on` with a property corresponding to the name of the event
-you want to listen to. The function will be called when the event
-happens and will be passed the event object that belongs to it.
 
 你可以通过给 `on` 提供一个对象以此来将事件函数绑定到 vnode 上，对象包含你要监听的事件名称和对应函数，函数将会在事件发生时触发并传递相应的事件对象。
 
@@ -760,32 +545,17 @@ function clickHandler(ev) {
 h("div", { on: { click: clickHandler } });
 ```
 
-In JSX, you can use `on` like this:
-
 在 JSX 中，你可以这样使用 `on`：
 
 ```js
 <div on={{ click: clickHandler }} />
 ```
 
-Snabbdom allows swapping event handlers between renders. This happens without
-actually touching the event handlers attached to the DOM.
-
 Snabbdom 允许在 renders 之间交换事件处理，这种情况发生时并没有实际触发 DOM 的事件处理。
-
-Note, however, that **you should be careful when sharing event
-handlers between vnodes**, because of the technique this module uses
-to avoid re-binding event handlers to the DOM. (And in general,
-sharing data between vnodes is not guaranteed to work, because modules
-are allowed to mutate the given data).
 
 但是，当你在 vnode 之间共享事件函数时需要谨慎一点，因为从技术层面上我们避免了事件处理函数重复绑定到DOM上。（总的来说，我们无法保证在 vnode 间共享数据一定能正常工作，因为模块允许对给定的数据进行修改）。
 
 ## SVG
-
-SVG just works when using the `h` function for creating virtual
-nodes. SVG elements are automatically created with the appropriate
-namespaces.
 
 SVG 需要与 `h` 函数配合使用，使用恰当的命名来自动创建 SVG 元素。
 
@@ -806,45 +576,23 @@ const vnode = h("div", [
 ]);
 ```
 
-See also the [SVG example](./examples/svg) and the [SVG Carousel example](./examples/carousel-svg/).
-
 更多示例： [SVG example](./examples/svg) 、  [SVG Carousel example](./examples/carousel-svg/)。
 
 ### Classes in SVG Elements
-
-Certain browsers (like IE &lt;=11) [do not support `classList` property in SVG elements](http://caniuse.com/#feat=classlist).
-Because the _class_ module internally uses `classList`, it will not work in this case unless you use a [classList polyfill](https://www.npmjs.com/package/classlist-polyfill).
-(If you don't want to use a polyfill, you can use the `class` attribute with the _attributes_ module).
 
 某些浏览器（如IE<=11）[不支持SVG元素中的 `classList` 属性](http://caniuse.com/#feat=classlist)。因为 _class_ 模块在内部使用了 classList，所以在这种情况下将不起作用，除非您使用 classList 的polyfill。（如果你不想使用 polyfill，你可以使用 _attributes_ 模块的 `class` 属性）
 
 ## Thunks
 
-The `thunk` function takes a selector, a key for identifying a thunk,
-a function that returns a vnode and a variable amount of state
-parameters. If invoked, the render function will receive the state
-arguments.
-
 `thunk` 函数传入 一个选择器，一个 key 作为 thunk 的身份标识，一个返回 vnode 的函数，和一个 state 数组参数。如果调用，那么 render 函数将会接收 state 作为参数传入。
 
 `thunk(selector, key, renderFn, [stateArguments])`
 
-The `renderFn` is invoked only if the `renderFn` is changed or `[stateArguments]` array length or it's elements are changed.
-
 当 `renderFn` 改变 或  `[state]` 数组长度改变 亦或者 元素改变时 将调用 `renderFn`。
-
-The `key` is optional. It should be supplied when the `selector` is
-not unique among the thunks siblings. This ensures that the thunk is
-always matched correctly when diffing.
 
 `key` 是可选的，但是当 `selector` 在同级 thunks 中不是唯一的时候则需要提供，这确保了在 diff 过程中 thunk 始终能正确匹配。
 
-Thunks are an optimization strategy that can be used when one is
-dealing with immutable data.
-
 Thunks 是一种优化方法，用于数据的不可变性。
-
-Consider a simple function for creating a virtual node based on a number.
 
 参考这个基于数字创建虚拟节点的函数。
 
@@ -854,11 +602,6 @@ function numberView(n) {
 }
 ```
 
-The view depends only on `n`. This means that if `n` is unchanged,
-then creating the virtual DOM node and patching it against the old
-vnode is wasteful. To avoid the overhead we can use the `thunk` helper
-function.
-
 这里的视图仅仅依赖于`n`，这意味着如果 `n` 未改变，随后又通过创建虚拟 DOM 节点来 patch 旧节点，这种操作是不必要的，我们可以使用 `thunk` 函数来避免上述操作。
 
 ```mjs
@@ -867,25 +610,13 @@ function render(state) {
 }
 ```
 
-Instead of actually invoking the `numberView` function this will only
-place a dummy vnode in the virtual tree. When Snabbdom patches this
-dummy vnode against a previous vnode, it will compare the value of
-`n`. If `n` is unchanged it will simply reuse the old vnode. This
-avoids recreating the number view and the diff process altogether.
-
 这与直接调用 `numberView` 函数不同的是，这只会在虚拟树中添加一个 伪节点，当 Snabbdom 对照旧节点 patch 这个伪节点时，它会比较 `n` 的值，如果 `n` 不变则复用旧的 vnode。这避免了在 diff 过程中重复创建数字视图。
-
-The view function here is only an example. In practice thunks are only
-relevant if you are rendering a complicated view that takes
-significant computational time to generate.
 
 这里的 view 函数仅仅是一个简单的示例，在实际使用中，thunks 在渲染一个需要耗费大量计算才能生成的复杂的视图时才能充分发挥它的价值。
 
 ## JSX
 
 ### TypeScript
-
-Add the following options to your `tsconfig.json`:
 
 在你的 `tsconfig.json` 文件中添加下列配置：
 
@@ -897,8 +628,6 @@ Add the following options to your `tsconfig.json`:
   }
 }
 ```
-
-Then make sure that you use the `.tsx` file extension and import the `jsx` function at the top of the file:
 
 然后确保文件后缀名`.tsx` 并在文件头部引入 `jsx`：
 
@@ -914,8 +643,6 @@ const node: VNode = (
 
 ### Babel
 
-Add the following options to your babel configuration:
-
 添加下列代码到你的 babel 配置中：
 
 ```json
@@ -930,8 +657,6 @@ Add the following options to your babel configuration:
   ]
 }
 ```
-
-Then import the `jsx` function at the top of the file:
 
 然后在文件头部引入 `jsx`：
 
@@ -958,26 +683,13 @@ const node = (
 
 ### sel : String
 
-The `.sel` property of a virtual node is the CSS selector passed to
-[`h()`](#h) during creation. For example: `h('div#container', {}, [...])` will create a a virtual node which has `div#container` as
-its `.sel` property.
-
 虚拟节点的 `.sel` 属性通过对 [`h()`](#h)  传入一个 CSS 选择器生成，比如： `h('div#container', {}, [...])` 将会创建一个虚拟节点并以 `div#container` 作为其 `.sel` 属性的值。
 
 ### data : Object
 
-The `.data` property of a virtual node is the place to add information
-for [modules](#modules-documentation) to access and manipulate the
-real DOM element when it is created; Add styles, CSS classes,
-attributes, etc.
-
 `.data` 属性是虚拟节点用于添加 [模块](#%E6%A8%A1%E5%9D%97%E6%96%87%E6%A1%A3) 信息以便在创建时访问或操作 DOM 元素、添加样式、操作 CSS classes、attributes 等
 
-The data object is the (optional) second parameter to [`h()`](#h)
-
 data 对象是 [`h()`](#h) 的第二个参数（可选）
-
-For example `h('div', {props: {className: 'container'}}, [...])` will produce a virtual node with
 
 比如： `h('div', {props: {className: 'container'}}, [...])`  将会生成一个虚拟节点，其属性 `.data` 的值为
 
@@ -989,19 +701,9 @@ For example `h('div', {props: {className: 'container'}}, [...])` will produce a 
 });
 ```
 
-as its `.data` object.
-
 ### children : Array<vnode>
 
-The `.children` property of a virtual node is the third (optional)
-parameter to [`h()`](#h) during creation. `.children` is
-simply an Array of virtual nodes that should be added as children of
-the parent DOM node upon creation.
-
 虚拟节点的 `.children` 属性通过  [`h()`](#h) 传入的第三个参数（可选）生成。`.children` 仅仅是一个虚拟节点数组，在创建时将其作为子节点添加到父级 DOM 节点中。
-
-For example `h('div', {}, [ h('h1', {}, 'Hello, World') ])` will
-create a virtual node with
 
 比如： `h('div', {}, [ h('h1', {}, 'Hello, World') ])` 将会创建一个虚拟节点，其 `.children` 的值为
 
@@ -1018,60 +720,27 @@ create a virtual node with
 ];
 ```
 
-as its `.children` property.
-
 ### text : string
 
-The `.text` property is created when a virtual node is created with
-only a single child that possesses text and only requires
-`document.createTextNode()` to be used.
-
 当仅使用文本作为子节点并通过 `document.createTextNode()` 创建虚拟节点时，生成 `.text`。
-
-For example: `h('h1', {}, 'Hello')` will create a virtual node with
-`Hello` as its `.text` property.
 
 比如：`h('h1', {}, 'Hello')` 将会创建一个虚拟节点，其 `.text` 的值为 `Hello` 
 
 ### elm : Element
 
-The `.elm` property of a virtual node is a pointer to the real DOM
-node created by snabbdom. This property is very useful to do
-calculations in [hooks](#hooks) as well as
-[modules](#%E6%A8%A1%E5%9D%97%E6%96%87%E6%A1%A3).
-
 `.elm` 属性指向由 snabbdom 创建的真实 DOM 节点，这个属性在  [hooks](#hooks) 和 [modules](#%E6%A8%A1%E5%9D%97%E6%96%87%E6%A1%A3) 中做计算都非常有用。
 
 ### key : string | number
 
-The `.key` property is created when a key is provided inside of your
-[`.data`](#data--object) object. The `.key` property is used to keep
-pointers to DOM nodes that existed previously to avoid recreating them
-if it is unnecessary. This is very useful for things like list
-reordering. A key must be either a string or a number to allow for
-proper lookup as it is stored internally as a key/value pair inside of
-an object, where `.key` is the key and the value is the
-[`.elm`](#elm--element) property created.
-
 当你在 [`.data`](#data--object) 对象中提供了 key 时将会创建 `.key` 属性，`.key` 属性用于给旧的、已存在的 DOM 节点提供一个标识，有效避免了不必要的重建操作。这对于像列表重排这类操作非常有用。key 必须是 `string ` 或者 `number ` 以便用于查找，因为是以键值对的形式存储在内存中，这里 键为 `.key` 而 值则为 `.elm`
 
-If provided, the `.key` property must be unique among sibling elements.
-
 这里 `.key` 在同级元素之间必须是唯一的。
-
-For example: `h('div', {key: 1}, [])` will create a virtual node
-object with a `.key` property with the value of `1`.
 
 比如： `h('div', {key: 1}, [])` 会创建一个虚拟节点并以值 `1` 作为 `.key` 的值。
 
 ## 构建应用程序
 
-Snabbdom is a low-level virtual DOM library. It is unopinionated with
-regards to how you should structure your application.
-
 Snabbdom 只是一个低层虚拟 DOM 库，对于你如何构建应用程序来说没有限制。
-
-Here are some approaches to building applications with Snabbdom.
 
 下面列举一些使用 Snabbdom 构建应用程序的方法。
 
@@ -1103,9 +772,6 @@ Here are some approaches to building applications with Snabbdom.
 - [Snabberb](https://github.com/tobymao/snabberb) - A minimalistic Ruby framework using [Opal](https://github.com/opal/opal) and Snabbdom for building reactive views.
 - [WebCell](https://github.com/EasyWebApp/WebCell) - Web Components engine based on JSX & TypeScript
 
-Be sure to share it if you're building an application in another way
-using Snabbdom.
-
 如果你通过其他方法来构建应用程序请确保将其共享。
 
 ## 常见错误
@@ -1114,8 +780,6 @@ using Snabbdom.
 Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node':
     The node before which the new node is to be inserted is not a child of this node.
 ```
-
-The reason for this error is reusing of vnodes between patches (see code example), snabbdom stores actual dom nodes inside the virtual dom nodes passed to it as performance improvement, so reusing nodes between patches is not supported.
 
 出现这种错误的原因是在 patches 间复用 vnodes 导致（如下列代码所示），由于 snabbdom 会在虚拟DOM节点中存储真实DOM节点用于性能优化，所以并不支持在 patches 之间共享虚拟节点。
 
@@ -1135,8 +799,6 @@ patch(container, vnode1);
 patch(vnode1, vnode2);
 ```
 
-You can fix this issue by creating a shallow copy of the object (here with object spread syntax):
-
 你可以通过浅拷贝来解决这个问题：
 
 ```mjs
@@ -1146,8 +808,6 @@ const vnode2 = h("div", [
   h("div", {}, ["Three"]),
 ]);
 ```
-
-Another solution would be to wrap shared vnodes in a factory function:
 
 另一种解决方法是将需要共享的 vnodes 封装成函数：
 
@@ -1161,8 +821,5 @@ const vnode1 = h("div", [
 ```
 
 ## 社区反馈
-
-Pull requests that the community may care to provide feedback on should be
-merged after such opportunity of a few days was provided.
 
 对于一些社区所关心的 PR 将会在提交后数天内被合并。
