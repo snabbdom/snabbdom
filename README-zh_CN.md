@@ -140,7 +140,48 @@ patch(vnode, newVnode); // 将旧节点更新为新节点
 
 ## 目录
 
-
+- [核心功能](#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD)
+  - [`init`](#init)
+  - [`patch`](#patch)
+    - [卸载](#%E5%8D%B8%E8%BD%BD)
+  - [`h`](#h)
+  - [`fragment` (试验性)](#fragment-%E8%AF%95%E9%AA%8C%E6%80%A7)
+  - [`tovnode`](#tovnode)
+  - [Hooks](#hooks)
+    - [概览](#%E6%A6%82%E8%A7%88)
+    - [使用](#%E4%BD%BF%E7%94%A8)
+    - [`init`](#init-1)
+    - [`insert`](#insert)
+    - [`remove`](#remove)
+    - [`destroy`](#destroy)
+  - [创建模块](#%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%9D%97)
+- [模块文档](#%E6%A8%A1%E5%9D%97%E6%96%87%E6%A1%A3)
+  - [class 模块](#class-%E6%A8%A1%E5%9D%97)
+  - [props 模块](#props-%E6%A8%A1%E5%9D%97)
+  - [attributes 模块](#attributes-%E6%A8%A1%E5%9D%97)
+  - [dataset 模块](#dataset-%E6%A8%A1%E5%9D%97)
+  - [style 模块](#style-%E6%A8%A1%E5%9D%97)
+    - [自定义属性(CSS变量)](#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7css%E5%8F%98%E9%87%8F)
+    - [`delayed`](#delayed)
+    - [`remove`](#remove-1)
+    - [`destroy`](#destroy-1)
+  - [eventlisteners 模块](#eventlisteners-%E6%A8%A1%E5%9D%97)
+- [SVG](#svg)
+  - [Classes in SVG Elements](#classes-in-svg-elements)
+- [Thunks](#thunks)
+- [JSX](#jsx)
+  - [TypeScript](#typescript)
+  - [Babel](#babel)
+- [Virtual Node](#virtual-node)
+  - [sel : String](#sel--string)
+  - [data : Object](#data--object)
+  - [children : Array<vnode>](#children--arrayvnode)
+  - [text : string](#text--string)
+  - [elm : Element](#elm--element)
+  - [key : string | number](#key--string--number)
+- [构建应用程序](#%E6%9E%84%E5%BB%BA%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F)
+- [常见错误](#%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF)
+- [社区反馈](#%E7%A4%BE%E5%8C%BA%E5%8F%8D%E9%A6%88)
 
 ## 核心功能
 
@@ -506,7 +547,7 @@ objects on the DOM, then please consider using
 [data-\* attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes)
 instead. Perhaps via [the dataset module](#the-dataset-module).
 
-属性只能被设置不能被移除，即使浏览器允许自定义添加或删除属性，该模块也不会尝试删除。这是因为原生 DOM 的属性也同样不支持被移除，如果你是通过自定义属性来存储信息或者引用对象，那么请考虑使用 [data-\* attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) 代替，为此我们提供了 [dataset](#dataset 模块 ) 模块。
+属性只能被设置不能被移除，即使浏览器允许自定义添加或删除属性，该模块也不会尝试删除。这是因为原生 DOM 的属性也同样不支持被移除，如果你是通过自定义属性来存储信息或者引用对象，那么请考虑使用 [data-\* attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) 代替，为此我们提供了 [dataset](#dataset-%E6%A8%A1%E5%9D%97) 模块。
 
 ### attributes 模块 
 
@@ -930,7 +971,7 @@ for [modules](#modules-documentation) to access and manipulate the
 real DOM element when it is created; Add styles, CSS classes,
 attributes, etc.
 
-`.data` 属性是虚拟节点用于添加 [模块](#modules-documentation) 信息以便在创建时访问或操作 DOM 元素、添加样式、操作 CSS classes、attributes 等
+`.data` 属性是虚拟节点用于添加 [模块](#%E6%A8%A1%E5%9D%97%E6%96%87%E6%A1%A3) 信息以便在创建时访问或操作 DOM 元素、添加样式、操作 CSS classes、attributes 等
 
 The data object is the (optional) second parameter to [`h()`](#h)
 
@@ -997,9 +1038,9 @@ For example: `h('h1', {}, 'Hello')` will create a virtual node with
 The `.elm` property of a virtual node is a pointer to the real DOM
 node created by snabbdom. This property is very useful to do
 calculations in [hooks](#hooks) as well as
-[modules](#modules-documentation).
+[modules](#%E6%A8%A1%E5%9D%97%E6%96%87%E6%A1%A3).
 
-`.elm` 属性指向由 snabbdom 创建的真实 DOM 节点，这个属性在  [hooks](#hooks) 和 [modules](#modules-documentation) 中做计算都非常有用。
+`.elm` 属性指向由 snabbdom 创建的真实 DOM 节点，这个属性在  [hooks](#hooks) 和 [modules](#%E6%A8%A1%E5%9D%97%E6%96%87%E6%A1%A3) 中做计算都非常有用。
 
 ### key : string | number
 
