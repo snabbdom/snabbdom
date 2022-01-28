@@ -1,3 +1,9 @@
+## [3.3.1](https://github.com/snabbdom/snabbdom/compare/v3.3.0...v3.3.1) (2022-01-18)
+
+### Bug Fixes
+
+- ensure SVG namespaces are added to nodes ([#996](https://github.com/snabbdom/snabbdom/issues/996)) ([f89f085](https://github.com/snabbdom/snabbdom/commit/f89f085f558baf6a41b43ffa50c9b5b1b1c6b034)), closes [#388](https://github.com/snabbdom/snabbdom/issues/388) [#867](https://github.com/snabbdom/snabbdom/issues/867)
+
 # [3.3.0](https://github.com/snabbdom/snabbdom/compare/v3.2.0...v3.3.0) (2022-01-17)
 
 ### Features
