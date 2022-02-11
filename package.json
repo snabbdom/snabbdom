@@ -55,7 +55,7 @@
     "eslint-plugin-markdown": "2.2.1",
     "eslint-plugin-node": "11.1.0",
     "husky": "7.0.4",
-    "karma": "6.3.11",
+    "karma": "6.3.14",
     "karma-browserstack-launcher": "1.6.0",
     "karma-chrome-launcher": "3.1.0",
     "karma-firefox-launcher": "2.1.2",
