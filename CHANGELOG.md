@@ -1,4 +1,13 @@
-## [3.3.1](https://github.com/snabbdom/snabbdom/compare/v3.3.0...v3.3.1) (2022-01-18)
+# [3.4.0](https://github.com/snabbdom/snabbdom/compare/v3.3.1...v3.4.0) (2022-03-20)
+
+### Bug Fixes
+
+- use array access instead of string.startsWith ([515bc97](https://github.com/snabbdom/snabbdom/commit/515bc97c27239521c516e403d975117ad268ba6b))
+
+### Features
+
+- export `Options` type ([#1005](https://github.com/snabbdom/snabbdom/issues/1005)) ([dca0b0c](https://github.com/snabbdom/snabbdom/commit/dca0b0c9af5ff514b26ca684c2c75b11733c2418))
+- toVnode is support dataset ([#1008](https://github.com/snabbdom/snabbdom/issues/1008)) ([47ef5c1](https://github.com/snabbdom/snabbdom/commit/47ef5c14e92c15fde7d018a94fa2c6dad2a1a342)), closes [#976](https://github.com/snabbdom/snabbdom/issues/976)## [3.3.1](https://github.com/snabbdom/snabbdom/compare/v3.3.0...v3.3.1) (2022-01-18)
 
 ### Bug Fixes
 
