@@ -1,6 +1,6 @@
 // core
 export { DOMAPI, htmlDomApi } from "./htmldomapi";
-export { init } from "./init";
+export { init, Options } from "./init";
 export { ThunkData, Thunk, ThunkFn, thunk } from "./thunk";
 export { Key, VNode, VNodeData, vnode } from "./vnode";
 

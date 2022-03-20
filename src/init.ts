@@ -78,7 +78,7 @@ const hooks: Array<keyof Module> = [
 ];
 
 // TODO Should `domApi` be put into this in the next major version bump?
-type Options = {
+export type Options = {
   experimental?: {
     fragments?: boolean;
   };
