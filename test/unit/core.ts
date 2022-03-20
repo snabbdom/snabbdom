@@ -549,8 +549,32 @@ describe("snabbdom", function () {
         assert.deepEqual(vnode.data, { attrs: { data: "value" } });
         const children = vnode.children as [VNode, VNode];
         assert.strictEqual(children[0].sel, "x-h2#hx");
-        assert.deepEqual(children[0].data, { attrs: { "data-env": "xyz" } });
+        assert.deepEqual(children[0].data, { datasets: { env: "xyz" } });
         assert.strictEqual(children[1].text, "Foobar");
+      });
+
+      it("can parsing datasets and attrs", function () {
+        const onlyAttrs = document.createElement("div");
+        onlyAttrs.setAttribute("foo", "bar");
+        assert.deepEqual(toVNode(onlyAttrs).data, { attrs: { foo: "bar" } });
+        const onlyDatasets = document.createElement("div");
+        onlyDatasets.setAttribute("data-foo", "bar");
+        assert.deepEqual(toVNode(onlyDatasets).data, {
+          datasets: { foo: "bar" },
+        });
+        const onlyDatasets2 = document.createElement("div");
+        onlyDatasets2.dataset.foo = "bar";
+        assert.deepEqual(toVNode(onlyDatasets2).data, {
+          datasets: { foo: "bar" },
+        });
+        const bothAttrsAndDatasets = document.createElement("div");
+        bothAttrsAndDatasets.setAttribute("foo", "bar");
+        bothAttrsAndDatasets.setAttribute("data-foo", "bar");
+        bothAttrsAndDatasets.dataset.again = "again";
+        assert.deepEqual(toVNode(bothAttrsAndDatasets).data, {
+          attrs: { foo: "bar" },
+          datasets: { foo: "bar", again: "again" },
+        });
       });
     });
     describe("updating children with keys", function () {
