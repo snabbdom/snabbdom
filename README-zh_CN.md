@@ -12,38 +12,38 @@
 
 [![Donate to our collective](https://opencollective.com/snabbdom/donate/button@2x.png?color=blue)](https://opencollective.com/snabbdom#section-contribute)
 
-感谢  [Browserstack](https://www.browserstack.com/) 对跨浏览器测试提供支持
+感谢 [Browserstack](https://www.browserstack.com/) 对跨浏览器测试提供支持
 
 ---
 
 ## 介绍
 
-虚拟DOM非常有趣，他允许我们以函数的形式来表达程序视图，但现有的解决方式基本都过于臃肿、性能不佳、功能缺乏、API偏向于OOP或者缺少一些我所需要的功能。
+虚拟 DOM 非常有趣，他允许我们以函数的形式来表达程序视图，但现有的解决方式基本都过于臃肿、性能不佳、功能缺乏、API 偏向于 OOP 或者缺少一些我所需要的功能。
 
-Snabbdom 则极其简单、高效并且可拓展，同时核心代码 ≈ 200行。我们提供了一个具有丰富功能同时支持自定义拓展的模块化结构。为了使核心代码更简洁，所有非必要的功能都将模块化引入。
+Snabbdom 则极其简单、高效并且可拓展，同时核心代码 ≈ 200 行。我们提供了一个具有丰富功能同时支持自定义拓展的模块化结构。为了使核心代码更简洁，所有非必要的功能都将模块化引入。
 
 你可以将 Snabbdom 改造成任何你想要的样子！选择或自定义任何你需要的功能。或者使用默认配置，便能获得一个高性能、体积小、拥有下列所有特性的虚拟 DOM 库。
 
 ## 特性
 
 - 主要特点
-  - 200行 - 你可以通过简单地阅读所有核心代码来充分理解其工作原理
+  - 200 行 - 你可以通过简单地阅读所有核心代码来充分理解其工作原理
   - 通过模块化实现可拓展
-  - 对于vnode和全局模块都提供了 hook，你可以在 patch 过程或者其他地方调用 hook
-  - 性能卓越：Snabbdom 是目前最高效的虚拟DOM库之一
+  - 对于 vnode 和全局模块都提供了 hook，你可以在 patch 过程或者其他地方调用 hook
+  - 性能卓越：Snabbdom 是目前最高效的虚拟 DOM 库之一
   - Patch 函数有一个相当于 reduce/scan 函数的函数声明，这将更容易集成其他函数式库
 - 模块特点
   - 函数`h`： 轻松创建虚拟 DOM 节点
   - [SVG 需要与 `h` 函数结合使用](#svg)
-  - 支持复杂的CSS动画实现
+  - 支持复杂的 CSS 动画实现
   - 提供强大的事件监听功能
   - 通过 [Thunks](#thunks) 进一步优化 diff 和 patch 过程
   - [支持 JSX 及 Typrscript ](#jsx)
 - 第三方功能
   - [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html) 提供服务端渲染功能
-  - [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers) 精简版虚拟DOM创建
+  - [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers) 精简版虚拟 DOM 创建
   - [snabby](https://github.com/jamen/snabby) 提供 HTML 模板字符串支持
-  -  [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like) 提供虚拟 DOM 断言
+  - [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like) 提供虚拟 DOM 断言
 
 ## 示例
 
@@ -88,7 +88,7 @@ const newVnode = h(
     h("a", { props: { href: "/bar" } }, "I'll take you places!"),
   ]
 );
-// 再次调用 `patch` 
+// 再次调用 `patch`
 patch(vnode, newVnode); // 将旧节点更新为新节点
 ```
 
@@ -123,7 +123,7 @@ patch(vnode, newVnode); // 将旧节点更新为新节点
   - [attributes 模块](#attributes-%E6%A8%A1%E5%9D%97)
   - [dataset 模块](#dataset-%E6%A8%A1%E5%9D%97)
   - [style 模块](#style-%E6%A8%A1%E5%9D%97)
-    - [自定义属性(CSS变量)](#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7css%E5%8F%98%E9%87%8F)
+    - [自定义属性(CSS 变量)](#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7css%E5%8F%98%E9%87%8F)
     - [`delayed`](#delayed)
     - [`remove`](#remove-1)
     - [`destroy`](#destroy-1)
@@ -147,7 +147,7 @@ patch(vnode, newVnode); // 将旧节点更新为新节点
 
 ## 核心功能
 
- Snabbdom 仅提供通用的核心部分，这种设计保证了核心代码的纯粹，与此同时又使其更快并且对可拓展性提供更好的支持。
+Snabbdom 仅提供通用的核心部分，这种设计保证了核心代码的纯粹，与此同时又使其更快并且对可拓展性提供更好的支持。
 
 ### `init`
 
@@ -163,12 +163,12 @@ const patch = init([classModule, styleModule]);
 
 通过调用 `init` 函数返回的 `patch` 函数接收两个参数：
 
-1. 一个 DOM 元素或者 一个表示当前视图的 `vnode` 
-2. 一个表示新的、需要更新的 `vnode` 
+1. 一个 DOM 元素或者 一个表示当前视图的 `vnode`
+2. 一个表示新的、需要更新的 `vnode`
 
 如果第一个参数传入一个包含父节点的 DOM 元素，那么新的 vnode 将转换为一个 DOM 节点并替换传入的元素。如果第一个参数传入的是一个 `vnode` 则根据新的 `vnode` 相关描述进行修改。
 
-所有传入的  `oldvnode` 都必须被传入过 `patch` 函数， 因为 Snabbdom 将信息存储在 vnode 中， 这避免了重复创建新的 vnode 树。
+所有传入的 `oldvnode` 都必须被传入过 `patch` 函数， 因为 Snabbdom 将信息存储在 vnode 中， 这避免了重复创建新的 vnode 树。
 
 ```mjs
 patch(oldVnode, newVnode);
@@ -176,7 +176,7 @@ patch(oldVnode, newVnode);
 
 #### 卸载
 
-虽然没有专门为移除 vnode 树中的节点提供 API，但是依然可以通过给 `patch` 函数传入一个 HTML注释的 vnode 作为第二个参数来实现相同的效果，如：
+虽然没有专门为移除 vnode 树中的节点提供 API，但是依然可以通过给 `patch` 函数传入一个 HTML 注释的 vnode 作为第二个参数来实现相同的效果，如：
 
 ```mjs
 patch(
@@ -208,7 +208,7 @@ const vnode = h("div", { style: { color: "#000" } }, [
 
 ### `fragment` (试验性)
 
-警告：此功能目前处于试验阶段必须手动开启，并且这个API可能会在未来小版本更新中被修改。
+警告：此功能目前处于试验阶段必须手动开启，并且这个 API 可能会在未来小版本更新中被修改。
 
 ```mjs
 const patch = init(modules, undefined, {
@@ -295,23 +295,23 @@ h("div.row", {
 });
 ```
 
-#### `init` 
+#### `init`
 
 这个钩子函数会在新的 vnode 创建后被调用并在 Snabbdom 以任何方式处理该节点前被调用，即：在 `create` 之前被调用。
 
-#### `insert` 
+#### `insert`
 
 当基于 vnode 的 DOM 元素被插入到 DOM 后并且 patch 其余过程完成后调用，这意味着你可以在这个 `hook` 中更可靠地计算元素位置坐标信息（如：[getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)），这种操作不会影响任何被插入元素的位置。
 
-####  `remove` 
+#### `remove`
 
 一旦从 DOM 中移除了 vnode 就会调用该函数，函数传入两个参数 vnode 和 回调函数，你可以通过回调来控制或延迟移除，这个回调函数将会在 hook 执行完成后调用，需要注意的是只有当所有 `remove` 钩子函数执行回调之后元素才会被一次性删除（即：回调必须执行否则元素不会删除）。
 
 这个 hook 只有在当前元素从它的父级中删除才会触发，被移除的元素中的子元素则不会触发。为此，我们提供了 `destroy` 钩子函数。
 
-#### `destroy` 
+#### `destroy`
 
-当虚拟节点的DOM元素从DOM中移除或者元素父级从DOM中移除时都将调用该 hook。
+当虚拟节点的 DOM 元素从 DOM 中移除或者元素父级从 DOM 中移除时都将调用该 hook。
 
 要知道这个 hook 和 `remove` hook 的区别，先看看这个示例
 
@@ -324,18 +324,18 @@ const vnode1 = h("section", [
         remove: (vnode, cb) => {
           console.log(vnode);
           cb();
-        }
-      }
+        },
+      },
     },
     [h("span", "Hello")]
-  )
+  ),
 ]);
 const vnode2 = h("section", []);
 patch(container, vnode1);
 patch(vnode1, vnode2);
 ```
 
-这里内部 `div` 元素及其包含的 `span` 元素都会触发 `destroy`， 另一方面，`remove` 则只会在 `div`  上触发，因为他是唯一一个直接脱离父级的元素，也就是说，对于 `section` 来说这个 `div` 是它的二级节点，那么就只有二级节点移除会触发 `remove`。
+这里内部 `div` 元素及其包含的 `span` 元素都会触发 `destroy`， 另一方面，`remove` 则只会在 `div` 上触发，因为他是唯一一个直接脱离父级的元素，也就是说，对于 `section` 来说这个 `div` 是它的二级节点，那么就只有二级节点移除会触发 `remove`。
 
 比如，你可以使用 `remove` 在元素被移除时触发动画，再使用 `destroy` 为子元素添加消失动画。
 
@@ -358,9 +358,9 @@ const myModule = {
 
 ## 模块文档
 
-本章节将描述核心模块，所有模块都是可选的，关于 JSX 示例我们将假定你使用的 [`jsx` pragma](#jsx)  与本库一致。
+本章节将描述核心模块，所有模块都是可选的，关于 JSX 示例我们将假定你使用的 [`jsx` pragma](#jsx) 与本库一致。
 
-### class 模块 
+### class 模块
 
 class 模块提供了一种简单的方式来动态配置元素的 class 属性，这个模块值为一个对象形式的 class 数据，对象中类名需要映射为布尔值，以此来表示该类名是否应该出现在节点上。
 
@@ -375,7 +375,7 @@ h("a", { class: { active: true, selected: false } }, "Toggle");
 // Renders as: <div class="foo bar"></div>
 ```
 
-###  props 模块
+### props 模块
 
 该模块允许你设置 DOM 元素的属性。
 
@@ -392,7 +392,7 @@ h("a", { props: { href: "/foo" } }, "Go to Foo");
 
 属性只能被设置不能被移除，即使浏览器允许自定义添加或删除属性，该模块也不会尝试删除。这是因为原生 DOM 的属性也同样不支持被移除，如果你是通过自定义属性来存储信息或者引用对象，那么请考虑使用 [data-\* attributes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) 代替，为此我们提供了 [dataset](#dataset-%E6%A8%A1%E5%9D%97) 模块。
 
-### attributes 模块 
+### attributes 模块
 
 与 props 相同，但是是使用 attr 替代 prop。
 
@@ -411,7 +411,7 @@ Attr 通过 `setAttribute` 实现添加及更新操作，对于已经添加过�
 
 对于布尔值属性（如：`disabled`, `hidden`,`selected` ...），这一类属性并不依赖于 Attr 的值(`true` 或 `false`)，而是取决于 DOM 元素本身是否存在该属性。模块对于这类属性的处理方式有些许不同，当一个布尔值属性被赋为 [假值](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean) (`0`, `-0`, `null`, `false`,`NaN`, `undefined`, or the empty string(`""`))，那么该属性同样会直接从 DOM 元素的 attribute 列表中移除。
 
-### dataset 模块 
+### dataset 模块
 
 这个模块允许你在 DOM 元素上设置自定义 data 属性，然后通过 [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) 来访问这些属性。
 
@@ -426,7 +426,7 @@ h("button", { dataset: { action: "reset" } }, "Reset");
 // Renders as: <div data-foo="bar"></div>
 ```
 
-###  style 模块
+### style 模块
 
 style 模块用于让动画更加平滑，它的核心是允许你再元素上设置 CSS 属性。
 
@@ -457,7 +457,7 @@ h(
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
 ```
 
-#### 自定义属性(CSS变量)
+#### 自定义属性(CSS 变量)
 
 已支持 CSS 自定义属性（又称 CSS 变量或者级联变量），属性名需要以 `--` 为前缀。
 
@@ -533,7 +533,7 @@ h(
 
 不支持 `transition-property` 的所有值。
 
-### eventlisteners 模块 
+### eventlisteners 模块
 
 eventlisteners 模块提供了一个功能强大的事件监听器。
 
@@ -554,7 +554,7 @@ h("div", { on: { click: clickHandler } });
 
 Snabbdom 允许在 renders 之间交换事件处理，这种情况发生时并没有实际触发 DOM 的事件处理。
 
-但是，当你在 vnode 之间共享事件函数时需要谨慎一点，因为从技术层面上我们避免了事件处理函数重复绑定到DOM上。（总的来说，我们无法保证在 vnode 间共享数据一定能正常工作，因为模块允许对给定的数据进行修改）。
+但是，当你在 vnode 之间共享事件函数时需要谨慎一点，因为从技术层面上我们避免了事件处理函数重复绑定到 DOM 上。（总的来说，我们无法保证在 vnode 间共享数据一定能正常工作，因为模块允许对给定的数据进行修改）。
 
 ## SVG
 
@@ -577,11 +577,11 @@ const vnode = h("div", [
 ]);
 ```
 
-更多示例： [SVG example](./examples/svg) 、  [SVG Carousel example](./examples/carousel-svg/)。
+更多示例： [SVG example](./examples/svg) 、 [SVG Carousel example](./examples/carousel-svg/)。
 
 ### Classes in SVG Elements
 
-某些浏览器（如IE<=11）[不支持SVG元素中的 `classList` 属性](http://caniuse.com/#feat=classlist)。因为 _class_ 模块在内部使用了 classList，所以在这种情况下将不起作用，除非您使用 classList 的polyfill。（如果你不想使用 polyfill，你可以使用 _attributes_ 模块的 `class` 属性）
+某些浏览器（如 IE<=11）[不支持 SVG 元素中的 `classList` 属性](http://caniuse.com/#feat=classlist)。因为 _class_ 模块在内部使用了 classList，所以在这种情况下将不起作用，除非您使用 classList 的 polyfill。（如果你不想使用 polyfill，你可以使用 _attributes_ 模块的 `class` 属性）
 
 ## Thunks
 
@@ -589,7 +589,7 @@ const vnode = h("div", [
 
 `thunk(selector, key, renderFn, [stateArguments])`
 
-当 `renderFn` 改变 或  `[state]` 数组长度改变 亦或者 元素改变时 将调用 `renderFn`。
+当 `renderFn` 改变 或 `[state]` 数组长度改变 亦或者 元素改变时 将调用 `renderFn`。
 
 `key` 是可选的，但是当 `selector` 在同级 thunks 中不是唯一的时候则需要提供，这确保了在 diff 过程中 thunk 始终能正确匹配。
 
@@ -684,7 +684,7 @@ const node = (
 
 ### sel : String
 
-虚拟节点的 `.sel` 属性通过对 [`h()`](#h)  传入一个 CSS 选择器生成，比如： `h('div#container', {}, [...])` 将会创建一个虚拟节点并以 `div#container` 作为其 `.sel` 属性的值。
+虚拟节点的 `.sel` 属性通过对 [`h()`](#h) 传入一个 CSS 选择器生成，比如： `h('div#container', {}, [...])` 将会创建一个虚拟节点并以 `div#container` 作为其 `.sel` 属性的值。
 
 ### data : Object
 
@@ -692,7 +692,7 @@ const node = (
 
 data 对象是 [`h()`](#h) 的第二个参数（可选）
 
-比如： `h('div', {props: {className: 'container'}}, [...])`  将会生成一个虚拟节点，其属性 `.data` 的值为
+比如： `h('div', {props: {className: 'container'}}, [...])` 将会生成一个虚拟节点，其属性 `.data` 的值为
 
 ```mjs
 ({
@@ -704,7 +704,7 @@ data 对象是 [`h()`](#h) 的第二个参数（可选）
 
 ### children : Array<vnode>
 
-虚拟节点的 `.children` 属性通过  [`h()`](#h) 传入的第三个参数（可选）生成。`.children` 仅仅是一个虚拟节点数组，在创建时将其作为子节点添加到父级 DOM 节点中。
+虚拟节点的 `.children` 属性通过 [`h()`](#h) 传入的第三个参数（可选）生成。`.children` 仅仅是一个虚拟节点数组，在创建时将其作为子节点添加到父级 DOM 节点中。
 
 比如： `h('div', {}, [ h('h1', {}, 'Hello, World') ])` 将会创建一个虚拟节点，其 `.children` 的值为
 
@@ -725,11 +725,11 @@ data 对象是 [`h()`](#h) 的第二个参数（可选）
 
 当仅使用文本作为子节点并通过 `document.createTextNode()` 创建虚拟节点时，生成 `.text`。
 
-比如：`h('h1', {}, 'Hello')` 将会创建一个虚拟节点，其 `.text` 的值为 `Hello` 
+比如：`h('h1', {}, 'Hello')` 将会创建一个虚拟节点，其 `.text` 的值为 `Hello`
 
 ### elm : Element
 
-`.elm` 属性指向由 snabbdom 创建的真实 DOM 节点，这个属性在  [hooks](#hooks) 和 [modules](#%E6%A8%A1%E5%9D%97%E6%96%87%E6%A1%A3) 中做计算都非常有用。
+`.elm` 属性指向由 snabbdom 创建的真实 DOM 节点，这个属性在 [hooks](#hooks) 和 [modules](#%E6%A8%A1%E5%9D%97%E6%96%87%E6%A1%A3) 中做计算都非常有用。
 
 ### key : string | number
 
@@ -782,7 +782,7 @@ Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node':
     The node before which the new node is to be inserted is not a child of this node.
 ```
 
-出现这种错误的原因是在 patches 间复用 vnodes 导致（如下列代码所示），由于 snabbdom 会在虚拟DOM节点中存储真实DOM节点用于性能优化，所以并不支持在 patches 之间共享虚拟节点。
+出现这种错误的原因是在 patches 间复用 vnodes 导致（如下列代码所示），由于 snabbdom 会在虚拟 DOM 节点中存储真实 DOM 节点用于性能优化，所以并不支持在 patches 之间共享虚拟节点。
 
 ```mjs
 const sharedNode = h("div", {}, "Selected");
