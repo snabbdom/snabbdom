@@ -1125,6 +1125,7 @@ describe("snabbdom", function () {
       assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
       assert.strictEqual(elm.textContent, "fragment again");
     });
+
     it("allows a document fragment as a container", function () {
       const vnode0 = document.createDocumentFragment();
       const vnode1 = fragment(["I", "am", "a", h("span", ["fragment"])]);
@@ -1135,6 +1136,33 @@ describe("snabbdom", function () {
 
       elm = patch(vnode1, vnode2).elm;
       assert.strictEqual(elm.tagName, "DIV");
+    });
+
+    it("update in fragment", function () {
+      const fnode1 = fragment([h("div")]);
+      const vnode1 = h("div", [fnode1]);
+      patch(vnode0, vnode1);
+      patch(fnode1, fragment([h("p", "1")]));
+      assert.strictEqual(fnode1.elm?.childNodes.length, 0);
+      assert.strictEqual(elm.children.length, 1);
+    });
+
+    it("insert to fragment", function () {
+      const fnode1 = fragment([h("p", "1")]);
+      const vnode1 = h("div", [fnode1]);
+      patch(vnode0, vnode1);
+      patch(fnode1, fragment([h("p", "1"), h("p", "2")]));
+      assert.strictEqual(fnode1.elm?.childNodes.length, 0);
+      assert.strictEqual(elm.children.length, 2);
+    });
+
+    it("remove in fragment", function () {
+      const fnode1 = fragment([h("p", "1")]);
+      const vnode1 = h("div", [fnode1]);
+      patch(vnode0, vnode1);
+      patch(fnode1, fragment([]));
+      assert.strictEqual(fnode1.elm?.childNodes.length, 0);
+      assert.strictEqual(elm.children.length, 0);
     });
   });
   describe("hooks", function () {
