@@ -379,7 +379,13 @@ export function init(
   ) {
     const hook = vnode.data?.hook;
     hook?.prepatch?.(oldVnode, vnode);
-    const elm = (vnode.elm = oldVnode.elm)!;
+    const elm = (
+      oldVnode.elm?.nodeType === oldVnode.elm?.DOCUMENT_FRAGMENT_NODE &&
+      oldVnode.children?.length !== 0
+        ? (oldVnode.children?.[0] as VNode).elm?.parentNode
+        : (vnode.elm = oldVnode.elm)
+    )!;
+
     const oldCh = oldVnode.children as VNode[];
     const ch = vnode.children as VNode[];
     if (oldVnode === vnode) return;
