@@ -266,6 +266,14 @@ export function init(
           } else {
             rm();
           }
+        } else if (ch.children) {
+          // Fragment node
+          removeVnodes(
+            parentElm,
+            ch.children as VNode[],
+            0,
+            ch.children.length - 1
+          );
         } else {
           // Text node
           api.removeChild(parentElm, ch.elm!);

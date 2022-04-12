@@ -69,6 +69,9 @@ function insertBefore(
   newNode: Node,
   referenceNode: Node | null
 ): void {
+  if (isDocumentFragment(newNode)) {
+    (newNode as any).parent = parentNode;
+  }
   parentNode.insertBefore(newNode, referenceNode);
 }
 
@@ -81,6 +84,12 @@ function appendChild(node: Node, child: Node): void {
 }
 
 function parentNode(node: Node): Node | null {
+  if (isDocumentFragment(node)) {
+    while (node && isDocumentFragment(node)) {
+      node = (node as any).parent;
+    }
+    return node ?? null;
+  }
   return node.parentNode;
 }
 

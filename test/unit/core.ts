@@ -1110,20 +1110,35 @@ describe("snabbdom", function () {
   });
   describe("patching a fragment", function () {
     it("can patch on document fragments", function () {
+      let firstChild: HTMLElement;
+      const root = document.createElement("div");
       const vnode1 = fragment(["I am", h("span", [" a", " fragment"])]);
       const vnode2 = h("div", ["I am an element"]);
       const vnode3 = fragment(["fragment ", "again"]);
 
+      root.appendChild(vnode0);
+      firstChild = root.firstChild as HTMLElement;
+      assert.strictEqual(firstChild, vnode0);
+
       elm = patch(vnode0, vnode1).elm;
+      firstChild = root.firstChild as HTMLElement;
+      assert.strictEqual(firstChild.textContent, "I am");
       assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
+      assert.strictEqual(elm.parent, root);
 
       elm = patch(vnode1, vnode2).elm;
+      firstChild = root.firstChild as HTMLElement;
+      assert.strictEqual(firstChild.tagName, "DIV");
+      assert.strictEqual(firstChild.textContent, "I am an element");
       assert.strictEqual(elm.tagName, "DIV");
       assert.strictEqual(elm.textContent, "I am an element");
+      assert.strictEqual(elm.parentNode, root);
 
       elm = patch(vnode2, vnode3).elm;
+      firstChild = root.firstChild as HTMLElement;
       assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
-      assert.strictEqual(elm.textContent, "fragment again");
+      assert.strictEqual(firstChild.textContent, "fragment ");
+      assert.strictEqual(elm.parent, root);
     });
     it("allows a document fragment as a container", function () {
       const vnode0 = document.createDocumentFragment();
