@@ -271,6 +271,7 @@ export function init(
           }
         } else if (ch.children) {
           // Fragment node
+          invokeDestroyHook(ch);
           removeVnodes(
             parentElm,
             ch.children as VNode[],

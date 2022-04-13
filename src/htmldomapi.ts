@@ -1,6 +1,5 @@
 export interface SnabbdomFragment extends DocumentFragment {
   parent: Node | null;
-  childNodeCount: number;
   firstChildNode: ChildNode | null;
   lastChildNode: ChildNode | null;
 }
@@ -77,32 +76,21 @@ function insertBefore(
   referenceNode: Node | null
 ): void {
   if (isDocumentFragment(newNode)) {
-    parseFragment(newNode, parentNode);
+    newNode = parseFragment(newNode, parentNode);
   }
   if (referenceNode && isDocumentFragment(referenceNode)) {
-    const fragment = parseFragment(referenceNode);
-    referenceNode = fragment.firstChildNode;
+    referenceNode = parseFragment(referenceNode).firstChildNode;
   }
   parentNode.insertBefore(newNode, referenceNode);
 }
 
 function removeChild(node: Node, child: Node): void {
-  if (isDocumentFragment(child)) {
-    const fragment = parseFragment(child, node);
-    if (fragment.firstChild) {
-      const index = Array.from(node.childNodes).indexOf(fragment.firstChild);
-      for (let i = index; i < fragment.childNodeCount + index; i++) {
-        node.removeChild(node.childNodes[index]);
-      }
-    }
-  } else {
-    node.removeChild(child);
-  }
+  node.removeChild(child);
 }
 
 function appendChild(node: Node, child: Node): void {
   if (isDocumentFragment(child)) {
-    parseFragment(child, node);
+    child = parseFragment(child, node);
   }
   node.appendChild(child);
 }
@@ -120,9 +108,10 @@ function parentNode(node: Node): Node | null {
 function nextSibling(node: Node): Node | null {
   if (isDocumentFragment(node)) {
     const fragment = parseFragment(node);
-    if (fragment.lastChild) {
-      const children = Array.from(fragment.parent?.childNodes ?? []);
-      const index = children.indexOf(fragment.lastChild);
+    const parent = parentNode(fragment);
+    if (parent && fragment.lastChildNode) {
+      const children = Array.from(parent.childNodes);
+      const index = children.indexOf(fragment.lastChildNode);
       return children[index + 1] ?? null;
     }
     return null;
@@ -164,16 +153,8 @@ function parseFragment(
 ): SnabbdomFragment {
   const fragment = fragmentNode as SnabbdomFragment;
   fragment.parent ??= parentNode ?? null;
-  fragment.childNodeCount ??= fragmentNode.childNodes.length;
   fragment.firstChildNode ??= fragmentNode.firstChild;
   fragment.lastChildNode ??= fragmentNode.lastChild;
-
-  // force new properties
-  if (parentNode) {
-    fragment.childNodeCount = fragmentNode.childNodes.length;
-    fragment.firstChildNode = fragmentNode.firstChild;
-    fragment.lastChildNode = fragmentNode.lastChild;
-  }
   return fragment;
 }
 
