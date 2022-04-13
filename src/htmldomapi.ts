@@ -75,6 +75,14 @@ function insertBefore(
   newNode: Node,
   referenceNode: Node | null
 ): void {
+  if (isDocumentFragment(parentNode)) {
+    let node: Node | null = parentNode;
+    while (node && isDocumentFragment(node)) {
+      const fragment = parseFragment(node);
+      node = fragment.parent;
+    }
+    parentNode = node ?? parentNode;
+  }
   if (isDocumentFragment(newNode)) {
     newNode = parseFragment(newNode, parentNode);
   }
@@ -98,7 +106,8 @@ function appendChild(node: Node, child: Node): void {
 function parentNode(node: Node): Node | null {
   if (isDocumentFragment(node)) {
     while (node && isDocumentFragment(node)) {
-      node = (node as any).parent;
+      const fragment = parseFragment(node);
+      node = fragment.parent as Node;
     }
     return node ?? null;
   }
