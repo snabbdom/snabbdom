@@ -1143,8 +1143,8 @@ describe("snabbdom", function () {
         const result = [];
         const cb: CreateHook = (empty, vnode) => {
           assert(vnode.elm instanceof Element);
-          assert.strictEqual((vnode.elm as HTMLDivElement).children.length, 2);
-          assert.strictEqual(vnode.elm!.parentNode, null);
+          assert.strictEqual(vnode.elm.children.length, 2);
+          assert.strictEqual(vnode.elm.parentNode, null);
           result.push(vnode);
         };
         const vnode1 = h("div", [
@@ -1162,8 +1162,8 @@ describe("snabbdom", function () {
         const result = [];
         const cb: InsertHook = (vnode) => {
           assert(vnode.elm instanceof Element);
-          assert.strictEqual((vnode.elm as HTMLDivElement).children.length, 2);
-          assert.strictEqual(vnode.elm!.parentNode!.children.length, 3);
+          assert.strictEqual(vnode.elm.children.length, 2);
+          assert.strictEqual(vnode.elm.parentNode!.children.length, 3);
           result.push(vnode);
         };
         const vnode1 = h("div", [
