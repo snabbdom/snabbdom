@@ -383,10 +383,15 @@ export function init(
     const oldCh = oldVnode.children as VNode[];
     const ch = vnode.children as VNode[];
     if (oldVnode === vnode) return;
-    if (vnode.data !== undefined) {
+    if (
+      vnode.data !== undefined ||
+      (isDef(vnode.text) && vnode.text !== oldVnode.text)
+    ) {
+      vnode.data ??= {};
+      oldVnode.data ??= {};
       for (let i = 0; i < cbs.update.length; ++i)
         cbs.update[i](oldVnode, vnode);
-      vnode.data.hook?.update?.(oldVnode, vnode);
+      vnode.data?.hook?.update?.(oldVnode, vnode);
     }
     if (isUndef(vnode.text)) {
       if (isDef(oldCh) && isDef(ch)) {
