@@ -379,7 +379,7 @@ describe("snabbdom", function () {
       const vnode1 = h("a", { props: { src: "http://other/" } });
       const vnode2 = h("a");
       patch(vnode0, vnode1);
-      patch(vnode1, vnode2);
+      elm = patch(vnode1, vnode2).elm;
       assert.strictEqual(elm.src, undefined);
     });
     it("cannot remove native props", function () {
