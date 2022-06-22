@@ -1,3 +1,10 @@
+## [3.5.1](https://github.com/snabbdom/snabbdom/compare/v3.5.0...v3.5.1) (2022-06-22)
+
+### Bug Fixes
+
+- datasets -> dataset ([#1020](https://github.com/snabbdom/snabbdom/issues/1020)) ([c21d569](https://github.com/snabbdom/snabbdom/commit/c21d569333491afd4459344ac697b6dad5d1fa15))
+- **fragment:** fixed patching fragment nodes ([#1015](https://github.com/snabbdom/snabbdom/issues/1015)) ([230aa23](https://github.com/snabbdom/snabbdom/commit/230aa23a694726921c405c4b353e8cb6968483bb))
+
 # [3.5.0](https://github.com/snabbdom/snabbdom/compare/v3.4.0...v3.5.0) (2022-04-26)
 
 ### Features
