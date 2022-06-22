@@ -1,6 +1,6 @@
 import { assert } from "chai";
 
-import { datasetModule, init, h } from "../../src/index";
+import { datasetModule, init, h, toVNode } from "../../src/index";
 
 const patch = init([datasetModule]);
 
@@ -19,6 +19,16 @@ describe("dataset", function () {
   it("is set on initial element creation", function () {
     elm = patch(vnode0, h("div", { dataset: { foo: "foo" } })).elm;
     assert.strictEqual(elm.dataset.foo, "foo");
+  });
+  it("toVNode & dataset", function () {
+    const elem1 = document.createElement("div");
+    elem1.innerHTML = '<div data-foo="foo"></div>';
+    const elem2 = document.createElement("div");
+    elem2.innerHTML = '<div data-foo="foo-new"></div>';
+    const oldNode = toVNode(elem1);
+    const newNode = toVNode(elem2);
+    patch(oldNode, newNode);
+    assert.strictEqual(elem1.innerHTML, '<div data-foo="foo-new"></div>');
   });
   it("updates dataset", function () {
     const vnode1 = h("i", { dataset: { foo: "foo", bar: "bar" } });
