@@ -1,3 +1,9 @@
+export interface SnabbdomFragment extends DocumentFragment {
+  parent: Node | null;
+  firstChildNode: ChildNode | null;
+  lastChildNode: ChildNode | null;
+}
+
 export interface DOMAPI {
   createElement: (
     tagName: any,
@@ -12,7 +18,7 @@ export interface DOMAPI {
    * @experimental
    * @todo Make it required when the fragment is considered stable.
    */
-  createDocumentFragment?: () => DocumentFragment;
+  createDocumentFragment?: () => SnabbdomFragment;
   createTextNode: (text: string) => Text;
   createComment: (text: string) => Comment;
   insertBefore: (
@@ -52,8 +58,8 @@ function createElementNS(
   return document.createElementNS(namespaceURI, qualifiedName, options);
 }
 
-function createDocumentFragment(): DocumentFragment {
-  return document.createDocumentFragment();
+function createDocumentFragment(): SnabbdomFragment {
+  return parseFragment(document.createDocumentFragment());
 }
 
 function createTextNode(text: string): Text {
@@ -69,6 +75,20 @@ function insertBefore(
   newNode: Node,
   referenceNode: Node | null
 ): void {
+  if (isDocumentFragment(parentNode)) {
+    let node: Node | null = parentNode;
+    while (node && isDocumentFragment(node)) {
+      const fragment = parseFragment(node);
+      node = fragment.parent;
+    }
+    parentNode = node ?? parentNode;
+  }
+  if (isDocumentFragment(newNode)) {
+    newNode = parseFragment(newNode, parentNode);
+  }
+  if (referenceNode && isDocumentFragment(referenceNode)) {
+    referenceNode = parseFragment(referenceNode).firstChildNode;
+  }
   parentNode.insertBefore(newNode, referenceNode);
 }
 
@@ -77,14 +97,34 @@ function removeChild(node: Node, child: Node): void {
 }
 
 function appendChild(node: Node, child: Node): void {
+  if (isDocumentFragment(child)) {
+    child = parseFragment(child, node);
+  }
   node.appendChild(child);
 }
 
 function parentNode(node: Node): Node | null {
+  if (isDocumentFragment(node)) {
+    while (node && isDocumentFragment(node)) {
+      const fragment = parseFragment(node);
+      node = fragment.parent as Node;
+    }
+    return node ?? null;
+  }
   return node.parentNode;
 }
 
 function nextSibling(node: Node): Node | null {
+  if (isDocumentFragment(node)) {
+    const fragment = parseFragment(node);
+    const parent = parentNode(fragment);
+    if (parent && fragment.lastChildNode) {
+      const children = Array.from(parent.childNodes);
+      const index = children.indexOf(fragment.lastChildNode);
+      return children[index + 1] ?? null;
+    }
+    return null;
+  }
   return node.nextSibling;
 }
 
@@ -114,6 +154,17 @@ function isComment(node: Node): node is Comment {
 
 function isDocumentFragment(node: Node): node is DocumentFragment {
   return node.nodeType === 11;
+}
+
+function parseFragment(
+  fragmentNode: DocumentFragment,
+  parentNode?: Node | null
+): SnabbdomFragment {
+  const fragment = fragmentNode as SnabbdomFragment;
+  fragment.parent ??= parentNode ?? null;
+  fragment.firstChildNode ??= fragmentNode.firstChild;
+  fragment.lastChildNode ??= fragmentNode.lastChild;
+  return fragment;
 }
 
 export const htmlDomApi: DOMAPI = {

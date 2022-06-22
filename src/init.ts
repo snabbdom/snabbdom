@@ -20,8 +20,12 @@ function sameVnode(vnode1: VNode, vnode2: VNode): boolean {
   const isSameKey = vnode1.key === vnode2.key;
   const isSameIs = vnode1.data?.is === vnode2.data?.is;
   const isSameSel = vnode1.sel === vnode2.sel;
+  const isSameTextOrFragment =
+    !vnode1.sel && vnode1.sel === vnode2.sel
+      ? typeof vnode1.text === typeof vnode2.text
+      : true;
 
-  return isSameSel && isSameKey && isSameIs;
+  return isSameSel && isSameKey && isSameIs && isSameTextOrFragment;
 }
 
 /**
@@ -192,13 +196,12 @@ export function init(
         }
       }
     } else if (options?.experimental?.fragments && vnode.children) {
-      const children = vnode.children;
       vnode.elm = (
         api.createDocumentFragment ?? documentFragmentIsNotSupported
       )();
       for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
-      for (i = 0; i < children.length; ++i) {
-        const ch = children[i];
+      for (i = 0; i < vnode.children.length; ++i) {
+        const ch = vnode.children[i];
         if (ch != null) {
           api.appendChild(
             vnode.elm,
@@ -266,6 +269,15 @@ export function init(
           } else {
             rm();
           }
+        } else if (ch.children) {
+          // Fragment node
+          invokeDestroyHook(ch);
+          removeVnodes(
+            parentElm,
+            ch.children as VNode[],
+            0,
+            ch.children.length - 1
+          );
         } else {
           // Text node
           api.removeChild(parentElm, ch.elm!);
@@ -380,8 +392,6 @@ export function init(
     const hook = vnode.data?.hook;
     hook?.prepatch?.(oldVnode, vnode);
     const elm = (vnode.elm = oldVnode.elm)!;
-    const oldCh = oldVnode.children as VNode[];
-    const ch = vnode.children as VNode[];
     if (oldVnode === vnode) return;
     if (
       vnode.data !== undefined ||
@@ -393,6 +403,8 @@ export function init(
         cbs.update[i](oldVnode, vnode);
       vnode.data?.hook?.update?.(oldVnode, vnode);
     }
+    const oldCh = oldVnode.children as VNode[];
+    const ch = vnode.children as VNode[];
     if (isUndef(vnode.text)) {
       if (isDef(oldCh) && isDef(ch)) {
         if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue);
