@@ -192,7 +192,7 @@ describe("style", function () {
         });
       });
     });
-    it("applies synchronous style immediately and reschedules delayed change", function (done) {
+    it("applies base style immediately and reschedules delayed change", function (done) {
       const vnode1 = h("i", {
         style: { fontSize: "14px", delayed: { fontSize: "16px" } as any },
       });
