@@ -142,7 +142,6 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
     - [Custom properties (CSS variables)](#custom-properties-css-variables)
     - [Delayed properties](#delayed-properties)
     - [Set properties on `remove`](#set-properties-on-remove)
-    - [Set properties on `destroy`](#set-properties-on-destroy)
   - [The eventlisteners module](#the-eventlisteners-module)
 - [SVG](#svg)
   - [Classes in SVG Elements](#classes-in-svg-elements)
