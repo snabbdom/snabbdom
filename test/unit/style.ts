@@ -16,13 +16,16 @@ describe("style", function () {
     vnode0 = elm;
   });
   it("is being styled", function () {
-    elm = patch(vnode0, h("div", { style: { fontSize: "12px" } as any })).elm;
+    elm = patch(
+      vnode0,
+      h("div", { style: { base: { fontSize: "12px" } } })
+    ).elm;
     assert.strictEqual(elm.style.fontSize, "12px");
   });
   it("can be memoized", function () {
     const cachedStyles = { fontSize: "14px", display: "inline" };
-    const vnode1 = h("i", { style: cachedStyles } as any);
-    const vnode2 = h("i", { style: cachedStyles } as any);
+    const vnode1 = h("i", { style: { base: cachedStyles } });
+    const vnode2 = h("i", { style: { base: cachedStyles } });
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.style.fontSize, "14px");
     assert.strictEqual(elm.style.display, "inline");
@@ -31,9 +34,15 @@ describe("style", function () {
     assert.strictEqual(elm.style.display, "inline");
   });
   it("updates styles", function () {
-    const vnode1 = h("i", { style: { fontSize: "14px", display: "inline" } as any });
-    const vnode2 = h("i", { style: { fontSize: "12px", display: "block" } as any });
-    const vnode3 = h("i", { style: { fontSize: "10px", display: "block" } as any });
+    const vnode1 = h("i", {
+      style: { base: { fontSize: "14px", display: "inline" } },
+    });
+    const vnode2 = h("i", {
+      style: { base: { fontSize: "12px", display: "block" } },
+    });
+    const vnode3 = h("i", {
+      style: { base: { fontSize: "10px", display: "block" } },
+    });
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.style.fontSize, "14px");
     assert.strictEqual(elm.style.display, "inline");
@@ -45,9 +54,9 @@ describe("style", function () {
     assert.strictEqual(elm.style.display, "block");
   });
   it("explicialy removes styles", function () {
-    const vnode1 = h("i", { style: { fontSize: "14px" } as any });
-    const vnode2 = h("i", { style: { fontSize: "" } as any });
-    const vnode3 = h("i", { style: { fontSize: "10px" } as any });
+    const vnode1 = h("i", { style: { base: { fontSize: "14px" } } });
+    const vnode2 = h("i", { style: { base: { fontSize: "" } } });
+    const vnode3 = h("i", { style: { base: { fontSize: "10px" } } });
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.style.fontSize, "14px");
     patch(vnode1, vnode2);
@@ -56,9 +65,13 @@ describe("style", function () {
     assert.strictEqual(elm.style.fontSize, "10px");
   });
   it("implicially removes styles from element", function () {
-    const vnode1 = h("div", [h("i", { style: { fontSize: "14px" } as any })]);
+    const vnode1 = h("div", [
+      h("i", { style: { base: { fontSize: "14px" } } }),
+    ]);
     const vnode2 = h("div", [h("i")]);
-    const vnode3 = h("div", [h("i", { style: { fontSize: "10px" } as any })]);
+    const vnode3 = h("div", [
+      h("i", { style: { base: { fontSize: "10px" } } }),
+    ]);
     patch(vnode0, vnode1);
     assert.strictEqual(elm.firstChild.style.fontSize, "14px");
     patch(vnode1, vnode2);
@@ -70,9 +83,9 @@ describe("style", function () {
     if (!hasCssVariables) {
       this.skip();
     } else {
-      const vnode1 = h("div", { style: { "--myVar": 1 as any } as any });
-      const vnode2 = h("div", { style: { "--myVar": 2 as any } as any });
-      const vnode3 = h("div", { style: { "--myVar": 3 as any } as any });
+      const vnode1 = h("div", { style: { base: { "--myVar": 1 } } });
+      const vnode2 = h("div", { style: { base: { "--myVar": 2 } } });
+      const vnode3 = h("div", { style: { base: { "--myVar": 3 } } });
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.style.getPropertyValue("--myVar"), "1");
       elm = patch(vnode1, vnode2).elm;
@@ -85,9 +98,9 @@ describe("style", function () {
     if (!hasCssVariables) {
       this.skip();
     } else {
-      const vnode1 = h("i", { style: { "--myVar": 1 as any } as any });
-      const vnode2 = h("i", { style: { "--myVar": "" } as any });
-      const vnode3 = h("i", { style: { "--myVar": 2 as any } as any });
+      const vnode1 = h("i", { style: { base: { "--myVar": 1 } } });
+      const vnode2 = h("i", { style: { base: { "--myVar": "" } } });
+      const vnode3 = h("i", { style: { base: { "--myVar": 2 } } });
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.style.getPropertyValue("--myVar"), "1");
       patch(vnode1, vnode2);
@@ -100,9 +113,9 @@ describe("style", function () {
     if (!hasCssVariables) {
       this.skip();
     } else {
-      const vnode1 = h("div", [h("i", { style: { "--myVar": 1 as any } as any })]);
+      const vnode1 = h("div", [h("i", { style: { base: { "--myVar": 1 } } })]);
       const vnode2 = h("div", [h("i")]);
-      const vnode3 = h("div", [h("i", { style: { "--myVar": 2 as any } as any })]);
+      const vnode3 = h("div", [h("i", { style: { base: { "--myVar": 2 } } })]);
       patch(vnode0, vnode1);
       assert.strictEqual(elm.firstChild.style.getPropertyValue("--myVar"), "1");
       patch(vnode1, vnode2);
@@ -114,10 +127,10 @@ describe("style", function () {
   describe("delayed", function () {
     it("updates delayed styles in next frame", function (done) {
       const vnode1 = h("i", {
-        style: { fontSize: "14px", delayed: { fontSize: "16px" } as any } as any,
+        style: { base: { fontSize: "14px" }, delayed: { fontSize: "16px" } },
       });
       const vnode2 = h("i", {
-        style: { fontSize: "14px", delayed: { fontSize: "18px" } as any } as any,
+        style: { base: { fontSize: "14px" }, delayed: { fontSize: "18px" } },
       });
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.style.fontSize, "14px");
@@ -137,10 +150,10 @@ describe("style", function () {
     });
     it("updates delayed styles in next frame when default styles also change", function (done) {
       const vnode1 = h("i", {
-        style: { fontSize: "14px", delayed: { fontSize: "16px" } as any } as any,
+        style: { base: { fontSize: "14px" }, delayed: { fontSize: "16px" } },
       });
       const vnode2 = h("i", {
-        style: { fontSize: "18px", delayed: { fontSize: "20px" } as any } as any,
+        style: { base: { fontSize: "18px" }, delayed: { fontSize: "20px" } },
       });
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.style.fontSize, "14px");
@@ -160,10 +173,10 @@ describe("style", function () {
     });
     it("handles multiple delayed style changes before next frame", function (done) {
       const vnode1 = h("i", {
-        style: { fontSize: "14px", delayed: { fontSize: "16px" } as any } as any,
+        style: { base: { fontSize: "14px" }, delayed: { fontSize: "16px" } },
       });
       const vnode2 = h("i", {
-        style: { fontSize: "14px", delayed: { fontSize: "18px" } as any } as any,
+        style: { base: { fontSize: "14px" }, delayed: { fontSize: "18px" } },
       });
       elm = patch(vnode0, vnode1).elm;
       elm = patch(vnode1, vnode2).elm;
@@ -177,10 +190,10 @@ describe("style", function () {
     });
     it("handles delayed style change that gets removed before next frame", function (done) {
       const vnode1 = h("i", {
-        style: { fontSize: "14px", delayed: { fontSize: "16px" } as any } as any,
+        style: { base: { fontSize: "14px" }, delayed: { fontSize: "16px" } },
       });
       const vnode2 = h("i", {
-        style: { fontSize: "14px", delayed: {} as any } as any,
+        style: { base: { fontSize: "14px" }, delayed: {} },
       });
       elm = patch(vnode0, vnode1).elm;
       elm = patch(vnode1, vnode2).elm;
@@ -194,10 +207,10 @@ describe("style", function () {
     });
     it("applies base style immediately and reschedules delayed change", function (done) {
       const vnode1 = h("i", {
-        style: { fontSize: "14px", delayed: { fontSize: "16px" } as any } as any,
+        style: { base: { fontSize: "14px" }, delayed: { fontSize: "16px" } },
       });
       const vnode2 = h("i", {
-        style: { fontSize: "18px", delayed: { fontSize: "16px" } as any } as any,
+        style: { base: { fontSize: "18px" }, delayed: { fontSize: "16px" } },
       });
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.style.fontSize, "14px");
@@ -217,10 +230,10 @@ describe("style", function () {
     });
     it("reverts a delayed style synchronously", function (done) {
       const vnode1 = h("i", {
-        style: { fontSize: "14px", delayed: { fontSize: "16px" } as any } as any,
+        style: { base: { fontSize: "14px" }, delayed: { fontSize: "16px" } },
       });
       const vnode2 = h("i", {
-        style: { fontSize: "14px", delayed: {} as any } as any,
+        style: { base: { fontSize: "14px" }, delayed: {} },
       });
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.style.fontSize, "14px");
@@ -235,10 +248,10 @@ describe("style", function () {
     });
     it("removes a delayed style synchronously", function (done) {
       const vnode1 = h("i", {
-        style: { delayed: { fontSize: "16px" } as any },
+        style: { delayed: { fontSize: "16px" } },
       });
       const vnode2 = h("i", {
-        style: { delayed: {} as any },
+        style: { delayed: {} },
       });
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.style.fontSize, "");
@@ -257,9 +270,11 @@ describe("style", function () {
       "button",
       {
         style: {
-          transition: "transform 0.1s",
-          remove: { transform: "translateY(100%)" } as any,
-        } as any,
+          base: {
+            transition: "transform 0.1s",
+          },
+          remove: { transform: "translateY(100%)" },
+        },
       },
       ["A button"]
     );

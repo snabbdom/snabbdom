@@ -1,7 +1,7 @@
 import { VNode, VNodeData } from "../vnode";
 import { Module } from "./module";
 
-export type StyleObject = Partial<Record<string, string>>;
+export type StyleObject = Partial<Record<string, string | number>>;
 
 export type VNodeStyle = {
   base?: StyleObject;
@@ -58,7 +58,7 @@ const selectBaseStyles = (input: VNodeStyle): StyleObject => {
   });
 
   // but anything on an actual `base` property takes priority
-  const base = input.base || {}
+  const base = input.base || {};
   Object.keys(base || {}).forEach((key) => {
     newStyles[key] = base[key]!;
   });
@@ -100,7 +100,9 @@ const scheduleNextFrame = (): void => {
       const { elm, queued } = stylesForElement;
       // update the active styles to match the queued ones
       // note removing styles is done synchronously
-      Object.keys(queued).forEach((key) => addStyle(elm, key, queued[key]!));
+      Object.keys(queued).forEach((key) =>
+        addStyle(elm, key, `${queued[key]!}`)
+      );
 
       stylesForElement.active = stylesForElement.queued;
     });
@@ -179,7 +181,7 @@ const updateStyle = (oldVnode: VNode, vnode: VNode): void => {
   });
 
   Object.keys(stylesToAdd).forEach((key) =>
-    addStyle(elm, key, stylesToAdd[key]!)
+    addStyle(elm, key, `${stylesToAdd[key]!}`)
   );
 
   stylesToRemove.forEach((key) => removeStyle(elm, key));
@@ -208,7 +210,7 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   const applied: string[] = [];
   Object.keys(style).forEach((key) => {
     applied.push(key);
-    elm.style[key as any] = style[key]!;
+    elm.style[key as any] = `${style[key]!}`;
   });
   const compStyle = getComputedStyle(elm);
   const props = compStyle.transitionProperty.split(", ");
