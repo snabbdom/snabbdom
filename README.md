@@ -544,7 +544,10 @@ h(
 #### Delayed properties
 
 You can specify properties as being delayed. Whenever these properties
-change, the change is not applied until after the next frame.
+change, the change is not applied until after the next frame. If a base
+property that is also a delayed propery, the base change will be applied
+immediately, and the the delayed change rescheduled for the next frame.
+Delayed properties that are removed are applied immediately.
 
 ```mjs
 h(
@@ -586,24 +589,6 @@ h(
 ```
 
 This makes it easy to declaratively animate the removal of elements.
-
-The `all` value of `transition-property` is not supported.
-
-#### Set properties on `destroy`
-
-```mjs
-h(
-  "span",
-  {
-    style: {
-      opacity: "1",
-      transition: "opacity 1s",
-      destroy: { opacity: "0" },
-    },
-  },
-  "It's better to fade out than to burn away"
-);
-```
 
 The `all` value of `transition-property` is not supported.
 
