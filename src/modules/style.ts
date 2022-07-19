@@ -3,11 +3,13 @@ import { Module } from "./module";
 
 export type StyleObject = Partial<Record<string, string>>;
 
-export type VNodeStyle = StyleObject & {
+export type VNodeStyle = {
+  base?: StyleObject;
   delayed?: StyleObject;
   remove?: StyleObject;
 };
 
+const BASE = "base";
 const DELAYED = "delayed";
 const REMOVE = "remove";
 
@@ -47,12 +49,20 @@ const areObjectsDifferent = (a: StyleObject, b: StyleObject): boolean => {
   );
 };
 
-const selectBaseStyles = (input: StyleObject): StyleObject => {
+const selectBaseStyles = (input: VNodeStyle): StyleObject => {
   const newStyles: StyleObject = {};
-  Object.keys(input).forEach((key) => {
-    if (key === DELAYED || key === REMOVE) return;
-    newStyles[key] = input[key];
+  // backwards compat. the root object can also be `base`
+  Object.keys(input as StyleObject).forEach((key) => {
+    if (key === DELAYED || key === REMOVE || key === BASE) return;
+    newStyles[key] = (input as StyleObject)[key]!;
   });
+
+  // but anything on an actual `base` property takes priority
+  const base = input.base || {}
+  Object.keys(base || {}).forEach((key) => {
+    newStyles[key] = base[key]!;
+  });
+
   return newStyles;
 };
 
@@ -113,6 +123,8 @@ const updateStyle = (oldVnode: VNode, vnode: VNode): void => {
 
   const style = _style || {};
   const oldStyle = _oldStyle || {};
+  const newBaseStyles = selectBaseStyles(style);
+  const oldBaseStyles = selectBaseStyles(oldStyle);
   const delayed = _style.delayed || {};
   const oldDelayed = _oldStyle.delayed || {};
 
@@ -125,9 +137,6 @@ const updateStyle = (oldVnode: VNode, vnode: VNode): void => {
     delayedStylesByElement.push(_delayedStylesForElement);
   }
   const delayedStylesForElement = _delayedStylesForElement;
-
-  const newBaseStyles = selectBaseStyles(style);
-  const oldBaseStyles = selectBaseStyles(oldStyle);
 
   const stylesToAdd: StyleObject = {};
   Object.keys(newBaseStyles).forEach((key) => {

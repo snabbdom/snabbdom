@@ -503,9 +503,11 @@ h(
   "span",
   {
     style: {
-      border: "1px solid #bada55",
-      color: "#c0ffee",
-      fontWeight: "bold",
+      base: {
+        border: "1px solid #bada55",
+        color: "#c0ffee",
+        fontWeight: "bold",
+      },
     },
   },
   "Say my name, and every colour illuminates"
@@ -517,9 +519,11 @@ In JSX, you can use `style` like this:
 ```jsx
 <div
   style={{
-    border: "1px solid #bada55",
-    color: "#c0ffee",
-    fontWeight: "bold",
+    base: {
+      border: "1px solid #bada55",
+      color: "#c0ffee",
+      fontWeight: "bold",
+    }
   }}
 />
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
@@ -534,7 +538,7 @@ with `--`
 h(
   "div",
   {
-    style: { "--warnColor": "yellow" },
+    style: { base: { "--warnColor": "yellow" } },
   },
   "Warning"
 );
@@ -553,9 +557,13 @@ h(
   "span",
   {
     style: {
-      opacity: "0",
-      transition: "opacity 1s",
-      delayed: { opacity: "1" },
+      {
+        base: {
+          opacity: "0",
+          transition: "opacity 1s",
+        }
+        delayed: { opacity: "1" },
+      }
     },
   },
   "Imma fade right in!"
@@ -578,8 +586,10 @@ h(
   "span",
   {
     style: {
-      opacity: "1",
-      transition: "opacity 1s",
+      base: {
+        opacity: "1",
+        transition: "opacity 1s",
+      }
       remove: { opacity: "0" },
     },
   },

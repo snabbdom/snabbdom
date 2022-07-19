@@ -336,10 +336,10 @@ describe("snabbdom", function () {
         h(
           "div",
           {
-            style: { height: "100px", overflowY: "scroll" },
+            style: { base: { height: "100px", overflowY: "scroll" } },
             props: { scrollTop },
           },
-          [h("div", { style: { height: "200px" } })]
+          [h("div", { style: { base: { height: "200px" } } })]
         );
       const vnode1 = view(0);
       const mountPoint = document.body.appendChild(
@@ -409,8 +409,8 @@ describe("snabbdom", function () {
           );
 
           if (!isSafari) {
-            class A extends HTMLParagraphElement {}
-            class B extends HTMLParagraphElement {}
+            class A extends HTMLParagraphElement { }
+            class B extends HTMLParagraphElement { }
 
             before(function () {
               if ("customElements" in window) {
@@ -836,7 +836,7 @@ describe("snabbdom", function () {
         const elms = 14;
         const samples = 5;
         function spanNumWithOpacity(n: number, o: string) {
-          return h("span", { key: n, style: { opacity: o } }, n.toString());
+          return h("span", { key: n, style: { base: { opacity: o } } }, n.toString());
         }
         for (n = 0; n < elms; ++n) {
           arr[n] = n;
