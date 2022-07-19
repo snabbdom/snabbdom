@@ -47,7 +47,7 @@ const areObjectsDifferent = (a: StyleObject, b: StyleObject): boolean => {
   );
 };
 
-const selectBaseStyles = (input: StyleObject) => {
+const selectBaseStyles = (input: StyleObject): StyleObject => {
   const newStyles: StyleObject = {};
   Object.keys(input).forEach((key) => {
     if (key === DELAYED || key === REMOVE) return;
