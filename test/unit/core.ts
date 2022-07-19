@@ -409,8 +409,8 @@ describe("snabbdom", function () {
           );
 
           if (!isSafari) {
-            class A extends HTMLParagraphElement { }
-            class B extends HTMLParagraphElement { }
+            class A extends HTMLParagraphElement {}
+            class B extends HTMLParagraphElement {}
 
             before(function () {
               if ("customElements" in window) {
@@ -836,7 +836,11 @@ describe("snabbdom", function () {
         const elms = 14;
         const samples = 5;
         function spanNumWithOpacity(n: number, o: string) {
-          return h("span", { key: n, style: { base: { opacity: o } } }, n.toString());
+          return h(
+            "span",
+            { key: n, style: { base: { opacity: o } } },
+            n.toString()
+          );
         }
         for (n = 0; n < elms; ++n) {
           arr[n] = n;

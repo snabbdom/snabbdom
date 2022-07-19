@@ -523,7 +523,7 @@ In JSX, you can use `style` like this:
       border: "1px solid #bada55",
       color: "#c0ffee",
       fontWeight: "bold",
-    }
+    },
   }}
 />
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
