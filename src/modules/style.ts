@@ -17,7 +17,7 @@ const raf =
     window.requestAnimationFrame.bind(window)) ||
   setTimeout;
 
-const nextFrame = function (fn: any) {
+const nextFrame = function (fn: () => void) {
   raf(function () {
     raf(fn);
   });
@@ -183,32 +183,30 @@ function onDestroy(vnode: VNode): void {
 }
 
 function applyRemoveStyle(vnode: VNode, rm: () => void): void {
-  const s = (vnode.data as VNodeData).style;
-  if (!s || !s.remove) {
+  const s = vnode.data?.style;
+  if (!s || !s.remove || !(vnode.elm instanceof HTMLElement)) {
     rm();
     return;
   }
   if (!reflowForced) {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    (vnode.elm as any).offsetLeft;
+    vnode.elm.offsetLeft;
     reflowForced = true;
   }
-  let name: string;
   const elm = vnode.elm;
-  let i = 0;
   const style = s.remove;
   let amount = 0;
   const applied: string[] = [];
-  for (name in style) {
-    applied.push(name);
-    (elm as any).style[name] = style[name];
-  }
-  const compStyle = getComputedStyle(elm as Element);
-  const props = (compStyle as any)["transition-property"].split(", ");
-  for (; i < props.length; ++i) {
+  Object.keys(style).forEach((key) => {
+    applied.push(key);
+    elm.style[key as any] = style[key]!;
+  })
+  const compStyle = getComputedStyle(elm);
+  const props = compStyle.transitionProperty.split(", ");
+  for (let i = 0; i < props.length; ++i) {
     if (applied.indexOf(props[i]) !== -1) amount++;
   }
-  (elm as Element).addEventListener(
+  elm.addEventListener(
     "transitionend",
     function (ev: TransitionEvent) {
       if (ev.target === elm) --amount;
