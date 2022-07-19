@@ -22,6 +22,13 @@ describe("style", function () {
     ).elm;
     assert.strictEqual(elm.style.fontSize, "12px");
   });
+  it("is being with legacy api where props on the root object", function () {
+    elm = patch(
+      vnode0,
+      h("div", { style: { fontSize: "12px" } as any })
+    ).elm;
+    assert.strictEqual(elm.style.fontSize, "12px");
+  });
   it("can be memoized", function () {
     const cachedStyles = { fontSize: "14px", display: "inline" };
     const vnode1 = h("i", { style: { base: cachedStyles } });
