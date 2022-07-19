@@ -89,26 +89,36 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   }
   let name: string;
   const elm = vnode.elm;
-  let i = 0;
   const style = s.remove;
-  let amount = 0;
-  const applied: string[] = [];
   for (name in style) {
-    applied.push(name);
     (elm as any).style[name] = style[name];
   }
-  const compStyle = getComputedStyle(elm as Element);
-  const props = (compStyle as any)["transition-property"].split(", ");
-  for (; i < props.length; ++i) {
-    if (applied.indexOf(props[i]) !== -1) amount++;
-  }
-  (elm as Element).addEventListener(
-    "transitionend",
-    function (ev: TransitionEvent) {
-      if (ev.target === elm) --amount;
-      if (amount === 0) rm();
+
+  let running = 0;
+  const onRun = function (ev: TransitionEvent) {
+    if (ev.target === elm) running++;
+  };
+  const onEnd = function (ev: TransitionEvent) {
+    if (ev.target === elm && --running === 0) {
+      cleanUp();
+      rm();
     }
-  );
+  };
+
+  const cleanUp = () => {
+    (elm as Element).removeEventListener("transitionrun", onRun);
+    (elm as Element).removeEventListener("transitionend", onEnd);
+  };
+
+  (elm as Element).addEventListener("transitionrun", onRun);
+  (elm as Element).addEventListener("transitionend", onEnd);
+
+  nextFrame(function () {
+    if (running === 0) {
+      cleanUp();
+      rm();
+    }
+  });
 }
 
 function forceReflow() {

@@ -605,8 +605,6 @@ h(
 );
 ```
 
-The `all` value of `transition-property` is not supported.
-
 ### The eventlisteners module
 
 The event listeners module gives powerful capabilities for attaching
