@@ -95,8 +95,12 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   }
 
   let running = 0;
+  let started = false;
   const onRun = function (ev: TransitionEvent) {
-    if (ev.target === elm) running++;
+    if (ev.target === elm) {
+      started = true;
+      running++;
+    }
   };
   const onEnd = function (ev: TransitionEvent) {
     if (ev.target === elm && --running === 0) {
@@ -114,7 +118,7 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   (elm as Element).addEventListener("transitionend", onEnd);
 
   nextFrame(function () {
-    if (running === 0) {
+    if (!started) {
       cleanUp();
       rm();
     }
