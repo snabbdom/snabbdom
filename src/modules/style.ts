@@ -59,7 +59,7 @@ const selectBaseStyles = (input: VNodeStyle): StyleObject => {
 
   // but anything on an actual `base` property takes priority
   const base = input.base || {};
-  Object.keys(base || {}).forEach((key) => {
+  Object.keys(base).forEach((key) => {
     newStyles[key] = base[key]!;
   });
 
