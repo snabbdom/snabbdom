@@ -192,6 +192,41 @@ describe("style", function () {
         });
       });
     });
+    it("handles base style getting removed before next frame", function (done) {
+      const vnode1 = h("i", {
+        style: { fontSize: "16px", delayed: { fontSize: "18px" } as any },
+      });
+      const vnode2 = h("i", {
+        style: { delayed: { fontSize: "18px" } as any },
+      });
+      elm = patch(vnode0, vnode1).elm;
+      assert.strictEqual(elm.style.fontSize, "16px");
+      elm = patch(vnode1, vnode2).elm;
+      assert.strictEqual(elm.style.fontSize, "");
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          assert.strictEqual(elm.style.fontSize, "18px");
+          done();
+        });
+      });
+    });
+    it("handles base style getting removed when it's also in delayed", function (done) {
+      const vnode1 = h("i", {
+        style: { fontSize: "16px", delayed: { fontSize: "18px" } as any },
+      });
+      const vnode2 = h("i", {
+        style: { delayed: { fontSize: "18px" } as any },
+      });
+      elm = patch(vnode0, vnode1).elm;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          assert.strictEqual(elm.style.fontSize, "18px");
+          elm = patch(vnode1, vnode2).elm;
+          assert.strictEqual(elm.style.fontSize, "18px");
+          done();
+        });
+      });
+    });
     it("applies base style immediately and reschedules delayed change", function (done) {
       const vnode1 = h("i", {
         style: { fontSize: "14px", delayed: { fontSize: "16px" } as any },
