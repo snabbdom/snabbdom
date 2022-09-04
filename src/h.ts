@@ -79,9 +79,7 @@ export function h(sel: any, b?: any, c?: any): VNode {
     }
   }
   if (
-    sel[0] === "s" &&
-    sel[1] === "v" &&
-    sel[2] === "g" &&
+    sel.startsWith("svg") &&
     (sel.length === 3 || sel[3] === "." || sel[3] === "#")
   ) {
     addNS(data, children, sel);
