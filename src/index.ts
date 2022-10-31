@@ -27,7 +27,7 @@ export { Classes, classModule } from "./modules/class";
 export { Dataset, datasetModule } from "./modules/dataset";
 export { On, eventListenersModule } from "./modules/eventlisteners";
 export { Props, propsModule } from "./modules/props";
-export { VNodeStyle, styleModule } from "./modules/style";
+export { VNodeStyle, StyleObject, styleModule } from "./modules/style";
 
 // JSX
 export {
