@@ -142,7 +142,6 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
     - [Custom properties (CSS variables)](#custom-properties-css-variables)
     - [Delayed properties](#delayed-properties)
     - [Set properties on `remove`](#set-properties-on-remove)
-    - [Set properties on `destroy`](#set-properties-on-destroy)
   - [The eventlisteners module](#the-eventlisteners-module)
 - [SVG](#svg)
   - [Classes in SVG Elements](#classes-in-svg-elements)
@@ -504,9 +503,11 @@ h(
   "span",
   {
     style: {
-      border: "1px solid #bada55",
-      color: "#c0ffee",
-      fontWeight: "bold",
+      base: {
+        border: "1px solid #bada55",
+        color: "#c0ffee",
+        fontWeight: "bold",
+      },
     },
   },
   "Say my name, and every colour illuminates"
@@ -518,9 +519,11 @@ In JSX, you can use `style` like this:
 ```jsx
 <div
   style={{
-    border: "1px solid #bada55",
-    color: "#c0ffee",
-    fontWeight: "bold",
+    base: {
+      border: "1px solid #bada55",
+      color: "#c0ffee",
+      fontWeight: "bold",
+    },
   }}
 />
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
@@ -535,7 +538,7 @@ with `--`
 h(
   "div",
   {
-    style: { "--warnColor": "yellow" },
+    style: { base: { "--warnColor": "yellow" } },
   },
   "Warning"
 );
@@ -544,16 +547,23 @@ h(
 #### Delayed properties
 
 You can specify properties as being delayed. Whenever these properties
-change, the change is not applied until after the next frame.
+change, the change is not applied until after the next frame. If a base
+property that is also a delayed propery, the base change will be applied
+immediately, and the the delayed change rescheduled for the next frame.
+Delayed properties that are removed are applied immediately.
 
 ```mjs
 h(
   "span",
   {
     style: {
-      opacity: "0",
-      transition: "opacity 1s",
-      delayed: { opacity: "1" },
+      {
+        base: {
+          opacity: "0",
+          transition: "opacity 1s",
+        }
+        delayed: { opacity: "1" },
+      }
     },
   },
   "Imma fade right in!"
@@ -576,8 +586,10 @@ h(
   "span",
   {
     style: {
-      opacity: "1",
-      transition: "opacity 1s",
+      base: {
+        opacity: "1",
+        transition: "opacity 1s",
+      }
       remove: { opacity: "0" },
     },
   },
@@ -586,24 +598,6 @@ h(
 ```
 
 This makes it easy to declaratively animate the removal of elements.
-
-The `all` value of `transition-property` is not supported.
-
-#### Set properties on `destroy`
-
-```mjs
-h(
-  "span",
-  {
-    style: {
-      opacity: "1",
-      transition: "opacity 1s",
-      destroy: { opacity: "0" },
-    },
-  },
-  "It's better to fade out than to burn away"
-);
-```
 
 The `all` value of `transition-property` is not supported.
 
