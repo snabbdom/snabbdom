@@ -83,7 +83,7 @@ const patch = init([
 
 const container = document.getElementById("container");
 
-const vnode = h("div#container.two.classes", { on: { click: someFn } }, [
+const vnode = h("div#container.two.classes", { on: { click: () => console.log("div clicked") } }, [
   h("span", { style: { fontWeight: "bold" } }, "This is bold"),
   " and this is just normal text",
   h("a", { props: { href: "/foo" } }, "I'll take you places!"),
@@ -93,7 +93,7 @@ patch(container, vnode);
 
 const newVnode = h(
   "div#container.two.classes",
-  { on: { click: anotherEventHandler } },
+  { on: { click: () => console.log("updated div clicked") } },
   [
     h(
       "span",
