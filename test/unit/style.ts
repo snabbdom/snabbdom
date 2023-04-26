@@ -4,6 +4,8 @@ import { init, styleModule, h, toVNode } from "../../src/index";
 
 const patch = init([styleModule]);
 
+let globalCounter = 0;
+
 const featureDiscoveryElm = document.createElement("div");
 featureDiscoveryElm.style.setProperty("--foo", "foo");
 const hasCssVariables =
@@ -134,27 +136,155 @@ describe("style", function () {
       });
     });
   });
-  it("applies tranform as transition on remove", function (done) {
-    const btn = h(
-      "button",
-      {
-        style: {
-          transition: "transform 0.1s",
-          remove: { transform: "translateY(100%)" } as any,
+  describe("remove", function () {
+    it("support single property", function (done) {
+      const id = `id${globalCounter++}`;
+      const btn = h(
+        `button#${id}`,
+        {
+          style: {
+            transition: "transform 0.1s",
+            remove: { transform: "translateY(100%)" } as any,
+          },
         },
-      },
-      ["A button"]
-    );
-    const vnode1 = h("div.parent", {}, [btn]);
-    const vnode2 = h("div.parent", {}, [null]);
-    document.body.appendChild(vnode0);
-    patch(vnode0, vnode1);
-    patch(vnode1, vnode2);
-    const button = document.querySelector("button") as HTMLButtonElement;
-    assert.notStrictEqual(button, null);
-    button.addEventListener("transitionend", function () {
-      assert.strictEqual(document.querySelector("button"), null);
-      done();
+        ["A button"]
+      );
+      const vnode1 = h("div.parent", {}, [btn]);
+      const vnode2 = h("div.parent", {}, [null]);
+      document.body.appendChild(vnode0);
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+      const button = document.getElementById(id) as HTMLButtonElement;
+      assert.notStrictEqual(button, null);
+      button.addEventListener("transitionend", function () {
+        assert.strictEqual(document.getElementById(id), null);
+        done();
+      });
+    });
+    it("supports 'all'", function (done) {
+      const id = `id${globalCounter++}`;
+      const btn = h(
+        `button#${id}`,
+        {
+          style: {
+            transition: "all 0.1s",
+            remove: { transform: "translateY(100%)" } as any,
+          },
+        },
+        ["A button"]
+      );
+      const vnode1 = h("div.parent", {}, [btn]);
+      const vnode2 = h("div.parent", {}, [null]);
+      document.body.appendChild(vnode0);
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+      const button = document.getElementById(id) as HTMLButtonElement;
+      assert.notStrictEqual(button, null);
+      button.addEventListener("transitionend", function () {
+        assert.strictEqual(document.getElementById(id), null);
+        done();
+      });
+    });
+    it("supports 'transition-delay'", function (done) {
+      const id = `id${globalCounter++}`;
+      const btn = h(
+        `button#${id}`,
+        {
+          style: {
+            transition: "all 0.1s",
+            transitionDelay: "0.1s",
+            remove: { transform: "translateY(100%)" } as any,
+          },
+        },
+        ["A button"]
+      );
+      const vnode1 = h("div.parent", {}, [btn]);
+      const vnode2 = h("div.parent", {}, [null]);
+      document.body.appendChild(vnode0);
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+      const button = document.getElementById(id) as HTMLButtonElement;
+      assert.notStrictEqual(button, null);
+      button.addEventListener("transitionend", function () {
+        assert.strictEqual(document.getElementById(id), null);
+        done();
+      });
+    });
+    it("supports no transition", function (done) {
+      const id = `id${globalCounter++}`;
+      const btn = h(
+        `button#${id}`,
+        {
+          style: {
+            transition: "none",
+            remove: { transform: "translateY(100%)" } as any,
+          },
+        },
+        ["A button"]
+      );
+      const vnode1 = h("div.parent", {}, [btn]);
+      const vnode2 = h("div.parent", {}, [null]);
+      document.body.appendChild(vnode0);
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          assert.strictEqual(document.getElementById(id), null);
+          done();
+        });
+      });
+    });
+    it("supports multiple properties", function (done) {
+      const id = `id${globalCounter++}`;
+      const btn = h(
+        `button#${id}`,
+        {
+          style: {
+            transition: "transform 0.1s, color 0.2s",
+            remove: { transform: "translateY(100%)", color: "red" } as any,
+          },
+        },
+        ["A button"]
+      );
+      const vnode1 = h("div.parent", {}, [btn]);
+      const vnode2 = h("div.parent", {}, [null]);
+      document.body.appendChild(vnode0);
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+      const button = document.getElementById(id) as HTMLButtonElement;
+      assert.notStrictEqual(button, null);
+      let counter = 0;
+      button.addEventListener("transitionend", function () {
+        if (++counter === 2) {
+          assert.strictEqual(document.getElementById(id), null);
+          done();
+        }
+      });
+    });
+    it("supports a transition of 0 seconds", function (done) {
+      const id = `id${globalCounter++}`;
+      const btn = h(
+        `button#${id}`,
+        {
+          style: {
+            transition: "transform 0s",
+            remove: { transform: "translateY(100%)" } as any,
+          },
+        },
+        ["A button"]
+      );
+      const vnode1 = h("div.parent", {}, [btn]);
+      const vnode2 = h("div.parent", {}, [null]);
+      document.body.appendChild(vnode0);
+      patch(vnode0, vnode1);
+      patch(vnode1, vnode2);
+
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          assert.strictEqual(document.getElementById(id), null);
+          done();
+        });
+      });
     });
   });
   describe("using toVNode()", function () {
