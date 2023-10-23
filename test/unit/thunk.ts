@@ -1,4 +1,4 @@
-import { assert } from "chai";
+import { assert } from "@esm-bundle/chai";
 
 import { init, h, thunk, VNode } from "../../src/index";
 
@@ -172,7 +172,7 @@ describe("thunk", function () {
       return h(
         "span",
         { key: "num", hook: { destroy: destroyHook } },
-        `Number is ${n}`
+        `Number is ${n}`,
       );
     }
     const vnode1 = h("div", [
@@ -194,7 +194,7 @@ describe("thunk", function () {
       return h(
         "span",
         { key: "num", hook: { remove: hook } },
-        `Number is ${n}`
+        `Number is ${n}`,
       );
     }
     const vnode1 = h("div", [

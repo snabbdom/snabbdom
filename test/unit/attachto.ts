@@ -1,4 +1,4 @@
-import { assert } from "chai";
+import { assert } from "@esm-bundle/chai";
 
 import { init, RemoveHook, attachTo, h } from "../../src/index";
 
@@ -82,7 +82,7 @@ describe("attachTo", function () {
         h("div", "Some element"),
         attachTo(
           elm,
-          h("div#attached", { hook: { remove: rm } }, "First text")
+          h("div#attached", { hook: { remove: rm } }, "First text"),
         ),
       ]),
     ]);

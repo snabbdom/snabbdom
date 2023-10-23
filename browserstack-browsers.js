@@ -1,29 +1,29 @@
-module.exports = {
+export default {
   // Latest mainstream
   BS_Chrome_Current: {
     base: "BrowserStack",
-    browser: "chrome",
+    browserName: "chrome",
     browser_version: "latest",
     os: "Windows",
     os_version: "10",
   },
   BS_Firefox_Current: {
     base: "BrowserStack",
-    browser: "firefox",
+    browserName: "firefox",
     browser_version: "latest",
     os: "Windows",
     os_version: "10",
   },
   BS_Safari_Current: {
     base: "BrowserStack",
-    browser: "safari",
+    browserName: "safari",
     browser_version: "latest",
     os: "OS X",
     os_version: "Big Sur",
   },
   BS_Android_8: {
     base: "BrowserStack",
-    browser: "Android",
+    browserName: "Android",
     device: "Google Pixel 2",
     os: "Android",
     os_version: "8.0",
@@ -33,21 +33,21 @@ module.exports = {
   // Older mainstream
   BS_Chrome_50: {
     base: "BrowserStack",
-    browser: "chrome",
+    browserName: "chrome",
     browser_version: "50",
     os: "Windows",
     os_version: "10",
   },
   BS_Firefox_52: {
     base: "BrowserStack",
-    browser: "firefox",
+    browserName: "firefox",
     browser_version: "52",
     os: "Windows",
     os_version: "10",
   },
   BS_Safari_10: {
     base: "BrowserStack",
-    browser: "safari",
+    browserName: "safari",
     browser_version: "10.1",
     os: "OS X",
     os_version: "Sierra",
@@ -64,7 +64,7 @@ module.exports = {
   },
   BS_iphone_10: {
     base: "BrowserStack",
-    browser: "Mobile Safari",
+    browserName: "Mobile Safari",
     browser_version: null,
     device: "iPhone 7",
     real_mobile: true,
@@ -73,14 +73,14 @@ module.exports = {
   },
   BS_MS_Edge: {
     base: "BrowserStack",
-    browser: "edge",
+    browserName: "edge",
     browser_version: "latest",
     os: "Windows",
     os_version: "10",
   },
   BS_IE_11: {
     base: "BrowserStack",
-    browser: "ie",
+    browserName: "ie",
     browser_version: "11.0",
     os: "Windows",
     os_version: "7",

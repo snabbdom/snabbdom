@@ -23,3 +23,5 @@
 /test-bundles/unit/jsx.js
 /test-bundles/unit/style.js
 /test-bundles/unit/thunk.js
+
+local.log
