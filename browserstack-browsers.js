@@ -30,12 +30,6 @@ export default {
     os: "Android",
     os_version: "8.0",
   },
-  BS_Safari_Mobile: {
-    browserName: "safari",
-    device: "iPhone 15 Pro",
-    os: "iOS",
-    os_version: "17",
-  },
   BS_MS_Edge: {
     browserName: "edge",
     browser_version: "latest",
