@@ -25,15 +25,18 @@ export default {
     os_version: "13.0",
   },
   BS_Android_8: {
-    base: "BrowserStack",
     browserName: "Android",
     device: "Google Pixel 2",
     os: "Android",
     os_version: "8.0",
-    real_mobile: true,
+  },
+  BS_Safari_Mobile: {
+    browserName: "safari",
+    device: "iPhone 14",
+    os: "iOS",
+    os_version: "16",
   },
   BS_MS_Edge: {
-    base: "BrowserStack",
     browserName: "edge",
     browser_version: "latest",
     os: "Windows",
