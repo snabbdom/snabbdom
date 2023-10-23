@@ -7,13 +7,7 @@
     "type": "git",
     "url": "git+https://github.com/snabbdom/snabbdom.git"
   },
-  "keywords": [
-    "virtual",
-    "dom",
-    "light",
-    "kiss",
-    "performance"
-  ],
+  "keywords": ["virtual", "dom", "light", "kiss", "performance"],
   "author": "Simon Friis Vindum",
   "license": "MIT",
   "bugs": {
@@ -27,8 +21,7 @@
   "types": "build/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "build": "tsc && npm run bundle:cjs",
-    "bundle:cjs": "rollup build/index.js --format cjs --file build/snabbdom.cjs.js",
+    "build": "tsc",
     "examples": "serve .",
     "format": "prettier --write .",
     "prepare": "husky install",
@@ -63,7 +56,6 @@
     "mocha": "10.2.0",
     "prettier": "^3.0.3",
     "release-it": "^16.2.1",
-    "rollup": "^4.1.4",
     "serve": "^14.2.1",
     "typescript": "5.2.2"
   },

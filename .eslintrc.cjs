@@ -14,6 +14,7 @@ module.exports = {
     browser: true,
     node: false,
   },
+  ignorePatterns: ["browserstack-browsers.js", "web-test-runner.config.js"],
   overrides: [
     {
       files: ["*.ts", "*.tsx"],
