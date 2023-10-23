@@ -32,9 +32,9 @@ export default {
   },
   BS_Safari_Mobile: {
     browserName: "safari",
-    device: "iPhone 14",
+    device: "iPhone 15 Pro",
     os: "iOS",
-    os_version: "16",
+    os_version: "17",
   },
   BS_MS_Edge: {
     browserName: "edge",
