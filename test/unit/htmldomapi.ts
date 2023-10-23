@@ -1,4 +1,4 @@
-import { assert } from "chai";
+import { assert } from "@esm-bundle/chai";
 
 import { init, h, attributesModule } from "../../src/index";
 
@@ -27,7 +27,7 @@ describe("svg", function () {
         {
           attrs: { "xlink:href": testUrl },
         },
-        []
+        [],
       ),
     ]);
 

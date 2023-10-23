@@ -1,4 +1,4 @@
-import { assert } from "chai";
+import { assert } from "@esm-bundle/chai";
 import { jsx, Fragment, init } from "../../src/index";
 
 describe("snabbdom", function () {
@@ -565,7 +565,7 @@ describe("snabbdom", function () {
       assert.strictEqual(vnode0.elm?.nodeType, document.DOCUMENT_FRAGMENT_NODE);
       assert.strictEqual(
         vnode0.elm?.textContent,
-        "Nested children will be flattened"
+        "Nested children will be flattened",
       );
 
       const vnode1 = (
@@ -582,7 +582,7 @@ describe("snabbdom", function () {
       assert.strictEqual((vnode1.elm as HTMLElement).tagName, "DIV");
       assert.strictEqual(
         vnode1.elm?.textContent,
-        "Nested child nodes will be patched"
+        "Nested child nodes will be patched",
       );
 
       const vnode2 = (

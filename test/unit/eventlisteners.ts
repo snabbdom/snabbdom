@@ -1,4 +1,4 @@
-import { assert } from "chai";
+import { assert } from "@esm-bundle/chai";
 
 import { VNode, init, eventListenersModule, h } from "../../src/index";
 
@@ -34,7 +34,7 @@ describe("event listeners", function () {
           },
         },
       },
-      [h("a", "Click my parent")]
+      [h("a", "Click my parent")],
     );
     const vnode2 = h(
       "div",
@@ -45,7 +45,7 @@ describe("event listeners", function () {
           },
         },
       },
-      [h("a", "Click my parent")]
+      [h("a", "Click my parent")],
     );
     elm = patch(vnode0, vnode1).elm;
     elm.click();

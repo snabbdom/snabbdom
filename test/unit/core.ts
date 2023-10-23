@@ -1,5 +1,5 @@
-import { assert } from "chai";
-import shuffle from "lodash.shuffle";
+import { assert } from "@esm-bundle/chai";
+import { shuffle } from "lodash-es";
 
 import {
   init,
@@ -28,7 +28,7 @@ const hasSvgClassList = "classList" in SVGElement.prototype;
 const patch = init(
   [classModule, propsModule, eventListenersModule],
   undefined,
-  { experimental: { fragments: true } }
+  { experimental: { fragments: true } },
 );
 
 function prop<T>(name: string) {
@@ -145,13 +145,13 @@ describe("snabbdom", function () {
         vnode0,
         h("svg", [
           h("foreignObject", [h("div", ["I am HTML embedded in SVG"])]),
-        ])
+        ]),
       ).elm;
       assert.strictEqual(elm.namespaceURI, SVGNamespace);
       assert.strictEqual(elm.firstChild.namespaceURI, SVGNamespace);
       assert.strictEqual(
         elm.firstChild.firstChild.namespaceURI,
-        XHTMLNamespace
+        XHTMLNamespace,
       );
 
       // verify that svg tag with extra selectors gets svg namespace
@@ -171,7 +171,7 @@ describe("snabbdom", function () {
     it("receives classes in class property", function () {
       elm = patch(
         vnode0,
-        h("i", { class: { am: true, a: true, class: true, not: false } })
+        h("i", { class: { am: true, a: true, class: true, not: false } }),
       ).elm;
       assert(elm.classList.contains("am"));
       assert(elm.classList.contains("a"));
@@ -198,7 +198,7 @@ describe("snabbdom", function () {
             h("g", {
               class: { am: true, a: true, class: true, not: false, too: true },
             }),
-          ])
+          ]),
         ).elm;
         assert(elm.firstChild.classList.contains("am"));
         assert(elm.firstChild.classList.contains("a"));
@@ -209,12 +209,12 @@ describe("snabbdom", function () {
     it("handles classes from both selector and property", function () {
       elm = patch(
         vnode0,
-        h("div", [h("i.has", { class: { classes: true } })])
+        h("div", [h("i.has", { class: { classes: true } })]),
       ).elm;
       assert(elm.firstChild.classList.contains("has"), "has `has` class");
       assert(
         elm.firstChild.classList.contains("classes"),
-        "has `classes` class"
+        "has `classes` class",
       );
     });
     it("can create elements with text content", function () {
@@ -241,11 +241,11 @@ describe("snabbdom", function () {
         frame.srcdoc = "<div>Thing 1</div>";
         frame.onload = function () {
           const div0 = frame.contentDocument!.body.querySelector(
-            "div"
+            "div",
           ) as HTMLDivElement;
           patch(div0, h("div", "Thing 2"));
           const div1 = frame.contentDocument!.body.querySelector(
-            "div"
+            "div",
           ) as HTMLDivElement;
           assert.strictEqual(div1.textContent, "Thing 2");
           frame.remove();
@@ -339,11 +339,11 @@ describe("snabbdom", function () {
             style: { height: "100px", overflowY: "scroll" },
             props: { scrollTop },
           },
-          [h("div", { style: { height: "200px" } })]
+          [h("div", { style: { height: "200px" } })],
         );
       const vnode1 = view(0);
       const mountPoint = document.body.appendChild(
-        document.createElement("div")
+        document.createElement("div"),
       );
       const { elm } = patch(mountPoint, vnode1);
       if (!(elm instanceof HTMLDivElement)) throw new Error();
@@ -405,7 +405,7 @@ describe("snabbdom", function () {
       if ("customElements" in window) {
         describe("customized built-in element", function () {
           const isSafari = /^((?!chrome|android).)*safari/i.test(
-            navigator.userAgent
+            navigator.userAgent,
           );
 
           if (!isSafari) {
@@ -473,7 +473,7 @@ describe("snabbdom", function () {
           {},
           [h("div#id.class", [h("span", "Hi")])],
           undefined,
-          prevElm as any
+          prevElm as any,
         );
         elm = patch(toVNode(prevElm), nextVNode).elm;
         assert.strictEqual(elm, prevElm);
@@ -786,7 +786,7 @@ describe("snabbdom", function () {
           const vnode1 = h("span", [Symbol()].map(spanNum));
           const vnode2 = h(
             "span",
-            [Symbol("1"), Symbol("2"), Symbol("3")].map(spanNum)
+            [Symbol("1"), Symbol("2"), Symbol("3")].map(spanNum),
           );
           elm = patch(vnode0, vnode1).elm;
           assert.equal(elm.children.length, 1);
@@ -846,7 +846,7 @@ describe("snabbdom", function () {
             "span",
             arr.map(function (n) {
               return spanNumWithOpacity(n, "1");
-            })
+            }),
           );
           const shufArr = shuffle(arr.slice(0));
           let elm: HTMLDivElement | HTMLSpanElement =
@@ -860,13 +860,13 @@ describe("snabbdom", function () {
             "span",
             arr.map(function (n) {
               return spanNumWithOpacity(shufArr[n], opacities[n]);
-            })
+            }),
           );
           elm = patch(vnode1, vnode2).elm as HTMLSpanElement;
           for (i = 0; i < elms; ++i) {
             assert.strictEqual(
               elm.children[i].innerHTML,
-              shufArr[i].toString()
+              shufArr[i].toString(),
             );
             const opacity = (elm.children[i] as HTMLSpanElement).style.opacity;
             assert.strictEqual(opacities[i].indexOf(opacity), 0);
@@ -878,8 +878,8 @@ describe("snabbdom", function () {
         const vnode2 = h(
           "i",
           [null, 2, undefined, null, 1, 0, null, 5, 4, null, 3, undefined].map(
-            spanNum
-          )
+            spanNum,
+          ),
         );
         elm = patch(vnode0, vnode1).elm;
         assert.strictEqual(elm.children.length, 6);
@@ -935,7 +935,7 @@ describe("snabbdom", function () {
             map(inner, elm.children),
             arr.filter(function (x) {
               return x != null;
-            })
+            }),
           );
         }
       });

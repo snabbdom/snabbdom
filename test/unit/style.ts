@@ -1,4 +1,4 @@
-import { assert } from "chai";
+import { assert } from "@esm-bundle/chai";
 
 import { init, styleModule, h, toVNode } from "../../src/index";
 
@@ -143,7 +143,7 @@ describe("style", function () {
           remove: { transform: "translateY(100%)" } as any,
         },
       },
-      ["A button"]
+      ["A button"],
     );
     const vnode1 = h("div.parent", {}, [btn]);
     const vnode2 = h("div.parent", {}, [null]);

@@ -1,4 +1,4 @@
-import { assert } from "chai";
+import { assert } from "@esm-bundle/chai";
 
 import { datasetModule, init, h, toVNode } from "../../src/index";
 

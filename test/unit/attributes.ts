@@ -1,4 +1,4 @@
-import { assert } from "chai";
+import { assert } from "@esm-bundle/chai";
 
 import { init, attributesModule, h } from "../../src/index";
 
@@ -49,7 +49,7 @@ describe("attributes", function () {
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(
       elm.getAttributeNS("http://www.w3.org/1999/xlink", "href"),
-      "#foo"
+      "#foo",
     );
   });
   it("should not touch class nor id fields", function () {
