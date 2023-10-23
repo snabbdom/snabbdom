@@ -1,25 +1,28 @@
 export default {
   // Latest mainstream
   BS_Chrome_Current: {
-    base: "BrowserStack",
     browserName: "chrome",
     browser_version: "latest",
     os: "Windows",
     os_version: "10",
   },
   BS_Firefox_Current: {
-    base: "BrowserStack",
     browserName: "firefox",
     browser_version: "latest",
     os: "Windows",
     os_version: "10",
   },
   BS_Safari_Current: {
-    base: "BrowserStack",
     browserName: "safari",
     browser_version: "latest",
     os: "OS X",
     os_version: "Big Sur",
+  },
+  BS_Android_Current: {
+    browserName: "chrome",
+    device: "Samsung Galaxy S23",
+    os: "Android",
+    os_version: "13.0",
   },
   BS_Android_8: {
     base: "BrowserStack",
@@ -54,14 +57,6 @@ export default {
   },
 
   // Misc
-  BS_Android_4_4: {
-    base: "BrowserStack",
-    device_browser: "ucbrowser",
-    device: "Google Nexus 5",
-    os: "Android",
-    os_version: "4.4",
-    real_mobile: true,
-  },
   BS_iphone_10: {
     base: "BrowserStack",
     browserName: "Mobile Safari",
