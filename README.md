@@ -1,6 +1,6 @@
 <img alt="Snabbdom" src="readme-title.svg" width="356px">
 
-A virtual DOM library with focus on simplicity, modularity, powerful features
+A virtual DOM library with a focus on simplicity, modularity, powerful features
 and performance.
 
 ---
@@ -18,24 +18,24 @@ their great cross-browser testing tools.
 
 ---
 
-English | [简体中文](./README-zh_CN.md)
+English | [简体中文](./README-zh_CN.md) | [Hindi](./README-in_HN)
 
 ## Introduction
 
 Virtual DOM is awesome. It allows us to express our application's view
-as a function of its state. But existing solutions were way way too
+as a function of its state. But existing solutions were way too
 bloated, too slow, lacked features, had an API biased towards OOP
-and/or lacked features I needed.
+, and/or lacked features I needed.
 
-Snabbdom consists of an extremely simple, performant and extensible
+Snabbdom consists of an extremely simple, performant, and extensible
 core that is only ≈ 200 SLOC. It offers a modular architecture with
 rich functionality for extensions through custom modules. To keep the
 core simple, all non-essential functionality is delegated to modules.
 
-You can mold Snabbdom into whatever you desire! Pick, choose and
+You can mold Snabbdom into whatever you desire! Pick, choose, and
 customize the functionality you want. Alternatively you can just use
 the default extensions and get a virtual DOM library with high
-performance, small size and all the features listed below.
+performance, small size, and all the features listed below.
 
 ## Features
 
@@ -171,7 +171,7 @@ extendable.
 
 The core exposes only one single function `init`. This `init`
 takes a list of modules and returns a `patch` function that uses the
-specified set of modules.
+the specified set of modules.
 
 ```mjs
 import { classModule, styleModule } from "snabbdom";
@@ -222,8 +222,8 @@ Of course, then there is still a single comment node at the mount point.
 ### `h`
 
 It is recommended that you use `h` to create vnodes. It accepts a
-tag/selector as a string, an optional data object and an optional string or
-array of children.
+tag/selector as a string, an optional data object, and an optional string or
+an array of children.
 
 ```mjs
 import { h } from "snabbdom";
@@ -312,7 +312,7 @@ desired points in the life of a virtual node.
 The following hooks are available for modules: `pre`, `create`,
 `update`, `destroy`, `remove`, `post`.
 
-The following hooks are available in the `hook` property of individual
+The following hooks are available in the `hook` property of the individual
 elements: `init`, `create`, `insert`, `prepatch`, `update`,
 `postpatch`, `destroy`, `remove`.
 
@@ -387,7 +387,7 @@ animate the disappearance of the removed element's children.
 
 ### Creating modules
 
-Modules works by registering global listeners for [hooks](#hooks). A module is simply a dictionary mapping hook names to functions.
+Modules work by registering global listeners for [hooks](#hooks). A module is simply a dictionary mapping hook names to functions.
 
 ```mjs
 const myModule = {
@@ -412,7 +412,7 @@ This describes the core modules. All modules are optional. JSX examples assume y
 
 The class module provides an easy way to dynamically toggle classes on
 elements. It expects an object in the `class` data property. The
-object should map class names to booleans that indicates whether or
+object should map class names to booleans that indicate whether or
 not the class should stay or go on the vnode.
 
 ```mjs
@@ -615,7 +615,7 @@ event listeners.
 You can attach a function to an event on a vnode by supplying an
 object at `on` with a property corresponding to the name of the event
 you want to listen to. The function will be called when the event
-happens and will be passed the event object that belongs to it.
+happens and will be passed to the event object that belongs to it.
 
 ```mjs
 function clickHandler(ev) {
@@ -728,7 +728,7 @@ arguments.
 
 `thunk(selector, key, renderFn, [stateArguments])`
 
-The `renderFn` is invoked only if the `renderFn` is changed or `[stateArguments]` array length or it's elements are changed.
+The `renderFn` is invoked only if the `renderFn` is changed or `[stateArguments]` array length or its elements are changed.
 
 The `key` is optional. It should be supplied when the `selector` is
 not unique among the thunks siblings. This ensures that the thunk is
@@ -855,7 +855,7 @@ const fragment = (
 ### sel : String
 
 The `.sel` property of a virtual node is the CSS selector passed to
-[`h()`](#snabbdomh) during creation. For example: `h('div#container', {}, [...])` will create a a virtual node which has `div#container` as
+[`h()`](#snabbdomh) during creation. For example: `h('div#container', {}, [...])` will create a virtual node that has `div#container` as
 its `.sel` property.
 
 ### data : Object
@@ -945,7 +945,7 @@ Here are some approaches to building applications with Snabbdom.
 
 - [functional-frontend-architecture](https://github.com/paldepind/functional-frontend-architecture) –
   a repository containing several example applications that
-  demonstrates an architecture that uses Snabbdom.
+  demonstrate an architecture that uses Snabbdom.
 - [Cycle.js](https://cycle.js.org/) –
   "A functional and reactive JavaScript framework for cleaner code"
   uses Snabbdom
@@ -960,7 +960,7 @@ Here are some approaches to building applications with Snabbdom.
   "A reactive frontend framework for JavaScript"
   uses Snabbdom
 - [Tung](https://github.com/Reon90/tung) –
-  A JavaScript library for rendering html. Tung helps to divide html and JavaScript development.
+  A JavaScript library for rendering HTML. Tung helps to divide HTML and JavaScript development.
 - [sprotty](https://github.com/theia-ide/sprotty) - "A web-based diagramming framework" uses Snabbdom.
 - [Mark Text](https://github.com/marktext/marktext) - "Realtime preview Markdown Editor" build on Snabbdom.
 - [puddles](https://github.com/flintinatux/puddles) -
@@ -981,7 +981,7 @@ Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node':
     The node before which the new node is to be inserted is not a child of this node.
 ```
 
-The reason for this error is reusing of vnodes between patches (see code example), snabbdom stores actual dom nodes inside the virtual dom nodes passed to it as performance improvement, so reusing nodes between patches is not supported.
+The reason for this error is the reusing of vnodes between patches (see code example), snabbdom stores actual dom nodes inside the virtual dom nodes passed to it as performance improvement, so reusing nodes between patches is not supported.
 
 ```mjs
 const sharedNode = h("div", {}, "Selected");
@@ -1023,4 +1023,4 @@ const vnode1 = h("div", [
 ## Opportunity for community feedback
 
 Pull requests that the community may care to provide feedback on should be
-merged after such opportunity of a few days was provided.
+merged after such an opportunity of a few days was provided.
