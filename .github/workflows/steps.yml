@@ -9,12 +9,9 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-
+      - uses: actions/checkout@v3
       - run: npm ci
-
       - run: npm test
         env:
           BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}

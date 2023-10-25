@@ -38,7 +38,7 @@ Snabbdom 则极其简单、高效并且可拓展，同时核心代码 ≈ 200 �
   - 支持复杂的 CSS 动画实现
   - 提供强大的事件监听功能
   - 通过 [Thunks](#thunks) 进一步优化 diff 和 patch 过程
-  - [支持 JSX 及 Typrscript ](#jsx)
+  - [支持 JSX 及 TypeScript ](#jsx)
 - 第三方功能
   - [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html) 提供服务端渲染功能
   - [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers) 精简版虚拟 DOM 创建
