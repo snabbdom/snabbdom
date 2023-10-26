@@ -18,7 +18,8 @@ their great cross-browser testing tools.
 
 ---
 
-English | [简体中文](./README-zh_CN.md)   
+English | [简体中文](./README-zh_CN.md) | [Hindi](./README-in_HN)
+
 ## Introduction
 
 Virtual DOM is awesome. It allows us to express our application's view
