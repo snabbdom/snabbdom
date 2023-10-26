@@ -16,6 +16,9 @@
   "engines": {
     "node": ">=8.3.0"
   },
+  "files": [
+    "build"
+  ],
   "type": "module",
   "main": "build/index.js",
   "types": "build/index.d.ts",
