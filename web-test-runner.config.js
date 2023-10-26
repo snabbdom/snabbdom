@@ -14,7 +14,7 @@ const sharedCapabilities = {
 
 export default {
   concurrentBrowsers: 2,
-  concurrency: ci ? 2 : undefined,
+  concurrency: ci ? 2 : 1,
   browsers: !ci
     ? undefined
     : Object.values(browsers).map((cap) =>
