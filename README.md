@@ -18,7 +18,7 @@ their great cross-browser testing tools.
 
 ---
 
-English | [简体中文](./README-zh_CN.md) | [Hindi](./README-in_HN)
+English | [简体中文](./README-zh_CN.md) | [Hindi](./README-in_HN.md)
 
 ## Introduction
 
