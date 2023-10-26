@@ -64,6 +64,26 @@ describe("attributes", function () {
     assert.strictEqual(elm.className, "myClass");
     assert.strictEqual(elm.textContent, "Hello");
   });
+  it("should apply legacy namespace attributes, xmlns", function () {
+    const elmNamespaceQualifiedName = "xmlns:xlink";
+    const elmNamespaceValue = "http://www.w3.org/1999/xlink";
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const vnodeSVG = h("svg", {
+      attrs: { [elmNamespaceQualifiedName]: elmNamespaceValue },
+    });
+
+    elm = patch(svg, vnodeSVG).elm;
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttributeNS
+    // > Namespaces are only supported in XML documents. HTML documents have to
+    // > use getAttribute() instead.
+    //
+    // MDN advise getAttribute over getAttributeNS, as the latter returns `null`
+    // and namespaces are a legacy feature, no longer supported
+    assert.strictEqual(
+      elm.getAttribute(elmNamespaceQualifiedName),
+      elmNamespaceValue,
+    );
+  });
   describe("boolean attribute", function () {
     it("is present and empty string if the value is truthy", function () {
       const vnode1 = h("div", {

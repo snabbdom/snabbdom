@@ -4,9 +4,11 @@ import { Module } from "./module";
 export type Attrs = Record<string, string | number | boolean>;
 
 const xlinkNS = "http://www.w3.org/1999/xlink";
+const xmlnsNS = "http://www.w3.org/2000/xmlns/";
 const xmlNS = "http://www.w3.org/XML/1998/namespace";
 const colonChar = 58;
 const xChar = 120;
+const mChar = 109;
 
 function updateAttrs(oldVnode: VNode, vnode: VNode): void {
   let key: string;
@@ -35,8 +37,10 @@ function updateAttrs(oldVnode: VNode, vnode: VNode): void {
           // Assume xml namespace
           elm.setAttributeNS(xmlNS, key, cur as any);
         } else if (key.charCodeAt(5) === colonChar) {
-          // Assume xlink namespace
-          elm.setAttributeNS(xlinkNS, key, cur as any);
+          // Assume 'xmlns' or 'xlink' namespace
+          key.charCodeAt(1) === mChar
+            ? elm.setAttributeNS(xmlnsNS, key, cur as any)
+            : elm.setAttributeNS(xlinkNS, key, cur as any);
         } else {
           elm.setAttribute(key, cur as any);
         }
