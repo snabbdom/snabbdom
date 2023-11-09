@@ -37,14 +37,14 @@ function documentFragmentIsNotSupported(): never {
 
 function isElement(
   api: DOMAPI,
-  vnode: Element | DocumentFragment | VNode
+  vnode: Element | DocumentFragment | VNode,
 ): vnode is Element {
   return api.isElement(vnode as any);
 }
 
 function isDocumentFragment(
   api: DOMAPI,
-  vnode: DocumentFragment | VNode
+  vnode: DocumentFragment | VNode,
 ): vnode is DocumentFragment {
   return api.isDocumentFragment!(vnode as any);
 }
@@ -60,7 +60,7 @@ type ModuleHooks = ArraysOf<Required<Module>>;
 function createKeyToOldIdx(
   children: VNode[],
   beginIdx: number,
-  endIdx: number
+  endIdx: number,
 ): KeyToIndexMap {
   const map: KeyToIndexMap = {};
   for (let i = beginIdx; i <= endIdx; ++i) {
@@ -91,7 +91,7 @@ export type Options = {
 export function init(
   modules: Array<Partial<Module>>,
   domApi?: DOMAPI,
-  options?: Options
+  options?: Options,
 ) {
   const cbs: ModuleHooks = {
     create: [],
@@ -126,7 +126,7 @@ export function init(
       {},
       [],
       undefined,
-      elm
+      elm,
     );
   }
 
@@ -205,7 +205,7 @@ export function init(
         if (ch != null) {
           api.appendChild(
             vnode.elm,
-            createElm(ch as VNode, insertedVnodeQueue)
+            createElm(ch as VNode, insertedVnodeQueue),
           );
         }
       }
@@ -221,7 +221,7 @@ export function init(
     vnodes: VNode[],
     startIdx: number,
     endIdx: number,
-    insertedVnodeQueue: VNodeQueue
+    insertedVnodeQueue: VNodeQueue,
   ) {
     for (; startIdx <= endIdx; ++startIdx) {
       const ch = vnodes[startIdx];
@@ -251,7 +251,7 @@ export function init(
     parentElm: Node,
     vnodes: VNode[],
     startIdx: number,
-    endIdx: number
+    endIdx: number,
   ): void {
     for (; startIdx <= endIdx; ++startIdx) {
       let listeners: number;
@@ -276,7 +276,7 @@ export function init(
             parentElm,
             ch.children as VNode[],
             0,
-            ch.children.length - 1
+            ch.children.length - 1,
           );
         } else {
           // Text node
@@ -290,7 +290,7 @@ export function init(
     parentElm: Node,
     oldCh: VNode[],
     newCh: VNode[],
-    insertedVnodeQueue: VNodeQueue
+    insertedVnodeQueue: VNodeQueue,
   ) {
     let oldStartIdx = 0;
     let newStartIdx = 0;
@@ -328,7 +328,7 @@ export function init(
         api.insertBefore(
           parentElm,
           oldStartVnode.elm!,
-          api.nextSibling(oldEndVnode.elm!)
+          api.nextSibling(oldEndVnode.elm!),
         );
         oldStartVnode = oldCh[++oldStartIdx];
         newEndVnode = newCh[--newEndIdx];
@@ -348,7 +348,7 @@ export function init(
           api.insertBefore(
             parentElm,
             createElm(newStartVnode, insertedVnodeQueue),
-            oldStartVnode.elm!
+            oldStartVnode.elm!,
           );
         } else {
           elmToMove = oldCh[idxInOld];
@@ -356,7 +356,7 @@ export function init(
             api.insertBefore(
               parentElm,
               createElm(newStartVnode, insertedVnodeQueue),
-              oldStartVnode.elm!
+              oldStartVnode.elm!,
             );
           } else {
             patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);
@@ -376,7 +376,7 @@ export function init(
         newCh,
         newStartIdx,
         newEndIdx,
-        insertedVnodeQueue
+        insertedVnodeQueue,
       );
     }
     if (oldStartIdx <= oldEndIdx) {
@@ -387,7 +387,7 @@ export function init(
   function patchVnode(
     oldVnode: VNode,
     vnode: VNode,
-    insertedVnodeQueue: VNodeQueue
+    insertedVnodeQueue: VNodeQueue,
   ) {
     const hook = vnode.data?.hook;
     hook?.prepatch?.(oldVnode, vnode);
@@ -427,7 +427,7 @@ export function init(
 
   return function patch(
     oldVnode: VNode | Element | DocumentFragment,
-    vnode: VNode
+    vnode: VNode,
   ): VNode {
     let i: number, elm: Node, parent: Node;
     const insertedVnodeQueue: VNodeQueue = [];
