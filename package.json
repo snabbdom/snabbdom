@@ -27,6 +27,7 @@
     "build": "tsc",
     "examples": "serve .",
     "format": "prettier --write .",
+    "format-check": "prettier --check .",
     "prepare": "husky install",
     "lint": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
     "unit": "web-test-runner \"test/unit/*.{ts,tsx}\" --node-resolve --coverage",
