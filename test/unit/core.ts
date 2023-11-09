@@ -449,6 +449,18 @@ describe("snabbdom", function () {
       }
     });
     describe("using toVNode()", function () {
+      it("can patch the src attribute of an image elment", function () {
+        const prevElm = document.createElement("img");
+        const newElm = document.createElement("img");
+        prevElm.src = "http://other/";
+        newElm.src = "http://localhost/";
+        const vnode1 = toVNode(prevElm);
+        const vnode2 = toVNode(newElm);
+        assert.strictEqual(vnode2.data.props.src, "http://localhost/");
+        patch(vnode0, vnode1);
+        elm = patch(vnode1, vnode2).elm;
+        assert.strictEqual(elm.src, "http://localhost/");
+      });
       it("can remove previous children of the root element", function () {
         const h2 = document.createElement("h2");
         h2.textContent = "Hello";

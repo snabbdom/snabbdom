@@ -24,7 +24,12 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
       if (name.startsWith("data-")) {
         dataset[name.slice(5)] = elmAttrs[i].nodeValue || "";
       } else if (name !== "id" && name !== "class") {
-        attrs[name] = elmAttrs[i].nodeValue;
+        if (name === "src") {
+          data.props = data.props || {};
+          data.props[name] = elmAttrs[i].nodeValue;
+        } else {
+          attrs[name] = elmAttrs[i].nodeValue;
+        }
       }
     }
     for (i = 0, n = elmChildren.length; i < n; i++) {
