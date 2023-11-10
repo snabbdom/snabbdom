@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git+https://github.com/snabbdom/snabbdom.git"
   },
-  "keywords": ["virtual", "dom", "light", "kiss", "performance"],
+  "keywords": ["virtual", "dom", "vdom", "light", "kiss", "performance"],
   "author": "Simon Friis Vindum",
   "license": "MIT",
   "bugs": {
