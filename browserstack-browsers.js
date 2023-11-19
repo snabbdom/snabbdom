@@ -24,11 +24,11 @@ export default {
     os: "Android",
     os_version: "13.0",
   },
-  BS_Android_8: {
+  BS_Android_10: {
     browserName: "Android",
-    device: "Google Pixel 2",
+    device: "OnePlus 8",
     os: "Android",
-    os_version: "8.0",
+    os_version: "10.0",
   },
   BS_MS_Edge: {
     browserName: "edge",
