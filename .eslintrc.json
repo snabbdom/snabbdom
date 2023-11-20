@@ -2,7 +2,6 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "ignorePatterns": ["build"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -15,10 +14,16 @@
     "browser": true,
     "node": false
   },
-  "ignorePatterns": ["browserstack-browsers.js", "web-test-runner.config.js"],
+  "ignorePatterns": [
+    "browserstack-browsers.js",
+    "web-test-runner.config.js",
+    "build",
+    "coverage"
+  ],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"],
+      "excludedFiles": ["README*/**"],
       "parserOptions": {
         "project": ["./tsconfig.json", "test/tsconfig.json"]
       },
@@ -62,6 +67,21 @@
       },
       "rules": {
         "@typescript-eslint/no-var-requires": "off"
+      }
+    },
+    {
+      "files": ["README*md/*.tsx"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "off",
+        "import/no-unresolved": "off"
+      }
+    },
+    {
+      "files": ["CHANGELOG.md/*"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "off",
+        "import/no-unresolved": "off",
+        "node/no-missing-import": "off"
       }
     }
   ],

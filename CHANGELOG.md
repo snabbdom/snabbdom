@@ -234,7 +234,7 @@ Whether or not to set a boolean attribute is now determined by looking at the va
 ```js
 h("div", {
   attrs: {
-    foo: true // will be set a boolean attribute since `true` is a boolean
+    foo: true, // will be set a boolean attribute since `true` is a boolean
     bar: "baz" // will set a normal attribute
   }
 });
@@ -366,10 +366,12 @@ The biggest change in this release is that the Snabbdom source code has been por
 The TypeScript rewrite uses the `import` and `export` features introduced in ECMAScript 2015. Unfortunately the ES imports have no analogy to the CommonJS pattern of setting `module.exports`. This means that the Snabbdom modules that previously used this feature now have to be imported in a slightly different way.
 
 ```js
-var h = require("snabbdom/h"); // The old way
-var h = require("snabbdom/h").h; // The new way
-var h = require("snabbdom/h").default; // Alternative new way
-var { h } = require("snabbdom/h"); // Using destructuring
+/* eslint-disable no-redeclare */
+const h = require("snabbdom/h"); // The old way
+const h = require("snabbdom/h").h; // The new way
+const h = require("snabbdom/h").default; // Alternative new way
+const { h } = require("snabbdom/h"); // Using destructuring
+/* eslint-enable no-redeclare */
 ```
 
 ## [v0.6.0] - 2017-01-05
