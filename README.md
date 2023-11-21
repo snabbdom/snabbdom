@@ -158,6 +158,7 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
   - [elm : Element](#elm--element)
   - [key : string | number](#key--string--number)
 - [Structuring applications](#structuring-applications)
+* [Related packages](#related-packages)
 - [Common errors](#common-errors)
 - [Opportunity for community feedback](#opportunity-for-community-feedback)
 
@@ -973,6 +974,11 @@ Here are some approaches to building applications with Snabbdom.
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
+
+## Related packages
+
+Packages related to snabbdom should be tagged with the `snabbdom` keyword and published on npm.
+They can be found [using the query string `keywords:snabbdom`](https://www.npmjs.com/search?q=keywords:snabbdom).
 
 ## Common errors
 
