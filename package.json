@@ -47,7 +47,6 @@
     "@web/test-runner-browserstack": "^0.6.2",
     "commithelper": "^1.2.0",
     "conventional-changelog-angular": "^7.0.0",
-    "cross-env": "7.0.3",
     "eslint": "8.52.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "2.29.0",
