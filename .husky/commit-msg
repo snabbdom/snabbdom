@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx commitlint --config commitlint.config.json --edit $1
+./node_modules/.bin/commithelper check --file $1 --fix

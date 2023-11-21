@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm exec -- npm-run-all -s docs check-clean test
+./node_modules/.bin/lint-staged

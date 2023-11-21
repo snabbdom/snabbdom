@@ -1,12 +1,12 @@
-<img alt="Snabbdom" src="readme-title.svg" width="356px">
+<img alt="Snabbdom" src="https://raw.githubusercontent.com/snabbdom/snabbdom/master/readme-title.svg" width="356px">
 
-A virtual DOM library with focus on simplicity, modularity, powerful features
+A virtual DOM library with a focus on simplicity, modularity, powerful features
 and performance.
 
-* * *
+---
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://travis-ci.org/snabbdom/snabbdom.svg?branch=master)](https://travis-ci.org/snabbdom/snabbdom)
+[![Build Status](https://github.com/snabbdom/snabbdom/actions/workflows/steps.yml/badge.svg)](https://github.com/snabbdom/snabbdom/actions/workflows/steps.yml)
 [![npm version](https://badge.fury.io/js/snabbdom.svg)](https://badge.fury.io/js/snabbdom)
 [![npm downloads](https://img.shields.io/npm/dm/snabbdom.svg)](https://www.npmjs.com/package/snabbdom)
 [![Join the chat at https://gitter.im/snabbdom/snabbdom](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/snabbdom/snabbdom?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -16,134 +16,151 @@ and performance.
 Thanks to [Browserstack](https://www.browserstack.com/) for providing access to
 their great cross-browser testing tools.
 
-* * *
+---
+
+English | [简体中文](./README-zh_CN.md) | [Hindi](./README-in_HN.md)
 
 ## Introduction
 
 Virtual DOM is awesome. It allows us to express our application's view
-as a function of its state. But existing solutions were way way too
+as a function of its state. But existing solutions were way too
 bloated, too slow, lacked features, had an API biased towards OOP
-and/or lacked features I needed.
+, and/or lacked features I needed.
 
-Snabbdom consists of an extremely simple, performant and extensible
+Snabbdom consists of an extremely simple, performant, and extensible
 core that is only ≈ 200 SLOC. It offers a modular architecture with
 rich functionality for extensions through custom modules. To keep the
 core simple, all non-essential functionality is delegated to modules.
 
-You can mold Snabbdom into whatever you desire! Pick, choose and
+You can mold Snabbdom into whatever you desire! Pick, choose, and
 customize the functionality you want. Alternatively you can just use
 the default extensions and get a virtual DOM library with high
-performance, small size and all the features listed below.
+performance, small size, and all the features listed below.
 
 ## Features
 
-* Core features
-  * About 200 SLOC – you could easily read through the entire core and fully
+- Core features
+  - About 200 SLOC – you could easily read through the entire core and fully
     understand how it works.
-  * Extendable through modules.
-  * A rich set of hooks available, both per vnode and globally for modules,
+  - Extendable through modules.
+  - A rich set of hooks available, both per vnode and globally for modules,
     to hook into any part of the diff and patch process.
-  * Splendid performance. Snabbdom is among the fastest virtual DOM libraries.
-  * Patch function with a function signature equivalent to a reduce/scan
-          function. Allows for easier integration with a FRP library.
-* Features in modules
-  * `h` function for easily creating virtual DOM nodes.
-  * [SVG _just works_ with the `h` helper](#svg).
-  * Features for doing complex CSS animations.
-  * Powerful event listener functionality.
-  * [Thunks](#thunks) to optimize the diff and patch process even further.
-* Third party features
-  * JSX support thanks to [snabbdom-pragma](https://github.com/Swizz/snabbdom-pragma).
-  * Server-side HTML output provided by [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html).
-  * Compact virtual DOM creation with [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers).
-  * Template string support using [snabby](https://github.com/jamen/snabby).
-  * Virtual DOM assertion with [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like)
+  - Splendid performance. Snabbdom is among the fastest virtual DOM libraries.
+  - Patch function with a function signature equivalent to a reduce/scan
+    function. Allows for easier integration with a FRP library.
+- Features in modules
+  - `h` function for easily creating virtual DOM nodes.
+  - [SVG _just works_ with the `h` helper](#svg).
+  - Features for doing complex CSS animations.
+  - Powerful event listener functionality.
+  - [Thunks](#thunks) to optimize the diff and patch process even further.
+  - [JSX support, including TypeScript types](#jsx)
+- Third party features
+  - Server-side HTML output provided by [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html).
+  - Compact virtual DOM creation with [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers).
+  - Template string support using [snabby](https://github.com/jamen/snabby).
+  - Virtual DOM assertion with [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like)
 
 ## Example
 
 ```mjs
-import { init } from 'snabbdom/init'
-import { classModule } from 'snabbdom/modules/class'
-import { propsModule } from 'snabbdom/modules/props'
-import { styleModule } from 'snabbdom/modules/style'
-import { eventListenersModule } from 'snabbdom/modules/eventlisteners'
-import { h } from 'snabbdom/h' // helper function for creating vnodes
+import {
+  init,
+  classModule,
+  propsModule,
+  styleModule,
+  eventListenersModule,
+  h,
+} from "snabbdom";
 
-const patch = init([ // Init patch function with chosen modules
+const patch = init([
+  // Init patch function with chosen modules
   classModule, // makes it easy to toggle classes
   propsModule, // for setting properties on DOM elements
   styleModule, // handles styling on elements with support for animations
   eventListenersModule, // attaches event listeners
-])
+]);
 
-const container = document.getElementById('container')
+const container = document.getElementById("container");
 
-const vnode = h('div#container.two.classes', { on: { click: someFn } }, [
-  h('span', { style: { fontWeight: 'bold' } }, 'This is bold'),
-  ' and this is just normal text',
-  h('a', { props: { href: '/foo' } }, 'I\'ll take you places!')
-])
+const vnode = h("div#container.two.classes", { on: { click: () => console.log("div clicked") } }, [
+  h("span", { style: { fontWeight: "bold" } }, "This is bold"),
+  " and this is just normal text",
+  h("a", { props: { href: "/foo" } }, "I'll take you places!"),
+]);
 // Patch into empty DOM element – this modifies the DOM as a side effect
-patch(container, vnode)
+patch(container, vnode);
 
-const newVnode = h('div#container.two.classes', { on: { click: anotherEventHandler } }, [
-  h('span', { style: { fontWeight: 'normal', fontStyle: 'italic' } }, 'This is now italic type'),
-  ' and this is still just normal text',
-  h('a', { props: { href: '/bar' } }, 'I\'ll take you places!')
-])
+const newVnode = h(
+  "div#container.two.classes",
+  { on: { click: () => console.log("updated div clicked") } },
+  [
+    h(
+      "span",
+      { style: { fontWeight: "normal", fontStyle: "italic" } },
+      "This is now italic type"
+    ),
+    " and this is still just normal text",
+    h("a", { props: { href: "/bar" } }, "I'll take you places!"),
+  ]
+);
 // Second `patch` invocation
-patch(vnode, newVnode) // Snabbdom efficiently updates the old view to the new state
+patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new state
 ```
 
 ## More examples
 
-* [Animated reordering of elements](http://snabbdom.github.io/snabbdom/examples/reorder-animation/)
-* [Hero transitions](http://snabbdom.github.io/snabbdom/examples/hero/)
-* [SVG Carousel](http://snabbdom.github.io/snabbdom/examples/carousel-svg/)
+- [Animated reordering of elements](http://snabbdom.github.io/snabbdom/examples/reorder-animation/)
+- [Hero transitions](http://snabbdom.github.io/snabbdom/examples/hero/)
+- [SVG Carousel](http://snabbdom.github.io/snabbdom/examples/carousel-svg/)
 
-* * *
+---
 
 ## Table of contents
 
-* [Core documentation](#core-documentation)
-  * [`init`](#init)
-  * [`patch`](#patch)
-    * [Unmounting](#unmounting)
-  * [`snabbdom/h`](#snabbdomh)
-  * [`snabbdom/tovnode`](#snabbdomtovnode)
-  * [Hooks](#hooks)
-    * [Overview](#overview)
-    * [Usage](#usage)
-    * [The `init` hook](#the-init-hook)
-    * [The `insert` hook](#the-insert-hook)
-    * [The `remove` hook](#the-remove-hook)
-    * [The `destroy` hook](#the-destroy-hook)
-  * [Creating modules](#creating-modules)
-* [Modules documentation](#modules-documentation)
-  * [The class module](#the-class-module)
-  * [The props module](#the-props-module)
-  * [The attributes module](#the-attributes-module)
-  * [The dataset module](#the-dataset-module)
-  * [The style module](#the-style-module)
-    * [Custom properties (CSS variables)](#custom-properties-css-variables)
-    * [Delayed properties](#delayed-properties)
-    * [Set properties on `remove`](#set-properties-on-remove)
-    * [Set properties on `destroy`](#set-properties-on-destroy)
-  * [The eventlisteners module](#the-eventlisteners-module)
-* [SVG](#svg)
-  * [Classes in SVG Elements](#classes-in-svg-elements)
-* [Thunks](#thunks)
-* [Virtual Node](#virtual-node)
-  * [sel : String](#sel--string)
-  * [data : Object](#data--object)
-  * [children : Array<vnode>](#children--arrayvnode)
-  * [text : string](#text--string)
-  * [elm : Element](#elm--element)
-  * [key : string | number](#key--string--number)
-* [Structuring applications](#structuring-applications)
+- [Core documentation](#core-documentation)
+  - [`init`](#init)
+  - [`patch`](#patch)
+    - [Unmounting](#unmounting)
+  - [`h`](#h)
+  - [`fragment`](#fragment-experimental) (experimental)
+  - [`tovnode`](#tovnode)
+  - [Hooks](#hooks)
+    - [Overview](#overview)
+    - [Usage](#usage)
+    - [The `init` hook](#the-init-hook)
+    - [The `insert` hook](#the-insert-hook)
+    - [The `remove` hook](#the-remove-hook)
+    - [The `destroy` hook](#the-destroy-hook)
+  - [Creating modules](#creating-modules)
+- [Modules documentation](#modules-documentation)
+  - [The class module](#the-class-module)
+  - [The props module](#the-props-module)
+  - [The attributes module](#the-attributes-module)
+  - [The dataset module](#the-dataset-module)
+  - [The style module](#the-style-module)
+    - [Custom properties (CSS variables)](#custom-properties-css-variables)
+    - [Delayed properties](#delayed-properties)
+    - [Set properties on `remove`](#set-properties-on-remove)
+    - [Set properties on `destroy`](#set-properties-on-destroy)
+  - [The eventlisteners module](#the-eventlisteners-module)
+- [SVG](#svg)
+  - [Classes in SVG Elements](#classes-in-svg-elements)
+- [Thunks](#thunks)
+- [JSX](#jsx)
+  - [TypeScript](#typescript)
+  - [Babel](#babel)
+- [Virtual Node](#virtual-node)
+  - [sel : String](#sel--string)
+  - [data : Object](#data--object)
+  - [children : Array<vnode>](#children--arrayvnode)
+  - [text : string](#text--string)
+  - [elm : Element](#elm--element)
+  - [key : string | number](#key--string--number)
+- [Structuring applications](#structuring-applications)
 * [Related packages](#related-packages)
-* [Common errors](#common-errors)
-* [Opportunity for community feedback](#opportunity-for-community-feedback)
+- [Common errors](#common-errors)
+- [Opportunity for community feedback](#opportunity-for-community-feedback)
 
 ## Core documentation
 
@@ -158,10 +175,9 @@ takes a list of modules and returns a `patch` function that uses the
 specified set of modules.
 
 ```mjs
-import { classModule } from 'snabbdom/modules/class'
-import { styleModule } from 'snabbdom/modules/style'
+import { classModule, styleModule } from "snabbdom";
 
-const patch = init([classModule, styleModule])
+const patch = init([classModule, styleModule]);
 ```
 
 ### `patch`
@@ -182,7 +198,7 @@ performant architecture. This also avoids the creation of a new old
 vnode tree.
 
 ```mjs
-patch(oldVnode, newVnode)
+patch(oldVnode, newVnode);
 ```
 
 #### Unmounting
@@ -190,53 +206,86 @@ patch(oldVnode, newVnode)
 While there is no API specifically for removing a VNode tree from its mount point element, one way of almost achieving this is providing a comment VNode as the second argument to `patch`, such as:
 
 ```mjs
-patch(oldVnode, h('!', { hooks: { post: () => { /* patch complete */ } } }))
+patch(
+  oldVnode,
+  h("!", {
+    hooks: {
+      post: () => {
+        /* patch complete */
+      },
+    },
+  })
+);
 ```
 
 Of course, then there is still a single comment node at the mount point.
 
-### `snabbdom/h`
+### `h`
 
-It is recommended that you use `snabbdom/h` to create vnodes. `h` accepts a
-tag/selector as a string, an optional data object and an optional string or
-array of children.
+It is recommended that you use `h` to create vnodes. It accepts a
+tag/selector as a string, an optional data object, and an optional string or
+an array of children.
 
 ```mjs
-import { h } from 'snabbdom/h'
+import { h } from "snabbdom";
 
-const vnode = h('div', { style: { color: '#000' } }, [
-  h('h1', 'Headline'),
-  h('p', 'A paragraph'),
-])
+const vnode = h("div", { style: { color: "#000" } }, [
+  h("h1", "Headline"),
+  h("p", "A paragraph"),
+]);
 ```
 
-### `snabbdom/tovnode`
+### `fragment` (experimental)
 
-Converts a DOM node into a virtual node. Especially good for patching over an pre-existing, 
+Caution: This feature is currently experimental and must be opted in.
+Its API may be changed without an major version bump.
+
+```mjs
+const patch = init(modules, undefined, {
+  experimental: {
+    fragments: true,
+  },
+});
+```
+
+Creates a virtual node that will be converted to a document fragment containing the given children.
+
+```mjs
+import { fragment, h } from "snabbdom";
+
+const vnode = fragment(["I am", h("span", [" a", " fragment"])]);
+```
+
+### `tovnode`
+
+Converts a DOM node into a virtual node. Especially good for patching over an pre-existing,
 server-side generated content.
 
 ```mjs
-import { init } from 'snabbdom/init'
-import { classModule } from 'snabbdom/modules/class'
-import { propsModule } from 'snabbdom/modules/props'
-import { styleModule } from 'snabbdom/modules/style'
-import { eventListenersModule } from 'snabbdom/modules/eventlisteners'
-import { h } from 'snabbdom/h' // helper function for creating vnodes
-import { toVNode } from 'snabbdom/tovnode'
+import {
+  init,
+  classModule,
+  propsModule,
+  styleModule,
+  eventListenersModule,
+  h,
+  toVNode,
+} from "snabbdom";
 
-const patch = init([ // Init patch function with chosen modules
+const patch = init([
+  // Init patch function with chosen modules
   classModule, // makes it easy to toggle classes
   propsModule, // for setting properties on DOM elements
   styleModule, // handles styling on elements with support for animations
   eventListenersModule, // attaches event listeners
-])
+]);
 
-const newVNode = h('div', { style: { color: '#000' } }, [
-  h('h1', 'Headline'),
-  h('p', 'A paragraph'),
-])
+const newVNode = h("div", { style: { color: "#000" } }, [
+  h("h1", "Headline"),
+  h("p", "A paragraph"),
+]);
 
-patch(toVNode(document.querySelector('.container')), newVNode)
+patch(toVNode(document.querySelector(".container")), newVNode);
 ```
 
 ### Hooks
@@ -248,18 +297,18 @@ desired points in the life of a virtual node.
 
 #### Overview
 
-| Name | Triggered when | Arguments to callback |
-| - | - | - |
-| `pre` | the patch process begins | none |
-| `init` | a vnode has been added | `vnode` |
-| `create` | a DOM element has been created based on a vnode | `emptyVnode, vnode` |
-| `insert` | an element has been inserted into the DOM | `vnode` |
-| `prepatch` | an element is about to be patched | `oldVnode, vnode` |
-| `update` | an element is being updated | `oldVnode, vnode` |
-| `postpatch` | an element has been patched | `oldVnode, vnode` |
-| `destroy` | an element is directly or indirectly being removed | `vnode` |
-| `remove` | an element is directly being removed from the DOM | `vnode, removeCallback` |
-| `post` | the patch process is done | none |
+| Name        | Triggered when                                     | Arguments to callback   |
+| ----------- | -------------------------------------------------- | ----------------------- |
+| `pre`       | the patch process begins                           | none                    |
+| `init`      | a vnode has been added                             | `vnode`                 |
+| `create`    | a DOM element has been created based on a vnode    | `emptyVnode, vnode`     |
+| `insert`    | an element has been inserted into the DOM          | `vnode`                 |
+| `prepatch`  | an element is about to be patched                  | `oldVnode, vnode`       |
+| `update`    | an element is being updated                        | `oldVnode, vnode`       |
+| `postpatch` | an element has been patched                        | `oldVnode, vnode`       |
+| `destroy`   | an element is directly or indirectly being removed | `vnode`                 |
+| `remove`    | an element is directly being removed from the DOM  | `vnode, removeCallback` |
+| `post`      | the patch process is done                          | none                    |
 
 The following hooks are available for modules: `pre`, `create`,
 `update`, `destroy`, `remove`, `post`.
@@ -274,12 +323,14 @@ To use hooks, pass them as an object to `hook` field of the data
 object argument.
 
 ```mjs
-h('div.row', {
+h("div.row", {
   key: movie.rank,
   hook: {
-    insert: (vnode) => { movie.elmHeight = vnode.elm.offsetHeight }
-  }
-})
+    insert: (vnode) => {
+      movie.elmHeight = vnode.elm.offsetHeight;
+    },
+  },
+});
 ```
 
 #### The `init` hook
@@ -320,10 +371,10 @@ To see the difference between this hook and the `remove` hook,
 consider an example.
 
 ```mjs
-const vnode1 = h('div', [h('div', [h('span', 'Hello')])])
-const vnode2 = h('div', [])
-patch(container, vnode1)
-patch(vnode1, vnode2)
+const vnode1 = h("div", [h("div", [h("span", "Hello")])]);
+const vnode2 = h("div", []);
+patch(container, vnode1);
+patch(vnode1, vnode2);
 ```
 
 Here `destroy` is triggered for both the inner `div` element _and_ the
@@ -337,7 +388,7 @@ animate the disappearance of the removed element's children.
 
 ### Creating modules
 
-Modules works by registering global listeners for [hooks](#hooks). A module is simply a dictionary mapping hook names to functions.
+Modules work by registering global listeners for [hooks](#hooks). A module is simply a dictionary mapping hook names to functions.
 
 ```mjs
 const myModule = {
@@ -346,8 +397,8 @@ const myModule = {
   },
   update: function (oldVnode, vnode) {
     // invoked whenever a virtual node is updated
-  }
-}
+  },
+};
 ```
 
 With this mechanism you can easily augment the behaviour of Snabbdom.
@@ -356,17 +407,24 @@ modules.
 
 ## Modules documentation
 
-This describes the core modules. All modules are optional.
+This describes the core modules. All modules are optional. JSX examples assume you're using the [`jsx` pragma](#jsx) provided by this library.
 
 ### The class module
 
 The class module provides an easy way to dynamically toggle classes on
 elements. It expects an object in the `class` data property. The
-object should map class names to booleans that indicates whether or
+object should map class names to booleans that indicate whether or
 not the class should stay or go on the vnode.
 
 ```mjs
-h('a', { class: { active: true, selected: false } }, 'Toggle')
+h("a", { class: { active: true, selected: false } }, "Toggle");
+```
+
+In JSX, you can use `class` like this:
+
+```jsx
+<div class={{ foo: true, bar: true }} />
+// Renders as: <div class="foo bar"></div>
 ```
 
 ### The props module
@@ -374,7 +432,14 @@ h('a', { class: { active: true, selected: false } }, 'Toggle')
 Allows you to set properties on DOM elements.
 
 ```mjs
-h('a', { props: { href: '/foo' } }, 'Go to Foo')
+h("a", { props: { href: "/foo" } }, "Go to Foo");
+```
+
+In JSX, you can use `props` like this:
+
+```jsx
+<input props={{ name: "foo" }} />
+// Renders as: <input name="foo" /> with input.name === "foo"
 ```
 
 Properties can only be set. Not removed. Even though browsers allow addition and
@@ -390,7 +455,14 @@ instead. Perhaps via [the dataset module](#the-dataset-module).
 Same as props, but set attributes instead of properties on DOM elements.
 
 ```mjs
-h('a', { attrs: { href: '/foo' } }, 'Go to Foo')
+h("a", { attrs: { href: "/foo" } }, "Go to Foo");
+```
+
+In JSX, you can use `attrs` like this:
+
+```jsx
+<div attrs={{ "aria-label": "I'm a div" }} />
+// Renders as: <div aria-label="I'm a div"></div>
 ```
 
 Attributes are added and updated using `setAttribute`. In case of an
@@ -413,7 +485,14 @@ the DOM element.
 Allows you to set custom data attributes (`data-*`) on DOM elements. These can then be accessed with the [HTMLElement.dataset](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset) property.
 
 ```mjs
-h('button', { dataset: { action: 'reset' } }, 'Reset')
+h("button", { dataset: { action: "reset" } }, "Reset");
+```
+
+In JSX, you can use `dataset` like this:
+
+```jsx
+<div dataset={{ foo: "bar" }} />
+// Renders as: <div data-foo="bar"></div>
 ```
 
 ### The style module
@@ -422,19 +501,30 @@ The style module is for making your HTML look slick and animate smoothly. At
 its core it allows you to set CSS properties on elements.
 
 ```mjs
-h('span', {
-  style: { border: '1px solid #bada55', color: '#c0ffee', fontWeight: 'bold' }
-}, 'Say my name, and every colour illuminates')
+h(
+  "span",
+  {
+    style: {
+      border: "1px solid #bada55",
+      color: "#c0ffee",
+      fontWeight: "bold",
+    },
+  },
+  "Say my name, and every colour illuminates"
+);
 ```
 
-Note that the style module does not remove style attributes if they
-are removed as properties from the style object. To remove a style,
-you should instead set it to the empty string.
+In JSX, you can use `style` like this:
 
-```mjs
-h('div', {
-  style: { position: shouldFollow ? 'fixed' : '' }
-}, 'I, I follow, I follow you')
+```jsx
+<div
+  style={{
+    border: "1px solid #bada55",
+    color: "#c0ffee",
+    fontWeight: "bold",
+  }}
+/>
+// Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
 ```
 
 #### Custom properties (CSS variables)
@@ -443,9 +533,13 @@ CSS custom properties (aka CSS variables) are supported, they must be prefixed
 with `--`
 
 ```mjs
-h('div', {
-  style: { '--warnColor': 'yellow' }
-}, 'Warning')
+h(
+  "div",
+  {
+    style: { "--warnColor": "yellow" },
+  },
+  "Warning"
+);
 ```
 
 #### Delayed properties
@@ -454,9 +548,17 @@ You can specify properties as being delayed. Whenever these properties
 change, the change is not applied until after the next frame.
 
 ```mjs
-h('span', {
-  style: { opacity: '0', transition: 'opacity 1s', delayed: { opacity: '1' } }
-}, 'Imma fade right in!')
+h(
+  "span",
+  {
+    style: {
+      opacity: "0",
+      transition: "opacity 1s",
+      delayed: { opacity: "1" },
+    },
+  },
+  "Imma fade right in!"
+);
 ```
 
 This makes it easy to declaratively animate the entry of elements.
@@ -471,13 +573,17 @@ animated with CSS transitions. Only once all the styles are done
 animating will the element be removed from the DOM.
 
 ```mjs
-h('span', {
-  style: {
-    opacity: '1',
-    transition: 'opacity 1s',
-    remove: { opacity: '0' }
-  }
-}, 'It\'s better to fade out than to burn away')
+h(
+  "span",
+  {
+    style: {
+      opacity: "1",
+      transition: "opacity 1s",
+      remove: { opacity: "0" },
+    },
+  },
+  "It's better to fade out than to burn away"
+);
 ```
 
 This makes it easy to declaratively animate the removal of elements.
@@ -487,13 +593,17 @@ The `all` value of `transition-property` is not supported.
 #### Set properties on `destroy`
 
 ```mjs
-h('span', {
-  style: {
-    opacity: '1',
-    transition: 'opacity 1s',
-    destroy: { opacity: '0' }
-  }
-}, 'It\'s better to fade out than to burn away')
+h(
+  "span",
+  {
+    style: {
+      opacity: "1",
+      transition: "opacity 1s",
+      destroy: { opacity: "0" },
+    },
+  },
+  "It's better to fade out than to burn away"
+);
 ```
 
 The `all` value of `transition-property` is not supported.
@@ -506,50 +616,19 @@ event listeners.
 You can attach a function to an event on a vnode by supplying an
 object at `on` with a property corresponding to the name of the event
 you want to listen to. The function will be called when the event
-happens and will be passed the event object that belongs to it.
+happens and will be passed to the event object that belongs to it.
 
 ```mjs
-function clickHandler (ev) {
-  console.log('got clicked')
+function clickHandler(ev) {
+  console.log("got clicked");
 }
-h('div', { on: { click: clickHandler } })
+h("div", { on: { click: clickHandler } });
 ```
 
-Very often, however, you're not really interested in the event object
-itself. Often you have some data associated with the element that
-triggers an event and you want that data passed along instead.
+In JSX, you can use `on` like this:
 
-Consider a counter application with three buttons, one to increment
-the counter by 1, one to increment the counter by 2 and one to
-increment the counter by 3. You don't really care exactly which button
-was pressed. Instead you're interested in what number was associated
-with the clicked button. The event listeners module allows one to
-express that by supplying an array at the named event property. The
-first element in the array should be a function that will be invoked
-with the value in the second element once the event occurs.
-
-```mjs
-function clickHandler (number) {
-  console.log('button ' + number + ' was clicked!')
-}
-h('div', [
-  h('a', { on: { click: [clickHandler, 1] } }),
-  h('a', { on: { click: [clickHandler, 2] } }),
-  h('a', { on: { click: [clickHandler, 3] } }),
-])
-```
-
-Each handler is called not only with the given arguments but also with the current event and vnode appended to the argument list. It also supports using multiple listeners per event by specifying an array of handlers:
-
-```mjs
-stopPropagation = function (ev) {
-  ev.stopPropagation()
-}
-sendValue = function (func, ev, vnode) {
-  func(vnode.elm.value)
-}
-
-h('a', { on: { click: [[sendValue, console.log], stopPropagation] } })
+```js
+<div on={{ click: clickHandler }} />
 ```
 
 Snabbdom allows swapping event handlers between renders. This happens without
@@ -566,22 +645,24 @@ In particular, you should **not** do something like this:
 ```mjs
 // Does not work
 const sharedHandler = {
-  change: function (e) { console.log('you chose: ' + e.target.value) }
-}
-h('div', [
-  h('input', {
-    props: { type: 'radio', name: 'test', value: '0' },
-    on: sharedHandler
+  change: function (e) {
+    console.log("you chose: " + e.target.value);
+  },
+};
+h("div", [
+  h("input", {
+    props: { type: "radio", name: "test", value: "0" },
+    on: sharedHandler,
   }),
-  h('input', {
-    props: { type: 'radio', name: 'test', value: '1' },
-    on: sharedHandler
+  h("input", {
+    props: { type: "radio", name: "test", value: "1" },
+    on: sharedHandler,
   }),
-  h('input', {
-    props: { type: 'radio', name: 'test', value: '2' },
-    on: sharedHandler
-  })
-])
+  h("input", {
+    props: { type: "radio", name: "test", value: "2" },
+    on: sharedHandler,
+  }),
+]);
 ```
 
 For many such cases, you can use array-based handlers instead (described above).
@@ -590,22 +671,22 @@ Alternatively, simply make sure each node is passed unique `on` values:
 ```mjs
 // Works
 const sharedHandler = function (e) {
-  console.log('you chose: ' + e.target.value)
-}
-h('div', [
-  h('input', {
-    props: { type: 'radio', name: 'test', value: '0' },
-    on: { change: sharedHandler }
+  console.log("you chose: " + e.target.value);
+};
+h("div", [
+  h("input", {
+    props: { type: "radio", name: "test", value: "0" },
+    on: { change: sharedHandler },
   }),
-  h('input', {
-    props: { type: 'radio', name: 'test', value: '1' },
-    on: { change: sharedHandler }
+  h("input", {
+    props: { type: "radio", name: "test", value: "1" },
+    on: { change: sharedHandler },
   }),
-  h('input', {
-    props: { type: 'radio', name: 'test', value: '2' },
-    on: { change: sharedHandler }
-  })
-])
+  h("input", {
+    props: { type: "radio", name: "test", value: "2" },
+    on: { change: sharedHandler },
+  }),
+]);
 ```
 
 ## SVG
@@ -615,11 +696,20 @@ nodes. SVG elements are automatically created with the appropriate
 namespaces.
 
 ```mjs
-const vnode = h('div', [
-  h('svg', { attrs: { width: 100, height: 100 } }, [
-    h('circle', { attrs: { cx: 50, cy: 50, r: 40, stroke: 'green', 'stroke-width': 4, fill: 'yellow' } })
-  ])
-])
+const vnode = h("div", [
+  h("svg", { attrs: { width: 100, height: 100 } }, [
+    h("circle", {
+      attrs: {
+        cx: 50,
+        cy: 50,
+        r: 40,
+        stroke: "green",
+        "stroke-width": 4,
+        fill: "yellow",
+      },
+    }),
+  ]),
+]);
 ```
 
 See also the [SVG example](./examples/svg) and the [SVG Carousel example](./examples/carousel-svg/).
@@ -639,7 +729,7 @@ arguments.
 
 `thunk(selector, key, renderFn, [stateArguments])`
 
-The `renderFn` is invoked only if the `renderFn` is changed or `[stateArguments]` array length or it's elements are changed.
+The `renderFn` is invoked only if the `renderFn` is changed or `[stateArguments]` array length or its elements are changed.
 
 The `key` is optional. It should be supplied when the `selector` is
 not unique among the thunks siblings. This ensures that the thunk is
@@ -651,8 +741,8 @@ dealing with immutable data.
 Consider a simple function for creating a virtual node based on a number.
 
 ```mjs
-function numberView (n) {
-  return h('div', 'Number is: ' + n)
+function numberView(n) {
+  return h("div", "Number is: " + n);
 }
 ```
 
@@ -662,8 +752,8 @@ vnode is wasteful. To avoid the overhead we can use the `thunk` helper
 function.
 
 ```mjs
-function render (state) {
-  return thunk('num', numberView, [state.number])
+function render(state) {
+  return thunk("num", numberView, [state.number]);
 }
 ```
 
@@ -677,22 +767,96 @@ The view function here is only an example. In practice thunks are only
 relevant if you are rendering a complicated view that takes
 significant computational time to generate.
 
+## JSX
+
+Note that JSX fragments are still experimental and must be opted in.
+See [`fragment`](#fragment-experimental) section for details.
+
+### TypeScript
+
+Add the following options to your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "Fragment"
+  }
+}
+```
+
+Then make sure that you use the `.tsx` file extension and import the `jsx` function and the `Fragment` function at the top of the file:
+
+```tsx
+import { Fragment, jsx, VNode } from "snabbdom";
+
+const node: VNode = (
+  <div>
+    <span>I was created with JSX</span>
+  </div>
+);
+
+const fragment: VNode = (
+  <>
+    <span>JSX fragments</span>
+    are experimentally supported
+  </>
+);
+```
+
+### Babel
+
+Add the following options to your babel configuration:
+
+```json
+{
+  "plugins": [
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "jsx",
+        "pragmaFrag": "Fragment"
+      }
+    ]
+  ]
+}
+```
+
+Then import the `jsx` function and the `Fragment` function at the top of the file:
+
+```jsx
+import { Fragment, jsx } from "snabbdom";
+
+const node = (
+  <div>
+    <span>I was created with JSX</span>
+  </div>
+);
+
+const fragment = (
+  <>
+    <span>JSX fragments</span>
+    are experimentally supported
+  </>
+);
+```
+
 ## Virtual Node
 
 **Properties**
 
-* [sel](#sel--string)
-* [data](#data--object)
-* [children](#children--array)
-* [text](#text--string)
-* [elm](#elm--element)
-* [key](#key--string--number)
+- [sel](#sel--string)
+- [data](#data--object)
+- [children](#children--array)
+- [text](#text--string)
+- [elm](#elm--element)
+- [key](#key--string--number)
 
 ### sel : String
 
 The `.sel` property of a virtual node is the CSS selector passed to
-[`h()`](#snabbdomh) during creation. For example: `h('div#container',
-{}, [...])` will create a a virtual node which has `div#container` as
+[`h()`](#snabbdomh) during creation. For example: `h('div#container', {}, [...])` will create a virtual node that has `div#container` as
 its `.sel` property.
 
 ### data : Object
@@ -709,9 +873,9 @@ For example `h('div', {props: {className: 'container'}}, [...])` will produce a 
 ```mjs
 ({
   props: {
-    className: 'container'
-  }
-})
+    className: "container",
+  },
+});
 ```
 
 as its `.data` object.
@@ -729,14 +893,14 @@ create a virtual node with
 ```mjs
 [
   {
-    sel: 'h1',
+    sel: "h1",
     data: {},
     children: undefined,
-    text: 'Hello, World',
+    text: "Hello, World",
     elm: Element,
     key: undefined,
-  }
-]
+  },
+];
 ```
 
 as its `.children` property.
@@ -780,33 +944,33 @@ regards to how you should structure your application.
 
 Here are some approaches to building applications with Snabbdom.
 
-* [functional-frontend-architecture](https://github.com/paldepind/functional-frontend-architecture) –
+- [functional-frontend-architecture](https://github.com/paldepind/functional-frontend-architecture) –
   a repository containing several example applications that
-  demonstrates an architecture that uses Snabbdom.
-* [Cycle.js](https://cycle.js.org/) –
-    "A functional and reactive JavaScript framework for cleaner code"
-    uses Snabbdom
-* [Vue.js](http://vuejs.org/) use a fork of snabbdom.
-* [scheme-todomvc](https://github.com/amirouche/scheme-todomvc/) build
-    redux-like architecture on top of snabbdom bindings.
-* [kaiju](https://github.com/AlexGalays/kaiju) -
+  demonstrate an architecture that uses Snabbdom.
+- [Cycle.js](https://cycle.js.org/) –
+  "A functional and reactive JavaScript framework for cleaner code"
+  uses Snabbdom
+- [Vue.js](http://vuejs.org/) use a fork of snabbdom.
+- [scheme-todomvc](https://github.com/amirouche/scheme-todomvc/) build
+  redux-like architecture on top of snabbdom bindings.
+- [kaiju](https://github.com/AlexGalays/kaiju) -
   Stateful components and observables on top of snabbdom
-* [Tweed](https://tweedjs.github.io) –
+- [Tweed](https://tweedjs.github.io) –
   An Object Oriented approach to reactive interfaces.
-* [Cyclow](http://cyclow.js.org) -
+- [Cyclow](http://cyclow.js.org) -
   "A reactive frontend framework for JavaScript"
   uses Snabbdom
-* [Tung](https://github.com/Reon90/tung) –
-  A JavaScript library for rendering html. Tung helps to divide html and JavaScript development.
-* [sprotty](https://github.com/theia-ide/sprotty) - "A web-based diagramming framework" uses Snabbdom.
-* [Mark Text](https://github.com/marktext/marktext) - "Realtime preview Markdown Editor" build on Snabbdom.
-* [puddles](https://github.com/flintinatux/puddles) - 
+- [Tung](https://github.com/Reon90/tung) –
+  A JavaScript library for rendering HTML. Tung helps to divide HTML and JavaScript development.
+- [sprotty](https://github.com/theia-ide/sprotty) - "A web-based diagramming framework" uses Snabbdom.
+- [Mark Text](https://github.com/marktext/marktext) - "Realtime preview Markdown Editor" build on Snabbdom.
+- [puddles](https://github.com/flintinatux/puddles) -
   "Tiny vdom app framework. Pure Redux. No boilerplate." - Built with :heart: on Snabbdom.
-* [Backbone.VDOMView](https://github.com/jcbrand/backbone.vdomview) - A [Backbone](http://backbonejs.org/) View with VirtualDOM capability via Snabbdom.
-* [Rosmaro Snabbdom starter](https://github.com/lukaszmakuch/rosmaro-snabbdom-starter) - Building user interfaces with state machines and Snabbdom.
-* [Pureact](https://github.com/irony/pureact) - "65 lines implementation of React incl Redux and hooks with only one dependency - Snabbdom"
-* [Snabberb](https://github.com/tobymao/snabberb) - A minimalistic Ruby framework using [Opal](https://github.com/opal/opal) and Snabbdom for building reactive views.  
-* [WebCell](https://github.com/EasyWebApp/WebCell) - Web Components engine based on JSX & TypeScript
+- [Backbone.VDOMView](https://github.com/jcbrand/backbone.vdomview) - A [Backbone](http://backbonejs.org/) View with VirtualDOM capability via Snabbdom.
+- [Rosmaro Snabbdom starter](https://github.com/lukaszmakuch/rosmaro-snabbdom-starter) - Building user interfaces with state machines and Snabbdom.
+- [Pureact](https://github.com/irony/pureact) - "65 lines implementation of React incl Redux and hooks with only one dependency - Snabbdom"
+- [Snabberb](https://github.com/tobymao/snabberb) - A minimalistic Ruby framework using [Opal](https://github.com/opal/opal) and Snabbdom for building reactive views.
+- [WebCell](https://github.com/EasyWebApp/WebCell) - Web Components engine based on JSX & TypeScript
 
 Be sure to share it if you're building an application in another way
 using Snabbdom.
@@ -823,46 +987,46 @@ Uncaught NotFoundError: Failed to execute 'insertBefore' on 'Node':
     The node before which the new node is to be inserted is not a child of this node.
 ```
 
-The reason for this error is reusing of vnodes between patches (see code example), snabbdom stores actual dom nodes inside the virtual dom nodes passed to it as performance improvement, so reusing nodes between patches is not supported.
+The reason for this error is the reusing of vnodes between patches (see code example), snabbdom stores actual dom nodes inside the virtual dom nodes passed to it as performance improvement, so reusing nodes between patches is not supported.
 
 ```mjs
-const sharedNode = h('div', {}, 'Selected')
-const vnode1 = h('div', [
-  h('div', {}, ['One']),
-  h('div', {}, ['Two']),
-  h('div', {}, [sharedNode]),
-])
-const vnode2 = h('div', [
-  h('div', {}, ['One']),
-  h('div', {}, [sharedNode]),
-  h('div', {}, ['Three']),
-])
-patch(container, vnode1)
-patch(vnode1, vnode2)
+const sharedNode = h("div", {}, "Selected");
+const vnode1 = h("div", [
+  h("div", {}, ["One"]),
+  h("div", {}, ["Two"]),
+  h("div", {}, [sharedNode]),
+]);
+const vnode2 = h("div", [
+  h("div", {}, ["One"]),
+  h("div", {}, [sharedNode]),
+  h("div", {}, ["Three"]),
+]);
+patch(container, vnode1);
+patch(vnode1, vnode2);
 ```
 
 You can fix this issue by creating a shallow copy of the object (here with object spread syntax):
 
 ```mjs
-const vnode2 = h('div', [
-  h('div', {}, ['One']),
-  h('div', {}, [{ ...sharedNode }]),
-  h('div', {}, ['Three']),
-])
+const vnode2 = h("div", [
+  h("div", {}, ["One"]),
+  h("div", {}, [{ ...sharedNode }]),
+  h("div", {}, ["Three"]),
+]);
 ```
 
 Another solution would be to wrap shared vnodes in a factory function:
 
 ```mjs
-const sharedNode = () => h('div', {}, 'Selected')
-const vnode1 = h('div', [
-  h('div', {}, ['One']),
-  h('div', {}, ['Two']),
-  h('div', {}, [sharedNode()]),
-])
+const sharedNode = () => h("div", {}, "Selected");
+const vnode1 = h("div", [
+  h("div", {}, ["One"]),
+  h("div", {}, ["Two"]),
+  h("div", {}, [sharedNode()]),
+]);
 ```
 
 ## Opportunity for community feedback
 
 Pull requests that the community may care to provide feedback on should be
-merged after such opportunity of a few days was provided.
+merged after such an opportunity of a few days was provided.

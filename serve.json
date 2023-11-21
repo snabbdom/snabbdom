@@ -1,0 +1,11 @@
+{
+  "redirects": [{ "source": "/", "destination": "/examples" }],
+  "rewrites": [
+    { "source": "build/:file", "destination": "build/:file.js" },
+    {
+      "source": "build/helpers/:file",
+      "destination": "build/helpers/:file.js"
+    },
+    { "source": "build/modules/:file", "destination": "build/modules/:file.js" }
+  ]
+}
