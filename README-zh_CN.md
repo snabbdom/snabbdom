@@ -54,7 +54,7 @@ import {
   propsModule,
   styleModule,
   eventListenersModule,
-  h,
+  h
 } from "snabbdom";
 
 const patch = init([
@@ -62,7 +62,7 @@ const patch = init([
   classModule, // 开启 classes 功能
   propsModule, // 支持传入 props
   styleModule, // 支持内联样式同时支持动画
-  eventListenersModule, // 添加事件监听
+  eventListenersModule // 添加事件监听
 ]);
 
 const container = document.getElementById("container");
@@ -70,7 +70,7 @@ const container = document.getElementById("container");
 const vnode = h("div#container.two.classes", { on: { click: someFn } }, [
   h("span", { style: { fontWeight: "bold" } }, "This is bold"),
   " and this is just normal text",
-  h("a", { props: { href: "/foo" } }, "I'll take you places!"),
+  h("a", { props: { href: "/foo" } }, "I'll take you places!")
 ]);
 // 传入一个空的元素节点 - 将产生副作用（修改该节点）
 patch(container, vnode);
@@ -85,7 +85,7 @@ const newVnode = h(
       "This is now italic type"
     ),
     " and this is still just normal text",
-    h("a", { props: { href: "/bar" } }, "I'll take you places!"),
+    h("a", { props: { href: "/bar" } }, "I'll take you places!")
   ]
 );
 // 再次调用 `patch`
@@ -185,8 +185,8 @@ patch(
     hooks: {
       post: () => {
         /* patch complete */
-      },
-    },
+      }
+    }
   })
 );
 ```
@@ -202,7 +202,7 @@ import { h } from "snabbdom";
 
 const vnode = h("div", { style: { color: "#000" } }, [
   h("h1", "Headline"),
-  h("p", "A paragraph"),
+  h("p", "A paragraph")
 ]);
 ```
 
@@ -213,8 +213,8 @@ const vnode = h("div", { style: { color: "#000" } }, [
 ```mjs
 const patch = init(modules, undefined, {
   experimental: {
-    fragments: true,
-  },
+    fragments: true
+  }
 });
 ```
 
@@ -238,7 +238,7 @@ import {
   styleModule,
   eventListenersModule,
   h,
-  toVNode,
+  toVNode
 } from "snabbdom";
 
 const patch = init([
@@ -246,12 +246,12 @@ const patch = init([
   classModule, // makes it easy to toggle classes
   propsModule, // for setting properties on DOM elements
   styleModule, // handles styling on elements with support for animations
-  eventListenersModule, // attaches event listeners
+  eventListenersModule // attaches event listeners
 ]);
 
 const newVNode = h("div", { style: { color: "#000" } }, [
   h("h1", "Headline"),
-  h("p", "A paragraph"),
+  h("p", "A paragraph")
 ]);
 
 patch(toVNode(document.querySelector(".container")), newVNode);
@@ -290,8 +290,8 @@ h("div.row", {
   hook: {
     insert: (vnode) => {
       movie.elmHeight = vnode.elm.offsetHeight;
-    },
-  },
+    }
+  }
 });
 ```
 
@@ -324,11 +324,11 @@ const vnode1 = h("section", [
         remove: (vnode, cb) => {
           console.log(vnode);
           cb();
-        },
-      },
+        }
+      }
     },
     [h("span", "Hello")]
-  ),
+  )
 ]);
 const vnode2 = h("section", []);
 patch(container, vnode1);
@@ -350,7 +350,7 @@ const myModule = {
   },
   update: function (oldVnode, vnode) {
     // invoked whenever a virtual node is updated
-  },
+  }
 };
 ```
 
@@ -437,8 +437,8 @@ h(
     style: {
       border: "1px solid #bada55",
       color: "#c0ffee",
-      fontWeight: "bold",
-    },
+      fontWeight: "bold"
+    }
   },
   "Say my name, and every colour illuminates"
 );
@@ -451,7 +451,7 @@ h(
   style={{
     border: "1px solid #bada55",
     color: "#c0ffee",
-    fontWeight: "bold",
+    fontWeight: "bold"
   }}
 />
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
@@ -465,7 +465,7 @@ h(
 h(
   "div",
   {
-    style: { "--warnColor": "yellow" },
+    style: { "--warnColor": "yellow" }
   },
   "Warning"
 );
@@ -482,8 +482,8 @@ h(
     style: {
       opacity: "0",
       transition: "opacity 1s",
-      delayed: { opacity: "1" },
-    },
+      delayed: { opacity: "1" }
+    }
   },
   "Imma fade right in!"
 );
@@ -504,8 +504,8 @@ h(
     style: {
       opacity: "1",
       transition: "opacity 1s",
-      remove: { opacity: "0" },
-    },
+      remove: { opacity: "0" }
+    }
   },
   "It's better to fade out than to burn away"
 );
@@ -524,8 +524,8 @@ h(
     style: {
       opacity: "1",
       transition: "opacity 1s",
-      destroy: { opacity: "0" },
-    },
+      destroy: { opacity: "0" }
+    }
   },
   "It's better to fade out than to burn away"
 );
@@ -570,10 +570,10 @@ const vnode = h("div", [
         r: 40,
         stroke: "green",
         "stroke-width": 4,
-        fill: "yellow",
-      },
-    }),
-  ]),
+        fill: "yellow"
+      }
+    })
+  ])
 ]);
 ```
 
@@ -697,8 +697,8 @@ data 对象是 [`h()`](#h) 的第二个参数（可选）
 ```mjs
 ({
   props: {
-    className: "container",
-  },
+    className: "container"
+  }
 });
 ```
 
@@ -716,8 +716,8 @@ data 对象是 [`h()`](#h) 的第二个参数（可选）
     children: undefined,
     text: "Hello, World",
     elm: Element,
-    key: undefined,
-  },
+    key: undefined
+  }
 ];
 ```
 
@@ -789,12 +789,12 @@ const sharedNode = h("div", {}, "Selected");
 const vnode1 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, ["Two"]),
-  h("div", {}, [sharedNode]),
+  h("div", {}, [sharedNode])
 ]);
 const vnode2 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, [sharedNode]),
-  h("div", {}, ["Three"]),
+  h("div", {}, ["Three"])
 ]);
 patch(container, vnode1);
 patch(vnode1, vnode2);
@@ -806,7 +806,7 @@ patch(vnode1, vnode2);
 const vnode2 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, [{ ...sharedNode }]),
-  h("div", {}, ["Three"]),
+  h("div", {}, ["Three"])
 ]);
 ```
 
@@ -817,7 +817,7 @@ const sharedNode = () => h("div", {}, "Selected");
 const vnode1 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, ["Two"]),
-  h("div", {}, [sharedNode()]),
+  h("div", {}, [sharedNode()])
 ]);
 ```
 

@@ -70,7 +70,7 @@ import {
   propsModule,
   styleModule,
   eventListenersModule,
-  h,
+  h
 } from "snabbdom";
 
 const patch = init([
@@ -78,16 +78,20 @@ const patch = init([
   classModule, // makes it easy to toggle classes
   propsModule, // for setting properties on DOM elements
   styleModule, // handles styling on elements with support for animations
-  eventListenersModule, // attaches event listeners
+  eventListenersModule // attaches event listeners
 ]);
 
 const container = document.getElementById("container");
 
-const vnode = h("div#container.two.classes", { on: { click: () => console.log("div clicked") } }, [
-  h("span", { style: { fontWeight: "bold" } }, "This is bold"),
-  " and this is just normal text",
-  h("a", { props: { href: "/foo" } }, "I'll take you places!"),
-]);
+const vnode = h(
+  "div#container.two.classes",
+  { on: { click: () => console.log("div clicked") } },
+  [
+    h("span", { style: { fontWeight: "bold" } }, "This is bold"),
+    " and this is just normal text",
+    h("a", { props: { href: "/foo" } }, "I'll take you places!")
+  ]
+);
 // Patch into empty DOM element – this modifies the DOM as a side effect
 patch(container, vnode);
 
@@ -101,7 +105,7 @@ const newVnode = h(
       "This is now italic type"
     ),
     " and this is still just normal text",
-    h("a", { props: { href: "/bar" } }, "I'll take you places!"),
+    h("a", { props: { href: "/bar" } }, "I'll take you places!")
   ]
 );
 // Second `patch` invocation
@@ -158,7 +162,9 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
   - [elm : Element](#elm--element)
   - [key : string | number](#key--string--number)
 - [Structuring applications](#structuring-applications)
+
 * [Related packages](#related-packages)
+
 - [Common errors](#common-errors)
 - [Opportunity for community feedback](#opportunity-for-community-feedback)
 
@@ -212,8 +218,8 @@ patch(
     hooks: {
       post: () => {
         /* patch complete */
-      },
-    },
+      }
+    }
   })
 );
 ```
@@ -231,7 +237,7 @@ import { h } from "snabbdom";
 
 const vnode = h("div", { style: { color: "#000" } }, [
   h("h1", "Headline"),
-  h("p", "A paragraph"),
+  h("p", "A paragraph")
 ]);
 ```
 
@@ -243,8 +249,8 @@ Its API may be changed without an major version bump.
 ```mjs
 const patch = init(modules, undefined, {
   experimental: {
-    fragments: true,
-  },
+    fragments: true
+  }
 });
 ```
 
@@ -269,7 +275,7 @@ import {
   styleModule,
   eventListenersModule,
   h,
-  toVNode,
+  toVNode
 } from "snabbdom";
 
 const patch = init([
@@ -277,12 +283,12 @@ const patch = init([
   classModule, // makes it easy to toggle classes
   propsModule, // for setting properties on DOM elements
   styleModule, // handles styling on elements with support for animations
-  eventListenersModule, // attaches event listeners
+  eventListenersModule // attaches event listeners
 ]);
 
 const newVNode = h("div", { style: { color: "#000" } }, [
   h("h1", "Headline"),
-  h("p", "A paragraph"),
+  h("p", "A paragraph")
 ]);
 
 patch(toVNode(document.querySelector(".container")), newVNode);
@@ -328,8 +334,8 @@ h("div.row", {
   hook: {
     insert: (vnode) => {
       movie.elmHeight = vnode.elm.offsetHeight;
-    },
-  },
+    }
+  }
 });
 ```
 
@@ -397,7 +403,7 @@ const myModule = {
   },
   update: function (oldVnode, vnode) {
     // invoked whenever a virtual node is updated
-  },
+  }
 };
 ```
 
@@ -507,8 +513,8 @@ h(
     style: {
       border: "1px solid #bada55",
       color: "#c0ffee",
-      fontWeight: "bold",
-    },
+      fontWeight: "bold"
+    }
   },
   "Say my name, and every colour illuminates"
 );
@@ -521,7 +527,7 @@ In JSX, you can use `style` like this:
   style={{
     border: "1px solid #bada55",
     color: "#c0ffee",
-    fontWeight: "bold",
+    fontWeight: "bold"
   }}
 />
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
@@ -536,7 +542,7 @@ with `--`
 h(
   "div",
   {
-    style: { "--warnColor": "yellow" },
+    style: { "--warnColor": "yellow" }
   },
   "Warning"
 );
@@ -554,8 +560,8 @@ h(
     style: {
       opacity: "0",
       transition: "opacity 1s",
-      delayed: { opacity: "1" },
-    },
+      delayed: { opacity: "1" }
+    }
   },
   "Imma fade right in!"
 );
@@ -579,8 +585,8 @@ h(
     style: {
       opacity: "1",
       transition: "opacity 1s",
-      remove: { opacity: "0" },
-    },
+      remove: { opacity: "0" }
+    }
   },
   "It's better to fade out than to burn away"
 );
@@ -599,8 +605,8 @@ h(
     style: {
       opacity: "1",
       transition: "opacity 1s",
-      destroy: { opacity: "0" },
-    },
+      destroy: { opacity: "0" }
+    }
   },
   "It's better to fade out than to burn away"
 );
@@ -647,21 +653,21 @@ In particular, you should **not** do something like this:
 const sharedHandler = {
   change: function (e) {
     console.log("you chose: " + e.target.value);
-  },
+  }
 };
 h("div", [
   h("input", {
     props: { type: "radio", name: "test", value: "0" },
-    on: sharedHandler,
+    on: sharedHandler
   }),
   h("input", {
     props: { type: "radio", name: "test", value: "1" },
-    on: sharedHandler,
+    on: sharedHandler
   }),
   h("input", {
     props: { type: "radio", name: "test", value: "2" },
-    on: sharedHandler,
-  }),
+    on: sharedHandler
+  })
 ]);
 ```
 
@@ -676,16 +682,16 @@ const sharedHandler = function (e) {
 h("div", [
   h("input", {
     props: { type: "radio", name: "test", value: "0" },
-    on: { change: sharedHandler },
+    on: { change: sharedHandler }
   }),
   h("input", {
     props: { type: "radio", name: "test", value: "1" },
-    on: { change: sharedHandler },
+    on: { change: sharedHandler }
   }),
   h("input", {
     props: { type: "radio", name: "test", value: "2" },
-    on: { change: sharedHandler },
-  }),
+    on: { change: sharedHandler }
+  })
 ]);
 ```
 
@@ -705,10 +711,10 @@ const vnode = h("div", [
         r: 40,
         stroke: "green",
         "stroke-width": 4,
-        fill: "yellow",
-      },
-    }),
-  ]),
+        fill: "yellow"
+      }
+    })
+  ])
 ]);
 ```
 
@@ -873,8 +879,8 @@ For example `h('div', {props: {className: 'container'}}, [...])` will produce a 
 ```mjs
 ({
   props: {
-    className: "container",
-  },
+    className: "container"
+  }
 });
 ```
 
@@ -898,8 +904,8 @@ create a virtual node with
     children: undefined,
     text: "Hello, World",
     elm: Element,
-    key: undefined,
-  },
+    key: undefined
+  }
 ];
 ```
 
@@ -994,12 +1000,12 @@ const sharedNode = h("div", {}, "Selected");
 const vnode1 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, ["Two"]),
-  h("div", {}, [sharedNode]),
+  h("div", {}, [sharedNode])
 ]);
 const vnode2 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, [sharedNode]),
-  h("div", {}, ["Three"]),
+  h("div", {}, ["Three"])
 ]);
 patch(container, vnode1);
 patch(vnode1, vnode2);
@@ -1011,7 +1017,7 @@ You can fix this issue by creating a shallow copy of the object (here with objec
 const vnode2 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, [{ ...sharedNode }]),
-  h("div", {}, ["Three"]),
+  h("div", {}, ["Three"])
 ]);
 ```
 
@@ -1022,7 +1028,7 @@ const sharedNode = () => h("div", {}, "Selected");
 const vnode1 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, ["Two"]),
-  h("div", {}, [sharedNode()]),
+  h("div", {}, [sharedNode()])
 ]);
 ```
 

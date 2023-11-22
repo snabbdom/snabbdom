@@ -1,4 +1,3 @@
-
 <img alt="Snabbdom" src="readme-title.svg" width="356px">
 
 सरलता, प्रतिरूपकता, शक्तिशाली सुविधाओं और प्रदर्शन पर ध्यान देने वाली एक वर्चुअल DOM लाइब्रेरी।
@@ -40,26 +39,27 @@ Hindi | [简体中文](./README-zh_CN.md) | [English](./README.md)
 ## विशेषताएँ
 
 - सब से महत्वपूर्ण विशेषता
-   - लगभग 200 एसएलओसी - आप आसानी से संपूर्ण कोर और पूरी तरह से पढ़ सकते हैं
-     समझें कि यह कैसे काम करता है.
-   - मॉड्यूल के माध्यम से विस्तार योग्य।
-   - मॉड्यूल के लिए प्रति वीनोड और विश्व स्तर पर हुक का एक समृद्ध सेट उपलब्ध है,
-     अंतर और पैच प्रक्रिया के किसी भी भाग में शामिल होने के लिए।
-   - शानदार प्रदर्शन. स्नैबडॉम सबसे तेज़ वर्चुअल DOM लाइब्रेरीज़ में से एक है।
-   - रिड्यूस/स्कैन के समतुल्य फ़ंक्शन हस्ताक्षर के साथ पैच फ़ंक्शन
-     समारोह। एफआरपी लाइब्रेरी के साथ आसान एकीकरण की अनुमति देता है।
+  - लगभग 200 एसएलओसी - आप आसानी से संपूर्ण कोर और पूरी तरह से पढ़ सकते हैं
+    समझें कि यह कैसे काम करता है.
+  - मॉड्यूल के माध्यम से विस्तार योग्य।
+  - मॉड्यूल के लिए प्रति वीनोड और विश्व स्तर पर हुक का एक समृद्ध सेट उपलब्ध है,
+    अंतर और पैच प्रक्रिया के किसी भी भाग में शामिल होने के लिए।
+  - शानदार प्रदर्शन. स्नैबडॉम सबसे तेज़ वर्चुअल DOM लाइब्रेरीज़ में से एक है।
+  - रिड्यूस/स्कैन के समतुल्य फ़ंक्शन हस्ताक्षर के साथ पैच फ़ंक्शन
+    समारोह। एफआरपी लाइब्रेरी के साथ आसान एकीकरण की अनुमति देता है।
 - मॉड्यूल में सुविधाएँ
-   - आसानी से वर्चुअल DOM नोड बनाने के लिए `h` फ़ंक्शन।
-   - [SVG _just works_ with the `h` helper](#svg)।
-   - जटिल सीएसएस एनिमेशन करने की सुविधाएँ।
-   - शक्तिशाली घटना श्रोता कार्यक्षमता।
-   - [Thunks](#thunks) अंतर और पैच प्रक्रिया को और भी अधिक अनुकूलित करने के लिए।
-   - [JSX support, including TypeScript types](#jsx)
+  - आसानी से वर्चुअल DOM नोड बनाने के लिए `h` फ़ंक्शन।
+  - [SVG _just works_ with the `h` helper](#svg)।
+  - जटिल सीएसएस एनिमेशन करने की सुविधाएँ।
+  - शक्तिशाली घटना श्रोता कार्यक्षमता।
+  - [Thunks](#thunks) अंतर और पैच प्रक्रिया को और भी अधिक अनुकूलित करने के लिए।
+  - [JSX support, including TypeScript types](#jsx)
 - तृतीय पक्ष सुविधाएँ
-   - सर्वर-साइड HTML आउटपुट [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html) द्वारा प्रदान किया जाता है।
-   - [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers) के साथ कॉम्पैक्ट वर्चुअल DOM निर्माण।
-   - [snabby](https://github.com/jamen/snabby) का उपयोग करके टेम्पलेट स्ट्रिंग समर्थन।
-   - [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-लाइक) के साथ वर्चुअल डोम अभिकथन
+  - सर्वर-साइड HTML आउटपुट [snabbdom-to-html](https://github.com/acstll/snabbdom-to-html) द्वारा प्रदान किया जाता है।
+  - [snabbdom-helpers](https://github.com/krainboltgreene/snabbdom-helpers) के साथ कॉम्पैक्ट वर्चुअल DOM निर्माण।
+  - [snabby](https://github.com/jamen/snabby) का उपयोग करके टेम्पलेट स्ट्रिंग समर्थन।
+  - [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-लाइक) के साथ वर्चुअल डोम अभिकथन
+
 ## उदाहरण
 
 ```mjs
@@ -69,7 +69,7 @@ import {
   propsModule,
   styleModule,
   eventListenersModule,
-  h,
+  h
 } from "snabbdom";
 
 const patch = init([
@@ -77,16 +77,20 @@ const patch = init([
   classModule, // makes it easy to toggle classes
   propsModule, // for setting properties on DOM elements
   styleModule, // handles styling on elements with support for animations
-  eventListenersModule, // attaches event listeners
+  eventListenersModule // attaches event listeners
 ]);
 
 const container = document.getElementById("container");
 
-const vnode = h("div#container.two.classes", { on: { click: () => console.log("div clicked") } }, [
-  h("span", { style: { fontWeight: "bold" } }, "This is bold"),
-  " and this is just normal text",
-  h("a", { props: { href: "/foo" } }, "I'll take you places!"),
-]);
+const vnode = h(
+  "div#container.two.classes",
+  { on: { click: () => console.log("div clicked") } },
+  [
+    h("span", { style: { fontWeight: "bold" } }, "This is bold"),
+    " and this is just normal text",
+    h("a", { props: { href: "/foo" } }, "I'll take you places!")
+  ]
+);
 // Patch into empty DOM element – this modifies the DOM as a side effect
 patch(container, vnode);
 
@@ -100,7 +104,7 @@ const newVnode = h(
       "This is now italic type"
     ),
     " and this is still just normal text",
-    h("a", { props: { href: "/bar" } }, "I'll take you places!"),
+    h("a", { props: { href: "/bar" } }, "I'll take you places!")
   ]
 );
 // Second `patch` invocation
@@ -210,8 +214,8 @@ patch(
     hooks: {
       post: () => {
         /* patch complete */
-      },
-    },
+      }
+    }
   })
 );
 ```
@@ -228,7 +232,7 @@ import { h } from "snabbdom";
 
 const vnode = h("div", { style: { color: "#000" } }, [
   h("h1", "Headline"),
-  h("p", "A paragraph"),
+  h("p", "A paragraph")
 ]);
 ```
 
@@ -240,8 +244,8 @@ const vnode = h("div", { style: { color: "#000" } }, [
 ```mjs
 const patch = init(modules, undefined, {
   experimental: {
-    fragments: true,
-  },
+    fragments: true
+  }
 });
 ```
 
@@ -265,7 +269,7 @@ import {
   styleModule,
   eventListenersModule,
   h,
-  toVNode,
+  toVNode
 } from "snabbdom";
 
 const patch = init([
@@ -273,12 +277,12 @@ const patch = init([
   classModule, // makes it easy to toggle classes
   propsModule, // for setting properties on DOM elements
   styleModule, // handles styling on elements with support for animations
-  eventListenersModule, // attaches event listeners
+  eventListenersModule // attaches event listeners
 ]);
 
 const newVNode = h("div", { style: { color: "#000" } }, [
   h("h1", "Headline"),
-  h("p", "A paragraph"),
+  h("p", "A paragraph")
 ]);
 
 patch(toVNode(document.querySelector(".container")), newVNode);
@@ -293,18 +297,18 @@ Snabbdom का विस्तार करें, और सामान्य
 
 #### Overview
 
-| Name        | Triggered when                                     | Arguments to callback   |
-| ----------- | -------------------------------------------------- | ----------------------- |
-| `pre`       | पैच प्रक्रिया शुरू होती है                          | none                    |
-| `init`      | एक vnode जोड़ा गया है                             | `vnode`                 |
-| `create`    | Vnode के आधार पर एक DOM तत्व(element) बनाया गया है    | `emptyVnode, vnode`     |
-| `insert`    | DOM में एक तत्व डाला गया है          | `vnode`                 |
-| `prepatch`  | एक तत्व पैच होने वाला है                 | `oldVnode, vnode`       |
-| `update`    | एक तत्व अद्यतन किया जा रहा है                      | `oldVnode, vnode`       |
-| `postpatch` |एक तत्व को पैच कर दिया गया है                  | `oldVnode, vnode`       |
+| Name        | Triggered when                                              | Arguments to callback   |
+| ----------- | ----------------------------------------------------------- | ----------------------- |
+| `pre`       | पैच प्रक्रिया शुरू होती है                                  | none                    |
+| `init`      | एक vnode जोड़ा गया है                                       | `vnode`                 |
+| `create`    | Vnode के आधार पर एक DOM तत्व(element) बनाया गया है          | `emptyVnode, vnode`     |
+| `insert`    | DOM में एक तत्व डाला गया है                                 | `vnode`                 |
+| `prepatch`  | एक तत्व पैच होने वाला है                                    | `oldVnode, vnode`       |
+| `update`    | एक तत्व अद्यतन किया जा रहा है                               | `oldVnode, vnode`       |
+| `postpatch` | एक तत्व को पैच कर दिया गया है                               | `oldVnode, vnode`       |
 | `destroy`   | किसी तत्व को प्रत्यक्ष या अप्रत्यक्ष रूप से हटाया जा रहा है | `vnode`                 |
-| `remove`    | एक तत्व को सीधे DOM से हटाया जा रहा है| `vnode, removeCallback` |
-| `post`      | पैच प्रक्रिया पूरी हो गई है                          | none                    |
+| `remove`    | एक तत्व को सीधे DOM से हटाया जा रहा है                      | `vnode, removeCallback` |
+| `post`      | पैच प्रक्रिया पूरी हो गई है                                 | none                    |
 
 मॉड्यूल के लिए निम्नलिखित हुक उपलब्ध हैं: `pre`, `create`,
 `update`, `destroy`, `remove`, `post`।
@@ -312,6 +316,7 @@ Snabbdom का विस्तार करें, और सामान्य
 निम्नलिखित हुक व्यक्ति की `hook` संपत्ति में उपलब्ध हैं
 तत्व: `init`, `create`, `insert`, `prepatch`, `update`,
 `postpatch`, `destroy`, `remove`।
+
 #### Usage (प्रयोग)
 
 हुक का उपयोग करने के लिए, उन्हें डेटा के `hook` फ़ील्ड में एक ऑब्जेक्ट के रूप में पास करें
@@ -323,8 +328,8 @@ h("div.row", {
   hook: {
     insert: (vnode) => {
       movie.elmHeight = vnode.elm.offsetHeight;
-    },
-  },
+    }
+  }
 });
 ```
 
@@ -332,6 +337,7 @@ h("div.row", {
 
 यह हुक पैच प्रक्रिया के दौरान लागू किया जाता है जब एक नया वर्चुअल नोड होता है
 मिल गया है। Snabbdom द्वारा नोड को किसी भी तरह से संसाधित करने से पहले हुक को कॉल किया जाता है। यानी, इससे पहले इसने vnode के आधार पर एक DOM नोड बनाया है।
+
 #### The `insert` hook (`insert` हुक)
 
 एक बार vnode के लिए DOM तत्व हो जाने के बाद यह हुक लागू हो जाता है
@@ -389,7 +395,7 @@ const myModule = {
   },
   update: function (oldVnode, vnode) {
     // invoked whenever a virtual node is updated
-  },
+  }
 };
 ```
 
@@ -403,7 +409,7 @@ const myModule = {
 
 ### The class module (क्लास मॉड्यूल)
 
-क्लास मॉड्यूल तत्वों पर कक्षाओं को गतिशील रूप से टॉगल करने का एक आसान तरीका प्रदान करता है। यह `class` डेटा प्रॉपर्टी में एक ऑब्जेक्ट की अपेक्षा करता है। 
+क्लास मॉड्यूल तत्वों पर कक्षाओं को गतिशील रूप से टॉगल करने का एक आसान तरीका प्रदान करता है। यह `class` डेटा प्रॉपर्टी में एक ऑब्जेक्ट की अपेक्षा करता है।
 
 ऑब्जेक्ट को क्लास नामों को बूलियन में मैप करना चाहिए जो इंगित करता है कि या
 क्लास को वीनोड पर रुकना या जाना नहीं चाहिए।
@@ -496,8 +502,8 @@ h(
     style: {
       border: "1px solid #bada55",
       color: "#c0ffee",
-      fontWeight: "bold",
-    },
+      fontWeight: "bold"
+    }
   },
   "Say my name, and every colour illuminates"
 );
@@ -510,13 +516,13 @@ In JSX, you can use `style` like this:
   style={{
     border: "1px solid #bada55",
     color: "#c0ffee",
-    fontWeight: "bold",
+    fontWeight: "bold"
   }}
 />
 // Renders as: <div style="border: 1px solid #bada55; color: #c0ffee; font-weight: bold"></div>
 ```
 
-#### Custom properties (कस्टम गुण) (CSS variables) 
+#### Custom properties (कस्टम गुण) (CSS variables)
 
 सीएसएस कस्टम गुण (उर्फ सीएसएस चर) समर्थित हैं, उन्हें उपसर्ग किया जाना चाहिए
 `--` के साथ
@@ -525,7 +531,7 @@ In JSX, you can use `style` like this:
 h(
   "div",
   {
-    style: { "--warnColor": "yellow" },
+    style: { "--warnColor": "yellow" }
   },
   "Warning"
 );
@@ -542,8 +548,8 @@ h(
     style: {
       opacity: "0",
       transition: "opacity 1s",
-      delayed: { opacity: "1" },
-    },
+      delayed: { opacity: "1" }
+    }
   },
   "Imma fade right in!"
 );
@@ -567,8 +573,8 @@ h(
     style: {
       opacity: "1",
       transition: "opacity 1s",
-      remove: { opacity: "0" },
-    },
+      remove: { opacity: "0" }
+    }
   },
   "It's better to fade out than to burn away"
 );
@@ -588,8 +594,8 @@ h(
     style: {
       opacity: "1",
       transition: "opacity 1s",
-      destroy: { opacity: "0" },
-    },
+      destroy: { opacity: "0" }
+    }
   },
   "It's better to fade out than to burn away"
 );
@@ -636,21 +642,21 @@ In particular, you should **not** do something like this:
 const sharedHandler = {
   change: function (e) {
     console.log("you chose: " + e.target.value);
-  },
+  }
 };
 h("div", [
   h("input", {
     props: { type: "radio", name: "test", value: "0" },
-    on: sharedHandler,
+    on: sharedHandler
   }),
   h("input", {
     props: { type: "radio", name: "test", value: "1" },
-    on: sharedHandler,
+    on: sharedHandler
   }),
   h("input", {
     props: { type: "radio", name: "test", value: "2" },
-    on: sharedHandler,
-  }),
+    on: sharedHandler
+  })
 ]);
 ```
 
@@ -665,16 +671,16 @@ const sharedHandler = function (e) {
 h("div", [
   h("input", {
     props: { type: "radio", name: "test", value: "0" },
-    on: { change: sharedHandler },
+    on: { change: sharedHandler }
   }),
   h("input", {
     props: { type: "radio", name: "test", value: "1" },
-    on: { change: sharedHandler },
+    on: { change: sharedHandler }
   }),
   h("input", {
     props: { type: "radio", name: "test", value: "2" },
-    on: { change: sharedHandler },
-  }),
+    on: { change: sharedHandler }
+  })
 ]);
 ```
 
@@ -694,10 +700,10 @@ const vnode = h("div", [
         r: 40,
         stroke: "green",
         "stroke-width": 4,
-        fill: "yellow",
-      },
-    }),
-  ]),
+        fill: "yellow"
+      }
+    })
+  ])
 ]);
 ```
 
@@ -755,7 +761,6 @@ function render(state) {
 यहां व्यू फ़ंक्शन केवल एक उदाहरण है। व्यवहार में थंक्स ही होते हैं
 यदि आप एक जटिल दृश्य प्रस्तुत कर रहे हैं तो यह प्रासंगिक है
 उत्पन्न करने के लिए महत्वपूर्ण कम्प्यूटेशनल समय।
-
 
 ## JSX
 
@@ -860,12 +865,11 @@ const fragment = (
 
 उदाहरण के लिए `h('div', {props: {className: 'container'}}, [...])` एक वर्चुअल नोड तैयार करेगा
 
-
 ```mjs
 ({
   props: {
-    className: "container",
-  },
+    className: "container"
+  }
 });
 ```
 
@@ -881,7 +885,6 @@ as its `.data` object.
 उदाहरण के लिए `h('div', {}, [ h('h1', {}, 'Hello, World') ])` होगा
 के साथ एक वर्चुअल नोड बनाएं
 
-
 ```mjs
 [
   {
@@ -890,8 +893,8 @@ as its `.data` object.
     children: undefined,
     text: "Hello, World",
     elm: Element,
-    key: undefined,
-  },
+    key: undefined
+  }
 ];
 ```
 
@@ -905,7 +908,6 @@ as its `.children` property.
 
 उदाहरण के लिए: `h('h1', {}, 'Hello')` एक वर्चुअल नोड बनाएगा
 `हैलो` इसकी `.text` संपत्ति के रूप में।
-
 
 ### elm : Element
 
@@ -930,7 +932,6 @@ DOM नोड्स की ओर संकेत जो पहले से म
 उदाहरण के लिए: `h('div', {key: 1}, [])` एक वर्चुअल नोड बनाएगा
 `.key` गुण वाली वस्तु जिसका मान `1` है।
 
-
 ## अनुप्रयोगों की संरचना करना
 
 स्नैबडॉम एक निम्न-स्तरीय वर्चुअल DOM लाइब्रेरी है। इसके साथ कोई राय नहीं है आपको अपने आवेदन की संरचना किस प्रकार करनी चाहिए इसके संबंध में।
@@ -939,19 +940,19 @@ DOM नोड्स की ओर संकेत जो पहले से म
 
 - [functional-frontend-architecture](https://github.com/paldepind/functional-frontend-architecture) –
   एक भंडार जिसमें कई उदाहरण अनुप्रयोग शामिल हैं
-   एक ऐसी वास्तुकला को प्रदर्शित करता है जो स्नैबडॉम का उपयोग करती है।
+  एक ऐसी वास्तुकला को प्रदर्शित करता है जो स्नैबडॉम का उपयोग करती है।
 - [Cycle.js](https://cycle.js.org/) –
   "क्लीनर कोड के लिए एक कार्यात्मक और प्रतिक्रियाशील जावास्क्रिप्ट ढांचा"
-   स्नैबडोम का उपयोग करता है
+  स्नैबडोम का उपयोग करता है
 - [Vue.js](http://vuejs.org/) use a fork of snabbdom.
-- [scheme-todomvc](https://github.com/amirouche/scheme-todomvc/)       स्नैबडॉम बाइंडिंग के शीर्ष पर रिडक्स-जैसी वास्तुकला का निर्माण करें।
+- [scheme-todomvc](https://github.com/amirouche/scheme-todomvc/) स्नैबडॉम बाइंडिंग के शीर्ष पर रिडक्स-जैसी वास्तुकला का निर्माण करें।
 - [kaiju](https://github.com/AlexGalays/kaiju) -
   स्नैबडॉम के शीर्ष पर स्टेटफुल घटक और अवलोकन
 - [Tweed](https://tweedjs.github.io) –
   प्रतिक्रियाशील इंटरफेस के लिए एक ऑब्जेक्ट ओरिएंटेड दृष्टिकोण।
 - [Cyclow](http://cyclow.js.org) -
- "जावास्क्रिप्ट के लिए एक प्रतिक्रियाशील फ्रंटएंड ढांचा"
-   स्नैबडोम का उपयोग करता है
+  "जावास्क्रिप्ट के लिए एक प्रतिक्रियाशील फ्रंटएंड ढांचा"
+  स्नैबडोम का उपयोग करता है
 - [Tung](https://github.com/Reon90/tung) –
   HTML प्रस्तुत करने के लिए एक जावास्क्रिप्ट लाइब्रेरी। तुंग एचटीएमएल और जावास्क्रिप्ट विकास को विभाजित करने में मदद करता है।
 - [sprotty](https://github.com/theia-ide/sprotty) - "एक वेब-आधारित आरेखण ढाँचा" स्नैबडॉम का उपयोग करता है।
@@ -980,12 +981,12 @@ const sharedNode = h("div", {}, "Selected");
 const vnode1 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, ["Two"]),
-  h("div", {}, [sharedNode]),
+  h("div", {}, [sharedNode])
 ]);
 const vnode2 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, [sharedNode]),
-  h("div", {}, ["Three"]),
+  h("div", {}, ["Three"])
 ]);
 patch(container, vnode1);
 patch(vnode1, vnode2);
@@ -997,7 +998,7 @@ patch(vnode1, vnode2);
 const vnode2 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, [{ ...sharedNode }]),
-  h("div", {}, ["Three"]),
+  h("div", {}, ["Three"])
 ]);
 ```
 
@@ -1008,7 +1009,7 @@ const sharedNode = () => h("div", {}, "Selected");
 const vnode1 = h("div", [
   h("div", {}, ["One"]),
   h("div", {}, ["Two"]),
-  h("div", {}, [sharedNode()]),
+  h("div", {}, [sharedNode()])
 ]);
 ```
 
