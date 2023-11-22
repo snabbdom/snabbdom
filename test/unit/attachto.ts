@@ -14,8 +14,8 @@ describe("attachTo", function () {
     const vnode1 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
-        attachTo(elm, h("div#attached", "Test")),
-      ]),
+        attachTo(elm, h("div#attached", "Test"))
+      ])
     ]);
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.children.length, 2);
@@ -24,14 +24,14 @@ describe("attachTo", function () {
     const vnode1 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
-        attachTo(elm, h("div#attached", "First text")),
-      ]),
+        attachTo(elm, h("div#attached", "First text"))
+      ])
     ]);
     const vnode2 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
-        attachTo(elm, h("div#attached", "New text")),
-      ]),
+        attachTo(elm, h("div#attached", "New text"))
+      ])
     ]);
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.children[0].innerHTML, "First text");
@@ -42,15 +42,15 @@ describe("attachTo", function () {
     const vnode1 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
-        attachTo(elm, h("div#attached", "Text")),
-      ]),
+        attachTo(elm, h("div#attached", "Text"))
+      ])
     ]);
     const vnode2 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
         h("div", "A new element"),
-        attachTo(elm, h("div#attached", "Text")),
-      ]),
+        attachTo(elm, h("div#attached", "Text"))
+      ])
     ]);
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.children[0].innerHTML, "Text");
@@ -61,8 +61,8 @@ describe("attachTo", function () {
     const vnode1 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
-        attachTo(elm, h("div#attached", "First text")),
-      ]),
+        attachTo(elm, h("div#attached", "First text"))
+      ])
     ]);
     const vnode2 = h("div", [h("div#wrapper", [h("div", "Some element")])]);
     elm = patch(vnode0, vnode1).elm;
@@ -80,11 +80,8 @@ describe("attachTo", function () {
     const vnode1 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
-        attachTo(
-          elm,
-          h("div#attached", { hook: { remove: rm } }, "First text"),
-        ),
-      ]),
+        attachTo(elm, h("div#attached", { hook: { remove: rm } }, "First text"))
+      ])
     ]);
     const vnode2 = h("div", [h("div#wrapper", [h("div", "Some element")])]);
     elm = patch(vnode0, vnode1).elm;

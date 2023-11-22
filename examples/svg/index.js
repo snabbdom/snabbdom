@@ -13,10 +13,10 @@ window.addEventListener("DOMContentLoaded", () => {
           r: 40,
           stroke: "green",
           "stroke-width": 4,
-          fill: "yellow",
-        },
-      }),
-    ]),
+          fill: "yellow"
+        }
+      })
+    ])
   ]);
   patch(container, vnode);
 });

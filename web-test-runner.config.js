@@ -9,7 +9,7 @@ const sharedCapabilities = {
   "browserstack.key": process.env.BROWSER_STACK_ACCESS_KEY,
   project: "snabbdom",
   name: "CI",
-  build: `build ${process.env.GITHUB_RUN_NUMBER || "unknown"}`,
+  build: `build ${process.env.GITHUB_RUN_NUMBER || "unknown"}`
 };
 
 export default {
@@ -21,12 +21,12 @@ export default {
         browserstackLauncher({
           capabilities: {
             ...sharedCapabilities,
-            ...cap,
-          },
-        }),
+            ...cap
+          }
+        })
       ),
   files: ["src/**/*.ts", "test/unit/*.ts", "test/unit/*.tsx"],
   plugins: [
-    esbuildPlugin({ ts: true, tsx: true, tsconfig: "./test/tsconfig.json" }),
-  ],
+    esbuildPlugin({ ts: true, tsx: true, tsconfig: "./test/tsconfig.json" })
+  ]
 };

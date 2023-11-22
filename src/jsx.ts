@@ -14,7 +14,7 @@ export type JsxVNodeChildren = ArrayOrElement<JsxVNodeChild>;
 
 export type FunctionComponent = (
   props: { [prop: string]: any } | null,
-  children?: VNode[],
+  children?: VNode[]
 ) => VNode;
 
 export function Fragment(
@@ -34,7 +34,7 @@ export function Fragment(
       undefined,
       undefined,
       flatChildren[0].text,
-      undefined,
+      undefined
     );
   } else {
     return vnode(undefined, data ?? {}, flatChildren, undefined, undefined);
@@ -43,7 +43,7 @@ export function Fragment(
 
 function flattenAndFilter(
   children: JsxVNodeChildren[],
-  flattened: VNode[],
+  flattened: VNode[]
 ): VNode[] {
   for (const child of children) {
     // filter out falsey children, except 0 since zero can be a valid value e.g inside a chart
@@ -61,7 +61,7 @@ function flattenAndFilter(
         typeof child === "boolean"
       ) {
         flattened.push(
-          vnode(undefined, undefined, undefined, String(child), undefined),
+          vnode(undefined, undefined, undefined, String(child), undefined)
         );
       } else {
         flattened.push(child);

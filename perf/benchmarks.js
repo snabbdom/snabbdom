@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
         a.patch(emptyNode, vnode1);
         a.patch(vnode1, vnode2);
         a.patch(vnode2, a.emptyNode);
-      },
+      }
     })
     .add("b/ insert first", {
       setup: function () {
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
         b.patch(emptyNode, vnode1);
         b.patch(vnode1, vnode2);
         b.patch(vnode2, b.emptyNode);
-      },
+      }
     })
     // add listeners
     .on("cycle", function (event) {

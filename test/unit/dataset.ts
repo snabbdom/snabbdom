@@ -59,8 +59,8 @@ describe("dataset", function () {
         dashed: "foo-bar",
         camel: "fooBar",
         integer: 0 as any,
-        float: 0.1 as any,
-      },
+        float: 0.1 as any
+      }
     });
     elm = patch(vnode0, vnode1).elm;
 

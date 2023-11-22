@@ -12,7 +12,7 @@ describe("snabbdom", function () {
         children: undefined,
         elm: undefined,
         text: "Hello World",
-        key: undefined,
+        key: undefined
       });
     });
 
@@ -25,7 +25,7 @@ describe("snabbdom", function () {
         children: undefined,
         elm: undefined,
         text: "foo bar",
-        key: undefined,
+        key: undefined
       });
     });
 
@@ -47,7 +47,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "foo",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -55,12 +55,12 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "bar",
-            key: undefined,
-          },
+            key: undefined
+          }
         ],
         elm: undefined,
         text: undefined,
-        key: undefined,
+        key: undefined
       });
     });
 
@@ -85,7 +85,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "A Heading",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -93,7 +93,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "some description",
-            key: undefined,
+            key: undefined
           },
           {
             sel: "span",
@@ -101,7 +101,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "part1",
-            key: undefined,
+            key: undefined
           },
           {
             sel: "span",
@@ -109,12 +109,12 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "part2",
-            key: undefined,
-          },
+            key: undefined
+          }
         ],
         elm: undefined,
         text: undefined,
-        key: undefined,
+        key: undefined
       });
     });
 
@@ -147,7 +147,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "Login Form",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -155,7 +155,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "Login Attempts: ",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -163,7 +163,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "0",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -171,7 +171,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "Logged In: ",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -179,12 +179,12 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "true",
-            key: undefined,
-          },
+            key: undefined
+          }
         ],
         elm: undefined,
         text: undefined,
-        key: undefined,
+        key: undefined
       });
     });
 
@@ -215,7 +215,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "Snabbdom",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -223,7 +223,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "and tsx",
-            key: undefined,
+            key: undefined
           },
           {
             sel: "span",
@@ -231,7 +231,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "work",
-            key: undefined,
+            key: undefined
           },
           {
             sel: "span",
@@ -239,7 +239,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "like",
-            key: undefined,
+            key: undefined
           },
           {
             sel: "span",
@@ -247,7 +247,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "a",
-            key: undefined,
+            key: undefined
           },
           {
             sel: "span",
@@ -255,7 +255,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "charm!",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -263,12 +263,12 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "💃🕺🎉",
-            key: undefined,
-          },
+            key: undefined
+          }
         ],
         elm: undefined,
         text: undefined,
-        key: undefined,
+        key: undefined
       });
     });
   });
@@ -283,7 +283,7 @@ describe("snabbdom", function () {
         children: undefined,
         elm: undefined,
         text: "Hello World",
-        key: undefined,
+        key: undefined
       });
     });
 
@@ -296,7 +296,7 @@ describe("snabbdom", function () {
         children: undefined,
         elm: undefined,
         text: "foo bar",
-        key: undefined,
+        key: undefined
       });
     });
 
@@ -318,7 +318,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "foo",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -326,12 +326,12 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "bar",
-            key: undefined,
-          },
+            key: undefined
+          }
         ],
         elm: undefined,
         text: undefined,
-        key: undefined,
+        key: undefined
       });
     });
 
@@ -356,7 +356,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "A Heading",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -364,7 +364,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "some description",
-            key: undefined,
+            key: undefined
           },
           {
             sel: "span",
@@ -372,7 +372,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "part1",
-            key: undefined,
+            key: undefined
           },
           {
             sel: "span",
@@ -380,12 +380,12 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "part2",
-            key: undefined,
-          },
+            key: undefined
+          }
         ],
         elm: undefined,
         text: undefined,
-        key: undefined,
+        key: undefined
       });
     });
 
@@ -418,7 +418,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "Login Form",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -426,7 +426,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "Login Attempts: ",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -434,7 +434,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "0",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -442,7 +442,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "Logged In: ",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -450,12 +450,12 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "true",
-            key: undefined,
-          },
+            key: undefined
+          }
         ],
         elm: undefined,
         text: undefined,
-        key: undefined,
+        key: undefined
       });
     });
 
@@ -486,7 +486,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "Snabbdom",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -494,7 +494,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "and tsx",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -502,7 +502,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "work",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -510,7 +510,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "like",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -518,7 +518,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "a",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -526,7 +526,7 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "charm!",
-            key: undefined,
+            key: undefined
           },
           {
             sel: undefined,
@@ -534,20 +534,20 @@ describe("snabbdom", function () {
             children: undefined,
             elm: undefined,
             text: "💃🕺🎉",
-            key: undefined,
-          },
+            key: undefined
+          }
         ],
         elm: undefined,
         text: undefined,
-        key: undefined,
+        key: undefined
       });
     });
 
     it("can correctly be patched", function () {
       const patch = init([], undefined, {
         experimental: {
-          fragments: true,
-        },
+          fragments: true
+        }
       });
       const container = document.createElement("div");
 
@@ -565,7 +565,7 @@ describe("snabbdom", function () {
       assert.strictEqual(vnode0.elm?.nodeType, document.DOCUMENT_FRAGMENT_NODE);
       assert.strictEqual(
         vnode0.elm?.textContent,
-        "Nested children will be flattened",
+        "Nested children will be flattened"
       );
 
       const vnode1 = (
@@ -582,7 +582,7 @@ describe("snabbdom", function () {
       assert.strictEqual((vnode1.elm as HTMLElement).tagName, "DIV");
       assert.strictEqual(
         vnode1.elm?.textContent,
-        "Nested child nodes will be patched",
+        "Nested child nodes will be patched"
       );
 
       const vnode2 = (

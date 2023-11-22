@@ -4,7 +4,7 @@ import {
   UpdateHook,
   DestroyHook,
   RemoveHook,
-  PostHook,
+  PostHook
 } from "../hooks";
 
 export type Module = Partial<{

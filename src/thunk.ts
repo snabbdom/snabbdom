@@ -66,6 +66,6 @@ export const thunk = function thunk(
     key: key,
     hook: { init, prepatch },
     fn: fn,
-    args: args,
+    args: args
   });
 } as ThunkFn;

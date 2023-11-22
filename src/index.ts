@@ -20,7 +20,7 @@ export type {
   VNodes,
   VNodeChildElement,
   ArrayOrElement,
-  VNodeChildren,
+  VNodeChildren
 } from "./h";
 
 // types
