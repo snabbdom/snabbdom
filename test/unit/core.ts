@@ -1,5 +1,4 @@
 import { assert } from "@esm-bundle/chai";
-import { shuffle } from "lodash-es";
 
 import {
   init,
@@ -30,6 +29,18 @@ const patch = init(
   undefined,
   { experimental: { fragments: true } },
 );
+
+/** Shuffle an array using Durstenfeld's version of the Fisher–Yates shuffle. */
+function shuffle(arr) {
+  arr = arr.slice();
+  for (let i = arr.length; i--; ) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+  return arr;
+}
 
 function prop<T>(name: string) {
   return function (obj: { [index: string]: T }) {
@@ -848,7 +859,7 @@ describe("snabbdom", function () {
               return spanNumWithOpacity(n, "1");
             }),
           );
-          const shufArr = shuffle(arr.slice(0));
+          const shufArr = shuffle(arr);
           let elm: HTMLDivElement | HTMLSpanElement =
             document.createElement("div");
           elm = patch(elm, vnode1).elm as HTMLSpanElement;
