@@ -184,5 +184,5 @@ export const htmlDomApi: DOMAPI = {
   isElement,
   isText,
   isComment,
-  isDocumentFragment,
+  isDocumentFragment
 };

@@ -172,13 +172,13 @@ describe("thunk", function () {
       return h(
         "span",
         { key: "num", hook: { destroy: destroyHook } },
-        `Number is ${n}`,
+        `Number is ${n}`
       );
     }
     const vnode1 = h("div", [
       h("div", "Foo"),
       thunk("span", "num", numberInSpan, [1]),
-      h("div", "Foo"),
+      h("div", "Foo")
     ]);
     const vnode2 = h("div", [h("div", "Foo"), h("div", "Foo")]);
     patch(vnode0, vnode1);
@@ -194,13 +194,13 @@ describe("thunk", function () {
       return h(
         "span",
         { key: "num", hook: { remove: hook } },
-        `Number is ${n}`,
+        `Number is ${n}`
       );
     }
     const vnode1 = h("div", [
       h("div", "Foo"),
       thunk("span", "num", numberInSpan, [1]),
-      h("div", "Foo"),
+      h("div", "Foo")
     ]);
     const vnode2 = h("div", [h("div", "Foo"), h("div", "Foo")]);
     patch(vnode0, vnode1);

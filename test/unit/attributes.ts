@@ -12,7 +12,7 @@ describe("attributes", function () {
   });
   it("have their provided values", function () {
     const vnode1 = h("div", {
-      attrs: { href: "/foo", minlength: 1, selected: true, disabled: false },
+      attrs: { href: "/foo", minlength: 1, selected: true, disabled: false }
     });
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.getAttribute("href"), "/foo");
@@ -36,7 +36,7 @@ describe("attributes", function () {
   });
   it("are not omitted when falsy values are provided", function () {
     const vnode1 = h("div", {
-      attrs: { href: null as any, minlength: 0, value: "", title: "undefined" },
+      attrs: { href: null as any, minlength: 0, value: "", title: "undefined" }
     });
     elm = patch(vnode0, vnode1).elm;
     assert.ok(elm.hasAttribute("href"));
@@ -49,7 +49,7 @@ describe("attributes", function () {
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(
       elm.getAttributeNS("http://www.w3.org/1999/xlink", "href"),
-      "#foo",
+      "#foo"
     );
   });
   it("should not touch class nor id fields", function () {
@@ -69,7 +69,7 @@ describe("attributes", function () {
     const elmNamespaceValue = "http://www.w3.org/1999/xlink";
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     const vnodeSVG = h("svg", {
-      attrs: { [elmNamespaceQualifiedName]: elmNamespaceValue },
+      attrs: { [elmNamespaceQualifiedName]: elmNamespaceValue }
     });
 
     elm = patch(svg, vnodeSVG).elm;
@@ -81,13 +81,13 @@ describe("attributes", function () {
     // and namespaces are a legacy feature, no longer supported
     assert.strictEqual(
       elm.getAttribute(elmNamespaceQualifiedName),
-      elmNamespaceValue,
+      elmNamespaceValue
     );
   });
   describe("boolean attribute", function () {
     it("is present and empty string if the value is truthy", function () {
       const vnode1 = h("div", {
-        attrs: { required: true, readonly: 1, noresize: "truthy" },
+        attrs: { required: true, readonly: 1, noresize: "truthy" }
       });
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.hasAttribute("required"), true);
@@ -105,7 +105,7 @@ describe("attributes", function () {
     });
     it("is not omitted if the value is falsy", function () {
       const vnode1 = h("div", {
-        attrs: { readonly: 0, noresize: null as any },
+        attrs: { readonly: 0, noresize: null as any }
       });
       elm = patch(vnode0, vnode1).elm;
       assert.ok(elm.hasAttribute("readonly"));

@@ -16,7 +16,7 @@ describe("event listeners", function () {
       result.push(ev);
     }
     const vnode = h("div", { on: { click: clicked } }, [
-      h("a", "Click my parent"),
+      h("a", "Click my parent")
     ]);
     elm = patch(vnode0, vnode).elm;
     elm.click();
@@ -31,10 +31,10 @@ describe("event listeners", function () {
         on: {
           click: function () {
             result.push(1);
-          },
-        },
+          }
+        }
       },
-      [h("a", "Click my parent")],
+      [h("a", "Click my parent")]
     );
     const vnode2 = h(
       "div",
@@ -42,10 +42,10 @@ describe("event listeners", function () {
         on: {
           click: function () {
             result.push(2);
-          },
-        },
+          }
+        }
       },
-      [h("a", "Click my parent")],
+      [h("a", "Click my parent")]
     );
     elm = patch(vnode0, vnode1).elm;
     elm.click();
@@ -59,7 +59,7 @@ describe("event listeners", function () {
       result.push(ev);
     }
     const vnode1 = h("div", { on: { click: clicked } }, [
-      h("a", "Click my parent"),
+      h("a", "Click my parent")
     ]);
     elm = patch(vnode0, vnode1).elm;
     elm.click();
@@ -79,13 +79,13 @@ describe("event listeners", function () {
       assert.strictEqual(vnode.sel, "div");
     }
     const vnode1 = h("div", { on: { click: [clicked, clicked, clicked] } }, [
-      h("a", "Click my parent"),
+      h("a", "Click my parent")
     ]);
     elm = patch(vnode0, vnode1).elm;
     elm.click();
     assert.strictEqual(3, called);
     const vnode2 = h("div", { on: { click: [clicked, clicked] } }, [
-      h("a", "Click my parent"),
+      h("a", "Click my parent")
     ]);
     elm = patch(vnode1, vnode2).elm;
     elm.click();
@@ -98,7 +98,7 @@ describe("event listeners", function () {
       result.push(vnode);
     }
     const vnode1 = h("div", { on: { click: clicked } }, [
-      h("a", "Click my parent"),
+      h("a", "Click my parent")
     ]);
     elm = patch(vnode0, vnode1).elm;
     elm.click();
@@ -111,10 +111,10 @@ describe("event listeners", function () {
     const sharedHandlers = {
       click: function (ev: Event) {
         result.push(ev);
-      },
+      }
     };
     const vnode1 = h("div", { on: sharedHandlers }, [
-      h("a", { on: sharedHandlers }, "Click my parent"),
+      h("a", { on: sharedHandlers }, "Click my parent")
     ]);
     elm = patch(vnode0, vnode1).elm;
     elm.click();

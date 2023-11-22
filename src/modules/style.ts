@@ -120,5 +120,5 @@ export const styleModule: Module = {
   create: updateStyle,
   update: updateStyle,
   destroy: applyDestroyStyle,
-  remove: applyRemoveStyle,
+  remove: applyRemoveStyle
 };

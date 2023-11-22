@@ -25,10 +25,10 @@ describe("svg", function () {
       h(
         "use",
         {
-          attrs: { "xlink:href": testUrl },
+          attrs: { "xlink:href": testUrl }
         },
-        [],
-      ),
+        []
+      )
     ]);
 
     const result = patch(vnode0, a).elm as SVGElement;

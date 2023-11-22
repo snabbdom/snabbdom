@@ -113,10 +113,10 @@ describe("style", function () {
   });
   it("updates delayed styles in next frame", function (done) {
     const vnode1 = h("i", {
-      style: { fontSize: "14px", delayed: { fontSize: "16px" } as any },
+      style: { fontSize: "14px", delayed: { fontSize: "16px" } as any }
     });
     const vnode2 = h("i", {
-      style: { fontSize: "18px", delayed: { fontSize: "20px" } as any },
+      style: { fontSize: "18px", delayed: { fontSize: "20px" } as any }
     });
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.style.fontSize, "14px");
@@ -140,10 +140,10 @@ describe("style", function () {
       {
         style: {
           transition: "transform 0.1s",
-          remove: { transform: "translateY(100%)" } as any,
-        },
+          remove: { transform: "translateY(100%)" } as any
+        }
       },
-      ["A button"],
+      ["A button"]
     );
     const vnode1 = h("div.parent", {}, [btn]);
     const vnode2 = h("div.parent", {}, [null]);

@@ -16,7 +16,7 @@ export type VNodeChildren = ArrayOrElement<VNodeChildElement>;
 export function addNS(
   data: any,
   children: Array<VNode | string> | undefined,
-  sel: string | undefined,
+  sel: string | undefined
 ): void {
   data.ns = "http://www.w3.org/2000/svg";
   if (sel !== "foreignObject" && children !== undefined) {
@@ -37,7 +37,7 @@ export function h(sel: string, children: VNodeChildren): VNode;
 export function h(
   sel: string,
   data: VNodeData | null,
-  children: VNodeChildren,
+  children: VNodeChildren
 ): VNode;
 export function h(sel: any, b?: any, c?: any): VNode {
   let data: VNodeData = {};
@@ -74,7 +74,7 @@ export function h(sel: any, b?: any, c?: any): VNode {
           undefined,
           undefined,
           children[i],
-          undefined,
+          undefined
         );
     }
   }

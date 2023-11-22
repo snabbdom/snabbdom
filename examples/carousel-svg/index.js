@@ -3,7 +3,7 @@ import {
   attributesModule,
   styleModule,
   eventListenersModule,
-  h,
+  h
 } from "../../build/index.js";
 
 const patch = init([attributesModule, styleModule, eventListenersModule]);
@@ -11,7 +11,7 @@ const patch = init([attributesModule, styleModule, eventListenersModule]);
 let vnode;
 
 let data = {
-  degRotation: 0,
+  degRotation: 0
 };
 
 function gRotation() {
@@ -45,13 +45,13 @@ const hTriangle = (id, degRotation) =>
     attrs: {
       points: "-50,-88 0,-175 50,-88",
       transform: "rotate(" + degRotation + ")",
-      "stroke-width": 3,
+      "stroke-width": 3
     },
     on: {
       click: () => {
         triangleClick(id);
-      },
-    },
+      }
+    }
   });
 
 const view = () =>
@@ -64,7 +64,7 @@ const view = () =>
         h(
           "g#carousel",
           {
-            style: { "-webkit-transform": gRotation(), transform: gRotation() },
+            style: { "-webkit-transform": gRotation(), transform: gRotation() }
           },
           [
             hTriangle("yellow", 0),
@@ -72,9 +72,9 @@ const view = () =>
             hTriangle("magenta", 120),
             hTriangle("red", 180),
             hTriangle("cyan", 240),
-            hTriangle("blue", 300),
+            hTriangle("blue", 300)
           ]
-        ),
+        )
       ]
     ),
     h(
@@ -83,8 +83,8 @@ const view = () =>
         on: {
           click: () => {
             handleRotate(60);
-          },
-        },
+          }
+        }
       },
       "Rotate Clockwise"
     ),
@@ -94,8 +94,8 @@ const view = () =>
         on: {
           click: () => {
             handleRotate(-60);
-          },
-        },
+          }
+        }
       },
       "Rotate Anticlockwise"
     ),
@@ -105,11 +105,11 @@ const view = () =>
         on: {
           click: () => {
             handleReset(0);
-          },
-        },
+          }
+        }
       },
       "Reset"
-    ),
+    )
   ]);
 
 window.addEventListener("DOMContentLoaded", () => {
