@@ -157,7 +157,7 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 - [Virtual Node](#virtual-node)
   - [sel : String](#sel--string)
   - [data : Object](#data--object)
-  - [children : Array<vnode>](#children--arrayvnode)
+  - [children : Array\<vnode\>](#children--arrayvnode)
   - [text : string](#text--string)
   - [elm : Element](#elm--element)
   - [key : string | number](#key--string--number)
@@ -270,25 +270,22 @@ server-side generated content.
 ```mjs
 import {
   init,
-  classModule,
-  propsModule,
   styleModule,
-  eventListenersModule,
+  attributesModule,
   h,
   toVNode
 } from "snabbdom";
 
 const patch = init([
-  // Init patch function with chosen modules
-  classModule, // makes it easy to toggle classes
-  propsModule, // for setting properties on DOM elements
+  // Init patch function with the modules used by `toVNode`
   styleModule, // handles styling on elements with support for animations
-  eventListenersModule // attaches event listeners
+  attributesModule // handles attributes, for example an image src attribute
 ]);
 
 const newVNode = h("div", { style: { color: "#000" } }, [
   h("h1", "Headline"),
-  h("p", "A paragraph")
+  h("p", "A paragraph"),
+  h("img", { attrs: { src: "sunrise.png", alt: "morning sunrise" } })
 ]);
 
 patch(toVNode(document.querySelector(".container")), newVNode);
@@ -886,7 +883,7 @@ For example `h('div', {props: {className: 'container'}}, [...])` will produce a 
 
 as its `.data` object.
 
-### children : Array<vnode>
+### children : Array\<vnode\>
 
 The `.children` property of a virtual node is the third (optional)
 parameter to [`h()`](#snabbdomh) during creation. `.children` is
