@@ -31,7 +31,7 @@ function updateProps(oldVnode: VNode, vnode: VNode): void {
     // DOM INPUT.checked is a boolean property. The element's internal value should be
     // used for comparison. fixes #950
     else if (key === 'checked')
-      shouldUpdate = (elm as any)[key] !== cur;
+      shouldUpdate = (elm as any).checked !== cur;
 
     else
       shouldUpdate = (old !== cur);
