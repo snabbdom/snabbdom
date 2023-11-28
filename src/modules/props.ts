@@ -25,14 +25,20 @@ function updateProps(oldVnode: VNode, vnode: VNode): void {
     // typing into an INPUT with a sync event handler cause a render (such as for
     // validation feedback) where setting INPUT.value also pushes the cursor to the end
     // of the input. fixes #71, partially fixes #63
-    if (key === "value")
-      shouldUpdate = old !== cur && (elm as any)[key] !== cur;
+    if (key === "value") {
+      shouldUpdate = old !== cur && (elm as any).value !== cur;
+    }
     // DOM INPUT.checked is a boolean property. The element's internal value should be
     // used for comparison. fixes #950
-    else if (key === "checked") shouldUpdate = (elm as any).checked !== cur;
-    else shouldUpdate = old !== cur;
+    else if (key === "checked") {
+      shouldUpdate = (elm as any).checked !== cur;
+    } else {
+      shouldUpdate = old !== cur;
+    }
 
-    if (shouldUpdate) (elm as any)[key] = cur;
+    if (shouldUpdate) {
+      (elm as any)[key] = cur;
+    }
   }
 }
 
