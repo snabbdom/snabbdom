@@ -1,5 +1,5 @@
-import { VNode, VNodeData } from "../vnode";
-import { Module } from "./module";
+import { VNode, VNodeData } from "../vnode.js";
+import { Module } from "./module.js";
 
 type Listener<T> = (this: VNode, ev: T, vnode: VNode) => void;
 

@@ -5,7 +5,8 @@
     "declaration": true,
     "strict": true,
     "strictFunctionTypes": false,
-    "moduleResolution": "node",
+    "module": "node16",
+    "moduleResolution": "node16",
     "target": "es6",
     "isolatedModules": true,
     "outDir": "build"
