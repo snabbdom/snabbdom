@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "description": "benchmark, snabbdom",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snabbdom/snabbdom"
+  },
+  "dependencies": {
+    "snabbdom": "file:../../",
+    "benchmark": "^2.1.4",
+    "jsdom": "23.0.0"
+  },
+  "scripts": {
+    "fix": "sed -i 's/\\/h/\\/h.js/' ../../build/jsx.js",
+    "start": "node ./bench.js"
+  }
+}

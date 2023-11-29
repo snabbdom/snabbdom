@@ -18,6 +18,7 @@
     "browserstack-browsers.js",
     "web-test-runner.config.js",
     "build",
+    "bench",
     "coverage"
   ],
   "overrides": [

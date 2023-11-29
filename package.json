@@ -32,6 +32,8 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsc && ts-add-js-extension --dir=build",
+    "bench:setup": "cd ./test/bench && npm install",
+    "bench": "cd ./test/bench && npm start",
     "examples": "serve .",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
