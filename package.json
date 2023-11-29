@@ -36,7 +36,7 @@
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "prepare": "husky install",
-    "lint": "eslint --ext .ts,.tsx,.js --ignore-path .gitignore .",
+    "lint": "eslint .",
     "unit": "web-test-runner \"test/unit/*.{ts,tsx}\" --node-resolve --coverage",
     "release": "npm run test && release-it",
     "test": "npm run build && npm run lint && npm run unit",
