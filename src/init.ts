@@ -138,7 +138,9 @@ export function init(
     return function rmCb() {
       if (--listeners === 0) {
         const parent = api.parentNode(childElm) as Node;
-        api.removeChild(parent, childElm);
+        if (parent !== null) {
+          api.removeChild(parent, childElm);
+        }
       }
     };
   }
