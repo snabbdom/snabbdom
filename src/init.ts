@@ -1,7 +1,7 @@
-import { Module } from "./modules/module.js";
-import { vnode, VNode } from "./vnode.js";
-import * as is from "./is.js";
-import { htmlDomApi, DOMAPI } from "./htmldomapi.js";
+import { Module } from "./modules/module";
+import { vnode, VNode } from "./vnode";
+import * as is from "./is";
+import { htmlDomApi, DOMAPI } from "./htmldomapi";
 
 type NonUndefined<T> = T extends undefined ? never : T;
 

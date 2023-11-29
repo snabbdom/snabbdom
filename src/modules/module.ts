@@ -5,7 +5,7 @@ import {
   DestroyHook,
   RemoveHook,
   PostHook
-} from "../hooks.js";
+} from "../hooks";
 
 export type Module = Partial<{
   pre: PreHook;

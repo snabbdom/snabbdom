@@ -1,4 +1,4 @@
-import { VNode, VNodeData } from "../vnode.js";
+import { VNode, VNodeData } from "../vnode";
 
 export interface AttachData {
   [key: string]: any;

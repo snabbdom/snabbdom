@@ -1,6 +1,6 @@
-import { addNS } from "./h.js";
-import { vnode, VNode } from "./vnode.js";
-import { htmlDomApi, DOMAPI } from "./htmldomapi.js";
+import { addNS } from "./h";
+import { vnode, VNode } from "./vnode";
+import { htmlDomApi, DOMAPI } from "./htmldomapi";
 
 export function toVNode(node: Node, domApi?: DOMAPI): VNode {
   const api: DOMAPI = domApi !== undefined ? domApi : htmlDomApi;

@@ -5,10 +5,8 @@
     "declaration": true,
     "strict": true,
     "strictFunctionTypes": false,
-    "module": "node16",
-    "moduleResolution": "node16",
+    "moduleResolution": "node",
     "target": "es6",
-    "isolatedModules": true,
     "outDir": "build"
   },
   "include": ["./src/index.ts"]
