@@ -497,6 +497,19 @@ describe("snabbdom", function () {
         assert.strictEqual(elm.childNodes[0].childNodes[0].tagName, "SPAN");
         assert.strictEqual(elm.childNodes[0].childNodes[0].textContent, "Hi");
       });
+      it("patching textNodes, adding and removing", function () {
+        const prevElm = document.createElement("div");
+        const vnodeText1 = vnode("", {}, [], "Test Text 1", null);
+        const vnodeText2 = vnode("", {}, [], "Test Text 2", null);
+        const vnodeH1 = vnode("h1", {}, [], "Test Text h1", null);
+
+        elm = patch(toVNode(prevElm), vnodeText1).elm;
+        assert.strictEqual(elm.nodeValue, "Test Text 1");
+        elm = patch(toVNode(elm), vnodeText2).elm;
+        assert.strictEqual(elm.nodeValue, "Test Text 2");
+        elm = patch(toVNode(elm), vnodeH1).elm;
+        assert.strictEqual(elm.textContent, "Test Text h1");
+      });
       it("can remove some children of the root element", function () {
         const h2 = document.createElement("h2");
         h2.textContent = "Hello";
