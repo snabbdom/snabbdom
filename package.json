@@ -31,7 +31,7 @@
   "types": "build/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && ts-add-js-extension --dir=build",
     "examples": "serve .",
     "format": "prettier --write .",
     "prepare": "husky install",
@@ -65,6 +65,7 @@
     "prettier": "^3.0.3",
     "release-it": "^16.2.1",
     "serve": "^14.2.1",
+    "ts-add-js-extension": "^1.6.0",
     "typescript": "5.2.2"
   },
   "prettier": {
