@@ -61,6 +61,17 @@ performance, small size, and all the features listed below.
   - Template string support using [snabby](https://github.com/jamen/snabby).
   - Virtual DOM assertion with [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like)
 
+## Installation
+
+* As usual, Node.js and git needs to be installed on your system.
+* Clone/download [this repo](https://github.com/snabbdom/snabbdom).
+* In the repo root (where the `package.json` is):
+  * Install the requirements: `npm install`.
+  * Run the tests (this also builds `/examples`):  `npm test`. Alternatively, just build the examples: `npm run build`.
+  * Start a local server, for example by running: `npx serve`. Open [localhost:3000](http://localhost:3000/).  
+    This will redirect to [localhost:3000/examples](http://localhost:3000/examples) (due to the `./serve.json`).  
+    Inspect the examples.
+
 ## Example
 
 ```mjs
