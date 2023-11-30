@@ -168,7 +168,7 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 - [Virtual Node](#virtual-node)
   - [sel : String](#sel--string)
   - [data : Object](#data--object)
-  - [children : Array<vnode>](#children--arrayvnode)
+  - [children : Array\<vnode\>](#children--arrayvnode)
   - [text : string](#text--string)
   - [elm : Element](#elm--element)
   - [key : string | number](#key--string--number)
@@ -897,7 +897,7 @@ For example `h('div', {props: {className: 'container'}}, [...])` will produce a 
 
 as its `.data` object.
 
-### children : Array<vnode>
+### children : Array\<vnode\>
 
 The `.children` property of a virtual node is the third (optional)
 parameter to [`h()`](#snabbdomh) during creation. `.children` is
