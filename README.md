@@ -61,17 +61,6 @@ performance, small size, and all the features listed below.
   - Template string support using [snabby](https://github.com/jamen/snabby).
   - Virtual DOM assertion with [snabbdom-looks-like](https://github.com/jvanbruegge/snabbdom-looks-like)
 
-## Installation
-
-* As usual, Node.js and git needs to be installed on your system.
-* Clone/download [the snabbdom repository](https://github.com/snabbdom/snabbdom).
-* In the repository root (where the `package.json` is):
-  * Install the requirements: `npm install`.
-  * Run the tests (this also builds `/examples`):  `npm test`. Alternatively, just build the examples: `npm run build`.
-  * Start a local server, for example by running: `npx serve`. Open [localhost:3000](http://localhost:3000/).  
-    This will redirect to [localhost:3000/examples](http://localhost:3000/examples) (due to the `./serve.json`).  
-    Inspect the examples.
-
 ## Example
 
 ```mjs
@@ -129,15 +118,28 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 - [Hero transitions](http://snabbdom.github.io/snabbdom/examples/hero/)
 - [SVG Carousel](http://snabbdom.github.io/snabbdom/examples/carousel-svg/)
 
+### How to run the examples locally
+
+To run above examples locally:
+
+* As usual, Node.js and git needs to be installed on your system.
+* Clone/download [the snabbdom repository](https://github.com/snabbdom/snabbdom).
+* In the repository root (where the `package.json` is):
+  * Install the requirements: `npm install`.
+  * Run the tests (this also builds `/examples`):  `npm test`. Alternatively, just build the examples: `npm run build`.
+  * Start a local server, for example by running: `npx serve`. Open [localhost:3000](http://localhost:3000/).
+    This will redirect to [localhost:3000/examples](http://localhost:3000/examples) (due to the `./serve.json`).
+    Inspect the examples.
+
 ---
 
 ## Table of contents
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Installation](#installation)
 - [Example](#example)
 - [More examples](#more-examples)
+  - [How to run the examples locally](#how-to-run-the-examples-locally)
 - [Table of contents](#table-of-contents)
 - [Core documentation](#core-documentation)
   - [`init`](#init)
