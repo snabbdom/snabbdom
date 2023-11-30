@@ -133,12 +133,18 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 
 ## Table of contents
 
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Example](#example)
+- [More examples](#more-examples)
+- [Table of contents](#table-of-contents)
 - [Core documentation](#core-documentation)
   - [`init`](#init)
   - [`patch`](#patch)
     - [Unmounting](#unmounting)
   - [`h`](#h)
-  - [`fragment`](#fragment-experimental) (experimental)
+  - [`fragment` (experimental)](#fragment-experimental)
   - [`tovnode`](#tovnode)
   - [Hooks](#hooks)
     - [Overview](#overview)
@@ -173,6 +179,9 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
   - [elm : Element](#elm--element)
   - [key : string | number](#key--string--number)
 - [Structuring applications](#structuring-applications)
+- [Related packages](#related-packages)
+- [Common errors](#common-errors)
+- [Opportunity for community feedback](#opportunity-for-community-feedback)
 
 * [Related packages](#related-packages)
 
