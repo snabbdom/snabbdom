@@ -64,8 +64,8 @@ performance, small size, and all the features listed below.
 ## Installation
 
 * As usual, Node.js and git needs to be installed on your system.
-* Clone/download [this repo](https://github.com/snabbdom/snabbdom).
-* In the repo root (where the `package.json` is):
+* Clone/download [the snabbdom repository](https://github.com/snabbdom/snabbdom).
+* In the repository root (where the `package.json` is):
   * Install the requirements: `npm install`.
   * Run the tests (this also builds `/examples`):  `npm test`. Alternatively, just build the examples: `npm run build`.
   * Start a local server, for example by running: `npx serve`. Open [localhost:3000](http://localhost:3000/).  
