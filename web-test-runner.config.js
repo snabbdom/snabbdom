@@ -14,6 +14,7 @@ const sharedCapabilities = {
 
 export default {
   concurrentBrowsers: 2,
+  browserStartTimeout: 90000, // 90 seconds
   concurrency: ci ? 2 : 1,
   browsers: !ci
     ? undefined
