@@ -118,18 +118,31 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 - [Hero transitions](http://snabbdom.github.io/snabbdom/examples/hero/)
 - [SVG Carousel](http://snabbdom.github.io/snabbdom/examples/carousel-svg/)
 
-### How to run the examples locally
+### How to run the examples and tests locally
 
-To run above examples locally:
+As usual, Node.js, NPM and git are needed to be installed on your system.
 
-* As usual, Node.js and git needs to be installed on your system.
-* Clone/download [the snabbdom repository](https://github.com/snabbdom/snabbdom).
-* In the repository root (where the `package.json` is):
-  * Install the requirements: `npm install`.
-  * Run the tests (this also builds `/examples`):  `npm test`. Alternatively, just build the examples: `npm run build`.
-  * Start a local server, for example by running: `npx serve`. Open [localhost:3000](http://localhost:3000/).
-    This will redirect to [localhost:3000/examples](http://localhost:3000/examples) (due to the `./serve.json`).
-    Inspect the examples.
+To install snabbdom locally:
+
+```bash
+git clone https://github.com/snabbdom/snabbdom  # clone the snabbdom repository
+cd snabbdom
+npm install  # install the requirements
+```
+
+To inspect the examples:
+
+```bash
+npm run build  # build the examples
+npx serve  # start a local server
+# open http://localhost:3000/examples in your browser
+```
+
+To run the tests:
+
+```bash
+npm test
+````
 
 ---
 
@@ -139,7 +152,7 @@ To run above examples locally:
 - [Features](#features)
 - [Example](#example)
 - [More examples](#more-examples)
-  - [How to run the examples locally](#how-to-run-the-examples-locally)
+  - [How to run the examples and tests locally](#how-to-run-the-examples-and-tests-locally)
 - [Table of contents](#table-of-contents)
 - [Core documentation](#core-documentation)
   - [`init`](#init)
