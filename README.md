@@ -118,7 +118,7 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
 - [Hero transitions](http://snabbdom.github.io/snabbdom/examples/hero/)
 - [SVG Carousel](http://snabbdom.github.io/snabbdom/examples/carousel-svg/)
 
-### How to run the examples and tests locally
+## How to run the examples and tests locally
 
 As usual, Node.js, NPM and git are needed to be installed on your system.
 
@@ -127,7 +127,7 @@ To install snabbdom locally:
 ```bash
 git clone https://github.com/snabbdom/snabbdom  # clone the snabbdom repository
 cd snabbdom
-npm install  # install the requirements
+npm install  # install the dependencies
 ```
 
 To inspect the examples:
@@ -142,7 +142,7 @@ To run the tests:
 
 ```bash
 npm test
-````
+```
 
 ---
 
@@ -152,7 +152,7 @@ npm test
 - [Features](#features)
 - [Example](#example)
 - [More examples](#more-examples)
-  - [How to run the examples and tests locally](#how-to-run-the-examples-and-tests-locally)
+- [How to run the examples and tests locally](#how-to-run-the-examples-and-tests-locally)
 - [Table of contents](#table-of-contents)
 - [Core documentation](#core-documentation)
   - [`init`](#init)
