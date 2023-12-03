@@ -21,7 +21,7 @@
     "url": "https://github.com/snabbdom/snabbdom/issues"
   },
   "engines": {
-    "node": ">=8.3.0"
+    "node": ">=12.17.0"
   },
   "files": [
     "build"
