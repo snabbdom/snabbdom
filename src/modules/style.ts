@@ -1,9 +1,13 @@
 import { VNode, VNodeData } from "../vnode";
 import { Module } from "./module";
 
-export type VNodeStyle = Record<string, string> & {
-  delayed?: Record<string, string>;
-  remove?: Record<string, string>;
+export type ElementStyle = {
+  [Property in keyof ElementCSSInlineStyle]?: ElementCSSInlineStyle[Property]
+}
+
+export type VNodeStyle = ElementStyle & Record<string, string> & {
+  delayed?: ElementStyle & Record<string, string>;
+  remove?: ElementStyle & Record<string, string>;
 };
 
 // Binding `requestAnimationFrame` like this fixes a bug in IE/Edge. See #360 and #409.
