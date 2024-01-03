@@ -1,9 +1,7 @@
 import { VNode, VNodeData } from "../vnode";
 import { Module } from "./module";
 
-export type ElementStyle = {
-  [Property in keyof ElementCSSInlineStyle]?: ElementCSSInlineStyle[Property]
-}
+export type ElementStyle = Partial<CSSStyleDeclaration>
 
 export type VNodeStyle = ElementStyle & Record<string, string> & {
   delayed?: ElementStyle & Record<string, string>;
