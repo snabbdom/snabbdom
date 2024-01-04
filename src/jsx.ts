@@ -121,7 +121,7 @@ export namespace jsx {
   }[keyof T]
 
   export type ElementProperties<T> = {
-    [Property in WritableKeys<T> as T[Property] extends string | number ? Property : never]?: T[Property]
+    [Property in WritableKeys<T> as T[Property] extends string | number | null | undefined ? Property : never]?: T[Property]
   }
 
   export type VNodeProps<T> = ElementProperties<T> & Props
