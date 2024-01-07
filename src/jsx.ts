@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace, import/export */
 import { Key, vnode, VNode, VNodeData } from "./vnode";
 import { h, ArrayOrElement } from "./h";
+import { Props } from "./modules/props";
 
 // for conditional rendering we support boolean child element e.g cond && <tag />
 export type JsxVNodeChild =
@@ -101,7 +102,35 @@ export function jsx(
 // See https://www.typescriptlang.org/docs/handbook/jsx.html#type-checking
 export namespace jsx {
   export type Element = VNode;
-  export interface IntrinsicElements {
+
+  /*
+  IfEquals/WritableKeys: https://stackoverflow.com/questions/52443276/how-to-exclude-getter-only-properties-from-type-in-typescript/52473108#52473108
+  */
+  export type IfEquals<X, Y, Output> = (<T>() => T extends X
+    ? 1
+    : 2) extends <T>() => T extends Y ? 1 : 2
+    ? Output
+    : never
+
+  export type WritableKeys<T> = {
+    [P in keyof T]-?: IfEquals<
+      { [Q in P]: T[P] },
+      { -readonly [Q in P]: T[P] },
+      P
+    >
+  }[keyof T]
+
+  export type ElementProperties<T> = {
+    [Property in WritableKeys<T> as T[Property] extends string | number | null | undefined ? Property : never]?: T[Property]
+  }
+
+  export type VNodeProps<T> = ElementProperties<T> & Props
+
+  export type HtmlElements = {
+    [Property in keyof HTMLElementTagNameMap]: VNodeData<VNodeProps<HTMLElementTagNameMap[Property]>>
+  }
+
+  export interface IntrinsicElements extends HtmlElements {
     [elemName: string]: VNodeData;
   }
 }

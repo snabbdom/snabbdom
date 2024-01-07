@@ -18,8 +18,8 @@ export interface VNode {
   key: Key | undefined;
 }
 
-export interface VNodeData {
-  props?: Props;
+export interface VNodeData<VNodeProps = Props> {
+  props?: VNodeProps;
   attrs?: Attrs;
   class?: Classes;
   style?: VNodeStyle;
