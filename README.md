@@ -128,7 +128,7 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
     - [Unmounting](#unmounting)
   - [`h`](#h)
   - [`fragment`](#fragment-experimental) (experimental)
-  - [`tovnode`](#tovnode)
+  - [`toVNode`](#tovnode)
   - [Hooks](#hooks)
     - [Overview](#overview)
     - [Usage](#usage)
@@ -262,10 +262,10 @@ import { fragment, h } from "snabbdom";
 const vnode = fragment(["I am", h("span", [" a", " fragment"])]);
 ```
 
-### `tovnode`
+### `toVNode`
 
-Converts a DOM node into a virtual node. Especially good for patching over an pre-existing,
-server-side generated content.
+Converts a DOM node into a virtual node. Especially good for patching over pre-existing,
+server-side generated HTML content.
 
 ```mjs
 import {
@@ -277,9 +277,9 @@ import {
 } from "snabbdom";
 
 const patch = init([
-  // Init patch function with the modules used by `toVNode`
-  styleModule, // handles styling on elements with support for animations
-  attributesModule // handles attributes, for example an image src attribute
+  // Initialize a `patch` function with the modules used by `toVNode`
+  attributesModule // handles attributes from the DOM node
+  datasetModule, // handles `data-*` attributes from the DOM node
 ]);
 
 const newVNode = h("div", { style: { color: "#000" } }, [
