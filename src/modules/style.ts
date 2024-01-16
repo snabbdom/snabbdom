@@ -1,12 +1,13 @@
 import { VNode, VNodeData } from "../vnode";
 import { Module } from "./module";
 
-export type ElementStyle = Partial<CSSStyleDeclaration>
+export type ElementStyle = Partial<CSSStyleDeclaration>;
 
-export type VNodeStyle = ElementStyle & Record<string, string> & {
-  delayed?: ElementStyle & Record<string, string>;
-  remove?: ElementStyle & Record<string, string>;
-};
+export type VNodeStyle = ElementStyle &
+  Record<string, string> & {
+    delayed?: ElementStyle & Record<string, string>;
+    remove?: ElementStyle & Record<string, string>;
+  };
 
 // Binding `requestAnimationFrame` like this fixes a bug in IE/Edge. See #360 and #409.
 const raf =
@@ -40,7 +41,7 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
   const oldHasDel = "delayed" in oldStyle;
 
   for (name in oldStyle) {
-    if (!style[name]) {
+    if (!(name in style)) {
       if (name[0] === "-" && name[1] === "-") {
         (elm as any).style.removeProperty(name);
       } else {

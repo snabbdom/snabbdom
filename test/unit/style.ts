@@ -55,6 +55,14 @@ describe("style", function () {
     patch(vnode2, vnode3);
     assert.strictEqual(elm.style.fontSize, "10px");
   });
+  it("handles falsy values", function () {
+    const vnode1 = h("i", { style: { flexShrink: 0 as any } });
+    const vnode2 = h("i", { style: { flexShrink: 0 as any } });
+    elm = patch(vnode0, vnode1).elm;
+    assert.strictEqual(elm.style.flexShrink, "0");
+    patch(vnode1, vnode2);
+    assert.strictEqual(elm.style.flexShrink, "0");
+  });
   it("implicially removes styles from element", function () {
     const vnode1 = h("div", [h("i", { style: { fontSize: "14px" } })]);
     const vnode2 = h("div", [h("i")]);

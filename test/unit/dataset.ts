@@ -40,6 +40,14 @@ describe("dataset", function () {
     assert.strictEqual(elm.dataset.baz, "baz");
     assert.strictEqual(elm.dataset.foo, undefined);
   });
+  it("handles falsy values", function () {
+    const vnode1 = h("i", { dataset: { foo: "" } });
+    const vnode2 = h("i", { dataset: { foo: "" } });
+    elm = patch(vnode0, vnode1).elm;
+    assert.strictEqual(elm.dataset.foo, "");
+    elm = patch(vnode1, vnode2).elm;
+    assert.strictEqual(elm.dataset.foo, "");
+  });
   it("can be memoized", function () {
     const cachedDataset = { foo: "foo", bar: "bar" };
     const vnode1 = h("i", { dataset: cachedDataset });
