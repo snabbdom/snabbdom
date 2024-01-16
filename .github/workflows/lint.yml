@@ -2,15 +2,15 @@ name: lint
 
 on:
   push:
-    branches: [ '**' ]
+    branches: ["**"]
   pull_request:
-    branches: [ '**' ]
+    branches: ["**"]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - run: npm install
-    # - run: npm run format-check
-    - run: npm run lint
+      - uses: actions/checkout@v4
+      - run: npm install
+      - run: npm run format-check
+      - run: npm run lint
