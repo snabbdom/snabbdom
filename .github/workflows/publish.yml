@@ -27,7 +27,7 @@ jobs:
             process.exit(1);
           });
           EOF
-      - run: npm install
+      - run: npm ci
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
