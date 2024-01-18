@@ -334,6 +334,24 @@ describe("snabbdom", function () {
       assert(elm.classList.contains("am"));
       assert(!elm.classList.contains("horse"));
     });
+    it("can replace non-empty node with innerHTML prop", function () {
+      const h2 = document.createElement("h2");
+      h2.textContent = "Hello";
+      const prevElm = document.createElement("div");
+      prevElm.id = "id";
+      prevElm.className = "class";
+      prevElm.appendChild(h2);
+      const html = "<span>Hi</span>";
+      const nextVNode = h("div#id.class", { props: { innerHTML: html } });
+      elm = patch(toVNode(prevElm), nextVNode).elm;
+      assert.strictEqual(elm, prevElm);
+      assert.equal(elm.tagName, "DIV");
+      assert.equal(elm.id, "id");
+      assert.equal(elm.className, "class");
+      assert.strictEqual(elm.childNodes.length, 1);
+      assert.strictEqual(elm.childNodes[0].tagName, "SPAN");
+      assert.strictEqual(elm.childNodes[0].textContent, "Hi");
+    });
     it("changes an elements props", function () {
       const vnode1 = h("a", { props: { src: "http://other/" } });
       const vnode2 = h("a", { props: { src: "http://localhost/" } });
