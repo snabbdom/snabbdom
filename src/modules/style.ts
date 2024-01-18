@@ -42,7 +42,7 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
   const oldHasDel = "delayed" in oldStyle;
 
   for (name in oldStyle) {
-    if (!style[name]) {
+    if (!(name in style)) {
       if (name[0] === "-" && name[1] === "-") {
         (elm as any).style.removeProperty(name);
       } else {

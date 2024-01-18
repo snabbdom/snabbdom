@@ -18,7 +18,7 @@ function updateDataset(oldVnode: VNode, vnode: VNode): void {
   const d = elm.dataset;
 
   for (key in oldDataset) {
-    if (!dataset[key]) {
+    if (!(key in dataset)) {
       if (d) {
         if (key in d) {
           delete d[key];
