@@ -1,5 +1,7 @@
 # [3.6.0](https://github.com/snabbdom/snabbdom/compare/v3.5.1...v3.6.0) (2024-01-20)
 
+Note: Do to improvements to the JSX typings the minimum supported TypeScript version is now 4.1.
+
 ### Bug Fixes
 
 - allow innerHTML to replace non-empty node, credit [@tokichie](https://github.com/tokichie) ([#1083](https://github.com/snabbdom/snabbdom/issues/1083)) ([c063d57](https://github.com/snabbdom/snabbdom/commit/c063d57f8878d38483973c19615d04aaf06dd77f))
