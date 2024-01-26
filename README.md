@@ -229,14 +229,14 @@ Of course, then there is still a single comment node at the mount point.
 ### `h`
 
 It is recommended that you use `h` to create vnodes. It accepts a
-tag/selector as a string, an optional data object, and an optional string or
-an array of children.
+[tag/selector](#sel--string) as a string, an optional data object, and an
+optional string or an array of children.
 
 ```mjs
 import { h } from "snabbdom";
 
-const vnode = h("div", { style: { color: "#000" } }, [
-  h("h1", "Headline"),
+const vnode = h("div#container", { style: { color: "#000" } }, [
+  h("h1.primary-title", "Headline"),
   h("p", "A paragraph")
 ]);
 ```
@@ -856,11 +856,39 @@ const fragment = (
 - [elm](#elm--element)
 - [key](#key--string--number)
 
-### sel : String
+### sel : string
 
-The `.sel` property of a virtual node is the CSS selector passed to
-[`h()`](#snabbdomh) during creation. For example: `h('div#container', {}, [...])` will create a virtual node that has `div#container` as
-its `.sel` property.
+The `sel` property specifies the HTML element of the vnode, optionally its `id`
+prefixed by a `#`, and zero or more classes each prefixed by a `.`. The syntax
+is inspired by CSS selectors. Here are a few examples:
+
+- `div#container.bar.baz` – A `div` element with the id `container` and the
+  classes `bar` and `baz`.
+- `li` – A `li` element with no `id` nor classes.
+- `button.alert.primary` – `button` element with the two classes `alert` and
+  `primary`.
+
+The selector is meant to be _static_, that is, it should not change over the
+lifetime of the element. To set a dynamic `id` use [the props
+module](#the-props-module) and to set dynamic classes use [the class
+module](#the-class-module).
+
+Since the selector is static, Snabbdom uses it as part of a vnodes identity. For
+instance, if the two child vnodes
+
+```mjs
+[h("div#container.padding", children1), h("div.padding", children2)];
+```
+
+are patched against
+
+```ts
+[h("div#container.padding", children2), h("div.padding", children1)];
+```
+
+then Snabbdom uses the selector to identify the vnodes and reorder them in the
+DOM tree instead of creating new DOM element. This use of selectors avoids the
+need to specify keys in many cases.
 
 ### data : Object
 
