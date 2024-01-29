@@ -53,7 +53,6 @@
     {
       "files": ["examples/**/*.js"],
       "rules": {
-        "import/no-unresolved": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off"
       }
     },
@@ -72,15 +71,13 @@
     {
       "files": ["README*md/*.tsx"],
       "rules": {
-        "@typescript-eslint/no-unused-vars": "off",
-        "import/no-unresolved": "off"
+        "@typescript-eslint/no-unused-vars": "off"
       }
     },
     {
       "files": ["CHANGELOG.md/*"],
       "rules": {
         "@typescript-eslint/no-unused-vars": "off",
-        "import/no-unresolved": "off",
         "node/no-missing-import": "off"
       }
     }
@@ -89,6 +86,7 @@
     "max-statements-per-line": "error",
     "no-var": "error",
     "import/newline-after-import": "error",
-    "import/no-default-export": "error"
+    "import/no-default-export": "error",
+    "import/no-unresolved": "off"
   }
 }
