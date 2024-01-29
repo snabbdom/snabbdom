@@ -31,7 +31,7 @@
   "types": "build/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "build": "tsc && ts-add-js-extension --dir=build",
+    "build": "tsc",
     "examples": "serve .",
     "format": "prettier --write .",
     "format-check": "prettier --check .",

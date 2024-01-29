@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-namespace, import/export */
-import { Key, vnode, VNode, VNodeData } from "./vnode";
-import { h, ArrayOrElement } from "./h";
-import { Props } from "./modules/props";
+import { Key, vnode, VNode, VNodeData } from "./vnode.js";
+import { h, ArrayOrElement } from "./h.js";
+import { Props } from "./modules/props.js";
 
 // for conditional rendering we support boolean child element e.g cond && <tag />
 export type JsxVNodeChild =
