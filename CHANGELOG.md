@@ -1,3 +1,9 @@
+## [3.6.1](https://github.com/snabbdom/snabbdom/compare/v3.6.0...v3.6.1) (2024-01-30)
+
+### Bug Fixes
+
+- work around bug in ts-add-js-extension ([#1105](https://github.com/snabbdom/snabbdom/issues/1105)) ([649c760](https://github.com/snabbdom/snabbdom/commit/649c760f79a00a1a484a6258d74b27adcfcf69d0)), closes [#1087](https://github.com/snabbdom/snabbdom/issues/1087) [#1102](https://github.com/snabbdom/snabbdom/issues/1102)
+
 # [3.6.0](https://github.com/snabbdom/snabbdom/compare/v3.5.1...v3.6.0) (2024-01-20)
 
 Note: Do to improvements to the JSX typings the minimum supported TypeScript version is now 4.1.
