@@ -31,7 +31,7 @@
   "types": "build/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "build": "tsc && ts-add-js-extension --dir=build",
+    "build": "tsc && ts-add-js-extension --dir=build && replace-in-file '\"./h\"' '\"./h.js\"' build/jsx.*",
     "examples": "serve .",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
@@ -64,6 +64,7 @@
     "mocha": "10.2.0",
     "prettier": "^3.0.3",
     "release-it": "^16.2.1",
+    "replace-in-file": "^7.1.0",
     "serve": "^14.2.1",
     "ts-add-js-extension": "^1.6.0",
     "typescript": "5.2.2"
