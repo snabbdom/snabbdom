@@ -19,7 +19,8 @@ import {
   DestroyHook,
   UpdateHook,
   Key,
-  fragment
+  fragment,
+  DOMAPI
 } from "../../src/index";
 
 const hasSvgClassList = "classList" in SVGElement.prototype;
@@ -836,6 +837,44 @@ describe("snabbdom", function () {
           assert.equal(elm.children.length, 3);
           assert.equal(elm.children[1].innerHTML, "symbol");
           assert.equal(elm.children[2].innerHTML, "symbol");
+        });
+        it("simultaneous addition in beginning and removal in end", function () {
+          let insertCount = 0;
+          const domApi: DOMAPI = {
+            ...htmlDomApi,
+            insertBefore: (a, b, c) => {
+              insertCount++;
+              htmlDomApi.insertBefore(a, b, c);
+            }
+          };
+          const patch = init([], domApi);
+          const vnode1 = h("span", [2, 3, 4, 5].map(spanNum));
+          const vnode2 = h("span", [1, 2, 3, 4].map(spanNum));
+          elm = patch(vnode0, vnode1).elm;
+          assert.deepEqual(map(inner, elm.children), ["2", "3", "4", "5"]);
+          elm = patch(vnode1, vnode2).elm;
+          assert.deepEqual(map(inner, elm.children), ["1", "2", "3", "4"]);
+          assert.strictEqual(insertCount, 1);
+        });
+        it("simultaneous removal in beginning and addition in end", function () {
+          let insertCount = 0;
+          const domApi: DOMAPI = {
+            ...htmlDomApi,
+            insertBefore: (a, b, c) => {
+              insertCount++;
+              htmlDomApi.insertBefore(a, b, c);
+            }
+          };
+          const patch = init([], domApi);
+          const vnode1 = h("span", [1, 2, 3, 4].map(spanNum));
+          const vnode2 = h("span", [2, 3, 4, 5].map(spanNum));
+          elm = patch(vnode0, vnode1).elm;
+          assert.equal(elm.children.length, 4);
+          assert.deepEqual(map(inner, elm.children), ["1", "2", "3", "4"]);
+          elm = patch(vnode1, vnode2).elm;
+          assert.equal(elm.children.length, 4);
+          assert.deepEqual(map(inner, elm.children), ["2", "3", "4", "5"]);
+          assert.strictEqual(insertCount, 1);
         });
       });
       it("reverses elements", function () {
