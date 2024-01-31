@@ -1,5 +1,5 @@
 import { Module } from "./modules/module";
-import { vnode, VNode } from "./vnode";
+import { Key, vnode, VNode } from "./vnode";
 import * as is from "./is";
 import { htmlDomApi, DOMAPI } from "./htmldomapi";
 
@@ -49,7 +49,7 @@ function isDocumentFragment(
   return api.isDocumentFragment!(vnode as any);
 }
 
-type KeyToIndexMap = { [key: string]: number };
+type KeyToIndexMap = { [key: Key]: number };
 
 type ArraysOf<T> = {
   [K in keyof T]: Array<T[K]>;
@@ -66,7 +66,7 @@ function createKeyToOldIdx(
   for (let i = beginIdx; i <= endIdx; ++i) {
     const key = children[i]?.key;
     if (key !== undefined) {
-      map[key as string] = i;
+      map[key] = i;
     }
   }
   return map;
@@ -352,15 +352,26 @@ export function init(
         if (oldKeyToIdx === undefined) {
           oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
         }
-        idxInOld = oldKeyToIdx[newStartVnode.key as string];
+        idxInOld = oldKeyToIdx[newStartVnode.key!];
         if (isUndef(idxInOld)) {
-          // New element
+          // `newStartVnode` is new, create and insert it in beginning
           api.insertBefore(
             parentElm,
             createElm(newStartVnode, insertedVnodeQueue),
             oldStartVnode.elm!
           );
+          newStartVnode = newCh[++newStartIdx];
+        } else if (isUndef(oldKeyToIdx[newEndVnode.key!])) {
+          // `newEndVnode` is new, create and insert it in the end
+          api.insertBefore(
+            parentElm,
+            createElm(newEndVnode, insertedVnodeQueue),
+            api.nextSibling(oldEndVnode.elm!)
+          );
+          newEndVnode = newCh[--newEndIdx];
         } else {
+          // Neither of the new endpoints are new vnodes, so we make progress by
+          // moving `newStartVnode` into position
           elmToMove = oldCh[idxInOld];
           if (elmToMove.sel !== newStartVnode.sel) {
             api.insertBefore(
@@ -373,8 +384,8 @@ export function init(
             oldCh[idxInOld] = undefined as any;
             api.insertBefore(parentElm, elmToMove.elm!, oldStartVnode.elm!);
           }
+          newStartVnode = newCh[++newStartIdx];
         }
-        newStartVnode = newCh[++newStartIdx];
       }
     }
 
