@@ -1,3 +1,9 @@
+## [3.6.2](https://github.com/snabbdom/snabbdom/compare/v3.6.1...v3.6.2) (2024-01-31)
+
+### Bug Fixes
+
+- detect opportunity to insert new vnode earlier for more efficient DOM manipulation ([#1106](https://github.com/snabbdom/snabbdom/issues/1106)) ([4383817](https://github.com/snabbdom/snabbdom/commit/438381794e2e664d9eb4970f0a46618635cf75e1)), closes [#1099](https://github.com/snabbdom/snabbdom/issues/1099)
+
 ## [3.6.1](https://github.com/snabbdom/snabbdom/compare/v3.6.0...v3.6.1) (2024-01-30)
 
 ### Bug Fixes
