@@ -4,13 +4,13 @@ import { VNode, init, eventListenersModule, h } from "../../src/index";
 
 const patch = init([eventListenersModule]);
 
-describe("event listeners", function () {
+describe("event listeners", () => {
   let elm: any, vnode0: any;
-  beforeEach(function () {
+  beforeEach(() => {
     elm = document.createElement("div");
     vnode0 = elm;
   });
-  it("attaches click event handler to element", function () {
+  it("attaches click event handler to element", () => {
     const result = [];
     function clicked(ev: Event) {
       result.push(ev);
@@ -22,14 +22,14 @@ describe("event listeners", function () {
     elm.click();
     assert.strictEqual(1, result.length);
   });
-  it("does not attach new listener", function () {
+  it("does not attach new listener", () => {
     const result: number[] = [];
     // function clicked(ev) { result.push(ev); }
     const vnode1 = h(
       "div",
       {
         on: {
-          click: function () {
+          click: () => {
             result.push(1);
           }
         }
@@ -40,7 +40,7 @@ describe("event listeners", function () {
       "div",
       {
         on: {
-          click: function () {
+          click: () => {
             result.push(2);
           }
         }
@@ -53,7 +53,7 @@ describe("event listeners", function () {
     elm.click();
     assert.deepEqual(result, [1, 2]);
   });
-  it("detach attached click event handler to element", function () {
+  it("detach attached click event handler to element", () => {
     const result: Event[] = [];
     function clicked(ev: Event) {
       result.push(ev);
@@ -69,7 +69,7 @@ describe("event listeners", function () {
     elm.click();
     assert.strictEqual(1, result.length);
   });
-  it("multiple event handlers for same event on same element", function () {
+  it("multiple event handlers for same event on same element", () => {
     let called = 0;
     function clicked(ev: Event, vnode: VNode) {
       ++called;
@@ -91,7 +91,7 @@ describe("event listeners", function () {
     elm.click();
     assert.strictEqual(5, called);
   });
-  it("access to virtual node in event handler", function () {
+  it("access to virtual node in event handler", () => {
     const result: VNode[] = [];
     function clicked(this: VNode, ev: Event, vnode: VNode) {
       result.push(this);
@@ -106,10 +106,10 @@ describe("event listeners", function () {
     assert.strictEqual(vnode1, result[0]);
     assert.strictEqual(vnode1, result[1]);
   });
-  it("shared handlers in parent and child nodes", function () {
+  it("shared handlers in parent and child nodes", () => {
     const result = [];
     const sharedHandlers = {
-      click: function (ev: Event) {
+      click: (ev: Event) => {
         result.push(ev);
       }
     };

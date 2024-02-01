@@ -390,10 +390,10 @@ patch(vnode1, vnode2);
 
 ```mjs
 const myModule = {
-  create: function (oldVnode, vnode) {
+  create: (oldVnode, vnode) => {
     // invoked whenever a new virtual node is created
   },
-  update: function (oldVnode, vnode) {
+  update: (oldVnode, vnode) => {
     // invoked whenever a virtual node is updated
   }
 };
@@ -640,7 +640,7 @@ In particular, you should **not** do something like this:
 ```mjs
 // Does not work
 const sharedHandler = {
-  change: function (e) {
+  change: (e) => {
     console.log("you chose: " + e.target.value);
   }
 };
@@ -665,7 +665,7 @@ h("div", [
 
 ```mjs
 // Works
-const sharedHandler = function (e) {
+const sharedHandler = (e) => {
   console.log("you chose: " + e.target.value);
 };
 h("div", [

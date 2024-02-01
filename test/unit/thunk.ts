@@ -4,12 +4,12 @@ import { init, h, thunk, VNode } from "../../src/index";
 
 const patch = init([]);
 
-describe("thunk", function () {
+describe("thunk", () => {
   let elm: any, vnode0: any;
-  beforeEach(function () {
+  beforeEach(() => {
     elm = vnode0 = document.createElement("div");
   });
-  it("returns vnode with data and render function", function () {
+  it("returns vnode with data and render function", () => {
     function numberInSpan(n: number) {
       return h("span", `Number is ${n}`);
     }
@@ -18,7 +18,7 @@ describe("thunk", function () {
     assert.deepEqual(vnode.data.key, "num");
     assert.deepEqual(vnode.data.args, [22]);
   });
-  it("calls render function once on data change", function () {
+  it("calls render function once on data change", () => {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
@@ -31,7 +31,7 @@ describe("thunk", function () {
     patch(vnode1, vnode2);
     assert.strictEqual(called, 2);
   });
-  it("does not call render function on data unchanged", function () {
+  it("does not call render function on data unchanged", () => {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
@@ -44,7 +44,7 @@ describe("thunk", function () {
     patch(vnode1, vnode2);
     assert.strictEqual(called, 1);
   });
-  it("calls render function once on data-length change", function () {
+  it("calls render function once on data-length change", () => {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
@@ -57,7 +57,7 @@ describe("thunk", function () {
     patch(vnode1, vnode2);
     assert.strictEqual(called, 2);
   });
-  it("calls render function once on function change", function () {
+  it("calls render function once on function change", () => {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
@@ -74,7 +74,7 @@ describe("thunk", function () {
     patch(vnode1, vnode2);
     assert.strictEqual(called, 2);
   });
-  it("renders correctly", function () {
+  it("renders correctly", () => {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
@@ -94,7 +94,7 @@ describe("thunk", function () {
     assert.strictEqual(elm.firstChild.innerHTML, "Number is 2");
     assert.strictEqual(called, 2);
   });
-  it("supports leaving out the `key` argument", function () {
+  it("supports leaving out the `key` argument", () => {
     function vnodeFn(s: string) {
       return h("span.number", "Hello " + s);
     }
@@ -102,7 +102,7 @@ describe("thunk", function () {
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.innerText, "Hello World!");
   });
-  it("renders correctly when root", function () {
+  it("renders correctly when root", () => {
     let called = 0;
     function numberInSpan(n: number) {
       called++;
@@ -125,7 +125,7 @@ describe("thunk", function () {
     assert.strictEqual(elm.innerHTML, "Number is 2");
     assert.strictEqual(called, 2);
   });
-  it("can be replaced and removed", function () {
+  it("can be replaced and removed", () => {
     function numberInSpan(n: number) {
       return h("span", { key: "num" }, `Number is ${n}`);
     }
@@ -144,7 +144,7 @@ describe("thunk", function () {
     assert.strictEqual(elm.firstChild.tagName.toLowerCase(), "div");
     assert.strictEqual(elm.firstChild.innerHTML, "Even: 4");
   });
-  it("can be replaced and removed when root", function () {
+  it("can be replaced and removed when root", () => {
     function numberInSpan(n: number) {
       return h("span", { key: "num" }, `Number is ${n}`);
     }
@@ -163,7 +163,7 @@ describe("thunk", function () {
     assert.strictEqual(elm.tagName.toLowerCase(), "div");
     assert.strictEqual(elm.innerHTML, "Even: 4");
   });
-  it("invokes destroy hook on thunks", function () {
+  it("invokes destroy hook on thunks", () => {
     let called = 0;
     function destroyHook() {
       called++;
@@ -185,7 +185,7 @@ describe("thunk", function () {
     patch(vnode1, vnode2);
     assert.strictEqual(called, 1);
   });
-  it("invokes remove hook on thunks", function () {
+  it("invokes remove hook on thunks", () => {
     let called = 0;
     function hook() {
       called++;

@@ -23,16 +23,16 @@ for (var n = 0; n < elms; ++n) {
   arr[n] = n;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   var elm = (global.elm = document.getElementById("container"));
   // add tests
   suite
     .add("a/ insert first", {
-      setup: function () {
+      setup: () => {
         var vnode1 = a.h("div", arr.map(a.spanNum));
         var vnode2 = a.h("div", ["new"].concat(arr).map(a.spanNum));
       },
-      fn: function () {
+      fn: () => {
         var emptyNode = a.emptyNodeAt(elm);
         a.patch(emptyNode, vnode1);
         a.patch(vnode1, vnode2);
@@ -40,11 +40,11 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     })
     .add("b/ insert first", {
-      setup: function () {
+      setup: () => {
         var vnode1 = b.h("div", arr.map(b.spanNum));
         var vnode2 = b.h("div", ["new"].concat(arr).map(b.spanNum));
       },
-      fn: function () {
+      fn: () => {
         var emptyNode = b.emptyNodeAt(elm);
         b.patch(emptyNode, vnode1);
         b.patch(vnode1, vnode2);
@@ -52,10 +52,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     })
     // add listeners
-    .on("cycle", function (event) {
+    .on("cycle", (event) => {
       console.log(String(event.target));
     })
-    .on("complete", function () {
+    .on("complete", () => {
       console.log("Fastest is " + this.filter("fastest").pluck("name"));
     })
     // run async

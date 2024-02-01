@@ -345,10 +345,10 @@ patch(vnode1, vnode2);
 
 ```mjs
 const myModule = {
-  create: function (oldVnode, vnode) {
+  create: (oldVnode, vnode) => {
     // invoked whenever a new virtual node is created
   },
-  update: function (oldVnode, vnode) {
+  update: (oldVnode, vnode) => {
     // invoked whenever a virtual node is updated
   }
 };
