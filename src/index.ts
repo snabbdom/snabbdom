@@ -6,7 +6,6 @@ export { vnode } from "./vnode";
 
 export type { DOMAPI } from "./htmldomapi";
 export type { Options } from "./init";
-export type { ThunkData, Thunk, ThunkFn } from "./thunk";
 export type { Key, VNode, VNodeData } from "./vnode";
 
 // helpers

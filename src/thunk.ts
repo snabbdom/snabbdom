@@ -1,71 +1,69 @@
-import { VNode, VNodeData } from "./vnode";
+import { Key, VNode, VNodeData } from "./vnode";
 import { h, addNS } from "./h";
 
-export interface ThunkData extends VNodeData {
-  fn: () => VNode;
-  args: any[];
-}
-
-export interface Thunk extends VNode {
-  data: ThunkData;
-}
-
-export interface ThunkFn {
-  (sel: string, fn: (...args: any[]) => any, args: any[]): Thunk;
-  (sel: string, key: any, fn: (...args: any[]) => any, args: any[]): Thunk;
+interface ThunkData<T extends readonly unknown[]> extends VNodeData {
+  _args: [...T];
+  _fn: (...args: T) => VNode;
+  _comparator: (prev: T, cur: T) => boolean | undefined;
 }
 
 function copyToThunk(vnode: VNode, thunk: VNode): void {
   const ns = thunk.data?.ns;
-  (vnode.data as VNodeData).fn = (thunk.data as VNodeData).fn;
-  (vnode.data as VNodeData).args = (thunk.data as VNodeData).args;
+  vnode.data!._args = thunk.data!._args;
   thunk.data = vnode.data;
   thunk.children = vnode.children;
   thunk.text = vnode.text;
   thunk.elm = vnode.elm;
-  if (ns) addNS(thunk.data, thunk.children, thunk.sel);
+  if (ns !== undefined) {
+    addNS(thunk.data, thunk.children, thunk.sel);
+  }
 }
 
-function init(thunk: VNode): void {
-  const cur = thunk.data as VNodeData;
-  const vnode = (cur.fn as any)(...cur.args!);
+function init<T extends readonly unknown[]>(thunk: VNode): void {
+  const cur = thunk.data as ThunkData<T>;
+  const vnode = cur._fn(...cur._args);
   copyToThunk(vnode, thunk);
 }
 
-function prepatch(oldVnode: VNode, thunk: VNode): void {
-  let i: number;
-  const old = oldVnode.data as VNodeData;
-  const cur = thunk.data as VNodeData;
-  const oldArgs = old.args;
-  const args = cur.args;
-  if (old.fn !== cur.fn || (oldArgs as any).length !== (args as any).length) {
-    copyToThunk((cur.fn as any)(...args!), thunk);
+function prepatch<T extends readonly unknown[]>(
+  oldVnode: VNode,
+  thunk: VNode
+): void {
+  const cur = thunk.data! as ThunkData<T>;
+  const args = cur._args;
+  const oldArgs = oldVnode.data!._args as T;
+  if (oldArgs.length !== args.length) {
+    copyToThunk(cur._fn(...args), thunk);
     return;
   }
-  for (i = 0; i < (args as any).length; ++i) {
-    if ((oldArgs as any)[i] !== (args as any)[i]) {
-      copyToThunk((cur.fn as any)(...args!), thunk);
-      return;
+  const comparator = cur._comparator;
+  if (comparator === undefined) {
+    for (let i = 0; i < args.length; ++i) {
+      if (oldArgs[i] !== args[i]) {
+        copyToThunk(cur._fn(...args), thunk);
+        return;
+      }
     }
+    copyToThunk(oldVnode, thunk);
+  } else {
+    const vnode = comparator(oldArgs, args) ? oldVnode : cur._fn(...args);
+    copyToThunk(vnode, thunk);
   }
-  copyToThunk(oldVnode, thunk);
 }
 
-export const thunk = function thunk(
+const thunkHooks = { init, prepatch };
+
+export function thunk<T extends readonly unknown[]>(
   sel: string,
-  key?: any,
-  fn?: any,
-  args?: any
+  opts: { key?: Key; comparator?: (prev: T, cur: T) => boolean },
+  fn: (...args: T) => VNode,
+  args: [...T]
 ): VNode {
-  if (args === undefined) {
-    args = fn;
-    fn = key;
-    key = undefined;
-  }
   return h(sel, {
-    key: key,
-    hook: { init, prepatch },
-    fn: fn,
-    args: args
+    key: opts.key,
+    hook: thunkHooks,
+    _fn: fn,
+    _args: args,
+    _comparator: opts.comparator
   });
-} as ThunkFn;
+}

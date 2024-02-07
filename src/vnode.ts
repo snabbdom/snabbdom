@@ -29,8 +29,6 @@ export interface VNodeData<VNodeProps = Props> {
   hook?: Hooks;
   key?: Key;
   ns?: string; // for SVGs
-  fn?: () => VNode; // for thunks
-  args?: any[]; // for thunks
   is?: string; // for custom elements v1
   [key: string]: any; // for any other 3rd party module
 }
