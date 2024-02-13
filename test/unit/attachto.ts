@@ -4,13 +4,13 @@ import { init, RemoveHook, attachTo, h } from "../../src/index";
 
 const patch = init([]);
 
-describe("attachTo", function () {
+describe("attachTo", () => {
   let elm: any, vnode0: any;
-  beforeEach(function () {
+  beforeEach(() => {
     elm = document.createElement("div");
     vnode0 = elm;
   });
-  it("adds element to target", function () {
+  it("adds element to target", () => {
     const vnode1 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
@@ -20,7 +20,7 @@ describe("attachTo", function () {
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(elm.children.length, 2);
   });
-  it("updates element at target", function () {
+  it("updates element at target", () => {
     const vnode1 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
@@ -38,7 +38,7 @@ describe("attachTo", function () {
     elm = patch(vnode1, vnode2).elm;
     assert.strictEqual(elm.children[0].innerHTML, "New text");
   });
-  it("element can be inserted before modal", function () {
+  it("element can be inserted before modal", () => {
     const vnode1 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
@@ -57,7 +57,7 @@ describe("attachTo", function () {
     elm = patch(vnode1, vnode2).elm;
     assert.strictEqual(elm.children[0].innerHTML, "Text");
   });
-  it("removes element at target", function () {
+  it("removes element at target", () => {
     const vnode1 = h("div", [
       h("div#wrapper", [
         h("div", "Some element"),
@@ -70,7 +70,7 @@ describe("attachTo", function () {
     elm = patch(vnode1, vnode2).elm;
     assert.strictEqual(elm.children.length, 1);
   });
-  it("remove hook receives real element", function () {
+  it("remove hook receives real element", () => {
     const rm: RemoveHook = (vnode, cb) => {
       const elm = vnode.elm as HTMLDivElement;
       assert.strictEqual(elm.tagName, "DIV");

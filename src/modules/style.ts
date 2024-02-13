@@ -15,15 +15,15 @@ const raf =
     ? window.requestAnimationFrame.bind(window)
     : setTimeout;
 
-const nextFrame = function (fn: any) {
-  raf(function () {
+const nextFrame = (fn: any) => {
+  raf(() => {
     raf(fn);
   });
 };
 let reflowForced = false;
 
 function setNextFrame(obj: any, prop: string, val: any): void {
-  nextFrame(function () {
+  nextFrame(() => {
     obj[prop] = val;
   });
 }
@@ -106,13 +106,10 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   for (; i < props.length; ++i) {
     if (applied.indexOf(props[i]) !== -1) amount++;
   }
-  (elm as Element).addEventListener(
-    "transitionend",
-    function (ev: TransitionEvent) {
-      if (ev.target === elm) --amount;
-      if (amount === 0) rm();
-    }
-  );
+  (elm as Element).addEventListener("transitionend", (ev: TransitionEvent) => {
+    if (ev.target === elm) --amount;
+    if (amount === 0) rm();
+  });
 }
 
 function forceReflow() {

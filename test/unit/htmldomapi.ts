@@ -4,21 +4,21 @@ import { init, h, attributesModule } from "../../src/index";
 
 const patch = init([attributesModule]);
 
-describe("svg", function () {
+describe("svg", () => {
   let elm: any, vnode0: any;
-  beforeEach(function () {
+  beforeEach(() => {
     elm = document.createElement("svg");
     vnode0 = elm;
   });
 
-  it("removes child svg elements", function () {
+  it("removes child svg elements", () => {
     const a = h("svg", {}, [h("g"), h("g")]);
     const b = h("svg", {}, [h("g")]);
     const result = patch(patch(vnode0, a), b).elm as SVGElement;
     assert.strictEqual(result.childNodes.length, 1);
   });
 
-  it("adds correctly xlink namespaced attribute", function () {
+  it("adds correctly xlink namespaced attribute", () => {
     const xlinkNS = "http://www.w3.org/1999/xlink";
     const testUrl = "/test";
     const a = h("svg", {}, [
@@ -38,7 +38,7 @@ describe("svg", function () {
     assert.strictEqual(child.getAttributeNS(xlinkNS, "href"), testUrl);
   });
 
-  it("adds correctly xml namespaced attribute", function () {
+  it("adds correctly xml namespaced attribute", () => {
     const xmlNS = "http://www.w3.org/XML/1998/namespace";
     const testAttrValue = "und";
     const a = h("svg", { attrs: { "xml:lang": testAttrValue } }, []);

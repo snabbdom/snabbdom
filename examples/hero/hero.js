@@ -1,14 +1,14 @@
 const raf =
   (typeof window !== "undefined" && window.requestAnimationFrame) || setTimeout;
 
-const nextFrame = function (fn) {
-  raf(function () {
+const nextFrame = (fn) => {
+  raf(() => {
     raf(fn);
   });
 };
 
 function setNextFrame(obj, prop, val) {
-  nextFrame(function () {
+  nextFrame(() => {
     obj[prop] = val;
   });
 }
@@ -193,7 +193,7 @@ function post() {
         `translate(${-dx}px, ${-dy}px) scale(${wRatio}, ${hRatio})`
       ); // scale must be on far right for translate to be correct
       setNextFrame(oldStyle, "opacity", "0");
-      oldElm.addEventListener("transitionend", function (ev) {
+      oldElm.addEventListener("transitionend", (ev) => {
         if (ev.propertyName === "transform") {
           document.body.removeChild(ev.target);
         }

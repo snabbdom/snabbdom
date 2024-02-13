@@ -1,9 +1,9 @@
 import { assert } from "@esm-bundle/chai";
 import { jsx, Fragment, init } from "../../src/index";
 
-describe("snabbdom", function () {
-  describe("jsx", function () {
-    it("can be used as a jsxFactory method", function () {
+describe("snabbdom", () => {
+  describe("jsx", () => {
+    it("can be used as a jsxFactory method", () => {
       const vnode = <div title="Hello World">Hello World</div>;
 
       assert.deepStrictEqual(vnode, {
@@ -16,7 +16,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("creates text property for text only child", function () {
+    it("creates text property for text only child", () => {
       const vnode = <div>foo bar</div>;
 
       assert.deepStrictEqual(vnode, {
@@ -29,7 +29,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("creates an array of children for multiple children", function () {
+    it("creates an array of children for multiple children", () => {
       const vnode = (
         <div>
           {"foo"}
@@ -64,7 +64,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("flattens children", function () {
+    it("flattens children", () => {
       const vnode = (
         <section>
           <h1>A Heading</h1>
@@ -118,7 +118,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("removes falsey children", function () {
+    it("removes falsey children", () => {
       const showLogin = false;
       const showCaptcha = false;
       const loginAttempts = 0;
@@ -188,7 +188,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("works with a function component", function () {
+    it("works with a function component", () => {
       // workaround linter issue
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const Part = ({ part }: { part: string }) => <span>{part}</span>;
@@ -273,8 +273,8 @@ describe("snabbdom", function () {
     });
   });
 
-  describe("Fragment", function () {
-    it("can be used as a jsxFragmentFactory method", function () {
+  describe("Fragment", () => {
+    it("can be used as a jsxFragmentFactory method", () => {
       const vnode = <>Hello World</>;
 
       assert.deepStrictEqual(vnode, {
@@ -287,7 +287,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("creates text property for text only child", function () {
+    it("creates text property for text only child", () => {
       const vnode = <>foo bar</>;
 
       assert.deepStrictEqual(vnode, {
@@ -300,7 +300,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("creates an array of children for multiple children", function () {
+    it("creates an array of children for multiple children", () => {
       const vnode = (
         <>
           {"foo"}
@@ -335,7 +335,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("flattens children", function () {
+    it("flattens children", () => {
       const vnode = (
         <>
           <h1>A Heading</h1>
@@ -389,7 +389,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("removes falsey children", function () {
+    it("removes falsey children", () => {
       const showLogin = false;
       const showCaptcha = false;
       const loginAttempts = 0;
@@ -459,7 +459,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("works with a function component", function () {
+    it("works with a function component", () => {
       // workaround linter issue
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const Part = ({ part }: { part: string }) => <>{part}</>;
@@ -543,7 +543,7 @@ describe("snabbdom", function () {
       });
     });
 
-    it("can correctly be patched", function () {
+    it("can correctly be patched", () => {
       const patch = init([], undefined, {
         experimental: {
           fragments: true

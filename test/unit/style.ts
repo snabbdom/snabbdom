@@ -9,17 +9,17 @@ featureDiscoveryElm.style.setProperty("--foo", "foo");
 const hasCssVariables =
   featureDiscoveryElm.style.getPropertyValue("--foo") === "foo";
 
-describe("style", function () {
+describe("style", () => {
   let elm: any, vnode0: any;
-  beforeEach(function () {
+  beforeEach(() => {
     elm = document.createElement("div");
     vnode0 = elm;
   });
-  it("is being styled", function () {
+  it("is being styled", () => {
     elm = patch(vnode0, h("div", { style: { fontSize: "12px" } })).elm;
     assert.strictEqual(elm.style.fontSize, "12px");
   });
-  it("can be memoized", function () {
+  it("can be memoized", () => {
     const cachedStyles = { fontSize: "14px", display: "inline" };
     const vnode1 = h("i", { style: cachedStyles });
     const vnode2 = h("i", { style: cachedStyles });
@@ -30,7 +30,7 @@ describe("style", function () {
     assert.strictEqual(elm.style.fontSize, "14px");
     assert.strictEqual(elm.style.display, "inline");
   });
-  it("updates styles", function () {
+  it("updates styles", () => {
     const vnode1 = h("i", { style: { fontSize: "14px", display: "inline" } });
     const vnode2 = h("i", { style: { fontSize: "12px", display: "block" } });
     const vnode3 = h("i", { style: { fontSize: "10px", display: "block" } });
@@ -44,7 +44,7 @@ describe("style", function () {
     assert.strictEqual(elm.style.fontSize, "10px");
     assert.strictEqual(elm.style.display, "block");
   });
-  it("explicialy removes styles", function () {
+  it("explicialy removes styles", () => {
     const vnode1 = h("i", { style: { fontSize: "14px" } });
     const vnode2 = h("i", { style: { fontSize: "" } });
     const vnode3 = h("i", { style: { fontSize: "10px" } });
@@ -55,7 +55,7 @@ describe("style", function () {
     patch(vnode2, vnode3);
     assert.strictEqual(elm.style.fontSize, "10px");
   });
-  it("handles falsy values", function () {
+  it("handles falsy values", () => {
     const vnode1 = h("i", { style: { flexShrink: 0 as any } });
     const vnode2 = h("i", { style: { flexShrink: 0 as any } });
     elm = patch(vnode0, vnode1).elm;
@@ -63,7 +63,7 @@ describe("style", function () {
     patch(vnode1, vnode2);
     assert.strictEqual(elm.style.flexShrink, "0");
   });
-  it("implicially removes styles from element", function () {
+  it("implicially removes styles from element", () => {
     const vnode1 = h("div", [h("i", { style: { fontSize: "14px" } })]);
     const vnode2 = h("div", [h("i")]);
     const vnode3 = h("div", [h("i", { style: { fontSize: "10px" } })]);
@@ -74,7 +74,7 @@ describe("style", function () {
     patch(vnode2, vnode3);
     assert.strictEqual(elm.firstChild.style.fontSize, "10px");
   });
-  it("updates css variables", function () {
+  it("updates css variables", () => {
     if (!hasCssVariables) {
       this.skip();
     } else {
@@ -89,7 +89,7 @@ describe("style", function () {
       assert.strictEqual(elm.style.getPropertyValue("--myVar"), "3");
     }
   });
-  it("explicialy removes css variables", function () {
+  it("explicialy removes css variables", () => {
     if (!hasCssVariables) {
       this.skip();
     } else {
@@ -104,7 +104,7 @@ describe("style", function () {
       assert.strictEqual(elm.style.getPropertyValue("--myVar"), "2");
     }
   });
-  it("implicially removes css variables from element", function () {
+  it("implicially removes css variables from element", () => {
     if (!hasCssVariables) {
       this.skip();
     } else {
@@ -119,7 +119,7 @@ describe("style", function () {
       assert.strictEqual(elm.firstChild.style.getPropertyValue("--myVar"), "2");
     }
   });
-  it("updates delayed styles in next frame", function (done) {
+  it("updates delayed styles in next frame", (done) => {
     const vnode1 = h("i", {
       style: { fontSize: "14px", delayed: { fontSize: "16px" } as any }
     });
@@ -142,7 +142,7 @@ describe("style", function () {
       });
     });
   });
-  it("applies tranform as transition on remove", function (done) {
+  it("applies tranform as transition on remove", (done) => {
     const btn = h(
       "button",
       {
@@ -160,13 +160,13 @@ describe("style", function () {
     patch(vnode1, vnode2);
     const button = document.querySelector("button") as HTMLButtonElement;
     assert.notStrictEqual(button, null);
-    button.addEventListener("transitionend", function () {
+    button.addEventListener("transitionend", () => {
       assert.strictEqual(document.querySelector("button"), null);
       done();
     });
   });
-  describe("using toVNode()", function () {
-    it("handles (ignoring) comment nodes", function () {
+  describe("using toVNode()", () => {
+    it("handles (ignoring) comment nodes", () => {
       const comment = document.createComment("yolo");
       const prevElm = document.createElement("div");
       prevElm.appendChild(comment);

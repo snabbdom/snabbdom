@@ -4,13 +4,13 @@ import { init, attributesModule, h } from "../../src/index";
 
 const patch = init([attributesModule]);
 
-describe("attributes", function () {
+describe("attributes", () => {
   let elm: any, vnode0: any;
-  beforeEach(function () {
+  beforeEach(() => {
     elm = document.createElement("div");
     vnode0 = elm;
   });
-  it("have their provided values", function () {
+  it("have their provided values", () => {
     const vnode1 = h("div", {
       attrs: { href: "/foo", minlength: 1, selected: true, disabled: false }
     });
@@ -21,7 +21,7 @@ describe("attributes", function () {
     assert.strictEqual(elm.getAttribute("selected"), "");
     assert.strictEqual(elm.hasAttribute("disabled"), false);
   });
-  it("can be memoized", function () {
+  it("can be memoized", () => {
     const cachedAttrs = { href: "/foo", minlength: 1, selected: true };
     const vnode1 = h("div", { attrs: cachedAttrs });
     const vnode2 = h("div", { attrs: cachedAttrs });
@@ -34,7 +34,7 @@ describe("attributes", function () {
     assert.strictEqual(elm.getAttribute("minlength"), "1");
     assert.strictEqual(elm.getAttribute("selected"), "");
   });
-  it("are not omitted when falsy values are provided", function () {
+  it("are not omitted when falsy values are provided", () => {
     const vnode1 = h("div", {
       attrs: { href: null as any, minlength: 0, value: "", title: "undefined" }
     });
@@ -44,7 +44,7 @@ describe("attributes", function () {
     assert.ok(elm.hasAttribute("value"));
     assert.ok(elm.hasAttribute("title"));
   });
-  it("are set correctly when namespaced", function () {
+  it("are set correctly when namespaced", () => {
     const vnode1 = h("div", { attrs: { "xlink:href": "#foo" } });
     elm = patch(vnode0, vnode1).elm;
     assert.strictEqual(
@@ -52,7 +52,7 @@ describe("attributes", function () {
       "#foo"
     );
   });
-  it("should not touch class nor id fields", function () {
+  it("should not touch class nor id fields", () => {
     elm = document.createElement("div");
     elm.id = "myId";
     elm.className = "myClass";
@@ -64,7 +64,7 @@ describe("attributes", function () {
     assert.strictEqual(elm.className, "myClass");
     assert.strictEqual(elm.textContent, "Hello");
   });
-  it("should apply legacy namespace attributes, xmlns", function () {
+  it("should apply legacy namespace attributes, xmlns", () => {
     const elmNamespaceQualifiedName = "xmlns:xlink";
     const elmNamespaceValue = "http://www.w3.org/1999/xlink";
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -84,8 +84,8 @@ describe("attributes", function () {
       elmNamespaceValue
     );
   });
-  describe("boolean attribute", function () {
-    it("is present and empty string if the value is truthy", function () {
+  describe("boolean attribute", () => {
+    it("is present and empty string if the value is truthy", () => {
       const vnode1 = h("div", {
         attrs: { required: true, readonly: 1, noresize: "truthy" }
       });
@@ -97,13 +97,13 @@ describe("attributes", function () {
       assert.strictEqual(elm.hasAttribute("noresize"), true);
       assert.strictEqual(elm.getAttribute("noresize"), "truthy");
     });
-    it("is omitted if the value is false", function () {
+    it("is omitted if the value is false", () => {
       const vnode1 = h("div", { attrs: { required: false } });
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.hasAttribute("required"), false);
       assert.strictEqual(elm.getAttribute("required"), null);
     });
-    it("is not omitted if the value is falsy", function () {
+    it("is not omitted if the value is falsy", () => {
       const vnode1 = h("div", {
         attrs: { readonly: 0, noresize: null as any }
       });
@@ -112,8 +112,8 @@ describe("attributes", function () {
       assert.ok(elm.hasAttribute("noresize"));
     });
   });
-  describe("Object.prototype property", function () {
-    it("is not considered as a boolean attribute and shouldn't be omitted", function () {
+  describe("Object.prototype property", () => {
+    it("is not considered as a boolean attribute and shouldn't be omitted", () => {
       const vnode1 = h("div", { attrs: { constructor: true } });
       elm = patch(vnode0, vnode1).elm;
       assert.strictEqual(elm.hasAttribute("constructor"), true);

@@ -395,10 +395,10 @@ Modules work by registering global listeners for [hooks](#hooks). A module is si
 
 ```mjs
 const myModule = {
-  create: function (oldVnode, vnode) {
+  create: (oldVnode, vnode) => {
     // invoked whenever a new virtual node is created
   },
-  update: function (oldVnode, vnode) {
+  update: (oldVnode, vnode) => {
     // invoked whenever a virtual node is updated
   }
 };
@@ -648,7 +648,7 @@ In particular, you should **not** do something like this:
 ```mjs
 // Does not work
 const sharedHandler = {
-  change: function (e) {
+  change: (e) => {
     console.log("you chose: " + e.target.value);
   }
 };
@@ -673,7 +673,7 @@ Alternatively, simply make sure each node is passed unique `on` values:
 
 ```mjs
 // Works
-const sharedHandler = function (e) {
+const sharedHandler = (e) => {
   console.log("you chose: " + e.target.value);
 };
 h("div", [

@@ -3,15 +3,6 @@ import { Key, vnode, VNode } from "./vnode";
 import * as is from "./is";
 import { htmlDomApi, DOMAPI } from "./htmldomapi";
 
-type NonUndefined<T> = T extends undefined ? never : T;
-
-function isUndef(s: any): boolean {
-  return s === undefined;
-}
-function isDef<A>(s: A): s is NonUndefined<A> {
-  return s !== undefined;
-}
-
 type VNodeQueue = VNode[];
 
 const emptyNode = vnode("", {}, [], undefined, undefined);
@@ -146,22 +137,15 @@ export function init(
   }
 
   function createElm(vnode: VNode, insertedVnodeQueue: VNodeQueue): Node {
-    let i: any;
-    let data = vnode.data;
-    if (data !== undefined) {
-      const init = data.hook?.init;
-      if (isDef(init)) {
-        init(vnode);
-        data = vnode.data;
-      }
-    }
+    let i: number;
+    const data = vnode.data;
+    const hook = data?.hook;
+    hook?.init?.(vnode);
     const children = vnode.children;
     const sel = vnode.sel;
     if (sel === "!") {
-      if (isUndef(vnode.text)) {
-        vnode.text = "";
-      }
-      vnode.elm = api.createComment(vnode.text!);
+      vnode.text ??= "";
+      vnode.elm = api.createComment(vnode.text);
     } else if (sel === "") {
       // textNode has no selector
       vnode.elm = api.createTextNode(vnode.text!);
@@ -175,10 +159,12 @@ export function init(
         hashIdx !== -1 || dotIdx !== -1
           ? sel.slice(0, Math.min(hash, dot))
           : sel;
-      const elm = (vnode.elm =
-        isDef(data) && isDef((i = data.ns))
-          ? api.createElementNS(i, tag, data)
-          : api.createElement(tag, data));
+      const ns = data?.ns;
+      const elm =
+        ns === undefined
+          ? api.createElement(tag, data)
+          : api.createElementNS(ns, tag, data);
+      vnode.elm = elm;
       if (hash < dot) elm.setAttribute("id", sel.slice(hash + 1, dot));
       if (dotIdx > 0)
         elm.setAttribute("class", sel.slice(dot + 1).replace(/\./g, " "));
@@ -198,10 +184,9 @@ export function init(
           }
         }
       }
-      const hook = vnode.data!.hook;
-      if (isDef(hook)) {
+      if (hook !== undefined) {
         hook.create?.(emptyNode, vnode);
-        if (hook.insert) {
+        if (hook.insert !== undefined) {
           insertedVnodeQueue.push(vnode);
         }
       }
@@ -265,16 +250,15 @@ export function init(
   ): void {
     for (; startIdx <= endIdx; ++startIdx) {
       let listeners: number;
-      let rm: () => void;
       const ch = vnodes[startIdx];
       if (ch != null) {
-        if (isDef(ch.sel)) {
+        if (ch.sel !== undefined) {
           invokeDestroyHook(ch);
           listeners = cbs.remove.length + 1;
-          rm = createRmCb(ch.elm!, listeners);
+          const rm = createRmCb(ch.elm!, listeners);
           for (let i = 0; i < cbs.remove.length; ++i) cbs.remove[i](ch, rm);
           const removeHook = ch?.data?.hook?.remove;
-          if (isDef(removeHook)) {
+          if (removeHook !== undefined) {
             removeHook(ch, rm);
           } else {
             rm();
@@ -353,7 +337,7 @@ export function init(
           oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx);
         }
         idxInOld = oldKeyToIdx[newStartVnode.key!];
-        if (isUndef(idxInOld)) {
+        if (idxInOld === undefined) {
           // `newStartVnode` is new, create and insert it in beginning
           api.insertBefore(
             parentElm,
@@ -361,7 +345,7 @@ export function init(
             oldStartVnode.elm!
           );
           newStartVnode = newCh[++newStartIdx];
-        } else if (isUndef(oldKeyToIdx[newEndVnode.key!])) {
+        } else if (oldKeyToIdx[newEndVnode.key!] === undefined) {
           // `newEndVnode` is new, create and insert it in the end
           api.insertBefore(
             parentElm,
@@ -416,7 +400,7 @@ export function init(
     if (oldVnode === vnode) return;
     if (
       vnode.data !== undefined ||
-      (isDef(vnode.text) && vnode.text !== oldVnode.text)
+      (vnode.text !== undefined && vnode.text !== oldVnode.text)
     ) {
       vnode.data ??= {};
       oldVnode.data ??= {};
@@ -426,22 +410,22 @@ export function init(
     }
     const oldCh = oldVnode.children as VNode[];
     const ch = vnode.children as VNode[];
-    if (isUndef(vnode.text)) {
-      if (isDef(oldCh) && isDef(ch)) {
+    if (vnode.text === undefined) {
+      if (oldCh !== undefined && ch !== undefined) {
         if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue);
-      } else if (isDef(ch)) {
-        if (isDef(oldVnode.text)) api.setTextContent(elm, "");
+      } else if (ch !== undefined) {
+        if (oldVnode.text !== undefined) api.setTextContent(elm, "");
         addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue);
-      } else if (isDef(oldCh)) {
+      } else if (oldCh !== undefined) {
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
-      } else if (isDef(oldVnode.text)) {
+      } else if (oldVnode.text !== undefined) {
         api.setTextContent(elm, "");
       }
     } else if (oldVnode.text !== vnode.text) {
-      if (isDef(oldCh)) {
+      if (oldCh !== undefined) {
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
       }
-      api.setTextContent(elm, vnode.text!);
+      api.setTextContent(elm, vnode.text);
     }
     hook?.postpatch?.(oldVnode, vnode);
   }
