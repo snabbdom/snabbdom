@@ -591,7 +591,17 @@ describe("snabbdom", () => {
         assert.deepEqual(children[0].data, { dataset: { env: "xyz" } });
         assert.strictEqual(children[1].text, "Foobar");
       });
-
+      it("handles class names correctly", () => {
+        for (const [cl, sel] of [
+          ["  one\ttwo  three\nfour  \t", ".one.two.three.four"],
+          ["  \t \n ", ""]
+        ] as const) {
+          const el = document.createElement("a");
+          el.className = cl;
+          const node = toVNode(el);
+          assert.deepEqual(node, { ...node, sel: `a${sel}` });
+        }
+      });
       it("can parsing dataset and attrs", () => {
         const onlyAttrs = document.createElement("div");
         onlyAttrs.setAttribute("foo", "bar");
