@@ -598,8 +598,10 @@ describe("snabbdom", () => {
         assert.deepEqual(toVNode(onlyAttrs).data, { attrs: { foo: "bar" } });
         const onlyDataset = document.createElement("div");
         onlyDataset.setAttribute("data-foo", "bar");
+        onlyDataset.setAttribute("data-foo-bar", "baz");
+        onlyDataset.setAttribute("data-foo-:bar", "baz");
         assert.deepEqual(toVNode(onlyDataset).data, {
-          dataset: { foo: "bar" }
+          dataset: { foo: "bar", fooBar: "baz", ["foo-:bar"]: "baz" }
         });
         const onlyDatasets2 = document.createElement("div");
         onlyDatasets2.dataset.foo = "bar";
@@ -609,10 +611,11 @@ describe("snabbdom", () => {
         const bothAttrsAndDatasets = document.createElement("div");
         bothAttrsAndDatasets.setAttribute("foo", "bar");
         bothAttrsAndDatasets.setAttribute("data-foo", "bar");
+        bothAttrsAndDatasets.setAttribute("data-foo-bar-baz", "fbb");
         bothAttrsAndDatasets.dataset.again = "again";
         assert.deepEqual(toVNode(bothAttrsAndDatasets).data, {
           attrs: { foo: "bar" },
-          dataset: { foo: "bar", again: "again" }
+          dataset: { foo: "bar", again: "again", fooBarBaz: "fbb" }
         });
       });
     });

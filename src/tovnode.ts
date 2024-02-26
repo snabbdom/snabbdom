@@ -2,6 +2,18 @@ import { addNS } from "./h";
 import { vnode, VNode } from "./vnode";
 import { htmlDomApi, DOMAPI } from "./htmldomapi";
 
+/**
+ * Transforms the given attribute name into a valid dataset property key
+ * according to https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset#name_conversion
+ *
+ * @param attributeName data- attribute name, must start with data-
+ */
+function datasetKey(attributeName: string) {
+  return attributeName
+    .slice(5)
+    .replace(/-([a-z])/g, (_, ch) => ch.toUpperCase());
+}
+
 export function toVNode(node: Node, domApi?: DOMAPI): VNode {
   const api: DOMAPI = domApi !== undefined ? domApi : htmlDomApi;
   let text: string;
@@ -22,7 +34,7 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
     for (i = 0, n = elmAttrs.length; i < n; i++) {
       name = elmAttrs[i].nodeName;
       if (name.startsWith("data-")) {
-        dataset[name.slice(5)] = elmAttrs[i].nodeValue || "";
+        dataset[datasetKey(name)] = elmAttrs[i].nodeValue || "";
       } else if (name !== "id" && name !== "class") {
         attrs[name] = elmAttrs[i].nodeValue;
       }
