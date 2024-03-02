@@ -19,8 +19,8 @@ export function toVNode(node: Node, domApi?: DOMAPI): VNode {
   let text: string;
   if (api.isElement(node)) {
     const id = node.id ? "#" + node.id : "";
-    const cn = node.getAttribute("class");
-    const c = cn ? "." + cn.split(" ").join(".") : "";
+    const cn = node.getAttribute("class")?.match(/[^\t\r\n\f ]+/g);
+    const c = cn ? "." + cn.join(".") : "";
     const sel = api.tagName(node).toLowerCase() + id + c;
     const attrs: any = {};
     const dataset: Record<string, string> = {};
