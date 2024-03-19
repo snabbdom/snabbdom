@@ -100,7 +100,7 @@ export function jsx(
 }
 
 // See https://www.typescriptlang.org/docs/handbook/jsx.html#type-checking
-export namespace jsx {
+namespace JSXTypes {
   export type Element = VNode;
 
   /*
@@ -140,5 +140,11 @@ export namespace jsx {
 
   export interface IntrinsicElements extends HtmlElements {
     [elemName: string]: VNodeData;
+  }
+}
+
+export namespace jsx {
+  export namespace JSX {
+    export interface IntrinsicElements extends JSXTypes.IntrinsicElements {}
   }
 }
