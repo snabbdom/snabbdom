@@ -152,7 +152,7 @@ export function init(
     } else if (sel !== undefined) {
       // Parse selector
       const hashIdx = sel.indexOf("#");
-      const dotIdx = sel.indexOf(".", hashIdx);
+      const dotIdx = sel.indexOf(".");
       const hash = hashIdx > 0 ? hashIdx : sel.length;
       const dot = dotIdx > 0 ? dotIdx : sel.length;
       const tag =
@@ -165,9 +165,12 @@ export function init(
           ? api.createElement(tag, data)
           : api.createElementNS(ns, tag, data);
       vnode.elm = elm;
-      if (hash < dot) elm.setAttribute("id", sel.slice(hash + 1, dot));
-      if (dotIdx > 0)
+      if (hash < dot) {
+        elm.setAttribute("id", sel.slice(hash + 1, dot));
+      }
+      if (dotIdx > 0) {
         elm.setAttribute("class", sel.slice(dot + 1).replace(/\./g, " "));
+      }
       for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
       if (
         is.primitive(vnode.text) &&
