@@ -15,6 +15,7 @@ const DATASET = "dataset";
 const ATTRS = "attrs";
 const PROPS = "props";
 const DATA = "data";
+const KEY = "key";
 const HYPHEN_CHAR = "-";
 const MODULE_PROPS: string[] = ["hook", "on", ATTRS, PROPS, DATASET];
 const DOM_PROPS: string[] = ["className", "tabIndex", "id"];
@@ -38,7 +39,7 @@ const forwardJsxProps = (oldVNode: VNode, _vnode: VNode): void => {
 
   const data: Record<string, any> = {},
     propKeys = [];
-  // preserve existing module values to be updated with
+  // preserve module values
   for (const key in vnode.data) {
     if (MODULE_PROPS.indexOf(key) > -1) {
       data[key] = vnode.data[key];
@@ -48,6 +49,8 @@ const forwardJsxProps = (oldVNode: VNode, _vnode: VNode): void => {
   }
   for (const propKey of propKeys) {
     const propValue = vnode.data[propKey];
+    // leave key unchanged
+    if (propKey === KEY) continue;
     const propertyIndex = DOM_PROPS.indexOf(propKey);
     if (propertyIndex > -1) {
       forwardProp(data, PROPS, DOM_PROPS[propertyIndex], propValue);
