@@ -1,5 +1,6 @@
 import { assert } from "@esm-bundle/chai";
 import { jsx, init, jsxPropsModule } from "../../src/index";
+import { DOM_PROPS } from "../../src/modules/jsxprops";
 
 const patch = init([jsxPropsModule], undefined, {
   experimental: {
@@ -10,223 +11,244 @@ const patch = init([jsxPropsModule], undefined, {
 describe("snabbdom", () => {
   describe("jsxprops", () => {
     it("forwards props to attributes", () => {
-      const container = document.createElement("div");
+      const elm = document.createElement("div");
       const vnode = <div title="foo" aria-hidden="true" />;
 
-      patch(container, vnode);
+      patch(elm, vnode);
 
-      assert.deepStrictEqual(vnode, {
+      assert.strictEqual(vnode, {
         sel: "div",
         data: { attrs: { title: "foo", "aria-hidden": "true" } },
-        elm: undefined,
+        elm,
         text: undefined,
-        key: undefined
+        key: undefined,
+        children: []
       });
+      assert.strictEqual(vnode.data.title, undefined);
+      assert.strictEqual(vnode.data["aria-hidden"], undefined);
     });
 
-    ["className", "id", "tabIndex"].forEach((prop) => {
+    DOM_PROPS.forEach((prop) => {
       const values: Record<string, any> = {
-        className: ".foo",
-        id: "#foo",
+        className: "foo",
+        id: "bar",
         tabIndex: 0
       };
 
       it(`forwards ${prop} to props`, () => {
-        const container = document.createElement("div");
+        const elm = document.createElement("div");
         const props = { [prop]: values[prop] };
         const vnode = <div {...props} />;
 
-        patch(container, vnode);
+        patch(elm, vnode);
 
-        assert.deepStrictEqual(vnode, {
+        assert.strictEqual(vnode, {
           sel: "div",
-          data: { props },
-          elm: undefined,
+          data: { props: { [prop]: values[prop] } },
+          elm,
           text: undefined,
-          key: undefined
+          key: undefined,
+          children: []
         });
       });
     });
 
     it("forwards declared hooks", () => {
-      let created = false;
-      const handleInsert = () => {
-        created = true;
+      let update = false;
+      const handleUpdate = () => {
+        update = true;
       };
 
-      const container = document.createElement("div");
-      const vnode = <div hook-insert={handleInsert} />;
+      const elm = document.createElement("div");
+      const vnode = <div hook-update={handleUpdate} />;
 
-      patch(container, vnode);
+      patch(elm, vnode);
 
-      assert.isTrue(created);
+      assert.strictEqual(update, true);
+      assert.strictEqual(vnode, {
+        sel: "div",
+        data: { hook: { update: handleUpdate } },
+        elm,
+        text: undefined,
+        key: undefined,
+        children: []
+      });
+      assert.strictEqual(vnode.data["hook-update"], undefined);
     });
 
     it("forwards declared event listeners", () => {
-      let clicked = false;
-      const onClick = () => {
-        clicked = true;
-      };
-
-      const container = document.createElement("div");
+      const onClick = () => {};
+      const elm = document.createElement("div");
       const vnode = <div on-click={onClick} />;
+      patch(elm, vnode);
 
-      patch(container, vnode);
-      container.click();
+      elm.click();
 
-      assert.isTrue(clicked);
+      assert.strictEqual(vnode, {
+        sel: "div",
+        data: { on: { click: onClick } },
+        elm,
+        text: undefined,
+        key: undefined,
+        children: []
+      });
+      assert.strictEqual(vnode.data["on-click"], undefined);
     });
 
     it("forwards declared attributes", () => {
-      const container = document.createElement("div");
-      const vnode = <input attrs-tabindex={0} />;
+      const elm = document.createElement("div");
+      const vnode = <div attrs-tabindex={0} />;
 
-      patch(container, vnode);
+      patch(elm, vnode);
 
-      assert.deepStrictEqual(vnode, {
+      assert.strictEqual(vnode, {
         sel: "div",
         data: { attrs: { tabindex: 0 } },
-        elm: undefined,
+        elm,
         text: undefined,
-        key: undefined
+        key: undefined,
+        children: []
       });
     });
 
     it("forwards declared props", () => {
-      const container = document.createElement("div");
-      const vnode = <input props-ariaLabel="foo" />;
+      const elm = document.createElement("div");
+      const vnode = <div props-ariaLabel="foo" />;
 
-      patch(container, vnode);
+      patch(elm, vnode);
 
-      assert.deepStrictEqual(vnode, {
+      assert.strictEqual(vnode, {
         sel: "div",
         data: { props: { ariaLabel: "foo" } },
-        elm: undefined,
+        elm,
         text: undefined,
-        key: undefined
+        key: undefined,
+        children: []
       });
     });
 
     it("forwards declared datasets", () => {
-      const container = document.createElement("div");
-      const vnode = <input data-foo-bar="baz" />;
+      const elm = document.createElement("div");
+      const vnode = <div data-foo-bar="baz" />;
 
-      patch(container, vnode);
+      patch(elm, vnode);
 
-      assert.deepStrictEqual(vnode, {
+      assert.strictEqual(vnode, {
         sel: "div",
         data: { dataset: { fooBar: "baz" } },
-        elm: undefined,
+        elm,
         text: undefined,
-        key: undefined
+        key: undefined,
+        children: []
       });
     });
 
     it("doesn't forward 'key' prop", () => {
-      const container = document.createElement("div");
-      const vnode = <input key="key" />;
+      const elm = document.createElement("div");
+      const vnode = <div key="key" />;
 
-      patch(container, vnode);
+      patch(elm, vnode);
 
-      assert.deepStrictEqual(vnode, {
+      assert.strictEqual(vnode, {
         sel: "div",
         data: { key: "key" },
-        elm: undefined,
+        elm,
         text: undefined,
-        key: undefined
+        key: "key",
+        children: []
       });
     });
 
     describe("module compatibility", () => {
       it("preserves 'hook' prop value", () => {
-        let created = false,
-          pre = false;
-        const handlePre = () => {
-          pre = true;
-        };
-        const handleCreate = () => {
-          created = false;
-        };
+        const handlePost = () => {};
+        const handleUpdate = () => {};
 
-        const container = document.createElement("div");
+        const elm = document.createElement("div");
         const vnode = (
-          <div hook-insert={handlePre} hook={{ create: handleCreate }} />
+          <div hook-post={handlePost} hook={{ update: handleUpdate }} />
         );
 
-        patch(container, vnode);
+        patch(elm, vnode);
 
-        assert.isTrue(created);
-        assert.isTrue(pre);
+        assert.strictEqual(vnode, {
+          sel: "div",
+          data: { hook: { post: handlePost, update: handleUpdate } },
+          elm,
+          text: undefined,
+          key: undefined,
+          children: []
+        });
       });
 
       it("preserves 'on' prop value", () => {
-        let clicked = false,
-          hovered = false;
-        const handleMouseEnter = () => {
-          hovered = true;
-        };
-        const handleClick = () => {
-          clicked = false;
-        };
+        const handleMouseEnter = () => {};
+        const handleClick = () => {};
 
-        const container = document.createElement("div");
+        const elm = document.createElement("div");
         const vnode = (
           <div on-mouseEnter={handleMouseEnter} on={{ click: handleClick }} />
         );
 
-        patch(container, vnode);
+        patch(elm, vnode);
 
-        container.click();
-        container.dispatchEvent(new MouseEvent("mouseenter"));
-
-        assert.isTrue(clicked);
-        assert.isTrue(hovered);
+        assert.strictEqual(vnode, {
+          sel: "div",
+          data: { on: { click: handleClick, mouseEnter: handleMouseEnter } },
+          elm,
+          text: undefined,
+          key: undefined,
+          children: []
+        });
       });
 
       it("preserves 'attrs' prop value", () => {
-        const container = document.createElement("div");
-        const vnode = <input attrs-tabindex={0} attrs={{ value: "bar" }} />;
+        const elm = document.createElement("div");
+        const vnode = <div attrs-tabindex={0} attrs={{ value: "bar" }} />;
 
-        patch(container, vnode);
+        patch(elm, vnode);
 
-        assert.deepStrictEqual(vnode, {
+        assert.strictEqual(vnode, {
           sel: "div",
           data: { attrs: { tabindex: 0, value: "bar" } },
-          elm: undefined,
+          elm,
           text: undefined,
-          key: undefined
+          key: undefined,
+          children: []
         });
       });
 
       it("preserves 'props' prop value", () => {
-        const container = document.createElement("div");
-        const vnode = <input props-tabIndex={0} props={{ value: "bar" }} />;
+        const elm = document.createElement("div");
+        const vnode = <div props-tabIndex={0} props={{ value: "bar" }} />;
 
-        patch(container, vnode);
+        patch(elm, vnode);
 
-        assert.deepStrictEqual(vnode, {
+        assert.strictEqual(vnode, {
           sel: "div",
           data: { props: { tabIndex: 0, value: "bar" } },
-          elm: undefined,
+          elm,
           text: undefined,
-          key: undefined
+          key: undefined,
+          children: []
         });
       });
 
       it("preserves 'dataset' prop value", () => {
-        const container = document.createElement("div");
+        const elm = document.createElement("div");
         const vnode = (
-          <input data-some-value="foo" dataset={{ anotherValue: "bar" }} />
+          <div data-some-value="foo" dataset={{ anotherValue: "bar" }} />
         );
 
-        patch(container, vnode);
+        patch(elm, vnode);
 
-        assert.deepStrictEqual(vnode, {
+        assert.strictEqual(vnode, {
           sel: "div",
           data: { dataset: { someValue: "foo", anotherValue: "bar" } },
-          elm: undefined,
+          elm,
           text: undefined,
-          key: undefined
+          key: undefined,
+          children: []
         });
       });
     });
