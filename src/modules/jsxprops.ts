@@ -16,11 +16,11 @@ const ATTRS = "attrs";
 const PROPS = "props";
 const DATA = "data";
 const HYPHEN_CHAR = "-";
-const SHORTHAND_MODULE_PROPS = ["hook", "on", ATTRS, PROPS, DATASET];
-export const DOM_PROPS = ["className", "tabIndex", "id"];
+const SHORTHAND_MODULE_PROPS = new Set(["hook", "on", ATTRS, PROPS, DATASET]);
+export const DOM_PROPS = new Set(["className", "tabIndex", "id"]);
 
 // See: https://github.com/snabbdom/snabbdom/blob/master/src/vnode.ts#L21
-const IGNORE_PROPS = [
+const IGNORE_PROPS = new Set([
   "key",
   "style",
   "class",
@@ -30,7 +30,16 @@ const IGNORE_PROPS = [
   "args",
   "is",
   ...SHORTHAND_MODULE_PROPS
-];
+]);
+
+const prefixToModule: Record<string, string> = {
+  [DATA]: DATASET,
+  hook: "hook",
+  on: "on",
+  attrs: ATTRS,
+  props: PROPS,
+  dataset: DATASET
+};
 
 const forwardProp = (
   data: VNodeData,
@@ -40,12 +49,10 @@ const forwardProp = (
   prefixedKey?: string
 ) => {
   if (data[moduleName]) {
-    data[moduleName]![key] = value;
+    data[moduleName][key] = value;
   } else {
     data[moduleName] = { [key]: value };
   }
-
-  // remove the old prop from vnode data
   delete data[prefixedKey || key];
 };
 
@@ -55,55 +62,41 @@ const forwardJsxProps = (oldVNode: VNode, _vnode: VNode) => {
   if (!vnode.data) return;
 
   for (const propKey in vnode.data) {
-    // ignore modules/props that don't need handling
-    if (IGNORE_PROPS.includes(propKey)) {
+    if (IGNORE_PROPS.has(propKey)) {
       continue;
     }
-    // forward all other props into modules
-    else {
-      const propValue = vnode.data[propKey];
 
-      // forward DOM properties
-      const propertyIndex = DOM_PROPS.indexOf(propKey);
-      if (propertyIndex > -1) {
-        forwardProp(vnode.data, PROPS, DOM_PROPS[propertyIndex], propValue);
+    const propValue = vnode.data[propKey];
+
+    // forward dom properties to props module
+    if (DOM_PROPS.has(propKey)) {
+      forwardProp(vnode.data, PROPS, propKey, propValue);
+      continue;
+    }
+
+    // forward module-prefixed props to the correct object
+    // e.g., `vnode.data['attrs-value']` --> `vnode.data.attrs.value`
+    const hyphenIdx = propKey.indexOf(HYPHEN_CHAR);
+    if (hyphenIdx > 0) {
+      const prefix = propKey.slice(0, hyphenIdx);
+      const moduleTarget = prefixToModule[prefix];
+
+      if (moduleTarget) {
+        const propName = propKey.slice(hyphenIdx + 1);
+        forwardProp(
+          vnode.data,
+          moduleTarget,
+          moduleTarget === DATASET ? kebabToCamel(propName) : propName,
+          propValue,
+          propKey
+        );
 
         continue;
       }
-
-      // check if prop instructs a module (using prefix)
-      const hyphenIdx = propKey.indexOf(HYPHEN_CHAR);
-      if (hyphenIdx > 0) {
-        const prefix = propKey.slice(0, hyphenIdx);
-        const moduleTarget =
-          prefix === DATA
-            ? DATA
-            : SHORTHAND_MODULE_PROPS.find(
-                (moduleName) => moduleName === prefix
-              );
-
-        if (moduleTarget) {
-          const propName = propKey.slice(hyphenIdx + 1);
-
-          if (moduleTarget === DATA) {
-            forwardProp(
-              vnode.data,
-              DATASET,
-              kebabToCamel(propName),
-              propValue,
-              propKey
-            );
-          } else {
-            forwardProp(vnode.data, moduleTarget, propName, propValue, propKey);
-          }
-
-          continue;
-        }
-      }
-
-      // forward any other props into attributes
-      forwardProp(vnode.data, ATTRS, propKey, propValue);
     }
+
+    // everything else treated as an attribute
+    forwardProp(vnode.data, ATTRS, propKey, propValue);
   }
 };
 
