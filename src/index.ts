@@ -32,6 +32,7 @@ export { attributesModule } from "./modules/attributes";
 export { classModule } from "./modules/class";
 export { datasetModule } from "./modules/dataset";
 export { eventListenersModule } from "./modules/eventlisteners";
+export { jsxPropsModule } from "./modules/jsxprops";
 export { propsModule } from "./modules/props";
 export { styleModule } from "./modules/style";
 export type { Attrs } from "./modules/attributes";
