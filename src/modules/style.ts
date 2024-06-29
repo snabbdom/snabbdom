@@ -83,8 +83,27 @@ function applyDestroyStyle(vnode: VNode): void {
 function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   const s = (vnode.data as VNodeData).style;
   if (!s || !s.remove) {
-    rm();
-    return;
+    if (vnode.children) {
+        let itemsProcessed = 0;
+        vnode.children.forEach(node => {
+          if (node === null) {
+            itemsProcessed++;
+            if (itemsProcessed === vnode.children.length) {
+              rm();
+            }
+            return;
+          }
+          applyRemoveStyle(node, () => {
+            itemsProcessed++;
+            if (itemsProcessed === vnode.children.length) {
+              rm();
+            }
+          });
+        });
+      } else {
+        rm();
+      }
+      return;
   }
   if (!reflowForced) {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
