@@ -3,8 +3,7 @@ import { Module } from "./module";
 
 export type ElementStyle = Partial<CSSStyleDeclaration>;
 
-export type VNodeStyle = ElementStyle &
-  Record<string, string> & {
+export type VNodeStyle = ElementStyle & {
     delayed?: ElementStyle & Record<string, string>;
     remove?: ElementStyle & Record<string, string>;
   };
