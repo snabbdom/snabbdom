@@ -244,7 +244,7 @@ const vnode = h("div#container", { style: { color: "#000" } }, [
 ### `fragment` (experimental)
 
 Caution: This feature is currently experimental and must be opted in.
-Its API may be changed without an major version bump.
+Its API may be changed without a major version bump.
 
 ```mjs
 const patch = init(modules, undefined, {
