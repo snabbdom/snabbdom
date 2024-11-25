@@ -141,19 +141,19 @@ function getTextContent(node: Node): string | null {
 }
 
 function isElement(node: Node): node is Element {
-  return node.nodeType === 1;
+  return node.nodeType === Node.ELEMENT_NODE;
 }
 
 function isText(node: Node): node is Text {
-  return node.nodeType === 3;
+  return node.nodeType === Node.TEXT_NODE;
 }
 
 function isComment(node: Node): node is Comment {
-  return node.nodeType === 8;
+  return node.nodeType === Node.COMMENT_NODE;
 }
 
 function isDocumentFragment(node: Node): node is DocumentFragment {
-  return node.nodeType === 11;
+  return node.nodeType === Node.DOCUMENT_FRAGMENT_NODE;
 }
 
 function parseFragment(
