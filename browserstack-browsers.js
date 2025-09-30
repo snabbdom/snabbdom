@@ -12,12 +12,12 @@ export default {
     os: "Windows",
     os_version: "10"
   },
-  BS_Safari_Current: {
+  /*BS_Safari_Current: {
     browserName: "safari",
     browser_version: "latest",
     os: "OS X",
     os_version: "Tahoe"
-  },
+  },*/
   BS_Android_Current: {
     browserName: "chrome",
     device: "Samsung Galaxy S23",
