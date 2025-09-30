@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-namespace, import/export */
+/* eslint-disable @typescript-eslint/no-namespace */
 import { Key, vnode, VNode, VNodeData } from "./vnode";
 import { h, ArrayOrElement } from "./h";
 import { Props } from "./modules/props";
@@ -106,11 +106,10 @@ namespace JSXTypes {
   /*
   IfEquals/WritableKeys: https://stackoverflow.com/questions/52443276/how-to-exclude-getter-only-properties-from-type-in-typescript/52473108#52473108
   */
-  export type IfEquals<X, Y, Output> = (<T>() => T extends X ? 1 : 2) extends <
-    T
-  >() => T extends Y ? 1 : 2
-    ? Output
-    : never;
+  export type IfEquals<X, Y, Output> =
+    (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2
+      ? Output
+      : never;
 
   export type WritableKeys<T> = {
     [P in keyof T]-?: IfEquals<
