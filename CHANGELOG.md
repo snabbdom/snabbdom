@@ -1,3 +1,11 @@
+## [3.6.3](https://github.com/snabbdom/snabbdom/compare/v3.6.2...v3.6.3) (2025-09-30)
+
+### Bug Fixes
+
+- camelize dataset ([#1109](https://github.com/snabbdom/snabbdom/issues/1109)) ([2e6ef1e](https://github.com/snabbdom/snabbdom/commit/2e6ef1e3e8637c845dca3bed8e8b661b52b56cd4)), closes [#1013](https://github.com/snabbdom/snabbdom/issues/1013)
+- improve handling of class names with unusual whitespace ([#1111](https://github.com/snabbdom/snabbdom/issues/1111)) ([d3ea2cb](https://github.com/snabbdom/snabbdom/commit/d3ea2cb067c5adda5b953d7181ecbb20fe71b4e0))
+- restore Typescript intellisense ([#1110](https://github.com/snabbdom/snabbdom/issues/1110)) ([58a013b](https://github.com/snabbdom/snabbdom/commit/58a013bdfc228ed8d2ada4a37eb39da28b3d9da1))
+
 ## [3.6.2](https://github.com/snabbdom/snabbdom/compare/v3.6.1...v3.6.2) (2024-01-31)
 
 ### Bug Fixes
