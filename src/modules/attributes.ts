@@ -38,9 +38,11 @@ function updateAttrs(oldVnode: VNode, vnode: VNode): void {
           elm.setAttributeNS(xmlNS, key, cur as any);
         } else if (key.charCodeAt(5) === colonChar) {
           // Assume 'xmlns' or 'xlink' namespace
-          key.charCodeAt(1) === mChar
-            ? elm.setAttributeNS(xmlnsNS, key, cur as any)
-            : elm.setAttributeNS(xlinkNS, key, cur as any);
+          if (key.charCodeAt(1) === mChar) {
+            elm.setAttributeNS(xmlnsNS, key, cur as any);
+          } else {
+            elm.setAttributeNS(xlinkNS, key, cur as any);
+          }
         } else {
           elm.setAttribute(key, cur as any);
         }
