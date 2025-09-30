@@ -16,7 +16,7 @@ export default {
     browserName: "safari",
     browser_version: "latest",
     os: "OS X",
-    os_version: "Big Sur"
+    os_version: "Tahoe"
   },
   BS_Android_Current: {
     browserName: "chrome",
