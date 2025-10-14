@@ -1,4 +1,5 @@
 import { assert } from "@esm-bundle/chai";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { jsx, Fragment, init } from "../../src/index";
 
 describe("snabbdom", () => {
@@ -189,8 +190,6 @@ describe("snabbdom", () => {
     });
 
     it("works with a function component", () => {
-      // workaround linter issue
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const Part = ({ part }: { part: string }) => <span>{part}</span>;
       const vnode = (
         <div>
@@ -460,8 +459,6 @@ describe("snabbdom", () => {
     });
 
     it("works with a function component", () => {
-      // workaround linter issue
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const Part = ({ part }: { part: string }) => <>{part}</>;
       const vnode = (
         <div>

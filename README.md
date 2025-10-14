@@ -851,7 +851,7 @@ const fragment = (
 
 - [sel](#sel--string)
 - [data](#data--object)
-- [children](#children--array)
+- [children](#children--arrayvnode)
 - [text](#text--string)
 - [elm](#elm--element)
 - [key](#key--string--number)
@@ -897,7 +897,7 @@ for [modules](#modules-documentation) to access and manipulate the
 real DOM element when it is created; Add styles, CSS classes,
 attributes, etc.
 
-The data object is the (optional) second parameter to [`h()`](#snabbdomh)
+The data object is the (optional) second parameter to [`h()`](#h)
 
 For example `h('div', {props: {className: 'container'}}, [...])` will produce a virtual node with
 
@@ -914,7 +914,7 @@ as its `.data` object.
 ### children : Array\<vnode\>
 
 The `.children` property of a virtual node is the third (optional)
-parameter to [`h()`](#snabbdomh) during creation. `.children` is
+parameter to [`h()`](#h) during creation. `.children` is
 simply an Array of virtual nodes that should be added as children of
 the parent DOM node upon creation.
 

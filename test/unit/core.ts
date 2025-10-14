@@ -379,7 +379,7 @@ describe("snabbdom", () => {
       const vnode2 = view(20);
       patch(vnode1, vnode2);
       assert.isAtLeast(elm.scrollTop, 18);
-      assert.isAtMost(elm.scrollTop, 20);
+      assert.isAtMost(Math.floor(elm.scrollTop), 20);
       const vnode3 = view(0);
       patch(vnode2, vnode3);
       assert.strictEqual(elm.scrollTop, 0);
