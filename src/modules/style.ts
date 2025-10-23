@@ -1,13 +1,17 @@
 import { VNode, VNodeData } from "../vnode";
 import { Module } from "./module";
 
-export type ElementStyle = Partial<CSSStyleDeclaration>;
+type ElementStyle = { [K in keyof CSSStyleDeclaration]?: string };
 
-export type VNodeStyle = ElementStyle &
-  Record<string, string> & {
-    delayed?: ElementStyle & Record<string, string>;
-    remove?: ElementStyle & Record<string, string>;
-  };
+interface InnerStyle extends ElementStyle {
+  [K: string]: string | undefined;
+}
+
+export interface VNodeStyle extends ElementStyle {
+  delayed?: InnerStyle;
+  remove?: InnerStyle;
+  [K: string]: InnerStyle | string | undefined;
+}
 
 // Binding `requestAnimationFrame` like this fixes a bug in IE/Edge. See #360 and #409.
 const raf =
