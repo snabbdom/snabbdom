@@ -178,6 +178,19 @@ describe("snabbdom", () => {
       assert(elm.firstChild.classList.contains("a"));
       assert(elm.firstChild.classList.contains("class"));
     });
+    it("supports selector with # in classes", () => {
+      elm = patch(vnode0, h("div", [h("div.bold.bg-[#f0f0f0].shadow")])).elm;
+      assert.strictEqual(elm.firstChild.id, "");
+      assert(elm.firstChild.classList.contains("bold"));
+      assert(elm.firstChild.classList.contains("bg-[#f0f0f0]"));
+      assert(elm.firstChild.classList.contains("shadow"));
+    });
+    it("supports selector with # for id and # in classes", () => {
+      elm = patch(vnode0, h("div", [h("div#logo.bold.bg-[#f0f0f0]")])).elm;
+      assert.strictEqual(elm.firstChild.id, "logo");
+      assert(elm.firstChild.classList.contains("bold"));
+      assert(elm.firstChild.classList.contains("bg-[#f0f0f0]"));
+    });
     it("receives classes in class property", () => {
       elm = patch(
         vnode0,
