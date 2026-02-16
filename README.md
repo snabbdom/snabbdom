@@ -1,4 +1,8 @@
-<img alt="Snabbdom" src="https://raw.githubusercontent.com/snabbdom/snabbdom/master/readme-title.svg" width="356px">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/snabbdom/snabbdom/master/readme-title.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/snabbdom/snabbdom/master/readme-title-light.svg">
+  <img alt="Snabbdom" src="https://raw.githubusercontent.com/snabbdom/snabbdom/master/readme-title.svg" width="356px">
+</picture>
 
 A virtual DOM library with a focus on simplicity, modularity, powerful features
 and performance.
