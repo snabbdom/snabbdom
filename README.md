@@ -800,7 +800,7 @@ const node: VNode = (
   </div>
 );
 
-const fragment: VNode = (
+const fragment: Fragment = (
   <>
     <span>JSX fragments</span>
     are experimentally supported
