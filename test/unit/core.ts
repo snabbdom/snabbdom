@@ -2,6 +2,7 @@ import { assert } from "@esm-bundle/chai";
 
 import {
   init,
+  attributesModule,
   classModule,
   propsModule,
   styleModule,
@@ -431,6 +432,68 @@ describe("snabbdom", () => {
     });
     describe("custom elements", () => {
       if ("customElements" in window) {
+        describe("autonomous custom element", () => {
+          // Use a patcher that includes the attributes module so we can
+          // exercise `attrs` on a custom element (regression for #1129).
+          const patchWithAttrs = init([
+            attributesModule,
+            classModule,
+            propsModule,
+            eventListenersModule
+          ]);
+
+          class XStructure extends HTMLElement {
+            myProp?: { value: number };
+          }
+
+          before(() => {
+            if (
+              "customElements" in window &&
+              !customElements.get("x-structure")
+            ) {
+              customElements.define("x-structure", XStructure);
+            }
+          });
+
+          it("can create an autonomous custom element", () => {
+            const vnode1 = h("x-structure");
+            elm = patchWithAttrs(vnode0, vnode1).elm;
+            assert(elm instanceof XStructure);
+            assert.strictEqual(elm.tagName, "X-STRUCTURE");
+          });
+
+          it("does not throw when VNodeData contains attrs (regression for #1129)", () => {
+            // Before the fix, snabbdom forwarded the entire VNodeData as
+            // `ElementCreationOptions` to `document.createElement`, which can
+            // produce: `NotSupportedError: The result must not have attributes`.
+            const vnode1 = h("x-structure", {
+              attrs: { myarg1: "true" }
+            });
+            assert.doesNotThrow(() => {
+              elm = patchWithAttrs(vnode0, vnode1).elm;
+            });
+            assert(elm instanceof XStructure);
+            assert.strictEqual(elm.getAttribute("myarg1"), "true");
+          });
+
+          it("sets properties on an autonomous custom element via props", () => {
+            const value = { value: 42 };
+            const vnode1 = h("x-structure", { props: { myProp: value } });
+            elm = patchWithAttrs(vnode0, vnode1).elm;
+            assert(elm instanceof XStructure);
+            assert.strictEqual(elm.myProp, value);
+          });
+
+          it("ignores non-string `is` values when creating the element", () => {
+            // Defensive: even if downstream code accidentally puts a non-string
+            // into `data.is`, snabbdom should not forward it to createElement.
+            const vnode1 = h("x-structure", { is: undefined as any });
+            assert.doesNotThrow(() => {
+              elm = patchWithAttrs(vnode0, vnode1).elm;
+            });
+            assert(elm instanceof XStructure);
+          });
+        });
         describe("customized built-in element", () => {
           const isSafari = /^((?!chrome|android).)*safari/i.test(
             navigator.userAgent
