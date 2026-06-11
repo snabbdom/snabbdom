@@ -10,5 +10,5 @@ indent_size = 2
 [{*.min.js.map,.husky/.gitignore}]
 insert_final_newline = false
 
-[{graphics.svg,readme-title.svg}]
+[resources/*.svg]
 indent_size = unset

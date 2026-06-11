@@ -1,4 +1,8 @@
-<img alt="Snabbdom" src="readme-title.svg" width="356px">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="resources/readme-title.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="resources/readme-title-light.svg">
+  <img alt="Snabbdom" src="resources/readme-title.svg" width="356px">
+</picture>
 
 सरलता, प्रतिरूपकता, शक्तिशाली सुविधाओं और प्रदर्शन पर ध्यान देने वाली एक वर्चुअल DOM लाइब्रेरी।
 

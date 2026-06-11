@@ -1,4 +1,8 @@
-<img alt="Snabbdom" src="readme-title.svg" width="356px">
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="resources/readme-title.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="resources/readme-title-light.svg">
+  <img alt="Snabbdom" src="resources/readme-title.svg" width="356px">
+</picture>
 
 一个精简化、模块化、功能强大、性能卓越的虚拟 DOM 库
 
