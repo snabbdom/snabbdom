@@ -24,11 +24,11 @@ export default {
     os: "Android",
     os_version: "13.0"
   },
-  BS_Android_10: {
-    browserName: "Android",
-    device: "OnePlus 8",
+  BS_Android_11: {
+    browserName: "chrome",
+    device: "Samsung Galaxy S21",
     os: "Android",
-    os_version: "10.0"
+    os_version: "11.0"
   },
   BS_MS_Edge: {
     browserName: "edge",
