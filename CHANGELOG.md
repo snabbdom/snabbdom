@@ -1,3 +1,11 @@
+# Changelog
+
+## [3.6.4](https://github.com/snabbdom/snabbdom/compare/v3.6.3...v3.6.4) (2026-06-17)
+
+### Bug Fixes
+
+- tweak `VNodeStyle` to improve performance of type checking ([#1127](https://github.com/snabbdom/snabbdom/issues/1127)) ([b03ed27](https://github.com/snabbdom/snabbdom/commit/b03ed27d149ba31f665a2fe041cb7c7bcf4233b0))
+
 ## [3.6.3](https://github.com/snabbdom/snabbdom/compare/v3.6.2...v3.6.3) (2025-09-30)
 
 ### Bug Fixes
@@ -144,8 +152,6 @@ import { h, VNode } from 'snabbdom'
 This means consumers of the snabbdom package need to update their
 imports. The change makes the use of the `exports` field in
 `package.json` unnecessary, which caused issues for TypeScript users
-
-# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
