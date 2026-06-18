@@ -52,7 +52,7 @@ const data = {
     },
     {
       rank: 7,
-      title: "click on ar element in",
+      title: "click on any element in",
       desc: "Accumsan quia, id nascetur dui et congue erat, id excepteur, primis ratione nec. At nulla et. Suspendisse lobortis, lobortis in tortor fringilla, duis adipiscing vestibulum voluptates sociosqu auctor."
     },
     {
