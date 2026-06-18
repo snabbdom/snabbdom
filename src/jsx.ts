@@ -13,8 +13,10 @@ export type JsxVNodeChild =
   | null;
 export type JsxVNodeChildren = ArrayOrElement<JsxVNodeChild>;
 
-export type FunctionComponent = (
-  props: { [prop: string]: any } | null,
+type PropsOrNull = { [prop: string]: any } | null
+
+export type FunctionComponent<P extends PropsOrNull = PropsOrNull> = (
+  props: P,
   children?: VNode[]
 ) => VNode;
 
@@ -77,14 +79,26 @@ function flattenAndFilter(
  * see: https://www.typescriptlang.org/docs/handbook/jsx.html#factory-functions
  */
 export function jsx(
-  tag: string | FunctionComponent,
+  tag: string,
   data: VNodeData | null,
+  ...children: JsxVNodeChildren[]
+): VNode;
+export function jsx<P extends PropsOrNull = VNodeData | null>(
+  tag: FunctionComponent<P>,
+  data: P,
+  ...children: JsxVNodeChildren[]
+): VNode;
+export function jsx<P extends PropsOrNull = VNodeData | null>(
+  tag: string | FunctionComponent<P>,
+  data: VNodeData | null | P,
   ...children: JsxVNodeChildren[]
 ): VNode {
   const flatChildren = flattenAndFilter(children, []);
+  // type assertions are safe because the overloads specify a more specific type
+  // for `data` depending on `typeof tag`
   if (typeof tag === "function") {
     // tag is a function component
-    return tag(data, flatChildren);
+    return tag(data as P, flatChildren);
   } else {
     if (
       flatChildren.length === 1 &&
@@ -92,9 +106,9 @@ export function jsx(
       flatChildren[0].text
     ) {
       // only child is a simple text node, pass as text for a simpler vtree
-      return h(tag, data, flatChildren[0].text);
+      return h(tag, data as VNodeData | null, flatChildren[0].text);
     } else {
-      return h(tag, data, flatChildren);
+      return h(tag, data as VNodeData | null, flatChildren);
     }
   }
 }
