@@ -727,6 +727,45 @@ Certain browsers (like IE &lt;=11) [do not support `classList` property in SVG e
 Because the _class_ module internally uses `classList`, it will not work in this case unless you use a [classList polyfill](https://www.npmjs.com/package/classlist-polyfill).
 (If you don't want to use a polyfill, you can use the `class` attribute with the _attributes_ module).
 
+## Custom elements
+
+Snabbdom supports both kinds of custom elements defined by the
+[HTML specification](https://html.spec.whatwg.org/multipage/custom-elements.html).
+
+### Autonomous custom elements
+
+An autonomous custom element is a brand-new element whose tag name contains a
+hyphen, e.g. `<x-foo>` or `<structure-diagram>`. Just use the tag name as the
+selector — pass HTML attributes via the _attributes_ module and JS properties
+via the _props_ module:
+
+```mjs
+h("structure-diagram", {
+  attrs: { "data-id": "abc-123" },
+  props: { config: { mode: "compact" } }
+});
+```
+
+`props` are set as JavaScript properties on the element instance, which is
+usually what you want for custom elements that expose object- or function-valued
+inputs through setters.
+
+### Customized built-in elements
+
+A customized built-in element extends an existing HTML element via the `is`
+attribute (e.g. `<p is="p-fancy">`). Pass the `is` value on the vnode data
+object:
+
+```mjs
+class PFancy extends HTMLParagraphElement {}
+customElements.define("p-fancy", PFancy, { extends: "p" });
+
+h("p", { is: "p-fancy" }, "hello");
+```
+
+Snabbdom uses the `is` field to decide whether two vnodes refer to the same
+element during diffing, so swapping `is` values will recreate the element.
+
 ## Thunks
 
 The `thunk` function takes a selector, a key for identifying a thunk,
