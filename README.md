@@ -131,6 +131,7 @@ patch(vnode, newVnode); // Snabbdom efficiently updates the old view to the new 
   - [`patch`](#patch)
     - [Unmounting](#unmounting)
   - [`h`](#h)
+  - [`attachTo`](#attachto)
   - [`fragment`](#fragment-experimental) (experimental)
   - [`toVNode`](#tovnode)
   - [Hooks](#hooks)
@@ -244,6 +245,36 @@ const vnode = h("div#container", { style: { color: "#000" } }, [
   h("p", "A paragraph")
 ]);
 ```
+
+### `attachTo`
+
+The `attachTo` helper lets a vnode be declared in one place in the virtual
+tree while its real DOM element is appended to another target element. Snabbdom
+keeps a placeholder at the vnode's normal position so later patches can still
+update, reorder, and remove the vnode correctly.
+
+This is useful for portal-like UI such as modals, popovers, and overlays that
+should be rendered outside the DOM subtree where they are declared.
+
+```mjs
+import { attachTo, h } from "snabbdom";
+
+const modalRoot = document.getElementById("modal-root");
+
+const vnode = h("main", [
+  h("button", "Open modal"),
+  attachTo(
+    modalRoot,
+    h("div.modal", [
+      h("h2", "Modal title"),
+      h("p", "This vnode is declared here but attached to #modal-root.")
+    ])
+  )
+]);
+```
+
+`attachTo(target, vnode)` returns the vnode passed to it. The target element
+must exist before the vnode is patched.
 
 ### `fragment` (experimental)
 
