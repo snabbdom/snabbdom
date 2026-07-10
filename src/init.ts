@@ -138,9 +138,9 @@ export function init(
 
   function createElm(vnode: VNode, insertedVnodeQueue: VNodeQueue): Node {
     let i: number;
+    vnode.data?.hook?.init?.(vnode);
     const data = vnode.data;
     const hook = data?.hook;
-    hook?.init?.(vnode);
     const children = vnode.children;
     const sel = vnode.sel;
     if (sel === "!") {
