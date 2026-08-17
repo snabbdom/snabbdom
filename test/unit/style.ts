@@ -44,6 +44,22 @@ describe("style", () => {
     assert.strictEqual(elm.style.fontSize, "10px");
     assert.strictEqual(elm.style.display, "block");
   });
+  it("supports !important style values", () => {
+    const vnode1 = h("i", { style: { fontSize: "14px !important" } });
+    const vnode2 = h("i", { style: { fontSize: "12px" } });
+    const vnode3 = h("i");
+
+    elm = patch(vnode0, vnode1).elm;
+    assert.strictEqual(elm.style.fontSize, "14px");
+    assert.strictEqual(elm.style.getPropertyPriority("font-size"), "important");
+
+    patch(vnode1, vnode2);
+    assert.strictEqual(elm.style.fontSize, "12px");
+    assert.strictEqual(elm.style.getPropertyPriority("font-size"), "");
+
+    patch(vnode2, vnode3);
+    assert.strictEqual(elm.style.fontSize, "");
+  });
   it("explicialy removes styles", () => {
     const vnode1 = h("i", { style: { fontSize: "14px" } });
     const vnode2 = h("i", { style: { fontSize: "" } });
