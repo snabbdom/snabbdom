@@ -26,9 +26,34 @@ const nextFrame = (fn: any) => {
 };
 let reflowForced = false;
 
-function setNextFrame(obj: any, prop: string, val: any): void {
+function toCssPropertyName(name: string): string {
+  if (name.startsWith("--")) return name;
+  if (name === "cssFloat") return "float";
+  return name.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+}
+
+function setStyleProperty(
+  style: CSSStyleDeclaration,
+  name: string,
+  value: string | number | undefined
+): void {
+  const stringValue = value == null ? "" : String(value);
+  const importantSuffix = /\s*!important\s*$/i;
+  const important = importantSuffix.test(stringValue);
+  style.setProperty(
+    toCssPropertyName(name),
+    important ? stringValue.replace(importantSuffix, "") : stringValue,
+    important ? "important" : ""
+  );
+}
+
+function setNextFrame(
+  style: CSSStyleDeclaration,
+  name: string,
+  value: string | number | undefined
+): void {
   nextFrame(() => {
-    obj[prop] = val;
+    setStyleProperty(style, name, value);
   });
 }
 
@@ -47,11 +72,7 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
 
   for (name in oldStyle) {
     if (!(name in style)) {
-      if (name[0] === "-" && name[1] === "-") {
-        (elm as any).style.removeProperty(name);
-      } else {
-        (elm as any).style[name] = "";
-      }
+      (elm as any).style.removeProperty(toCssPropertyName(name));
     }
   }
   for (name in style) {
@@ -64,11 +85,7 @@ function updateStyle(oldVnode: VNode, vnode: VNode): void {
         }
       }
     } else if (name !== "remove" && cur !== oldStyle[name]) {
-      if (name[0] === "-" && name[1] === "-") {
-        (elm as any).style.setProperty(name, cur);
-      } else {
-        (elm as any).style[name] = cur;
-      }
+      setStyleProperty((elm as any).style, name, cur);
     }
   }
 }
@@ -80,7 +97,7 @@ function applyDestroyStyle(vnode: VNode): void {
   const s = (vnode.data as VNodeData).style;
   if (!s || !(style = s.destroy)) return;
   for (name in style) {
-    (elm as any).style[name] = style[name];
+    setStyleProperty((elm as any).style, name, style[name]);
   }
 }
 
@@ -102,8 +119,9 @@ function applyRemoveStyle(vnode: VNode, rm: () => void): void {
   let amount = 0;
   const applied: string[] = [];
   for (name in style) {
-    applied.push(name);
-    (elm as any).style[name] = style[name];
+    const cssName = toCssPropertyName(name);
+    applied.push(cssName);
+    setStyleProperty((elm as any).style, name, style[name]);
   }
   const compStyle = getComputedStyle(elm as Element);
   const props = (compStyle as any)["transition-property"].split(", ");

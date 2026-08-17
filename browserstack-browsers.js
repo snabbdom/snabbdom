@@ -26,7 +26,7 @@ export default {
   },
   BS_Android_10: {
     browserName: "Android",
-    device: "OnePlus 8",
+    device: "Samsung Galaxy S20",
     os: "Android",
     os_version: "10.0"
   },
