@@ -26,9 +26,9 @@ export default {
   },
   BS_Android_10: {
     browserName: "Android",
-    device: "OnePlus 8",
+    device: "Google Pixel 6",
     os: "Android",
-    os_version: "10.0"
+    os_version: "12.0"
   },
   BS_MS_Edge: {
     browserName: "edge",

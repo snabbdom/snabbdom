@@ -160,10 +160,18 @@ export function init(
           ? sel.slice(0, Math.min(hash, dot))
           : sel;
       const ns = data?.ns;
+      // Only forward the `is` option to `createElement`/`createElementNS` —
+      // `ElementCreationOptions` is defined to contain exactly one key (`is`),
+      // and forwarding arbitrary VNodeData (e.g. `attrs`, `props`) can trigger
+      // `NotSupportedError: The result must not have attributes` when creating
+      // autonomous custom elements (tag names containing a hyphen).
+      // See https://github.com/snabbdom/snabbdom/issues/1129
+      const createOpts: ElementCreationOptions | undefined =
+        typeof data?.is === "string" ? { is: data.is } : undefined;
       const elm =
         ns === undefined
-          ? api.createElement(tag, data)
-          : api.createElementNS(ns, tag, data);
+          ? api.createElement(tag, createOpts)
+          : api.createElementNS(ns, tag, createOpts);
       vnode.elm = elm;
       if (hash < dot) elm.setAttribute("id", sel.slice(hash + 1, dot));
       if (dotIdx > 0)
