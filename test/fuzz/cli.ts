@@ -16,8 +16,10 @@ const USAGE = `Usage: npm run fuzz -- [options]
   --seed <seed>         Seed of the run. A new one is generated when omitted.
   --tests <count>       Number of tests to run, 25 by default.
   --iteration <index>   Run only this test instead of the whole suite.
-  --run-all             Keep going after a failing test and print a summary of
-                        the run instead of the first failure.
+  --stop-on-first-failure
+                        Stop at the first failing test and print its details.
+                        By default the run continues, reporting every failing
+                        iteration in a summary at the end.
   --dump                With --iteration, print the trees of that test instead
                         of checking anything.
   --max-depth <level>   Deepest nesting level of a node, 5 by default.
@@ -33,7 +35,7 @@ the failure reported, e.g.
 type Args = {
   options: FuzzOptions;
   help: boolean;
-  runAll: boolean;
+  stopOnFirstFailure: boolean;
 };
 
 function parseNumber(name: string, value: string): number {
@@ -47,7 +49,7 @@ function parseNumber(name: string, value: string): number {
 function parseArgs(argv: string[]): Args {
   const options: FuzzOptions = {};
   let help = false;
-  let runAll = false;
+  let stopOnFirstFailure = false;
   for (let i = 0; i < argv.length; i++) {
     const argument = argv[i];
     const [flag, inlineValue] = argument.split("=", 2);
@@ -73,8 +75,8 @@ function parseArgs(argv: string[]): Args {
       case "--max-siblings":
         options.maxSiblings = parseNumber("max-siblings", value());
         break;
-      case "--run-all":
-        runAll = true;
+      case "--stop-on-first-failure":
+        stopOnFirstFailure = true;
         break;
       case "--dump":
         options.dump = true;
@@ -87,7 +89,7 @@ function parseArgs(argv: string[]): Args {
         throw new Error(`unknown option ${argument}`);
     }
   }
-  return { options, help, runAll };
+  return { options, help, stopOnFirstFailure };
 }
 
 function formatTime(milliseconds: number): string {
@@ -119,14 +121,20 @@ function run(): number {
     return 0;
   }
 
-  const { options: parsed, runAll } = args;
+  const { options: parsed, stopOnFirstFailure } = args;
   if (parsed.dump === true && parsed.iteration === undefined) {
     process.stderr.write(`--dump needs --iteration\n\n${USAGE}`);
     return 2;
   }
-  if (runAll && (parsed.iteration !== undefined || parsed.dump === true)) {
+  if (stopOnFirstFailure && parsed.iteration !== undefined) {
     process.stderr.write(
-      `--run-all runs the whole suite, so it cannot be combined with --iteration or --dump\n\n${USAGE}`
+      `--stop-on-first-failure runs the whole suite, so it cannot be combined with --iteration\n\n${USAGE}`
+    );
+    return 2;
+  }
+  if (stopOnFirstFailure && parsed.dump === true) {
+    process.stderr.write(
+      `--stop-on-first-failure checks the run, so it cannot be combined with --dump\n\n${USAGE}`
     );
     return 2;
   }
@@ -139,7 +147,7 @@ function run(): number {
   const seed = options.seed as string;
   const tests = resolveTests(options);
   process.stdout.write(
-    `[fuzz] ${describeOptions(options)}${runAll ? " run-all" : ""}\n`
+    `[fuzz] ${describeOptions(options)}${stopOnFirstFailure ? " stop-on-first-failure" : ""}\n`
   );
 
   let code: number;
@@ -148,14 +156,14 @@ function run(): number {
       `${dumpFuzzTest({ seed, index: options.iteration, tests, options })}\n`
     );
     code = 0;
-  } else if (runAll) {
-    const summary = runFuzzAll(options);
-    process.stdout.write(`${summary.report}\n`);
-    code = summary.ok ? 0 : 1;
-  } else {
+  } else if (stopOnFirstFailure || options.iteration !== undefined) {
     const result = runFuzzSuite(options);
     process.stdout.write(`${result.report}\n`);
     code = result.ok ? 0 : 1;
+  } else {
+    const summary = runFuzzAll(options);
+    process.stdout.write(`${summary.report}\n`);
+    code = summary.ok ? 0 : 1;
   }
 
   writeTiming(startedAt, cpuAtStart);
