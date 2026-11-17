@@ -291,6 +291,52 @@ describe("snabbdom", () => {
       assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
       assert.strictEqual(elm.textContent, "I am a fragment");
     });
+    const ids = (node: Node) =>
+      map((child: Element) => child.id, Array.from(node.childNodes));
+    it("inserts a sibling in front of an empty leading fragment", () => {
+      const vnode1 = h("div", [
+        fragment([]),
+        h("div", { key: "k2", props: { id: "k2" } })
+      ]);
+      const vnode2 = h("div", [
+        h("div", { key: "k1", props: { id: "k1" } }),
+        h("div", { key: "k2", props: { id: "k2" } })
+      ]);
+
+      patch(vnode0, vnode1);
+      const updated = patch(vnode1, vnode2).elm;
+      assert.deepEqual(ids(updated), ["k1", "k2"]);
+    });
+    it("inserts a sibling in front of an empty trailing fragment", () => {
+      const vnode1 = h("div", [
+        h("div", { key: "k2", props: { id: "k2" } }),
+        fragment([])
+      ]);
+      const vnode2 = h("div", [
+        h("div", { key: "k1", props: { id: "k1" } }),
+        h("div", { key: "k2", props: { id: "k2" } })
+      ]);
+
+      patch(vnode0, vnode1);
+      const updated = patch(vnode1, vnode2).elm;
+      assert.deepEqual(ids(updated), ["k1", "k2"]);
+    });
+    it("renders the children of a formerly empty fragment in place", () => {
+      const vnode1 = h("div", [
+        fragment([]),
+        h("div", { key: "k1", props: { id: "k1" } }),
+        h("div", { key: "k2", props: { id: "k2" } })
+      ]);
+      const vnode2 = h("div", [
+        fragment([h("div", { key: "k0", props: { id: "k0" } })]),
+        h("div", { key: "k1", props: { id: "k1" } }),
+        h("div", { key: "k2", props: { id: "k2" } })
+      ]);
+
+      patch(vnode0, vnode1);
+      const updated = patch(vnode1, vnode2).elm;
+      assert.deepEqual(ids(updated), ["k0", "k1", "k2"]);
+    });
   });
   describe("patching an element", () => {
     it("changes the elements classes", () => {
@@ -1234,6 +1280,84 @@ describe("snabbdom", () => {
 
       elm = patch(vnode1, vnode2).elm;
       assert.strictEqual(elm.tagName, "DIV");
+    });
+    describe("moving a fragment", () => {
+      const textOf = (node: Node): string[] =>
+        Array.from((node as Element).children).map(
+          (child) => child.textContent ?? ""
+        );
+
+      const item = (key: string): VNode => h("div", { key }, key);
+
+      const withKey = (children: VNode[], key: string): VNode =>
+        vnode(undefined, { key }, children);
+
+      /**
+       * Patches `first` into an empty host and then patches `second` over it,
+       * checking the text of the children of the root element after both.
+       */
+      function patchTwice(
+        first: VNode,
+        second: VNode,
+        before: string[],
+        after: string[]
+      ): void {
+        const host = document.createElement("div");
+        document.body.appendChild(host);
+        try {
+          const vnode1 = patch(host, first);
+          assert.deepEqual(textOf(vnode1.elm!), before);
+          const vnode2 = patch(vnode1, second);
+          assert.deepEqual(textOf(vnode2.elm!), after);
+        } finally {
+          host.remove();
+        }
+      }
+
+      it("moves the content of a fragment behind the following sibling", () => {
+        patchTwice(
+          h("div", [fragment([item("k1")]), item("k9")]),
+          h("div", [item("k9"), fragment([item("k1")])]),
+          ["k1", "k9"],
+          ["k9", "k1"]
+        );
+      });
+
+      it("keeps the order of the content of a moved fragment", () => {
+        patchTwice(
+          h("div", [fragment([item("k1"), item("k2")]), item("k9")]),
+          h("div", [item("k9"), fragment([item("k1"), item("k2")])]),
+          ["k1", "k2", "k9"],
+          ["k9", "k1", "k2"]
+        );
+      });
+
+      it("moves a fragment that has a key", () => {
+        patchTwice(
+          h("div", [withKey([item("k1")], "f1"), item("k9")]),
+          h("div", [item("k9"), withKey([item("k1")], "f1")]),
+          ["k1", "k9"],
+          ["k9", "k1"]
+        );
+      });
+
+      it("moves a fragment nested in a moved fragment", () => {
+        patchTwice(
+          h("div", [fragment([fragment([item("k1")])]), item("k9")]),
+          h("div", [item("k9"), fragment([fragment([item("k1")])])]),
+          ["k1", "k9"],
+          ["k9", "k1"]
+        );
+      });
+
+      it("moves the content of a fragment past one of its siblings", () => {
+        patchTwice(
+          h("div", [fragment([item("k1")]), item("k9"), item("k8")]),
+          h("div", [item("k9"), fragment([item("k1")]), item("k8")]),
+          ["k1", "k9", "k8"],
+          ["k9", "k1", "k8"]
+        );
+      });
     });
   });
   describe("hooks", () => {

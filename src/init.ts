@@ -7,6 +7,35 @@ type VNodeQueue = VNode[];
 
 const emptyNode = vnode("", {}, [], undefined, undefined);
 
+function isFragmentVNode(vnode: VNode | null | undefined): boolean {
+  return (
+    vnode != null && vnode.sel === undefined && vnode.children !== undefined
+  );
+}
+
+/**
+ * A fragment renders nothing of its own: its children are children of the
+ * fragment's parent. Expanding them here means every vnode the children diff
+ * looks at has exactly one DOM node, so the diff never has to reason about a
+ * vnode that takes no slot or about a node that belongs to a nested fragment.
+ */
+function flattenFragments(children: VNode[]): VNode[] {
+  let flat: VNode[] | null = null;
+  for (let i = 0; i < children.length; ++i) {
+    const ch = children[i];
+    if (ch != null && isFragmentVNode(ch)) {
+      if (flat === null) flat = children.slice(0, i);
+      const inner = flattenFragments(ch.children as VNode[]);
+      for (let j = 0; j < inner.length; ++j) {
+        if (inner[j] != null) flat.push(inner[j]);
+      }
+    } else if (flat !== null) {
+      flat.push(ch);
+    }
+  }
+  return flat ?? children;
+}
+
 function sameVnode(vnode1: VNode, vnode2: VNode): boolean {
   const isSameKey = vnode1.key === vnode2.key;
   const isSameIs = vnode1.data?.is === vnode2.data?.is;
@@ -286,6 +315,10 @@ export function init(
     newCh: VNode[],
     insertedVnodeQueue: VNodeQueue
   ) {
+    // A fragment takes no slot of its own in the DOM, so it should not take one
+    // in the lists this diff works with either.
+    oldCh = flattenFragments(oldCh);
+    newCh = flattenFragments(newCh);
     let oldStartIdx = 0;
     let newStartIdx = 0;
     let oldEndIdx = oldCh.length - 1;
