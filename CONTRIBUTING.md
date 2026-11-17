@@ -2,30 +2,33 @@
 
 ## Fuzz testing
 
-`test/unit/fuzz.ts` generates random vnode trees (elements, text, comments and
-fragments, up to 5 levels deep with up to 10 siblings per parent), patches them
+`npm run fuzz` runs the suite in `test/fuzz/` on Node, with [jsdom](https://github.com/jsdom/jsdom)
+standing in for the DOM. Every test generates a random vnode tree (elements with
+random tags, keys, attributes, classes and props, plus text nodes, comments and
+fragments, up to 5 levels deep with up to 10 siblings per parent), patches it
 into the DOM and then applies between 2 and 6 random changes to the tree, each
 followed by another patch. After every patch it walks the vnode tree and the DOM
 side by side and fails when they do not match.
 
-The run is driven by the query string of the test page:
+```sh
+npm run fuzz                                  # 25 tests with a fresh seed
+npm run fuzz -- --seed 39yq931xe69p9         # replay a run
+npm run fuzz -- --tests 200                  # more tests
+npm run fuzz -- --seed abc --iteration 592    # run one test on its own
+npm run fuzz -- --seed abc --iteration 592 --dump   # print what that test does
+```
 
-- `seed` – the seed of the run. A new seed is generated and printed when it is
-  missing, so a failing run can be reproduced by passing it back.
-- `tests` – how many tests to run, 25 by default.
-- `iteration` – index of a single test to run on its own. Every test draws from
-  its own generator seeded with `<seed>-<index>`, so the tests before it do not
-  have to run to reach it.
-- `dump=1` – with `iteration`, prints the initial trees and, for every round, the
-  change that was applied and the resulting vnode and DOM trees, instead of
-  checking anything.
-- `maxDepth`, `maxSiblings` – generation limits.
+- `--seed` – seed of the run. A new seed is generated and printed when omitted.
+- `--tests` – how many tests to run, 25 by default.
+- `--iteration` – run a single test instead of the suite.
+- `--dump` – with `--iteration`, print the initial trees and, for every round,
+  the change that was applied together with the resulting vnode and DOM trees,
+  instead of checking anything. Useful to see what a test is doing.
+- `--max-depth`, `--max-siblings` – generation limits.
 
-For example `?seed=abc123&tests=50&iteration=7&dump=1`.
-
-The same seed and the same `tests` value always produce the same run, because
-each test only depends on `<seed>-<index>`. Running a single iteration therefore
-reproduces exactly what the full run does at that index.
+Every test derives its generator from `<seed>-<iteration>`, so a run is fully
+reproducible from its seed and a single iteration can be run on its own without
+replaying the ones before it.
 
 ## Making a commit
 

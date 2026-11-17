@@ -367,33 +367,6 @@ export function runFuzzSuite(options: FuzzOptions = {}): FuzzResult {
   };
 }
 
-/** Reads fuzz options from a query string, e.g. `?seed=abc&tests=50`. */
-export function optionsFromQuery(search: string): FuzzOptions {
-  const params = new URLSearchParams(search);
-  const options: FuzzOptions = {};
-  const seed = params.get("seed");
-  if (seed !== null && seed !== "") options.seed = seed;
-  const number = (name: string): number | undefined => {
-    const value = params.get(name);
-    if (value === null || value === "") return undefined;
-    const parsed = Number(value);
-    return Number.isNaN(parsed) ? undefined : parsed;
-  };
-  const tests = number("tests");
-  if (tests !== undefined) options.tests = tests;
-  const iteration = number("iteration");
-  if (iteration !== undefined) options.iteration = iteration;
-  const maxDepth = number("maxDepth");
-  if (maxDepth !== undefined) options.maxDepth = maxDepth;
-  const maxSiblings = number("maxSiblings");
-  if (maxSiblings !== undefined) options.maxSiblings = maxSiblings;
-  const dump = params.get("dump");
-  if (dump !== null && dump !== "" && dump !== "0" && dump !== "false") {
-    options.dump = true;
-  }
-  return options;
-}
-
 export function describeOptions(options: FuzzOptions): string {
   const parts = [`seed=${resolveSeed(options)}`];
   if (options.tests !== undefined) parts.push(`tests=${options.tests}`);
