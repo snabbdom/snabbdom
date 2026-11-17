@@ -291,6 +291,53 @@ describe("snabbdom", () => {
       assert.strictEqual(elm.nodeType, document.DOCUMENT_FRAGMENT_NODE);
       assert.strictEqual(elm.textContent, "I am a fragment");
     });
+    const keyedFragment = (...ids: string[]) =>
+      fragment(ids.map((id) => h("div", { key: id, props: { id } })));
+    const keyed = (id: string) => h("div", { key: id, props: { id } });
+    it("appends a child to the end of a fragment", () => {
+      const vnode1 = h("div", [keyedFragment("a"), keyed("k9")]);
+      const vnode2 = h("div", [keyedFragment("a", "b"), keyed("k9")]);
+
+      elm = patch(vnode0, vnode1).elm;
+      const updated = patch(vnode1, vnode2).elm;
+      assert.strictEqual(
+        inner(updated),
+        '<div id="a"></div><div id="b"></div><div id="k9"></div>'
+      );
+    });
+    it("appends children to a fragment over several patches", () => {
+      const vnode1 = h("div", [keyedFragment("a"), keyed("k9")]);
+      const vnode2 = h("div", [keyedFragment("a", "b"), keyed("k9")]);
+      const vnode3 = h("div", [keyedFragment("a", "b", "c"), keyed("k9")]);
+
+      elm = patch(vnode0, vnode1).elm;
+      const updated = patch(patch(vnode1, vnode2), vnode3).elm;
+      assert.strictEqual(
+        inner(updated),
+        '<div id="a"></div><div id="b"></div><div id="c"></div>' +
+          '<div id="k9"></div>'
+      );
+    });
+    it("appends a child after the last child of a fragment was removed", () => {
+      const vnode1 = h("div", [keyedFragment("a", "c"), keyed("k9")]);
+      const vnode2 = h("div", [keyedFragment("a"), keyed("k9")]);
+      const vnode3 = h("div", [keyedFragment("a", "d"), keyed("k9")]);
+
+      elm = patch(vnode0, vnode1).elm;
+      const updated = patch(patch(vnode1, vnode2), vnode3).elm;
+      assert.strictEqual(
+        inner(updated),
+        '<div id="a"></div><div id="d"></div><div id="k9"></div>'
+      );
+    });
+    it("removes a text child of a fragment", () => {
+      const vnode1 = h("div", [fragment(["t1", "t2"]), keyed("k9")]);
+      const vnode2 = h("div", [fragment(["t2"]), keyed("k9")]);
+
+      elm = patch(vnode0, vnode1).elm;
+      const updated = patch(vnode1, vnode2).elm;
+      assert.strictEqual(inner(updated), 't2<div id="k9"></div>');
+    });
   });
   describe("patching an element", () => {
     it("changes the elements classes", () => {

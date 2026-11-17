@@ -1,7 +1,7 @@
 import { Module } from "./modules/module";
 import { Key, vnode, VNode } from "./vnode";
 import * as is from "./is";
-import { htmlDomApi, DOMAPI } from "./htmldomapi";
+import { htmlDomApi, DOMAPI, SnabbdomFragment } from "./htmldomapi";
 
 type VNodeQueue = VNode[];
 
@@ -280,6 +280,34 @@ export function init(
     }
   }
 
+  // The content of a fragment lives in the fragment's parent, so the fragment
+  // keeps track of where that range starts and ends. Children that were added
+  // or removed since the fragment was inserted are not reflected in the range
+  // recorded at insertion time, so refresh it after patching the children.
+  function updateFragmentRange(elm: Node, children: VNode[]) {
+    if (api.isDocumentFragment?.(elm as DocumentFragment) !== true) return;
+    const fragment = elm as SnabbdomFragment;
+    let firstNode: Node | null = null;
+    let lastNode: Node | null = null;
+    for (const child of children) {
+      const childElm = (child as VNode | undefined)?.elm;
+      if (childElm === undefined || childElm === null) continue;
+      const childFragment =
+        api.isDocumentFragment?.(childElm as DocumentFragment) === true
+          ? (childElm as SnabbdomFragment)
+          : null;
+      if (firstNode === null) {
+        firstNode =
+          childFragment !== null ? childFragment.firstChildNode : childElm;
+      }
+      const last =
+        childFragment !== null ? childFragment.lastChildNode : childElm;
+      if (last !== null) lastNode = last;
+    }
+    fragment.firstChildNode = firstNode;
+    fragment.lastChildNode = lastNode;
+  }
+
   function updateChildren(
     parentElm: Node,
     oldCh: VNode[],
@@ -426,6 +454,9 @@ export function init(
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
       }
       api.setTextContent(elm, vnode.text);
+    }
+    if (ch !== undefined) {
+      updateFragmentRange(elm, ch);
     }
     hook?.postpatch?.(oldVnode, vnode);
   }

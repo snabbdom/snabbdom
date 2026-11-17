@@ -75,25 +75,65 @@ function insertBefore(
   newNode: Node,
   referenceNode: Node | null
 ): void {
-  if (isDocumentFragment(parentNode)) {
-    let node: Node | null = parentNode;
-    while (node && isDocumentFragment(node)) {
-      const fragment = parseFragment(node);
-      node = fragment.parent;
-    }
-    parentNode = node ?? parentNode;
-  }
+  const parentFragment = isDocumentFragment(parentNode)
+    ? resolveFragment(parentNode)
+    : null;
+  const parent = parentFragment !== null ? parentFragment.parent : parentNode;
+  const fragment = parentFragment !== null ? parentFragment.fragment : null;
+
   if (isDocumentFragment(newNode)) {
-    newNode = parseFragment(newNode, parentNode);
+    newNode = parseFragment(newNode, parent);
   }
-  if (referenceNode && isDocumentFragment(referenceNode)) {
-    referenceNode = parseFragment(referenceNode).firstChildNode;
+
+  // A missing reference node means "append to the end of the parent", which for
+  // a fragment is directly after the fragment's content, not after the siblings
+  // that follow it.
+  let appendsToFragment = false;
+  if (referenceNode != null) {
+    if (isDocumentFragment(referenceNode)) {
+      referenceNode = parseFragment(referenceNode).firstChildNode;
+    }
+  } else if (fragment !== null) {
+    appendsToFragment = true;
+    referenceNode = fragment.lastChildNode?.nextSibling ?? null;
   }
-  parentNode.insertBefore(newNode, referenceNode);
+
+  const firstInserted = isDocumentFragment(newNode)
+    ? newNode.firstChild
+    : newNode;
+  const lastInserted = isDocumentFragment(newNode) ? newNode.lastChild : newNode;
+
+  parent.insertBefore(newNode, referenceNode);
+
+  if (appendsToFragment && fragment !== null) {
+    if (fragment.firstChildNode === null) {
+      fragment.firstChildNode = firstInserted;
+    }
+    if (lastInserted !== null) {
+      fragment.lastChildNode = lastInserted;
+    }
+  }
 }
 
 function removeChild(node: Node, child: Node): void {
-  node.removeChild(child);
+  const parentFragment = isDocumentFragment(node) ? resolveFragment(node) : null;
+  if (parentFragment === null) {
+    node.removeChild(child);
+    return;
+  }
+  // The child lives in the fragment's parent, not in the fragment itself.
+  const nextSibling = child.nextSibling;
+  const previousSibling = child.previousSibling;
+  parentFragment.parent.removeChild(child);
+  const fragment = parentFragment.fragment;
+  if (fragment.firstChildNode === child && fragment.lastChildNode === child) {
+    fragment.firstChildNode = null;
+    fragment.lastChildNode = null;
+  } else if (fragment.firstChildNode === child) {
+    fragment.firstChildNode = nextSibling;
+  } else if (fragment.lastChildNode === child) {
+    fragment.lastChildNode = previousSibling;
+  }
 }
 
 function appendChild(node: Node, child: Node): void {
@@ -165,6 +205,24 @@ function parseFragment(
   fragment.firstChildNode ??= fragmentNode.firstChild;
   fragment.lastChildNode ??= fragmentNode.lastChild;
   return fragment;
+}
+
+/**
+ * A fragment is only a handle: once it is inserted, its children are moved into
+ * the fragment's parent, and the fragment remembers that range itself. Resolve
+ * the node that actually contains the fragment's content, together with the
+ * fragment that tracks it.
+ */
+function resolveFragment(fragmentNode: DocumentFragment): {
+  parent: Node;
+  fragment: SnabbdomFragment;
+} {
+  const fragment = parseFragment(fragmentNode);
+  let parent: Node | null = fragmentNode;
+  while (parent && isDocumentFragment(parent)) {
+    parent = parseFragment(parent).parent;
+  }
+  return { parent: parent ?? fragmentNode, fragment };
 }
 
 export const htmlDomApi: DOMAPI = {
