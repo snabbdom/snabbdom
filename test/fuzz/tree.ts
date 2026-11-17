@@ -317,19 +317,30 @@ function applyMove(
   const nodes = collectNodes(root, "root", 1, "root", []);
   if (nodes.length === 0) return null;
   const source = rng.pick(nodes);
+  const height = heightOf(source.node);
   const containers = collectContainers(root, "root", 0, []).filter(
     (container) =>
-      container.children.length < options.maxSiblings &&
-      container.path !== source.containerPath &&
-      !container.path.startsWith(source.path + "[")
+      !container.path.startsWith(source.path + "[") &&
+      container.depth + height <= options.maxDepth &&
+      // Moving within the same parent does not add a child to it.
+      (container.path === source.containerPath ||
+        container.children.length < options.maxSiblings)
   );
-  const height = heightOf(source.node);
-  const targets = containers.filter(
-    (container) => container.depth + height <= options.maxDepth
-  );
-  if (targets.length === 0) return null;
-  const target = rng.pick(targets);
-  const index = rng.int(target.children.length + 1);
+  if (containers.length === 0) return null;
+  const target = rng.pick(containers);
+  const sameParent = target.path === source.containerPath;
+  // In the same parent, inserting at the index the node came from or at the
+  // one right after it leaves the children as they were.
+  const lastIndex = sameParent
+    ? target.children.length - 1
+    : target.children.length;
+  const positions: number[] = [];
+  for (let i = 0; i <= lastIndex; i++) {
+    if (sameParent && (i === source.index || i === source.index + 1)) continue;
+    positions.push(i);
+  }
+  if (positions.length === 0) return null;
+  const index = rng.pick(positions);
   source.siblings.splice(source.index, 1);
   const siblings = target.children;
   if (source.node.kind === "element" || source.node.kind === "fragment") {
