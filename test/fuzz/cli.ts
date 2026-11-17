@@ -90,7 +90,23 @@ function parseArgs(argv: string[]): Args {
   return { options, help, runAll };
 }
 
-function main(): number {
+function formatTime(milliseconds: number): string {
+  return `${(milliseconds / 1000).toFixed(2)}s`;
+}
+
+function writeTiming(startedAt: number, cpuAtStart: NodeJS.CpuUsage): void {
+  // process.cpuUsage reports microseconds, performance.now milliseconds.
+  const cpu = process.cpuUsage(cpuAtStart);
+  const user = cpu.user / 1000;
+  const system = cpu.system / 1000;
+  process.stdout.write(
+    `Time: ${formatTime(performance.now() - startedAt)} wall, ` +
+      `${formatTime(user + system)} cpu ` +
+      `(user ${formatTime(user)}, sys ${formatTime(system)})\n`
+  );
+}
+
+function run(): number {
   let args: Args;
   try {
     args = parseArgs(process.argv.slice(2));
@@ -115,6 +131,9 @@ function main(): number {
     return 2;
   }
 
+  const startedAt = performance.now();
+  const cpuAtStart = process.cpuUsage();
+
   // Resolve the seed once so the reported one is the one that was used.
   const options: FuzzOptions = { ...parsed, seed: resolveSeed(parsed) };
   const seed = options.seed as string;
@@ -123,22 +142,24 @@ function main(): number {
     `[fuzz] ${describeOptions(options)}${runAll ? " run-all" : ""}\n`
   );
 
+  let code: number;
   if (options.dump === true && options.iteration !== undefined) {
     process.stdout.write(
       `${dumpFuzzTest({ seed, index: options.iteration, tests, options })}\n`
     );
-    return 0;
-  }
-
-  if (runAll) {
+    code = 0;
+  } else if (runAll) {
     const summary = runFuzzAll(options);
     process.stdout.write(`${summary.report}\n`);
-    return summary.ok ? 0 : 1;
+    code = summary.ok ? 0 : 1;
+  } else {
+    const result = runFuzzSuite(options);
+    process.stdout.write(`${result.report}\n`);
+    code = result.ok ? 0 : 1;
   }
 
-  const result = runFuzzSuite(options);
-  process.stdout.write(`${result.report}\n`);
-  return result.ok ? 0 : 1;
+  writeTiming(startedAt, cpuAtStart);
+  return code;
 }
 
-process.exitCode = main();
+process.exitCode = run();
