@@ -8,7 +8,8 @@
     "moduleResolution": "node",
     "target": "es6",
     "isolatedModules": true,
-    "outDir": "build"
+    "outDir": "build",
+    "skipLibCheck": true
   },
   "include": ["./src/index.ts"]
 }
