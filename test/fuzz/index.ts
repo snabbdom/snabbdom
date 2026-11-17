@@ -78,6 +78,18 @@ export type FuzzResult = {
   report: string;
 };
 
+/** Outcome of a run that keeps going after a failing iteration. */
+export type FuzzSummary = {
+  ok: boolean;
+  seed: string;
+  /** Number of iterations that were run. */
+  tests: number;
+  passed: number;
+  failed: number;
+  failures: FuzzFailure[];
+  report: string;
+};
+
 /** One patch performed by a test, with the resulting trees. */
 export type FuzzStep = {
   round: number;
@@ -111,6 +123,10 @@ function resolveGenerateOptions(options: FuzzOptions): GenerateOptions {
   };
 }
 
+function reproduceCommand(seed: string, tests: number, index: number): string {
+  return `npm run fuzz -- --seed ${seed} --tests ${tests} --iteration ${index}`;
+}
+
 function formatFailure(failure: FuzzFailure): string {
   return [
     "Snabbdom fuzz found a DOM that does not match its vnode tree",
@@ -137,8 +153,33 @@ function formatFailure(failure: FuzzFailure): string {
     "dom tree (paths are children of the patched root element):",
     failure.domDump,
     "",
-    `Reproduce with: npm run fuzz -- --seed ${failure.seed} --tests ${failure.tests} --iteration ${failure.testIndex}`
+    `Reproduce with: ${reproduceCommand(failure.seed, failure.tests, failure.testIndex)}`
   ].join("\n");
+}
+
+/** How many failing iterations a summary lists by default. */
+export const SUMMARY_SAMPLE_LIMIT = 10;
+
+function formatSummary(summary: FuzzSummary): string {
+  const lines = [
+    "fuzz summary",
+    `  seed:       ${summary.seed}`,
+    `  iterations: ${summary.tests} run, ${summary.passed} passed, ${summary.failed} failed`
+  ];
+  const shown = summary.failures.slice(0, SUMMARY_SAMPLE_LIMIT);
+  if (shown.length > 0) {
+    lines.push("", `failed iterations (${summary.failed}):`);
+    for (const failure of shown) {
+      lines.push(
+        `  ${reproduceCommand(failure.seed, failure.tests, failure.testIndex)}`
+      );
+    }
+    const remaining = summary.failed - shown.length;
+    if (remaining > 0) {
+      lines.push(`  ... ${remaining} more`);
+    }
+  }
+  return lines.join("\n");
 }
 
 function compareStep(vnode: VNode): Mismatch | null {
@@ -365,6 +406,33 @@ export function runFuzzSuite(options: FuzzOptions = {}): FuzzResult {
     tests,
     report: `fuzz passed: seed=${seed} tests=${tests}`
   };
+}
+
+/**
+ * Runs every test, even when some of them fail. A failing test still stops at
+ * its first mismatch; the iteration after it runs as usual. The report is a
+ * summary with up to `SUMMARY_SAMPLE_LIMIT` commands that replay a failure.
+ */
+export function runFuzzAll(options: FuzzOptions = {}): FuzzSummary {
+  const seed = resolveSeed(options);
+  const tests = resolveTests(options);
+  const failures: FuzzFailure[] = [];
+  for (let index = 0; index < tests; index++) {
+    const result = runFuzzTest({ seed, index, tests, verify: true, options });
+    if (result.ok) continue;
+    if (result.failure !== undefined) failures.push(result.failure);
+  }
+  const summary: FuzzSummary = {
+    ok: failures.length === 0,
+    seed,
+    tests,
+    passed: tests - failures.length,
+    failed: failures.length,
+    failures,
+    report: ""
+  };
+  summary.report = formatSummary(summary);
+  return summary;
 }
 
 export function describeOptions(options: FuzzOptions): string {

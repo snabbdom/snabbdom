@@ -11,16 +11,21 @@ followed by another patch. After every patch it walks the vnode tree and the DOM
 side by side and fails when they do not match.
 
 ```sh
-npm run fuzz                                  # 25 tests with a fresh seed
-npm run fuzz -- --seed 39yq931xe69p9         # replay a run
-npm run fuzz -- --tests 200                  # more tests
-npm run fuzz -- --seed abc --iteration 592    # run one test on its own
+npm run fuzz                                   # 25 tests with a fresh seed
+npm run fuzz -- --seed 39yq931xe69p9           # replay a run
+npm run fuzz -- --tests 200                    # more tests
+npm run fuzz -- --seed abc --tests 200 --run-all    # keep going after failures
+npm run fuzz -- --seed abc --iteration 592          # run one test on its own
 npm run fuzz -- --seed abc --iteration 592 --dump   # print what that test does
 ```
 
 - `--seed` – seed of the run. A new seed is generated and printed when omitted.
 - `--tests` – how many tests to run, 25 by default.
 - `--iteration` – run a single test instead of the suite.
+- `--run-all` – keep running the iterations after a failing one and print a
+  summary (iterations run, passed, failed and up to 10 commands that replay a
+  failure) instead of the details of the first failure. A failing iteration still
+  stops at its first mismatch.
 - `--dump` – with `--iteration`, print the initial trees and, for every round,
   the change that was applied together with the resulting vnode and DOM trees,
   instead of checking anything. Useful to see what a test is doing.

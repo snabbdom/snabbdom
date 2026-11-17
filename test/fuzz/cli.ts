@@ -7,6 +7,7 @@ import {
   dumpFuzzTest,
   resolveSeed,
   resolveTests,
+  runFuzzAll,
   runFuzzSuite
 } from "./index";
 
@@ -15,6 +16,8 @@ const USAGE = `Usage: npm run fuzz -- [options]
   --seed <seed>         Seed of the run. A new one is generated when omitted.
   --tests <count>       Number of tests to run, 25 by default.
   --iteration <index>   Run only this test instead of the whole suite.
+  --run-all             Keep going after a failing test and print a summary of
+                        the run instead of the first failure.
   --dump                With --iteration, print the trees of that test instead
                         of checking anything.
   --max-depth <level>   Deepest nesting level of a node, 5 by default.
@@ -30,6 +33,7 @@ the failure reported, e.g.
 type Args = {
   options: FuzzOptions;
   help: boolean;
+  runAll: boolean;
 };
 
 function parseNumber(name: string, value: string): number {
@@ -43,6 +47,7 @@ function parseNumber(name: string, value: string): number {
 function parseArgs(argv: string[]): Args {
   const options: FuzzOptions = {};
   let help = false;
+  let runAll = false;
   for (let i = 0; i < argv.length; i++) {
     const argument = argv[i];
     const [flag, inlineValue] = argument.split("=", 2);
@@ -68,6 +73,9 @@ function parseArgs(argv: string[]): Args {
       case "--max-siblings":
         options.maxSiblings = parseNumber("max-siblings", value());
         break;
+      case "--run-all":
+        runAll = true;
+        break;
       case "--dump":
         options.dump = true;
         break;
@@ -79,7 +87,7 @@ function parseArgs(argv: string[]): Args {
         throw new Error(`unknown option ${argument}`);
     }
   }
-  return { options, help };
+  return { options, help, runAll };
 }
 
 function main(): number {
@@ -95,9 +103,15 @@ function main(): number {
     return 0;
   }
 
-  const { options: parsed } = args;
+  const { options: parsed, runAll } = args;
   if (parsed.dump === true && parsed.iteration === undefined) {
     process.stderr.write(`--dump needs --iteration\n\n${USAGE}`);
+    return 2;
+  }
+  if (runAll && (parsed.iteration !== undefined || parsed.dump === true)) {
+    process.stderr.write(
+      `--run-all runs the whole suite, so it cannot be combined with --iteration or --dump\n\n${USAGE}`
+    );
     return 2;
   }
 
@@ -105,13 +119,21 @@ function main(): number {
   const options: FuzzOptions = { ...parsed, seed: resolveSeed(parsed) };
   const seed = options.seed as string;
   const tests = resolveTests(options);
-  process.stdout.write(`[fuzz] ${describeOptions(options)}\n`);
+  process.stdout.write(
+    `[fuzz] ${describeOptions(options)}${runAll ? " run-all" : ""}\n`
+  );
 
   if (options.dump === true && options.iteration !== undefined) {
     process.stdout.write(
       `${dumpFuzzTest({ seed, index: options.iteration, tests, options })}\n`
     );
     return 0;
+  }
+
+  if (runAll) {
+    const summary = runFuzzAll(options);
+    process.stdout.write(`${summary.report}\n`);
+    return summary.ok ? 0 : 1;
   }
 
   const result = runFuzzSuite(options);
