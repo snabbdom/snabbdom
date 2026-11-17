@@ -4,6 +4,16 @@
 
 This repository uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) to be able to generate a meaningful changelog automatically. After you make changes and added them e.g. by running `git add <my changed file>`, use `git commit` (without `-m`) to get help for creating a valid commit message. If you use `-m` (or write a commit message directly in your editor for example), your message will still be checked and the commit will fail if it is against the commit conventions.
 
+## Testing
+
+Run `npm test` (build, lint and unit tests) and `npm run fuzz` (fuzz tests)
+and make sure both pass before you contribute a change. A fuzz run that reports
+a failure is a real finding unless your change explains it: replay the iteration
+it points at before you conclude anything.
+
+See [TESTING.md](TESTING.md) for what the suites cover, the options of the fuzz
+tool and how to reproduce a failure.
+
 ## Making a release
 
 You will need a personal GitHub API token (this is used to create the release on GitHub). You can obtain one [here](https://github.com/settings/tokens/new?scopes=repo&description=release-it) (it only needs "repo" access, not "admin" or other scopes).
