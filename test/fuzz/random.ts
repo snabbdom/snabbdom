@@ -50,15 +50,9 @@ export function createRng(seed: number): Rng {
   return rng;
 }
 
-/**
- * Mixes a seed with an index into an unrelated seed, so that every test
- * iteration can be reproduced on its own without running the ones before it.
- */
-export function mixSeed(seed: number, index: number): number {
-  let h = (seed ^ Math.imul(index + 1, 0x9e3779b9)) >>> 0;
-  h = Math.imul(h ^ (h >>> 16), 0x85ebca6b);
-  h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
-  return (h ^ (h >>> 16)) >>> 0;
+/** Seed used by a single test, e.g. `abc123-592`. */
+export function iterationSeed(seed: string, index: number): string {
+  return `${seed}-${index}`;
 }
 
 /** FNV-1a hash, used to turn a readable seed string into a number. */

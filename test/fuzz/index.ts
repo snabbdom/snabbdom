@@ -12,7 +12,7 @@ import {
   dumpVNodeTree,
   Mismatch
 } from "./compare";
-import { createRng, createSeed, hashString, mixSeed } from "./random";
+import { createRng, createSeed, hashString, iterationSeed } from "./random";
 import {
   generateChildren,
   mutate,
@@ -30,6 +30,8 @@ export const DEFAULT_GENERATE_OPTIONS: GenerateOptions = {
   rounds: [2, 6]
 };
 
+export { iterationSeed } from "./random";
+
 const patch = init([attributesModule, classModule, propsModule], undefined, {
   experimental: { fragments: true }
 });
@@ -40,8 +42,8 @@ export type FuzzOptions = {
   /** Number of tests to run. */
   tests?: number;
   /**
-   * Index of a single test to verify. The tests before it are run without
-   * comparing the DOM against the vnode tree.
+   * Index of a single test to run on its own. Every test derives its own
+   * generator from `<seed>-<index>`, so nothing before it has to run.
    */
   iteration?: number;
   /** Print the trees of `iteration` instead of checking anything. */
@@ -113,6 +115,7 @@ function formatFailure(failure: FuzzFailure): string {
   return [
     "Snabbdom fuzz found a DOM that does not match its vnode tree",
     `  seed:       ${failure.seed}`,
+    `  test seed:  ${iterationSeed(failure.seed, failure.testIndex)}`,
     `  tests:      ${failure.tests}`,
     `  test:       ${failure.testIndex} (zero based)`,
     `  round:      ${failure.round} of ${failure.rounds}`,
@@ -163,7 +166,7 @@ function runTest(params: RunTestParams): FuzzResult {
   const { seed, index, tests, verify } = params;
   const stopOnMismatch = params.stopOnMismatch ?? verify;
   const generate = resolveGenerateOptions(params.options ?? {});
-  const rng = createRng(mixSeed(hashString(seed), index));
+  const rng = createRng(hashString(iterationSeed(seed, index)));
   const container = document.createElement("div");
   document.body.appendChild(container);
 
@@ -308,9 +311,10 @@ export function dumpFuzzTest(params: {
 }
 
 /**
- * Runs `tests` fuzz tests. When `iteration` is given, only that test is
- * verified and the ones before it are run without the DOM comparison so the
- * failing test can be reached quickly and reproduced on its own.
+ * Runs the fuzz tests. Without `iteration` it runs `tests` tests, comparing the
+ * DOM against the vnode tree after every patch. With `iteration` it runs that
+ * one test only: every test draws from `<seed>-<index>`, so the tests before it
+ * do not have to run to reach it.
  */
 export function runFuzzSuite(options: FuzzOptions = {}): FuzzResult {
   const seed = resolveSeed(options);
@@ -330,23 +334,36 @@ export function runFuzzSuite(options: FuzzOptions = {}): FuzzResult {
     };
   }
   if (iteration !== undefined) {
-    if (!Number.isInteger(iteration) || iteration < 0 || iteration >= tests) {
+    if (!Number.isInteger(iteration) || iteration < 0) {
       throw new Error(
-        `iteration must be an integer in 0..${tests - 1}, got ${iteration}`
+        `iteration must be a non-negative integer, got ${iteration}`
       );
     }
+    const result = runFuzzTest({
+      seed,
+      index: iteration,
+      tests,
+      verify: true,
+      options
+    });
+    return result.ok
+      ? {
+          ok: true,
+          seed,
+          tests,
+          report: `fuzz passed: seed=${seed} iteration=${iteration}`
+        }
+      : result;
   }
-  const last = iteration === undefined ? tests - 1 : iteration;
-  for (let index = 0; index <= last; index++) {
-    const verify = iteration === undefined || index === iteration;
-    const result = runFuzzTest({ seed, index, tests, verify, options });
+  for (let index = 0; index < tests; index++) {
+    const result = runFuzzTest({ seed, index, tests, verify: true, options });
     if (!result.ok) return result;
   }
   return {
     ok: true,
     seed,
     tests,
-    report: `fuzz passed: seed=${seed} tests=${last + 1}`
+    report: `fuzz passed: seed=${seed} tests=${tests}`
   };
 }
 

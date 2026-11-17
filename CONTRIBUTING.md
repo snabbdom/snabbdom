@@ -13,8 +13,9 @@ The run is driven by the query string of the test page:
 - `seed` – the seed of the run. A new seed is generated and printed when it is
   missing, so a failing run can be reproduced by passing it back.
 - `tests` – how many tests to run, 25 by default.
-- `iteration` – index of a single test to verify. The tests before it are run
-  without the comparison, which makes reproducing one failing test quick.
+- `iteration` – index of a single test to run on its own. Every test draws from
+  its own generator seeded with `<seed>-<index>`, so the tests before it do not
+  have to run to reach it.
 - `dump=1` – with `iteration`, prints the initial trees and, for every round, the
   change that was applied and the resulting vnode and DOM trees, instead of
   checking anything.
@@ -22,9 +23,9 @@ The run is driven by the query string of the test page:
 
 For example `?seed=abc123&tests=50&iteration=7&dump=1`.
 
-The same seed and the same `tests` value always produce the same run: every test
-draws from its own generator seeded with the run seed and its index, so running a
-single iteration on its own reproduces exactly what the full run does.
+The same seed and the same `tests` value always produce the same run, because
+each test only depends on `<seed>-<index>`. Running a single iteration therefore
+reproduces exactly what the full run does at that index.
 
 ## Making a commit
 

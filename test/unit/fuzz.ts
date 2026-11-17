@@ -45,13 +45,8 @@ describe("fuzz", () => {
       });
     }
   } else {
-    // Run the preceding tests without the DOM comparison, then verify only the
-    // requested one.
-    for (let index = 0; index < iteration; index++) {
-      it(`runs test ${index} without verification`, () => {
-        runFuzzTest({ seed, index, tests, verify: false, options });
-      });
-    }
+    // Every test derives its own generator from the run seed and its index, so
+    // the requested one runs on its own without replaying the ones before it.
     it(`keeps the DOM in sync with the vnode tree (test ${iteration})`, () => {
       check(
         runFuzzTest({ seed, index: iteration, tests, verify: true, options })
