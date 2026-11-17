@@ -35,6 +35,10 @@ Every test derives its generator from `<seed>-<iteration>`, so a run is fully
 reproducible from its seed and a single iteration can be run on its own without
 replaying the ones before it.
 
+A patch that throws is reported like any other failure of its iteration, with
+the exception it threw, so a DOM implementation refusing a call does not end the
+run. `--dump` shows such a step as an `ERROR` line.
+
 ## Making a commit
 
 This repository uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) to be able to generate a meaningful changelog automatically. After you make changes and added them e.g. by running `git add <my changed file>`, use `git commit` (without `-m`) to get help for creating a valid commit message. If you use `-m` (or write a commit message directly in your editor for example), your message will still be checked and the commit will fail if it is against the commit conventions.

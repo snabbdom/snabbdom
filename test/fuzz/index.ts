@@ -61,6 +61,11 @@ export type FuzzFailure = {
   rounds: number;
   operation: string;
   detail: string;
+  /**
+   * `mismatch` when the DOM and the vnode tree disagreed, `exception` when
+   * patching threw before there was anything to compare.
+   */
+  kind?: "mismatch" | "exception";
   vnodePath: string;
   domPath: string;
   message: string;
@@ -97,9 +102,28 @@ export type FuzzStep = {
   operation: string;
   detail: string;
   spec: Spec[];
-  vnode: VNode;
+  vnode: VNode | null;
   mismatch: Mismatch | null;
+  /** Set when the patch or the comparison threw instead of returning. */
+  error?: string;
 };
+
+function describeThrown(error: unknown): string {
+  if (error instanceof Error) {
+    const name = error.name === "" ? "Error" : error.name;
+    return name === "Error" ? error.message : `${name}: ${error.message}`;
+  }
+  return String(error);
+}
+
+/** Renders a dump, so that a tree that cannot be walked still gets reported. */
+function dumpOr(dump: () => string, what: string): string {
+  try {
+    return dump();
+  } catch (error) {
+    return `(${what} could not be dumped: ${describeThrown(error)})`;
+  }
+}
 
 export function resolveSeed(options: FuzzOptions): string {
   return options.seed === undefined || options.seed === ""
@@ -128,8 +152,12 @@ function reproduceCommand(seed: string, tests: number, index: number): string {
 }
 
 function formatFailure(failure: FuzzFailure): string {
-  return [
-    "Snabbdom fuzz found a DOM that does not match its vnode tree",
+  const heading =
+    failure.kind === "exception"
+      ? "Snabbdom fuzz was thrown out of patching"
+      : "Snabbdom fuzz found a DOM that does not match its vnode tree";
+  const lines = [
+    heading,
     `  seed:       ${failure.seed}`,
     `  test seed:  ${iterationSeed(failure.seed, failure.testIndex)}`,
     `  tests:      ${failure.tests}`,
@@ -139,13 +167,24 @@ function formatFailure(failure: FuzzFailure): string {
     `  detail:     ${failure.detail}`,
     `  vnode path: ${failure.vnodePath}`,
     `  dom path:   ${failure.domPath}`,
-    `  reason:     ${failure.message}`,
-    "",
-    "expected siblings:",
-    ...failure.expected,
-    "",
-    "actual siblings:",
-    ...failure.actual,
+    `  reason:     ${failure.message}`
+  ];
+  if (failure.kind === "exception") {
+    lines.push(
+      `  note:       the trees below are the state before the operation that threw`
+    );
+  }
+  if (failure.expected.length > 0 || failure.actual.length > 0) {
+    lines.push(
+      "",
+      "expected siblings:",
+      ...failure.expected,
+      "",
+      "actual siblings:",
+      ...failure.actual
+    );
+  }
+  lines.push(
     "",
     "vnode tree (paths are children of the patched root):",
     failure.vnodeDump,
@@ -154,7 +193,8 @@ function formatFailure(failure: FuzzFailure): string {
     failure.domDump,
     "",
     `Reproduce with: ${reproduceCommand(failure.seed, failure.tests, failure.testIndex)}`
-  ].join("\n");
+  );
+  return lines.join("\n");
 }
 
 /** How many failing iterations a summary lists by default. */
@@ -203,6 +243,8 @@ type RunTestParams = {
   onStep?: (step: FuzzStep) => void;
 };
 
+type Step = { round: number; operation: string; detail: string };
+
 function runTest(params: RunTestParams): FuzzResult {
   const { seed, index, tests, verify } = params;
   const stopOnMismatch = params.stopOnMismatch ?? verify;
@@ -213,52 +255,142 @@ function runTest(params: RunTestParams): FuzzResult {
 
   try {
     let spec: Spec[] = generateChildren(rng, 1, generate);
-    let vnode = patch(container, h("div", toVNodes(spec)));
+    let vnode: VNode | null = null;
     const rounds = rng.range(generate.rounds[0], generate.rounds[1]);
 
     let failure: FuzzFailure | null = null;
 
-    const record = (round: number, operation: string, detail: string): void => {
-      const mismatch = verify ? compareStep(vnode) : null;
+    // The vnode tree of the last successful patch, or the tree that was about
+    // to be patched when the patch threw.
+    const treeToDump = (): VNode[] =>
+      vnode === null ? toVNodes(spec) : ((vnode.children ?? []) as VNode[]);
+
+    const makeFailure = (
+      step: Step,
+      kind: "mismatch" | "exception",
+      message: string,
+      vnodePath: string,
+      domPath: string,
+      expected: string[],
+      actual: string[]
+    ): FuzzFailure => ({
+      seed,
+      tests,
+      testIndex: index,
+      round: step.round,
+      rounds,
+      operation: step.operation,
+      detail: step.detail,
+      kind,
+      vnodePath,
+      domPath,
+      message,
+      expected,
+      actual,
+      vnodeDump: dumpOr(
+        () => dumpVNodeTree(treeToDump(), vnodePath),
+        "the vnode tree"
+      ),
+      domDump: dumpOr(
+        () => dumpDomTree(vnode?.elm as Node | undefined as Node, domPath),
+        "the dom tree"
+      )
+    });
+
+    const record = (step: Step): void => {
+      let mismatch: Mismatch | null = null;
+      let error: string | undefined;
+      if (verify) {
+        try {
+          if (vnode !== null) mismatch = compareStep(vnode);
+        } catch (thrown) {
+          error = describeThrown(thrown);
+        }
+      }
       params.onStep?.({
-        round,
+        ...step,
         rounds,
-        operation,
-        detail,
         spec,
         vnode,
-        mismatch
+        mismatch,
+        error
       });
-      if (mismatch === null || failure !== null || !stopOnMismatch) return;
-      failure = {
-        seed,
-        tests,
-        testIndex: index,
-        round,
-        rounds,
-        operation,
-        detail,
-        vnodePath: mismatch.vnodePath,
-        domPath: mismatch.domPath,
-        message: mismatch.message,
-        expected: mismatch.expected,
-        actual: mismatch.actual,
-        vnodeDump: dumpVNodeTree(
-          (vnode.children ?? []) as VNode[],
-          mismatch.vnodePath
-        ),
-        domDump: dumpDomTree(vnode.elm as Node, mismatch.domPath)
-      };
+      if (failure !== null) return;
+      if (error !== undefined) {
+        failure = makeFailure(
+          step,
+          "exception",
+          `comparing the DOM against the vnode tree threw ${error}`,
+          "root",
+          "dom",
+          [],
+          []
+        );
+        return;
+      }
+      if (mismatch === null || !stopOnMismatch) return;
+      failure = makeFailure(
+        step,
+        "mismatch",
+        mismatch.message,
+        mismatch.vnodePath,
+        mismatch.domPath,
+        mismatch.expected,
+        mismatch.actual
+      );
     };
 
-    record(0, "init", `initial tree with ${spec.length} root nodes`);
+    // A patch that throws is a result of its own: snabbdom asked the DOM for
+    // something the DOM refused, which is a finding, not a broken test.
+    const runStep = (step: Step, run: () => void): void => {
+      if (failure !== null) return;
+      try {
+        run();
+      } catch (thrown) {
+        const error = describeThrown(thrown);
+        params.onStep?.({
+          ...step,
+          rounds,
+          spec,
+          vnode,
+          mismatch: null,
+          error
+        });
+        failure = makeFailure(
+          step,
+          "exception",
+          `the patch threw ${error}`,
+          "root",
+          "dom",
+          [],
+          []
+        );
+        return;
+      }
+      record(step);
+    };
+
+    runStep(
+      {
+        round: 0,
+        operation: "init",
+        detail: `initial tree with ${spec.length} root nodes`
+      },
+      () => {
+        vnode = patch(container, h("div", toVNodes(spec)));
+      }
+    );
 
     for (let round = 1; round <= rounds; round++) {
       if (failure !== null) break;
       const mutation = mutate(rng, spec, generate);
       spec = mutation.children;
-      vnode = patch(vnode, h("div", toVNodes(spec)));
-      record(round, mutation.operation, mutation.detail);
+      runStep(
+        { round, operation: mutation.operation, detail: mutation.detail },
+        () => {
+          vnode = patch(vnode as VNode, h("div", toVNodes(spec)));
+        }
+      );
     }
 
     if (failure !== null) {
@@ -283,6 +415,41 @@ function runTest(params: RunTestParams): FuzzResult {
 }
 
 /**
+ * Runs a test and turns anything that escapes it into a failure, so that an
+ * unexpected exception is reported for its iteration instead of ending the run.
+ */
+function runTestSafely(params: RunTestParams): FuzzResult {
+  try {
+    return runTest(params);
+  } catch (error) {
+    const failure: FuzzFailure = {
+      seed: params.seed,
+      tests: params.tests,
+      testIndex: params.index,
+      round: 0,
+      rounds: 0,
+      operation: "setup",
+      detail: "the test could not be set up",
+      kind: "exception",
+      message: `the fuzzer threw ${describeThrown(error)}`,
+      vnodePath: "root",
+      domPath: "dom",
+      expected: [],
+      actual: [],
+      vnodeDump: "(the test failed before any tree could be built)",
+      domDump: "(the test failed before any node could be patched)"
+    };
+    return {
+      ok: false,
+      seed: params.seed,
+      tests: params.tests,
+      failure,
+      report: formatFailure(failure)
+    };
+  }
+}
+
+/**
  * Runs a single fuzz test: it generates a vnode tree, patches it into the DOM
  * and then applies between `rounds[0]` and `rounds[1]` random operations to the
  * tree, comparing the DOM against the vnode tree after every patch.
@@ -295,7 +462,7 @@ export function runFuzzTest(params: {
   options?: FuzzOptions;
   onStep?: (step: FuzzStep) => void;
 }): FuzzResult {
-  return runTest(params);
+  return runTestSafely(params);
 }
 
 /**
@@ -324,21 +491,26 @@ export function dumpFuzzTest(params: {
     `fuzz trace: seed=${params.seed} tests=${params.tests} test=${params.index}`
   ];
   let mismatches = 0;
+  let errors = 0;
   for (const step of steps) {
     const heading =
       step.round === 0
         ? "init"
         : `round ${step.round} of ${step.rounds}: ${step.operation}`;
     lines.push("", `=== ${heading} ===`, `change: ${step.detail}`, "");
-    lines.push("vnode tree:");
-    lines.push(
-      dumpVNodeTree(
-        (step.vnode.children ?? []) as VNode[],
-        step.mismatch?.vnodePath
-      )
-    );
-    lines.push("", "dom tree:");
-    lines.push(dumpDomTree(step.vnode.elm as Node, step.mismatch?.domPath));
+    if (step.vnode === null) {
+      lines.push("(no trees: the patch threw before it produced a vnode)");
+    } else {
+      lines.push("vnode tree:");
+      lines.push(
+        dumpVNodeTree(
+          (step.vnode.children ?? []) as VNode[],
+          step.mismatch?.vnodePath
+        )
+      );
+      lines.push("", "dom tree:");
+      lines.push(dumpDomTree(step.vnode.elm as Node, step.mismatch?.domPath));
+    }
     if (step.mismatch !== null) {
       mismatches++;
       lines.push(
@@ -346,8 +518,15 @@ export function dumpFuzzTest(params: {
         `MISMATCH ${step.mismatch.vnodePath} / ${step.mismatch.domPath}: ${step.mismatch.message}`
       );
     }
+    if (step.error !== undefined) {
+      errors++;
+      lines.push("", `ERROR ${step.error}`);
+    }
   }
-  lines.push("", `steps: ${steps.length}, mismatches: ${mismatches}`);
+  lines.push(
+    "",
+    `steps: ${steps.length}, mismatches: ${mismatches}, errors: ${errors}`
+  );
   return lines.join("\n");
 }
 
