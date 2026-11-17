@@ -338,6 +338,32 @@ describe("snabbdom", () => {
       const updated = patch(vnode1, vnode2).elm;
       assert.strictEqual(inner(updated), 't2<div id="k9"></div>');
     });
+    it("inserts a sibling before a fragment that was prepended to", () => {
+      const vnode1 = h("div", [keyedFragment("b"), keyed("k9")]);
+      const vnode2 = h("div", [keyedFragment("a", "b"), keyed("k9")]);
+      const vnode3 = h("div", [keyed("k8"), keyedFragment("a", "b"), keyed("k9")]);
+
+      elm = patch(vnode0, vnode1).elm;
+      const updated = patch(patch(vnode1, vnode2), vnode3).elm;
+      assert.strictEqual(
+        inner(updated),
+        '<div id="k8"></div><div id="a"></div><div id="b"></div>' +
+          '<div id="k9"></div>'
+      );
+    });
+    it("appends a child to a fragment that was prepended to", () => {
+      const vnode1 = h("div", [keyedFragment("b"), keyed("k9")]);
+      const vnode2 = h("div", [keyedFragment("a", "b"), keyed("k9")]);
+      const vnode3 = h("div", [keyedFragment("a", "b", "c"), keyed("k9")]);
+
+      elm = patch(vnode0, vnode1).elm;
+      const updated = patch(patch(vnode1, vnode2), vnode3).elm;
+      assert.strictEqual(
+        inner(updated),
+        '<div id="a"></div><div id="b"></div><div id="c"></div>' +
+          '<div id="k9"></div>'
+      );
+    });
   });
   describe("patching an element", () => {
     it("changes the elements classes", () => {
