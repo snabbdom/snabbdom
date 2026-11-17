@@ -137,7 +137,7 @@ function formatFailure(failure: FuzzFailure): string {
     "dom tree (paths are children of the patched root element):",
     failure.domDump,
     "",
-    `Reproduce with: seed=${failure.seed} tests=${failure.tests} iteration=${failure.testIndex}`
+    `Reproduce with: npm run fuzz -- --seed ${failure.seed} --tests ${failure.tests} --iteration ${failure.testIndex}`
   ].join("\n");
 }
 
